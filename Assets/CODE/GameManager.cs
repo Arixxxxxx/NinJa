@@ -1,20 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
+    [Header("# 인스턴스용(참조x)")]
+    [Space]
     public Player player;
     public Enemys enemys;
     public DmgPooling dmgpooling;
     public DMGFont dmgfont;
-
-     public float Player_CurHP;
+    [Header("# 캐릭터 HP설정")]
+    [Space]
+    public float Player_CurHP;
      public  float Player_MaxHP;
-     public bool isPlayerDead;
+    [Header("# 캐릭터 SP설정")]
+    [Space]
+    public float Player_CurSP;
+    public float Player_MaxSP;
+    [Header("# 캐릭터사망")]
+    [Space]
+    public bool isPlayerDead;
+
+    [Header("# Talk")]
+    [Space]
+    [SerializeField] private TextMeshProUGUI TalkText;
+    [SerializeField] private GameObject ScanNPC;
+    [SerializeField] private GameObject TalkBox;
+    [SerializeField] public bool isTalking;
+    [SerializeField] private TalkManager talkmanager;
+
+    private Image pressBtn;
+
+
+    public void F_TalkSurch(GameObject _obj)
+    {
+         
+            ScanNPC = _obj;
+            SetNPCId sc = ScanNPC.GetComponent<SetNPCId>();
+            TalkOn(sc.ID, sc.isNPC);
+
+            TalkBox.gameObject.SetActive(isTalking);
+    }
+
+    public int TalkIndex;
+    private void TalkOn(int _ID, bool _isNPC)
+    {
+             string talk =  talkmanager.F_GetMsg(_ID, TalkIndex);
+        
+        if(talk == null) 
+        {
+            isTalking = false;
+            TalkIndex = 0;
+            return; 
+        }
+
+        if (_isNPC)
+        {
+            
+            TalkText.text = talk;
+            pressBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            TalkText.text = talk;
+            pressBtn.gameObject.SetActive(true);
+        }
+
+        isTalking = true;
+        TalkIndex++;
+    }
 
     private void Awake()
     {
@@ -37,11 +97,12 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         }
-
+        talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>();
         player = FindObjectOfType<Player>();
         enemys = FindObjectOfType<Enemys>();
         dmgpooling = FindObjectOfType<DmgPooling>();
         dmgfont = FindObjectOfType<DMGFont>();
+        pressBtn = TalkBox.transform.Find("PressEnter").GetComponent<Image>();
 
     }
     void Start()
@@ -54,4 +115,6 @@ public class GameManager : MonoBehaviour
     {
         
     }
+     
+  
 }

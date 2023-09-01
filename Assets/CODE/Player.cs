@@ -12,6 +12,17 @@ public class Player : MonoBehaviour
     Animator Ani;
     public SpriteRenderer Sr;
 
+    //캐릭터이동
+    public Vector2 Char_Vec;
+    private Vector2 VZ = Vector2.zero;
+    [SerializeField] private float Char_Speed;
+    [SerializeField] private float Char_MaxSpeed;
+    private bool isCharMove;
+    bool OnDMG;
+    private bool isGround;
+    public bool isDodge;
+    public float DodgeSpeed;
+
     //벽체크
     [Header("벽체크")]
     public Transform WallCheck;
@@ -25,6 +36,11 @@ public class Player : MonoBehaviour
 
     //바람타기
     private bool isflying;
+
+    //NPC 검색
+    [Header("# NPC 탐색")]
+    public GameObject ScanObject;
+    RaycastHit2D Scanobj;
 
     private void Awake()
     {
@@ -44,58 +60,84 @@ public class Player : MonoBehaviour
         F_CharMoveStop();
         F_ShootWeapone();
         F_WallJump();
-        //F_MeleeAttack();
+        SuchTalk();
+        F_SpRecovery();
+        F_HpRecovery();
+
     }
     private void FixedUpdate()
     {
         F_MovdChar();
         F_CharAniParameter();
         F_WallCheaking();
+        
     }
 
-    //캐릭터이동
-    public Vector2 Char_Vec;
-    private Vector2 VZ = Vector2.zero;
-    [SerializeField] private float Char_Speed;
-    [SerializeField] private float Char_MaxSpeed;
-    private bool isCharMove;
-    bool OnDMG;
-    private bool isGround;
-    public bool isDodge;
-    public float DodgeSpeed;
+    Vector3 ScanDir;
+    private void SuchTalk()
+    { 
+        if (Sr.flipX)
+        {
+            ScanDir = Vector3.left;
+        }
+        else if(!Sr.flipX) 
+        {
+            ScanDir = Vector3.right;
+        }
+        Debug.DrawRay(transform.position, ScanDir * 1.2f,Color.red);
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+             Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.2f, LayerMask.GetMask("NPC"));
+
+            if(Scanobj.collider != null)
+            {
+                ScanObject = Scanobj.collider.gameObject;
+                GameManager.Instance.F_TalkSurch(ScanObject);
+            }
+        }
+    }
+
 
     //캐릭터 이동
     private void F_MovdChar()
     {
         //이동
-        if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge)
+        if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge && !GameManager.Instance.isTalking)
         {
             Char_Vec.x = Input.GetAxisRaw("Horizontal");
             Rb.AddForce(Char_Vec * Char_Speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
         //구르기
-        if (Input.GetKey(KeyCode.LeftControl) && !isDodge)
+        if (Input.GetKey(KeyCode.LeftControl) && !isDodge && !JumpOn && !Iswall && !DJumpOn)
         {
-            Rb.velocity = Vector2.zero;
-            isDodge = true;
+            if(GameManager.Instance.Player_CurSP < 15)
+            {
+                return;
+            }
+            else if (GameManager.Instance.Player_CurSP > 15)
+            {
+                GameManager.Instance.Player_CurSP -= 15;
+                Rb.velocity = Vector2.zero;
+                isDodge = true;
 
-            if (!Sr.flipX)
-            {
-                Rb.AddForce(new Vector3(1, 0) * DodgeSpeed, ForceMode2D.Impulse);
-                gameObject.layer = 10;
-                Invoke("F_ReturnLayer",0.5f);
-                Ani.SetTrigger("Dodge");
-                weapon1.gameObject.SetActive(false) ;
+                if (!Sr.flipX)
+                {
+                    Rb.AddForce(new Vector3(1, 0) * DodgeSpeed, ForceMode2D.Impulse);
+                    gameObject.layer = 10;
+                    Invoke("F_ReturnLayer", 0.5f);
+                    Ani.SetTrigger("Dodge");
+                    weapon1.gameObject.SetActive(false);
+                }
+                else if (Sr.flipX)
+                {
+                    Rb.AddForce(new Vector3(-1, 0) * DodgeSpeed, ForceMode2D.Impulse);
+                    gameObject.layer = 10;
+                    Invoke("F_ReturnLayer", 0.5f);
+                    Ani.SetTrigger("Dodge");
+                    weapon1.gameObject.SetActive(false);
+                }
             }
-            else if(Sr.flipX)
-            {
-                Rb.AddForce(new Vector3(-1, 0) * DodgeSpeed, ForceMode2D.Impulse);
-                gameObject.layer = 10;
-                Invoke("F_ReturnLayer", 0.5f);
-                Ani.SetTrigger("Dodge");
-                weapon1.gameObject.SetActive(false);
-            }
-            
         }
         //최대속력 제어
         if (Rb.velocity.x > Char_MaxSpeed && !wallJumpon && !isDodge)
@@ -213,7 +255,7 @@ public class Player : MonoBehaviour
     
     private void F_CharJump()
     {
-        if (Input.GetButtonDown("Jump") && JumpCount < 2&& !OnDMG & !Iswall && !isflying)
+        if (Input.GetButtonDown("Jump") && JumpCount < 2&& !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking)
         {
             JumpOn = true;
             JumpCount++;
@@ -246,7 +288,7 @@ public class Player : MonoBehaviour
     {
         ShootTimer += Time.deltaTime;
 
-        if (Input.GetMouseButton(1) && ShootTimer > 0.2f && !GameManager.Instance.isPlayerDead)
+        if (Input.GetMouseButton(1) && ShootTimer > 0.2f && !GameManager.Instance.isPlayerDead && !GameManager.Instance.isTalking)
         {
           
             PoolManager.Instance.F_GetObj("Weapone");
@@ -263,7 +305,7 @@ public class Player : MonoBehaviour
             OnDMG = true;
             GameManager.Instance.Player_CurHP--;
 
-            if (GameManager.Instance.Player_CurHP == 0)
+            if (GameManager.Instance.Player_CurHP <= 0)
             {
                 StartCoroutine(GameOver());
             }
@@ -327,7 +369,34 @@ public class Player : MonoBehaviour
         JumpCount = 0;
     }
     
-    
+    //기력회복
+    private void F_SpRecovery()
+    {
+        if(GameManager.Instance.Player_CurSP > GameManager.Instance.Player_MaxSP)
+        {
+            GameManager.Instance.Player_CurSP = GameManager.Instance.Player_MaxSP;
+        }
+
+       else if(GameManager.Instance.Player_CurSP < GameManager.Instance.Player_MaxSP)
+        {
+            GameManager.Instance.Player_CurSP += 1 * Time.deltaTime * 4;
+        }
+            
+    }
+    private void F_HpRecovery()
+    {
+        if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
+        {
+            GameManager.Instance.Player_CurHP = GameManager.Instance.Player_MaxHP;
+        }
+
+        else if (GameManager.Instance.Player_CurHP < GameManager.Instance.Player_MaxHP)
+        {
+            GameManager.Instance.Player_CurHP += 1 * Time.deltaTime * 0.05f;
+        }
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
