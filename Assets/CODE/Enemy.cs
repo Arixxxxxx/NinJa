@@ -6,13 +6,13 @@ public class Enemy : MonoBehaviour
 {
     public enum EnemyType
     {
-        SpikeBox, Saw, MovingPlatForm, 
+        SpikeBox, Saw, MovingPlatForm
     }
 
    
     Rigidbody2D Rb;
     public EnemyType Type;
-    public bool AttackEnd;
+    
     Vector3 OriginPosition;
     Animator Ani;
     
@@ -25,7 +25,8 @@ public class Enemy : MonoBehaviour
     
     //Ω∫∆ƒ¿Ã≈©∏« [∆Æ∑¶]
      public float Timer;
-    [Space]
+    public bool AttackEnd;
+    
     //≈È≥ØπŸƒ˚ [∆Æ∑¶]
 
     private Vector2 saw_vec;
@@ -110,6 +111,9 @@ public class Enemy : MonoBehaviour
               
                 Rb.MovePosition(Rb.position + saw_vec);
                 break;
+
+           
+
         }
     }
 

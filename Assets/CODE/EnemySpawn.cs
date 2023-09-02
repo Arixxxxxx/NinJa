@@ -14,7 +14,7 @@ public class EnemySpawn : MonoBehaviour
  
     void Update()
     {
-        F_Spawn();
+        //F_Spawn();
     }
 
     private void F_Spawn()
