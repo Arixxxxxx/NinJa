@@ -11,6 +11,7 @@ public class TypeEffect : MonoBehaviour
     int MsgIndex;
     public float TypeingSpeed;
     public Image pressBtn;
+    public bool NextTextOk;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class TypeEffect : MonoBehaviour
     }
     private void EffectStart()
     {
+        NextTextOk=true;
         text.text = "";
         MsgIndex = 0;
         pressBtn.gameObject.SetActive(false);
@@ -47,5 +49,6 @@ public class TypeEffect : MonoBehaviour
     {
 
         pressBtn.gameObject.SetActive(true);
+        NextTextOk = false;
     }
 }

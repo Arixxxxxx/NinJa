@@ -12,28 +12,18 @@ public class NPC : MonoBehaviour
     public RiRiNPC npc;
 
     Transform btn;
-    SpriteRenderer Sr;
+   
 
     private void Awake()
     {
-       Sr = GetComponent<SpriteRenderer>();
-        btn = transform.GetChild(1).GetComponent<Transform>();
+    
+        btn = transform.Find("Canvas").GetComponent<Transform>();
     }
     private void Update()
     {
-        NpcFaceDir();
+        
     }
-    private void NpcFaceDir()
-    {
-        if(GameManager.Instance.player.transform.position.x < transform.position.x)
-        {
-            Sr.flipX = true;
-        }
-        else 
-        {
-            Sr.flipX = false; 
-        }
-    }
+  
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

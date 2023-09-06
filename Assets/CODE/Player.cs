@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 //23≥‚ 8ø˘ 28¿œ Ω√¿€
 //23≥‚ 8ø˘ 30¿œ «√∂Û¿◊∆“, Ω∫∆ƒ¿Ã≈©∆Æ∑¶,±∏∏£±‚(»∏««),±Ÿ¡¢π´±‚ æ÷¥œ∏ﬁ¿Ãº«, ø°≥ πÃB¡¶¿€
@@ -55,7 +56,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer sheldSR;
     Transform Bow;
     public Transform RealBow;
-    Transform BowHat;
+   
     
 
     // π´±‚ ±Ÿ¡¢º”µµ
@@ -70,7 +71,7 @@ public class Player : MonoBehaviour
     Transform PlayerMSGUI;
    
     TMP_Text text;
-
+    Animator textani;
     //∞‘¿”UI
     Transform gameUiMain;
     Transform weaponBtn1;
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
     Animator btn2;
     private void Awake()
     {
+       
         Rb = GetComponent<Rigidbody2D>();
         Ani = GetComponent<Animator>();
         Sr = GetComponent<SpriteRenderer>();
@@ -95,7 +97,6 @@ public class Player : MonoBehaviour
        weaponOriginPos = weapon1.transform.position;
         sheldOriginPos = sheld.transform.position;
         Bow = GameObject.Find("ArrowDir").GetComponent <Transform>();
-        BowHat = transform.Find("BowHat").GetComponent<Transform>();
         RealBow = Bow.transform.GetChild (0).GetComponent<Transform>();
         gameUiMain = GameObject.Find("GameUI").GetComponent<Transform>();
         weaponBtn1 = gameUiMain.transform.Find("Btn1").GetComponent<Transform>();
@@ -104,6 +105,7 @@ public class Player : MonoBehaviour
         btnBoxOutLine2 = weaponBtn2.transform.Find("BoxOutLine").GetComponent<Transform>();
         btn1 = weaponBtn1.GetComponent<Animator>();
         btn2 = weaponBtn2.GetComponent<Animator>();
+        textani = text.GetComponent<Animator>();
     }
     
    
@@ -112,7 +114,6 @@ public class Player : MonoBehaviour
     {
         SetCharDir();
         F_CharJump();
-        //F_CharMoveStop(); // ∏ÿ≠ü¿ªãö ¿Ãº”∞®º“ (¡÷ºÆ√≥∏Æ)
         F_WallJump();
         SuchTalk();
         F_SpRecovery();
@@ -159,12 +160,10 @@ public class Player : MonoBehaviour
             }
             else if(!Defence.gameObject.activeSelf) 
             {
-                BowHat.gameObject.SetActive(false);
                 weapon1.gameObject.SetActive(true);
                 sheld.gameObject.SetActive(true);
                 RealBow.gameObject.SetActive(false);
             }
-           
         }
         else if (!GameManager.Instance.meleeMode)
         {
@@ -175,7 +174,6 @@ public class Player : MonoBehaviour
                 return;
             }
 
-            BowHat.gameObject.SetActive(true);
             weapon1.gameObject.SetActive(false);
             sheld.gameObject.SetActive(false);
 
@@ -193,47 +191,50 @@ public class Player : MonoBehaviour
     {
         PlayerMSGUI.transform.position = new Vector3(transform.position.x, transform.position.y + 0.6f);
     }
+    
+    //ƒ≥∏Ø≈Õ ªÛ≈¬ πÆ±∏
+    //æ÷¥œ∏ﬁ¿Ãº«ø°º≠ SetActive false√≥∏Æ«‘
     public void F_CharText(string _value)
     {
        
         switch (_value)
         {
             case "SP":
-                if (text.gameObject.activeSelf) { return; }
                 text.gameObject.SetActive(true);
                 text.color = Color.blue;
                 text.text = "SP∞° ∫Œ¡∑«’¥œ¥Ÿ...";
-                Invoke("TextOff", 1.5f);
+                textani.SetTrigger("Ok");
                 break;
 
             case "Melee":
-                if (text.gameObject.activeSelf) { return; }
                 text.gameObject.SetActive(true);
                 text.color = Color.white;
                 text.text = "±Ÿ¡¢∏µÂ";
-                Invoke("TextOff", 1.5f);
+                textani.SetTrigger("Ok");
+               
+           
                 break;
 
             case "Range":
-                if (text.gameObject.activeSelf) { return; }
+                
                 text.gameObject.SetActive(true);
                 text.color = Color.white;
                 text.text = "ø¯∞≈∏Æ∏µÂ";
-                Invoke("TextOff", 1.5f);
+                textani.SetTrigger("Ok");
+               
                 break;
 
             case "Arrow":
-                if (text.gameObject.activeSelf) { return; }
                 text.gameObject.SetActive(true);
                 text.color = Color.red;
                 text.text = "»≠ªÏ¿Ã ∫Œ¡∑«’¥œ¥Ÿ..";
-                Invoke("TextOff", 1.5f);
+                textani.SetTrigger("Ok");
                 break;
 
 
         }
     }
-    private void TextOff()
+    public void TextOff()
     {
         text.gameObject.SetActive(false);
     }
@@ -295,26 +296,31 @@ public class Player : MonoBehaviour
     }
    
 
-    // Scan
+    // Scan NPC && ø¿∫Í¡ß∆Æ
     Vector3 ScanDir;
     private void SuchTalk()
     { 
-        if (Rb.velocity.x < 0)
+        if (Rb.velocity.x < 0 && Char_Vec.x < 0)
         {
             ScanDir = Vector3.left;
         }
-        else if(Rb.velocity.x > 0) 
+        else if(Rb.velocity.x > 0 && Char_Vec.x > 0)
         {
             ScanDir = Vector3.right;
         }
-        Debug.DrawRay(transform.position, ScanDir * 1.2f,Color.red);
+        Debug.DrawRay(transform.position, CastDir * 1.5f,Color.red);
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-             Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.2f, LayerMask.GetMask("NPC"));
+             //ªÛ»£¿€øÎ ±€ ¥Ÿ æ»¿–¿∏∏È ∏¯≥—±‚∞‘«‘ (∞‘Ω√∆«¿Ã≥™ npc)
+            if(GameManager.Instance.text.NextTextOk)
+            { return; }
+
+             Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("NPC"));
 
             if(Scanobj.collider != null)
             {
+                Rb.velocity = Vector2.zero;
                 ScanObject = Scanobj.collider.gameObject;
                 GameManager.Instance.F_TalkSurch(ScanObject);
             }
@@ -325,21 +331,21 @@ public class Player : MonoBehaviour
     //ƒ≥∏Ø≈Õ ¿Ãµø
     private void F_MovdChar()
 
-    {  //ƒ≥∏Ø≈Õ πÊ«‚ Ω∫ƒ…¿œ
-        if (Rb.velocity.x > 0 && transform.localScale.x != 3 && !KB)
-        {
-            transform.localScale = new Vector3(3, 3, 1);
-        }
-        else if (Rb.velocity.x < 0 && transform.localScale.x != -3&& !KB)
-        {
-            transform.localScale = new Vector3(-3, 3, 1);
-        }
+    {  
         //¿Ãµø
         if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge && !GameManager.Instance.isTalking)
         {
             Char_Vec.x = Input.GetAxisRaw("Horizontal");
             Rb.velocity = new Vector3(Char_Vec.x * Char_Speed,Rb.velocity.y);
-        
+        }
+        //ƒ≥∏Ø≈Õ πÊ«‚ Ω∫ƒ…¿œ
+        if (Rb.velocity.x > 0 && Char_Vec.x > 0 && !KB)
+        {
+            transform.localScale = new Vector3(3, 3, 1);
+        }
+        else if (Rb.velocity.x < 0 && Char_Vec.x < 0 && !KB)
+        {
+            transform.localScale = new Vector3(-3, 3, 1);
         }
         //±∏∏£±‚
         if (Input.GetKey(KeyCode.LeftControl) && !isDodge && !JumpOn && !Iswall && !DJumpOn)
@@ -352,7 +358,7 @@ public class Player : MonoBehaviour
             else if (GameManager.Instance.Player_CurSP > 15)
             {
                
-                BowHat.gameObject.SetActive(false);
+             
                 sheld.gameObject.SetActive(false);
                 weapon1.gameObject.SetActive(false);
                 GameManager.Instance.Player_CurSP -= 15;
@@ -388,48 +394,50 @@ public class Player : MonoBehaviour
 
 
     //∫Æ¡°«¡
+    //bool ¡°«¡µÙ∑π¿Ã
+    float JumpTime;
     public bool wallJumpon;
     private void F_WallJump()
     {
         if (Iswall)
         {
+            JumpTime += Time.deltaTime;
+            wallJumpon = false;
             RealBow.gameObject.SetActive(false);
             sheld.gameObject.SetActive(false);
             weapon1.gameObject.SetActive(false);
             Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * SliedSpeed);
-       
-            if (Input.GetButtonDown("Jump") && Iswall)
+
+            if (Input.GetButtonDown("Jump") && Iswall && JumpTime >= 0.18f)
             {
-                   // ∫Æ ¡°«¡ 
-                if (CastDir == Vector2.right)
+                                
+                // ∫Æ ¡°«¡ 
+                if (!isLeft)
                 {
+                    isLeft = true;
                     wallJumpon = true;
-                    Rb.velocity = Vector3.zero;
-                    Rb.AddForce(new Vector2(-1 *  WalljumpPower, 1.6f * WalljumpPower), ForceMode2D.Impulse);
-                    
-                    sheld.gameObject.SetActive(false);
-                    weapon1.gameObject.SetActive(false);
-                    if (Rb.velocity.x < 0)
-                    {
-                        transform.localScale= new Vector3(-3, 3, 3);
-                    }
-                    Invoke("F_WallJumpOff", 0.4f);
+                    CastDir = Vector2.left;
+                    Iswall = false;
+                    Rb.velocity = new Vector2(-1 * WalljumpPower, 1.5f * WalljumpPower);
+
+                    if (Rb.velocity.x < 0) { transform.localScale = new Vector3(-3, 3, 3); }
+                    Invoke("F_WallJumpOff", 0.5f);
                 }
-                else if (CastDir == Vector2.left)
+                else if (isLeft)
                 {
+                    isLeft = false;
                     wallJumpon = true;
-                    Rb.velocity = Vector3.zero;
-                    Rb.AddForce(new Vector2(1 * WalljumpPower, 1.6f * WalljumpPower), ForceMode2D.Impulse);
-                    
-                    sheld.gameObject.SetActive(false);
-                    weapon1.gameObject.SetActive(false);
-                    if (Rb.velocity.x > 0)
-                    {
-                        transform.localScale = new Vector3(3, 3, 3);
+                    CastDir = Vector2.right;
+                    Iswall = false;
+                    Rb.velocity = new Vector2(1* WalljumpPower, 1.5f * WalljumpPower);
+
+                    if (Rb.velocity.x > 0) { transform.localScale = new Vector3(3, 3, 3); 
                     }
-                    Invoke("F_WallJumpOff", 0.4f);
+                    Invoke("F_WallJumpOff", 0.5f);
 
                 }
+
+                JumpTime = 0;
             }
         }
      }
@@ -442,16 +450,18 @@ public class Player : MonoBehaviour
     private void F_WallCheaking()
     {
         //∫Æ√º≈© ∑π¿Ãƒ≥Ω∫∆Æ πÊ«‚¿¸»Ø
-        if(Rb.velocity.x > 0)
+        if(!isLeft/*Rb.velocity.x > 0*/)
         {
             CastDir = Vector2.right;
         }
-        else if(Rb.velocity.x < 0)
+        else if(isLeft/*Rb.velocity.x < 0*/)
         {
             CastDir = Vector2.left;
         }
-        //πŸ¥⁄√º≈©
-        Iswall = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, Wall_Layer); 
+        
+        //∫Æ Wall √º≈©
+        Iswall = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, Wall_Layer);
+                
         //πŸ¥⁄√º≈©
         isGround = Physics2D.Raycast(transform.position, Vector2.down, 0.65f, LayerMask.GetMask("Ground"));
     }
@@ -466,7 +476,7 @@ public class Player : MonoBehaviour
     
     private void F_CharJump()
     {
-        if (Input.GetButtonDown("Jump") && JumpCount < 2&& !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking)
+        if (Input.GetButtonDown("Jump") && JumpCount < 2&& !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon)
         {
             JumpOn = true;
             JumpCount++;
@@ -485,7 +495,7 @@ public class Player : MonoBehaviour
                 else
                 {
                     RealBow.gameObject.SetActive(false);
-                    BowHat.gameObject.SetActive(false);
+                 
                 }
                                
                 DJumpOn = true;
@@ -500,7 +510,8 @@ public class Player : MonoBehaviour
             Ani.SetBool("Jump", false);
             JumpCount = 0;
             OnDMG = false;
-          }
+
+        }
 
     }
     
@@ -564,6 +575,8 @@ public class Player : MonoBehaviour
         Ani.SetBool("Run", isCharMove);
         Ani.SetBool("DJump", DJumpOn);
         Ani.SetBool("Wall", Iswall);
+        Ani.SetBool("RangeMode", GameManager.Instance.rangeMode);
+        Ani.SetBool("MeleeMode", GameManager.Instance.meleeMode);
 
     }
 
@@ -573,6 +586,7 @@ public class Player : MonoBehaviour
         DJumpOn = false;
         Ani.SetBool("Jump", false);
         JumpCount = 0;
+        wallJumpon = false;
         if (GameManager.Instance.meleeMode)
         {
             sheld.gameObject.SetActive(true);
@@ -580,7 +594,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-          BowHat.gameObject.SetActive(false);
+          
         }
      
         KB = false;
@@ -600,6 +614,8 @@ public class Player : MonoBehaviour
         }
             
     }
+
+    //√º∑¬¿⁄ø¨»∏∫π
     private void F_HpRecovery()
     {
         if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
@@ -635,14 +651,11 @@ public class Player : MonoBehaviour
             F_JumpReset();
             StartCoroutine(F_OnHit());
         }
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            Rb.velocity = Vector3.zero;
-        }
-        //if (collision.gameObject.CompareTag("Wall") && Rb.velocity.y > 0.05f)
+        //if (collision.gameObject.CompareTag("Wall"))
         //{
-        //    F_JumpReset();
+        //    Rb.velocity = Vector3.zero;
         //}
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             StartCoroutine(F_OnHit());

@@ -6,7 +6,7 @@ public class Camera1 : MonoBehaviour
 {
     private Transform target;
     private float minX = 0;
-    private float MaX = 26;
+    private float MaX = 5000;
     private void Start()
     {
         target = GameManager.Instance.player.transform.GetComponent<Transform>();

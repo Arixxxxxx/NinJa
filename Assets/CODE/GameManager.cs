@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("# 캐릭터 전투관련")]
     [Space]
     public bool meleeMode;
+    public bool rangeMode;
     public float CurArrow;
     public float MaxArrow;
     
@@ -34,11 +35,12 @@ public class GameManager : MonoBehaviour
     [Header("# Talk")]
     [Space]
     [SerializeField] private TextMeshProUGUI TalkText;
+    private TMP_Text TalkBowNPCName;
     [SerializeField] private GameObject ScanNPC;
     [SerializeField] private Animator TalkBox;
     [SerializeField] public bool isTalking;
     [SerializeField] private TalkManager talkmanager;
-    private TypeEffect text;
+    public TypeEffect text;
     private Image NpcSprite;
     
 
@@ -50,13 +52,13 @@ public class GameManager : MonoBehaviour
          
             ScanNPC = _obj;
             SetNPCId sc = ScanNPC.GetComponent<SetNPCId>();
-            TalkOn(sc.ID, sc.isNPC);
+            TalkOn(sc.ID, sc.isNPC, _obj.name);
             //TalkBox.gameObject.SetActive(true);
             TalkBox.SetBool("Show", isTalking);
     }
 
     public int TalkIndex;
-    private void TalkOn(int _ID, bool _isNPC)
+    private void TalkOn(int _ID, bool _isNPC, string _objname)
     {
              string talk =  talkmanager.F_GetMsg(_ID, TalkIndex);
         
@@ -64,19 +66,24 @@ public class GameManager : MonoBehaviour
         {
             isTalking = false;
             TalkIndex = 0;
+            Invoke("SpriteSetFalse", 0.3f);
             return; 
         }
 
         if (_isNPC)
         {
+            TalkBowNPCName.text = $"< {_objname} >";
+            NpcSprite.gameObject.SetActive(true);
             text.F_SetMsg(talk.Split(':')[0]);
             NpcSprite.sprite = talkmanager.F_GetSprite(_ID, int.Parse(talk.Split(':')[1]));
-
-            
         }
+
         else
         {
-            text.F_SetMsg(talk);
+            TalkBowNPCName.text = $"< {_objname} >";
+            NpcSprite.gameObject.SetActive(true);
+            text.F_SetMsg(talk.Split(':')[0]);
+            NpcSprite.sprite = talkmanager.F_GetSprite(_ID, int.Parse(talk.Split(':')[1]));
         }
 
         isTalking = true;
@@ -103,7 +110,18 @@ public class GameManager : MonoBehaviour
         dmgfont = FindObjectOfType<DMGFont>();
         
         NpcSprite = TalkBox.transform.Find("NpcSprite").GetComponent<Image>();
+        TalkBowNPCName = TalkBox.transform.Find("Name").GetComponent<TMP_Text>();
         text =FindObjectOfType<TypeEffect>();
     }
- 
+    private void Update()
+    {
+        if (!meleeMode) { rangeMode = true; }
+        else { rangeMode = false; }
+    }
+
+    public void SpriteSetFalse()
+    {
+        NpcSprite.gameObject.SetActive(false);
+    }
+
 }
