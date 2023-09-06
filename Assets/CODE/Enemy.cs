@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     public enum EnemyType
     {
-        SpikeBox, Saw, MovingPlatForm
+        SpikeBox, Saw, MovingPlatForm, HitBox
     }
 
    
@@ -35,7 +35,11 @@ public class Enemy : MonoBehaviour
 
     [Space]
     public bool isSawOk;
-    
+
+    //히트박스
+    private int HitBoxHp;
+    Transform[] brokenbox;
+    bool boxhit;
 
     private void Awake()
     {
@@ -43,7 +47,8 @@ public class Enemy : MonoBehaviour
         Ani = GetComponent<Animator>();
         Scan_Vec = Vector2.left;
         saw_vec = Vector2.left;
-
+        HitBoxHp = 2;
+        brokenbox = new Transform[6];
 
     }
 
@@ -112,7 +117,8 @@ public class Enemy : MonoBehaviour
                 Rb.MovePosition(Rb.position + saw_vec);
                 break;
 
-           
+         
+               
 
         }
     }
@@ -136,12 +142,70 @@ public class Enemy : MonoBehaviour
 
                 }
                 break;
+            case EnemyType.HitBox:
+                {
+                    if (collision.gameObject.layer== 15 || collision.gameObject.CompareTag("Bullet"))
+                        {
+                             
+                           if(HitBoxHp > 0 & !boxhit)
+                           {
+                            boxhit = true;
+                            HitBoxHp--;
+                            Ani.SetTrigger("Hit");
+                            Invoke("boxhitok", 0.3f);
+                            }
 
-            
+                            else if(HitBoxHp <= 0)
+                            {
+                                
+                              for(int i = 0; i < brokenbox.Length-3; i++)
+                              {
+                                brokenbox[i] = transform.GetChild(i).GetComponent<Transform>();
+                                Rigidbody2D Rbs = brokenbox[i].GetComponent<Rigidbody2D>();
+
+                                brokenbox[i].gameObject.SetActive(true);
+
+                                Rbs.AddForce(new Vector3(Random.Range(-2.2f, 0), Random.Range(3.5f,4.2f)), ForceMode2D.Impulse);
+                                
+                              }
+                            for (int i = 3; i < brokenbox.Length; i++)
+                            {
+                                brokenbox[i] = transform.GetChild(i).GetComponent<Transform>();
+                                Rigidbody2D Rbs = brokenbox[i].GetComponent<Rigidbody2D>();
+
+                                brokenbox[i].gameObject.SetActive(true);
+
+                                Rbs.AddForce(new Vector3(Random.Range(0, 2.2f), Random.Range(3.5f, 4.2f)), ForceMode2D.Impulse);
+
+                            }
+                            Invoke("offPayun", 2);
+                            SpriteRenderer Sr = transform.GetComponent<SpriteRenderer>();
+                                BoxCollider2D bx = transform.GetComponent<BoxCollider2D>();
+                                Sr.color = new Color(0, 0, 0, 0);
+                                bx.enabled = false;
+
+                            }
+                    }
+                    break;
+
+                }
+
         }
 
     }
 
+    private void boxhitok()
+    {
+        boxhit = false;
+    }
+    private void offPayun()
+    {
+        for(int i = 0; i < brokenbox.Length; i++) 
+        {
+            brokenbox[i].gameObject.SetActive(false);
+        }
+
+    }
     //스파이크맨 위로올라기기위한 이넘레이터
     IEnumerator ReturnSpikeEnemy()
     {

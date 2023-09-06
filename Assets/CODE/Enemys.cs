@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemys : MonoBehaviour
@@ -191,8 +190,11 @@ public class Enemys : MonoBehaviour
                 Rb.AddForce(new Vector2(-1 * KBSpeed, 0), ForceMode2D.Impulse);
             }
         }
-        
 
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            F_OnHIt(1);
+        }
     }
 }
 

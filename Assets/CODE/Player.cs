@@ -2,26 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 //23³â 8¿ù 28ÀÏ ½ÃÀÛ
 //23³â 8¿ù 30ÀÏ ÇÃ¶óÀ×ÆÒ, ½ºÆÄÀÌÅ©Æ®·¦,±¸¸£±â(È¸ÇÇ),±ÙÁ¢¹«±â ¾Ö´Ï¸ÞÀÌ¼Ç, ¿¡³Ê¹ÌBÁ¦ÀÛ
 public class Player : MonoBehaviour
 {
 
-    Rigidbody2D Rb;
+    public Rigidbody2D Rb;
     Animator Ani;
     public SpriteRenderer Sr;
-
+   
     //Ä³¸¯ÅÍÀÌµ¿
     public Vector2 Char_Vec;
     private Vector2 VZ = Vector2.zero;
     [SerializeField] private float Char_Speed;
     [SerializeField] private float Char_MaxSpeed;
+    [SerializeField] private float KB_Power;
     private bool isCharMove;
     bool OnDMG;
     private bool isGround;
     public bool isDodge;
     public float DodgeSpeed;
+    public bool KB;
+    //ÇöÀç º¸´Â¹æÇâ
+    public bool isLeft;
 
     //º®Ã¼Å©
     [Header("º®Ã¼Å©")]
@@ -42,45 +47,263 @@ public class Player : MonoBehaviour
     public GameObject ScanObject;
     RaycastHit2D Scanobj;
 
+    // ¹«±â¹æÆÐ À§Ä¡ÀÌµ¿
+    private Transform weapon;
+    Vector3 weaponOriginPos;
+    private Transform sheld;
+    Vector3 sheldOriginPos;
+    private SpriteRenderer sheldSR;
+    Transform Bow;
+    public Transform RealBow;
+    Transform BowHat;
+    
+
+    // ¹«±â ±ÙÁ¢¼Óµµ
+    [Header("# ±ÙÁ¢°ø°Ý")]
+    [SerializeField] private float MeleeSpeed;
+    [SerializeField] private float Timer;
+    Animator SwordAni;
+    Transform Sword;
+    Transform Defence;
+
+    //Ä³¸¯ÅÍ ¸»Ç³¼±
+    Transform PlayerMSGUI;
+   
+    TMP_Text text;
+
+    //°ÔÀÓUI
+    Transform gameUiMain;
+    Transform weaponBtn1;
+    Transform btnBoxOutLine1;
+    Animator btn1;
+    Transform weaponBtn2;
+    Transform btnBoxOutLine2;
+    Animator btn2;
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
         Ani = GetComponent<Animator>();
         Sr = GetComponent<SpriteRenderer>();
-        weapon1 = gameObject.GetComponentsInChildren<Transform>()[1];
-
+        weapon1 = transform.GetChild(0).GetComponent<Transform>();
+        Sword = transform.GetChild(0).GetChild(0).GetComponent<Transform>();
+        sheld = transform.Find("Sheld").GetComponent<Transform>();
+        sheldSR = sheld.GetComponent<SpriteRenderer>();
+        SwordAni = weapon1.GetComponent<Animator>();
+        Defence = transform.GetChild(2).GetComponent<Transform>();
+        PlayerMSGUI = GameObject.Find("PlayerMSG").GetComponent<Transform>();
+        text = PlayerMSGUI.transform.GetChild(0).GetComponent<TMP_Text>();
+       weaponOriginPos = weapon1.transform.position;
+        sheldOriginPos = sheld.transform.position;
+        Bow = GameObject.Find("ArrowDir").GetComponent <Transform>();
+        BowHat = transform.Find("BowHat").GetComponent<Transform>();
+        RealBow = Bow.transform.GetChild (0).GetComponent<Transform>();
+        gameUiMain = GameObject.Find("GameUI").GetComponent<Transform>();
+        weaponBtn1 = gameUiMain.transform.Find("Btn1").GetComponent<Transform>();
+        btnBoxOutLine1 = weaponBtn1.transform.Find("BoxOutLine").GetComponent< Transform > ();
+        weaponBtn2 = gameUiMain.transform.Find("Btn2").GetComponent<Transform>();
+        btnBoxOutLine2 = weaponBtn2.transform.Find("BoxOutLine").GetComponent<Transform>();
+        btn1 = weaponBtn1.GetComponent<Animator>();
+        btn2 = weaponBtn2.GetComponent<Animator>();
     }
+    
+   
 
     void Update()
     {
-        
-        Debug.DrawRay(WallCheck.position, CastDir * 1f, Color.blue);
-
+        SetCharDir();
         F_CharJump();
-        F_CharMoveStop();
-        F_ShootWeapone();
+        //F_CharMoveStop(); // ¸Ø­ŸÀ»‹š ÀÌ¼Ó°¨¼Ò (ÁÖ¼®Ã³¸®)
         F_WallJump();
         SuchTalk();
         F_SpRecovery();
         F_HpRecovery();
-
+        F_MeleeAttack();
+        SheldOn();
+        F_TextBoxPos();
+        AttackModeShow();
     }
     private void FixedUpdate()
     {
+        
         F_MovdChar();
         F_CharAniParameter();
         F_WallCheaking();
         
     }
+    private void AttackModeShow()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            F_CharText("Melee");
+            GameManager.Instance.meleeMode = true;
+            btn1.SetTrigger("Ok");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            btn2.SetTrigger("Ok");
+            F_CharText("Range");
+            GameManager.Instance.meleeMode = false;
+        }
+        if (GameManager.Instance.meleeMode)
+        {
+            btnBoxOutLine1.gameObject.SetActive(true);
+            btnBoxOutLine2.gameObject.SetActive(false);
+            if (Iswall || DJumpOn || JumpOn || isDodge)
+            {
+                return;
+            }
 
+            if (Defence.gameObject.activeSelf)
+            {
+                return;
+            }
+            else if(!Defence.gameObject.activeSelf) 
+            {
+                BowHat.gameObject.SetActive(false);
+                weapon1.gameObject.SetActive(true);
+                sheld.gameObject.SetActive(true);
+                RealBow.gameObject.SetActive(false);
+            }
+           
+        }
+        else if (!GameManager.Instance.meleeMode)
+        {
+            btnBoxOutLine1.gameObject.SetActive(false);
+            btnBoxOutLine2.gameObject.SetActive(true);
+            if (DJumpOn || JumpOn || isDodge || Iswall)
+            {
+                return;
+            }
+
+            BowHat.gameObject.SetActive(true);
+            weapon1.gameObject.SetActive(false);
+            sheld.gameObject.SetActive(false);
+
+            if (Input.GetMouseButton(1))
+            {
+                RealBow.gameObject.SetActive(true);
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                RealBow.gameObject.SetActive(false);
+            }
+        }
+    }
+    private void F_TextBoxPos()
+    {
+        PlayerMSGUI.transform.position = new Vector3(transform.position.x, transform.position.y + 0.6f);
+    }
+    public void F_CharText(string _value)
+    {
+       
+        switch (_value)
+        {
+            case "SP":
+                if (text.gameObject.activeSelf) { return; }
+                text.gameObject.SetActive(true);
+                text.color = Color.blue;
+                text.text = "SP°¡ ºÎÁ·ÇÕ´Ï´Ù...";
+                Invoke("TextOff", 1.5f);
+                break;
+
+            case "Melee":
+                if (text.gameObject.activeSelf) { return; }
+                text.gameObject.SetActive(true);
+                text.color = Color.white;
+                text.text = "±ÙÁ¢¸ðµå";
+                Invoke("TextOff", 1.5f);
+                break;
+
+            case "Range":
+                if (text.gameObject.activeSelf) { return; }
+                text.gameObject.SetActive(true);
+                text.color = Color.white;
+                text.text = "¿ø°Å¸®¸ðµå";
+                Invoke("TextOff", 1.5f);
+                break;
+
+            case "Arrow":
+                if (text.gameObject.activeSelf) { return; }
+                text.gameObject.SetActive(true);
+                text.color = Color.red;
+                text.text = "È­»ìÀÌ ºÎÁ·ÇÕ´Ï´Ù..";
+                Invoke("TextOff", 1.5f);
+                break;
+
+
+        }
+    }
+    private void TextOff()
+    {
+        text.gameObject.SetActive(false);
+    }
+    //±ÙÁ¢°ø°Ý
+    private void F_MeleeAttack()
+    {
+        if (GameManager.Instance.meleeMode)
+        {
+            Timer += Time.deltaTime;
+            if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn)
+            {
+                StartCoroutine(IE_MeleeAttack());
+            }
+        }
+        
+    }
+
+    IEnumerator IE_MeleeAttack()
+    {
+        Sword.gameObject.layer = 15;
+        SwordAni.SetTrigger("R");
+        Timer = 0;
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        Sword.gameObject.layer = 16;
+    }
+
+    //¹æÆÐ¸·±â
+    private void SheldOn()
+    {
+        if (GameManager.Instance.meleeMode)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                weapon1.gameObject.SetActive(false);
+                sheld.gameObject.SetActive(false);
+                Defence.gameObject.SetActive(true);
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                weapon1.gameObject.SetActive(true);
+                sheld.gameObject.SetActive(true);
+                Defence.gameObject.SetActive(false);
+            }
+        }
+    }
+    //Ä³¸¯ÅÍ¹æÇâ ºÒ°ª ÀúÀå
+    private void SetCharDir()
+    {
+        if(transform.localScale.x == -3)
+        {
+            isLeft = true;
+        }
+        else if(transform.localScale.x == 3)
+        {
+            isLeft = false;
+        }
+    }
+   
+
+    // Scan
     Vector3 ScanDir;
     private void SuchTalk()
     { 
-        if (Sr.flipX)
+        if (Rb.velocity.x < 0)
         {
             ScanDir = Vector3.left;
         }
-        else if(!Sr.flipX) 
+        else if(Rb.velocity.x > 0) 
         {
             ScanDir = Vector3.right;
         }
@@ -97,66 +320,61 @@ public class Player : MonoBehaviour
             }
         }
     }
-
+  
 
     //Ä³¸¯ÅÍ ÀÌµ¿
     private void F_MovdChar()
-    {
+
+    {  //Ä³¸¯ÅÍ ¹æÇâ ½ºÄÉÀÏ
+        if (Rb.velocity.x > 0 && transform.localScale.x != 3 && !KB)
+        {
+            transform.localScale = new Vector3(3, 3, 1);
+        }
+        else if (Rb.velocity.x < 0 && transform.localScale.x != -3&& !KB)
+        {
+            transform.localScale = new Vector3(-3, 3, 1);
+        }
         //ÀÌµ¿
         if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge && !GameManager.Instance.isTalking)
         {
             Char_Vec.x = Input.GetAxisRaw("Horizontal");
-            Rb.AddForce(Char_Vec * Char_Speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            Rb.velocity = new Vector3(Char_Vec.x * Char_Speed,Rb.velocity.y);
+        
         }
         //±¸¸£±â
         if (Input.GetKey(KeyCode.LeftControl) && !isDodge && !JumpOn && !Iswall && !DJumpOn)
         {
             if(GameManager.Instance.Player_CurSP < 15)
             {
+                F_CharText("SP");
                 return;
             }
             else if (GameManager.Instance.Player_CurSP > 15)
             {
+               
+                BowHat.gameObject.SetActive(false);
+                sheld.gameObject.SetActive(false);
+                weapon1.gameObject.SetActive(false);
                 GameManager.Instance.Player_CurSP -= 15;
                 Rb.velocity = Vector2.zero;
                 isDodge = true;
 
-                if (!Sr.flipX)
+                if (!isLeft)
                 {
                     Rb.AddForce(new Vector3(1, 0) * DodgeSpeed, ForceMode2D.Impulse);
                     gameObject.layer = 10;
                     Invoke("F_ReturnLayer", 0.5f);
                     Ani.SetTrigger("Dodge");
-                    weapon1.gameObject.SetActive(false);
                 }
-                else if (Sr.flipX)
+                else if (isLeft)
                 {
                     Rb.AddForce(new Vector3(-1, 0) * DodgeSpeed, ForceMode2D.Impulse);
                     gameObject.layer = 10;
                     Invoke("F_ReturnLayer", 0.5f);
                     Ani.SetTrigger("Dodge");
-                    weapon1.gameObject.SetActive(false);
+                 
                 }
             }
-        }
-        //ÃÖ´ë¼Ó·Â Á¦¾î
-        if (Rb.velocity.x > Char_MaxSpeed && !wallJumpon && !isDodge)
-        {
-            Rb.velocity = new Vector2(Char_MaxSpeed, Rb.velocity.y);
-        }
-        else if (Rb.velocity.x < Char_MaxSpeed * (-1) && !wallJumpon && !isDodge)
-        {
-            Rb.velocity = new Vector2(Char_MaxSpeed * (-1), Rb.velocity.y);
-        }
-
-        //Ä³¸¯ÅÍ ½ºÇÁ¶óÀÌÆ® ¹æÇâÀüÈ¯
-        if (Char_Vec.x < 0 && !Iswall)
-        {
-            Sr.flipX = true;
-        }
-        else if (Char_Vec.x > 0)
-        {
-            Sr.flipX = false;
         }
     }
 
@@ -164,33 +382,22 @@ public class Player : MonoBehaviour
     {
         gameObject.layer = 6;
         isDodge = false;
+        sheld.gameObject.SetActive(true);
         weapon1.gameObject.SetActive(true);
     }
-    ////Ä³¸¯ÅÍ ÀÏ¹Ý°ø°Ý
-    //private void F_MeleeAttack()
-    //{
-    //    Ani.SetTrigger("Attack");
-    //}
 
-    //Ä³¸¯ÅÍ º®Á¡ÇÁ
+
+    //º®Á¡ÇÁ
     public bool wallJumpon;
     private void F_WallJump()
     {
         if (Iswall)
         {
-            
-
-                //º®¿¡ ºÙÀ¸¸é ¼ÓµµÁ¦¾î
-                Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * SliedSpeed);
-            if (CastDir == Vector2.right)
-            {
-                Sr.flipX = false;
-            }
-            else if(CastDir == Vector2.left)
-            {
-                 Sr.flipX= true;
-            }
-
+            RealBow.gameObject.SetActive(false);
+            sheld.gameObject.SetActive(false);
+            weapon1.gameObject.SetActive(false);
+            Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * SliedSpeed);
+       
             if (Input.GetButtonDown("Jump") && Iswall)
             {
                    // º® Á¡ÇÁ 
@@ -199,6 +406,13 @@ public class Player : MonoBehaviour
                     wallJumpon = true;
                     Rb.velocity = Vector3.zero;
                     Rb.AddForce(new Vector2(-1 *  WalljumpPower, 1.6f * WalljumpPower), ForceMode2D.Impulse);
+                    
+                    sheld.gameObject.SetActive(false);
+                    weapon1.gameObject.SetActive(false);
+                    if (Rb.velocity.x < 0)
+                    {
+                        transform.localScale= new Vector3(-3, 3, 3);
+                    }
                     Invoke("F_WallJumpOff", 0.4f);
                 }
                 else if (CastDir == Vector2.left)
@@ -206,7 +420,15 @@ public class Player : MonoBehaviour
                     wallJumpon = true;
                     Rb.velocity = Vector3.zero;
                     Rb.AddForce(new Vector2(1 * WalljumpPower, 1.6f * WalljumpPower), ForceMode2D.Impulse);
+                    
+                    sheld.gameObject.SetActive(false);
+                    weapon1.gameObject.SetActive(false);
+                    if (Rb.velocity.x > 0)
+                    {
+                        transform.localScale = new Vector3(3, 3, 3);
+                    }
                     Invoke("F_WallJumpOff", 0.4f);
+
                 }
             }
         }
@@ -235,17 +457,6 @@ public class Player : MonoBehaviour
     }
 
 
-
-   //Ä³¸¯ÅÍ ÀÌµ¿ÇÏ´Ù°¡ Á¤Áö½Ã ÀÌµ¿¹Ð¸²Á¦¾î
-  
-    private void F_CharMoveStop()
-    {
-        if (Input.GetButtonUp("Horizontal") && !wallJumpon)
-        {
-          Rb.velocity = new Vector2(Rb.velocity.normalized.x * 0.1f, Rb.velocity.y);
-        }
-    }
-
     //Ä³¸¯ÅÍ Á¡ÇÁ
     [Header("Jump")]
     [SerializeField] float JumpPower;
@@ -261,10 +472,22 @@ public class Player : MonoBehaviour
             JumpCount++;
             Ani.SetBool("Jump", true) ;
              Rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
-            
+           
+
             //2´ÜÁ¡ÇÁ Á¦¾î
             if (JumpCount == 2)
             {
+                if (GameManager.Instance.meleeMode)
+                {
+                    sheld.gameObject.SetActive(false);
+                    weapon1.gameObject.SetActive(false);
+                }
+                else
+                {
+                    RealBow.gameObject.SetActive(false);
+                    BowHat.gameObject.SetActive(false);
+                }
+                               
                 DJumpOn = true;
              }
         }
@@ -280,25 +503,8 @@ public class Player : MonoBehaviour
           }
 
     }
-
-    //Ä³¸¯ÅÍ ¹«±â¹ß»ç
-    float ShootTimer;
-        
-    private void F_ShootWeapone()
-    {
-        ShootTimer += Time.deltaTime;
-
-        if (Input.GetMouseButton(1) && ShootTimer > 0.2f && !GameManager.Instance.isPlayerDead && !GameManager.Instance.isTalking)
-        {
-          
-            PoolManager.Instance.F_GetObj("Weapone");
-            ShootTimer = 0;
-            
-        }
-    }
-
-    //ÇÃ·¹ÀÌ¾î ÇÇ°Ý
-   public IEnumerator F_OnHit()
+    
+    public IEnumerator F_OnHit()
    {
         if (GameManager.Instance.Player_CurHP > 0 && !OnDMG)
         {
@@ -317,13 +523,15 @@ public class Player : MonoBehaviour
                 Sr.color = new Color(1, 1, 1, 0.3f);
 
                 //³Ë¹é
-                if (Sr.flipX)
+                if (isLeft)
                 {
-                    Rb.AddForce(new Vector3(10, 1) * 8, ForceMode2D.Impulse);
+                    Rb.AddForce(new Vector3(3 * KB_Power, 6), ForceMode2D.Impulse);
+                    KB = true;
                 }
-                else if (!Sr.flipX)
+                else if (!isLeft)
                 {
-                    Rb.AddForce(new Vector3(-10, 1) * 8, ForceMode2D.Impulse);
+                    Rb.AddForce(new Vector3(-3 * KB_Power, 6), ForceMode2D.Impulse);
+                    KB = true;
                 }
 
                 yield return new WaitForSeconds(1.5f);
@@ -356,8 +564,6 @@ public class Player : MonoBehaviour
         Ani.SetBool("Run", isCharMove);
         Ani.SetBool("DJump", DJumpOn);
         Ani.SetBool("Wall", Iswall);
-        
-        
 
     }
 
@@ -367,6 +573,17 @@ public class Player : MonoBehaviour
         DJumpOn = false;
         Ani.SetBool("Jump", false);
         JumpCount = 0;
+        if (GameManager.Instance.meleeMode)
+        {
+            sheld.gameObject.SetActive(true);
+            weapon1.gameObject.SetActive(true);
+        }
+        else
+        {
+          BowHat.gameObject.SetActive(false);
+        }
+     
+        KB = false;
     }
     
     //±â·ÂÈ¸º¹
@@ -422,7 +639,10 @@ public class Player : MonoBehaviour
         {
             Rb.velocity = Vector3.zero;
         }
-
+        //if (collision.gameObject.CompareTag("Wall") && Rb.velocity.y > 0.05f)
+        //{
+        //    F_JumpReset();
+        //}
         if (collision.gameObject.CompareTag("Enemy"))
         {
             StartCoroutine(F_OnHit());
@@ -491,3 +711,5 @@ public class Player : MonoBehaviour
     }
 
 }
+
+

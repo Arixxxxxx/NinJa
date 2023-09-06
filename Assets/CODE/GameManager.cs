@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -15,6 +13,12 @@ public class GameManager : MonoBehaviour
     public Enemys enemys;
     public DmgPooling dmgpooling;
     public DMGFont dmgfont;
+    [Header("# 캐릭터 전투관련")]
+    [Space]
+    public bool meleeMode;
+    public float CurArrow;
+    public float MaxArrow;
+    
     [Header("# 캐릭터 HP설정")]
     [Space]
     public float Player_CurHP;
@@ -31,12 +35,15 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField] private TextMeshProUGUI TalkText;
     [SerializeField] private GameObject ScanNPC;
-    [SerializeField] private GameObject TalkBox;
+    [SerializeField] private Animator TalkBox;
     [SerializeField] public bool isTalking;
     [SerializeField] private TalkManager talkmanager;
+    private TypeEffect text;
+    private Image NpcSprite;
+    
 
-    private Image pressBtn;
 
+    
 
     public void F_TalkSurch(GameObject _obj)
     {
@@ -44,8 +51,8 @@ public class GameManager : MonoBehaviour
             ScanNPC = _obj;
             SetNPCId sc = ScanNPC.GetComponent<SetNPCId>();
             TalkOn(sc.ID, sc.isNPC);
-
-            TalkBox.gameObject.SetActive(isTalking);
+            //TalkBox.gameObject.SetActive(true);
+            TalkBox.SetBool("Show", isTalking);
     }
 
     public int TalkIndex;
@@ -62,14 +69,14 @@ public class GameManager : MonoBehaviour
 
         if (_isNPC)
         {
+            text.F_SetMsg(talk.Split(':')[0]);
+            NpcSprite.sprite = talkmanager.F_GetSprite(_ID, int.Parse(talk.Split(':')[1]));
+
             
-            TalkText.text = talk;
-            pressBtn.gameObject.SetActive(true);
         }
         else
         {
-            TalkText.text = talk;
-            pressBtn.gameObject.SetActive(true);
+            text.F_SetMsg(talk);
         }
 
         isTalking = true;
@@ -78,43 +85,25 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        //float targetRatio = 16.0f / 9.0f // FHD 1920 1080 16:0
-        //float ratio = (float)Screen.width / (float)Screen.height;
-        //                                 //현재 스크린의 가로 , 세로
-        //float scaleheight = ratio / targetRatio;
-        //float fixedWidth = (float)Screen.width / scaleheight;
-        //// 나누기
-        //Screen.SetResolution((int)fixedWidth, Screen.height, true);
-        /*Screen.SetResolution*/ // 프레임기능도있음 나중에 찾아봐야함
-        /*Application.targetFrameRate = 120; /*///* 타겟 프레임*/
-
-        if (Instance == null)
+         if (Instance == null)
         {
             Instance = this;
         }
         else
         {
             Destroy(gameObject);
-
         }
-        talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>();
+        meleeMode = true;
+        CurArrow = 100;
+        MaxArrow = 100;
+       talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>();
         player = FindObjectOfType<Player>();
         enemys = FindObjectOfType<Enemys>();
         dmgpooling = FindObjectOfType<DmgPooling>();
         dmgfont = FindObjectOfType<DMGFont>();
-        pressBtn = TalkBox.transform.Find("PressEnter").GetComponent<Image>();
-
-    }
-    void Start()
-    {
         
+        NpcSprite = TalkBox.transform.Find("NpcSprite").GetComponent<Image>();
+        text =FindObjectOfType<TypeEffect>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-     
-  
+ 
 }
