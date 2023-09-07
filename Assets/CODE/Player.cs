@@ -131,25 +131,56 @@ public class Player : MonoBehaviour
         F_WallCheaking();
         
     }
+
+    bool meleeitemshowok;
+    bool rangeitemshowok;
+    private float ModeChangeTimer;
     private void AttackModeShow()
     {
+        ModeChangeTimer += Time.deltaTime;
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            F_CharText("Melee");
-            GameManager.Instance.meleeMode = true;
-            btn1.SetTrigger("Ok");
+            if (GameManager.Instance.meleeMode)
+            {
+                return;
+            }
+            if(ModeChangeTimer > 0.4f)
+            {
+                Ani.SetTrigger("ModeChange");
+                F_CharText("Melee");
+                GameManager.Instance.meleeMode = true;
+                btn1.SetTrigger("Ok");
+                ModeChangeTimer = 0;
+            }
+            
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            btn2.SetTrigger("Ok");
-            F_CharText("Range");
-            GameManager.Instance.meleeMode = false;
+            if (!GameManager.Instance.meleeMode)
+            {
+                return;
+            }
+            if (ModeChangeTimer > 0.4f)
+            {
+                Ani.SetTrigger("ModeChange");
+                btn2.SetTrigger("Ok");
+                F_CharText("Range");
+                GameManager.Instance.meleeMode = false;
+                ModeChangeTimer = 0;
+            }
+               
         }
+
+        //근접모드
         if (GameManager.Instance.meleeMode)
         {
+            rangeitemshowok = false;
+            if (meleeitemshowok) { return; }
+            //좌측하단 무기UI바 아웃라인체크 활성화
             btnBoxOutLine1.gameObject.SetActive(true);
             btnBoxOutLine2.gameObject.SetActive(false);
-            if (Iswall || DJumpOn || JumpOn || isDodge)
+             if (Iswall || DJumpOn || JumpOn || isDodge)
             {
                 return;
             }
@@ -160,23 +191,16 @@ public class Player : MonoBehaviour
             }
             else if(!Defence.gameObject.activeSelf) 
             {
-                weapon1.gameObject.SetActive(true);
-                sheld.gameObject.SetActive(true);
-                RealBow.gameObject.SetActive(false);
+                StartCoroutine(mellemodeitemshow());
             }
         }
+
+        // 원거리모드
         else if (!GameManager.Instance.meleeMode)
         {
-            btnBoxOutLine1.gameObject.SetActive(false);
-            btnBoxOutLine2.gameObject.SetActive(true);
-            if (DJumpOn || JumpOn || isDodge || Iswall)
-            {
-                return;
-            }
-
-            weapon1.gameObject.SetActive(false);
-            sheld.gameObject.SetActive(false);
-
+            meleeitemshowok = false;
+           
+            // 활 마우스 컨트롤
             if (Input.GetMouseButton(1))
             {
                 RealBow.gameObject.SetActive(true);
@@ -185,8 +209,36 @@ public class Player : MonoBehaviour
             {
                 RealBow.gameObject.SetActive(false);
             }
+
+            // 한번 모드변경햇다면 예외처리
+            if (rangeitemshowok) { return; }
+            //좌측하단 무기UI바 아웃라인체크 활성화
+            btnBoxOutLine1.gameObject.SetActive(false);
+            btnBoxOutLine2.gameObject.SetActive(true);
+            if (DJumpOn || JumpOn || isDodge || Iswall)
+            {
+                return;
+            }
+            //근접무기 비활성화
+            weapon1.gameObject.SetActive(false);
+            sheld.gameObject.SetActive(false);
+            rangeitemshowok = true;
         }
     }
+
+    IEnumerator mellemodeitemshow()
+    {
+        meleeitemshowok = true;
+
+        yield return new WaitForSecondsRealtime(0.2f);
+        weapon1.gameObject.SetActive(true);
+        sheld.gameObject.SetActive(true);
+        RealBow.gameObject.SetActive(false);
+        
+
+    }
+
+         
     private void F_TextBoxPos()
     {
         PlayerMSGUI.transform.position = new Vector3(transform.position.x, transform.position.y + 0.6f);
@@ -408,7 +460,7 @@ public class Player : MonoBehaviour
             weapon1.gameObject.SetActive(false);
             Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * SliedSpeed);
 
-            if (Input.GetButtonDown("Jump") && Iswall && JumpTime >= 0.18f)
+            if (Input.GetButtonDown("Jump") && Iswall && JumpTime >= 0.1f)
             {
                                 
                 // 벽 점프 
@@ -421,7 +473,7 @@ public class Player : MonoBehaviour
                     Rb.velocity = new Vector2(-1 * WalljumpPower, 1.5f * WalljumpPower);
 
                     if (Rb.velocity.x < 0) { transform.localScale = new Vector3(-3, 3, 3); }
-                    Invoke("F_WallJumpOff", 0.5f);
+                    //Invoke("F_WallJumpOff", 0.5f);
                 }
                 else if (isLeft)
                 {
@@ -433,7 +485,7 @@ public class Player : MonoBehaviour
 
                     if (Rb.velocity.x > 0) { transform.localScale = new Vector3(3, 3, 3); 
                     }
-                    Invoke("F_WallJumpOff", 0.5f);
+                    //Invoke("F_WallJumpOff", 0.5f);
 
                 }
 
@@ -657,6 +709,12 @@ public class Player : MonoBehaviour
         //}
 
         if (collision.gameObject.CompareTag("Enemy"))
+        {
+            StartCoroutine(F_OnHit());
+            JumpOn = false;
+            F_JumpReset();
+        }
+        if (collision.gameObject.CompareTag("Ghost"))
         {
             StartCoroutine(F_OnHit());
             JumpOn = false;

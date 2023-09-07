@@ -47,6 +47,12 @@ public class Bullet : MonoBehaviour
             sc.F_OnHIt(Bullet_DMG);
             F_BulletReturn();
         }
+        if(collision.gameObject.CompareTag("Ghost"))
+        {
+            Ghost sc = collision.gameObject.GetComponent<Ghost>();
+            sc.F_OnHIt(Bullet_DMG);
+            F_BulletReturn();
+        }
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
             F_BulletReturn();

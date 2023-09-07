@@ -8,6 +8,7 @@ public class DMGFont : MonoBehaviour
 {
     TextMeshProUGUI DMG_Font;
     Enemys sc;
+    Ghost Ghostsc;
     Vector2 OriginVec;
     Vector2 targetpositiion;
     Vector2 startposition;
@@ -15,19 +16,25 @@ public class DMGFont : MonoBehaviour
     float moveTime;
     DmgPooling dmp;
 
-   
+    Transform B;
+    Transform A;
+
+
+
     private void Awake()
     {
         DMG_Font = GetComponent<TextMeshProUGUI>();
         sc = transform.GetComponentInParent<Enemys>();
+        Ghostsc = transform.GetComponentInParent<Ghost>();
         dmp = transform.GetComponentInParent<DmgPooling>();
-
+        B = transform.GetComponentsInParent<Transform>(true)[1];
     }
     private void OnEnable()
     {
         OriginVec = transform.position;
         //startposition = sc.transform.position;
-        startposition =  Vector2.up;
+        startposition = startposition + Vector2.up;
+        transform.position = startposition;
         targetpositiion = new Vector2(transform.position.x, transform.position.y + 0.7f);
     }
 
@@ -39,23 +46,26 @@ public class DMGFont : MonoBehaviour
 
     public void F_FontPopup(float _DMG)
     {
-        if (sc == null)
-        {
-            sc = transform.GetComponentInParent<Enemys>();
-        }
-        
-        startposition = sc.transform.position;
 
-        if (gameObject.activeSelf == false)
+        if (B == null)
         {
-            isMoving = true;
-            gameObject.SetActive(true);
+            B = transform.GetComponentsInParent<Transform>(true)[2];
         }
-        
-        if (DMG_Font.text != _DMG.ToString("F0"))
-        {
-            DMG_Font.text = _DMG.ToString("F0");
-        }
+
+            startposition = B.transform.position;
+
+            if (gameObject.activeSelf == false)
+            {
+                isMoving = true;
+                gameObject.SetActive(true);
+            }
+
+            if (DMG_Font.text != _DMG.ToString("F0"))
+            {
+                DMG_Font.text = _DMG.ToString("F0");
+            }
+   
+
     }
     float CurTime;
     private void F_FontMove()
@@ -72,7 +82,7 @@ public class DMGFont : MonoBehaviour
             {
                 CurTime = 0;
                 isMoving = false;
-                transform.position =sc.transform.position + Vector3.up * 1;
+                transform.position = B.transform.position + Vector3.up * 1;
                 gameObject.SetActive(false);
                 dmp.F_In_FontBox(gameObject);
                 

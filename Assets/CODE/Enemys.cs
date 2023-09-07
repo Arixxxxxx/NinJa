@@ -128,15 +128,6 @@ public class Enemys : MonoBehaviour
     //플레이어대상 움직임함수
     private void F_ToTargetMove()
     {
-        //Jump = Random.Range(0, 100);
-        //if(Jump < 15)
-        //{
-        //    Rb.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
-        //}
-        //방향
-        //NextMove.x = EnemyVec.normalized.x * EnemySpeed * Time.deltaTime;
-        //Rb.MovePosition(Rb.position + NextMove);
-
         if (!isEnemyDead)
         {
             EnemyVec = GameManager.Instance.player.transform.position - transform.position;

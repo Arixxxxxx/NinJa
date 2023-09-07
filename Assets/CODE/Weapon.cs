@@ -13,6 +13,11 @@ public class Weapon : MonoBehaviour
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
             sc.F_OnHIt((int)SwordDMG);
           }
-      }
+        if (collision.gameObject.CompareTag("Ghost"))
+        {
+            Ghost sc = collision.gameObject.GetComponent<Ghost>();
+            sc.F_OnHIt((int)SwordDMG);
+        }
+    }
 
  }

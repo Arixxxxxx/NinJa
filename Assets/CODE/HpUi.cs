@@ -8,13 +8,14 @@ public class HpUi : MonoBehaviour
 {
     public enum PlayerType
     {
-        Player,Enemy
+        Player,Enemy,Ghost
     }
     public PlayerType Type;
 
     private Image Hp;
     private Image Effect;
     private Enemys Sc;
+    private Ghost Ghostsc;
     public Animator Ani;
 
     private void Awake()
@@ -30,6 +31,10 @@ public class HpUi : MonoBehaviour
 
                 case PlayerType.Enemy:
                 Sc = GetComponentInParent<Enemys>();
+                break;
+
+                case PlayerType.Ghost:
+                Ghostsc = GetComponentInParent<Ghost>();
                 break;
 
         }
@@ -58,6 +63,10 @@ public class HpUi : MonoBehaviour
                 
                           transform.position = Sc.transform.position + HVec;
                 break;
+
+                case PlayerType.Ghost:
+                transform.position = Ghostsc.transform.position + HVec;
+                break;
         }
      
     }
@@ -82,6 +91,20 @@ public class HpUi : MonoBehaviour
 
             case PlayerType.Enemy:
                 Hp.fillAmount = Sc.CurHP / Sc.MaxHp;
+
+                if (Effect.fillAmount > Hp.fillAmount)
+                {
+                    Effect.fillAmount -= 0.2f * Time.deltaTime;
+                }
+                else if (Effect.fillAmount <= Hp.fillAmount)
+                {
+                    Effect.fillAmount = Hp.fillAmount;
+                }
+
+                break;
+
+                case PlayerType.Ghost:
+                Hp.fillAmount = Ghostsc.CurHp / Ghostsc.MaxHp;
 
                 if (Effect.fillAmount > Hp.fillAmount)
                 {

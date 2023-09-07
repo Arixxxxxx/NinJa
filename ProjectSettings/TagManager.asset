@@ -15,6 +15,7 @@ TagManager:
   - Wind
   - Saw
   - HitBox
+  - Ghost
   layers:
   - Default
   - TransparentFX
