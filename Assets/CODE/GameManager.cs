@@ -7,12 +7,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [Header("# 인스턴스용(참조x)")]
-    [Space]
-    public Player player;
-    public Enemys enemys;
-    public DmgPooling dmgpooling;
-    public DMGFont dmgfont;
+   
     [Header("# 캐릭터 전투관련")]
     [Space]
     public bool meleeMode;
@@ -42,10 +37,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TalkManager talkmanager;
     public TypeEffect text;
     private Image NpcSprite;
-    
+    [Space]
+    [Space]
+    [Header("# 인스턴스용(참조x)")]
+    [Space]
+    public Player player;
+    public Enemys enemys;
+    public DmgPooling dmgpooling;
+    public DMGFont dmgfont;
+    public Transform gameUI;
+    public TMP_Text gameUiText;
+    public GameUiText ScreenText;
+    public Transform EventTimeBar;
+    public Image TimeBar;
+    public TMP_Text TimeText;
 
 
-    
+
+
 
     public void F_TalkSurch(GameObject _obj)
     {
@@ -103,7 +112,7 @@ public class GameManager : MonoBehaviour
         meleeMode = true;
         CurArrow = 100;
         MaxArrow = 100;
-       talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>();
+        talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>();
         player = FindObjectOfType<Player>();
         enemys = FindObjectOfType<Enemys>();
         dmgpooling = FindObjectOfType<DmgPooling>();
@@ -112,6 +121,12 @@ public class GameManager : MonoBehaviour
         NpcSprite = TalkBox.transform.Find("NpcSprite").GetComponent<Image>();
         TalkBowNPCName = TalkBox.transform.Find("Name").GetComponent<TMP_Text>();
         text =FindObjectOfType<TypeEffect>();
+        gameUI = GameObject.Find("GameUI").GetComponent<Transform>();
+        gameUiText = gameUI.transform.Find("EventText").GetComponent <TMP_Text>();
+        ScreenText = gameUiText.GetComponent<GameUiText>();
+        EventTimeBar = gameUI.transform.Find("EventTimeBar").GetComponent<Transform>();
+        TimeBar = EventTimeBar.transform.GetChild(1).GetComponent<Image>();
+        TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>();
     }
     private void Update()
     {
