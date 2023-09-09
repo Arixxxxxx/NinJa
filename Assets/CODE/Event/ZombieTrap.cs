@@ -40,8 +40,66 @@ public class ZombieTrap : MonoBehaviour
         BlackHoleOpen();
         BlackHoleCloseheyo();
         SetEventBar();
+        BackGroundColorCtrl();
     }
+    [SerializeField] float G = 1;
+    [SerializeField] float B = 1;
+    [SerializeField] bool skyreturn;
+    [SerializeField] bool returnskycolorfinish;
+
+    bool Event;
+    private void BackGroundColorCtrl()
+    {
+        if (!Event)
+        {
+            if (returnskycolorfinish)
+            {
+                returnskycolorfinish = false;
+                Event = true;
+                GameManager.Instance.gamebackground.color = Color.white;
+            }
+
+            if (BlackHoleOpenBool)
+            {
+
+
+                if (GameManager.Instance.gamebackground.color.g >= 0)
+                {
+                    G -= Time.deltaTime * 0.3f;
+                    GameManager.Instance.gamebackground.color = new Color(1, G, GameManager.Instance.gamebackground.color.b, 1);
+                }
+                if (GameManager.Instance.gamebackground.color.b >= 0.5f)
+                {
+                    B -= Time.deltaTime * 0.3f;
+                    GameManager.Instance.gamebackground.color = new Color(1, GameManager.Instance.gamebackground.color.g, B, 1);
+                }
+            }
+            else if (!BlackHoleOpenBool && skyreturn)
+            {
+                if (GameManager.Instance.gamebackground.color.g < 1f)
+                {
+                    G += Time.deltaTime * 0.3f;
+                    GameManager.Instance.gamebackground.color = new Color(1, G, GameManager.Instance.gamebackground.color.b, 1);
+                }
+                else
+                {
+                    Debug.Log("G끝");
+                    skyreturn = false;
+                    returnskycolorfinish = true;
+
+                }
+                if (GameManager.Instance.gamebackground.color.b < 1f)
+                {
+                    B += Time.deltaTime * 0.3f;
+                    GameManager.Instance.gamebackground.color = new Color(1, GameManager.Instance.gamebackground.color.g, B, 1);
+                }
+
+            }
+        }
+         
+
     
+    }
     private void SetEventBar()
     {
         if (GameManager.Instance.EventTimeBar.gameObject.activeSelf)
@@ -101,14 +159,18 @@ public class ZombieTrap : MonoBehaviour
     {
         if (SpawnCount == 0 && !SpawnStart) // 다 끝났으니 줄어들어줘
         {
-            BlackHoleCloseScale -= Time.deltaTime * 0.3f; // 이제 구멍크기 줄어들게해줘
+            skyreturn = true;
+            BlackHoleCloseScale -= Time.deltaTime * 0.35f; // 이제 구멍크기 줄어들게해줘
 
             if(SpawnPoint1.localScale.x <= 0.05f)// 블랙홀 작아졌으면 연출종료
             {
                 GameManager.Instance.EventTimeBar.gameObject.SetActive(false);
-                gameObject.SetActive(false);
+                SpawnPoint1.gameObject.SetActive(false);
+                SpawnPoint2.gameObject.SetActive(false);
+                SpawnPoint3.gameObject.SetActive(false);
+               
             }
-            else if (SpawnPoint1.localScale.x > 0)
+            else if (SpawnPoint1.localScale.x > 0.05f)
             {
                 SpawnPoint1.localScale = new Vector3(BlackHoleCloseScale, BlackHoleCloseScale, BlackHoleCloseScale);
                 SpawnPoint2.localScale = new Vector3(BlackHoleCloseScale, BlackHoleCloseScale, BlackHoleCloseScale);
@@ -167,10 +229,12 @@ public class ZombieTrap : MonoBehaviour
             if(!once)
             {
                 once = true;
+                BlackHoleOpenBool = true;
                 GameManager.Instance.ScreenText.F_SetMsg("적 공세가 시작되었습니다....");
+                
             }
             
-            BlackHoleOpenBool = true;
+           
         }
     }
 }

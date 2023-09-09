@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,20 +38,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TalkManager talkmanager;
     public TypeEffect text;
     private Image NpcSprite;
-    [Space]
-    [Space]
-    [Header("# 인스턴스용(참조x)")]
-    [Space]
-    public Player player;
-    public Enemys enemys;
-    public DmgPooling dmgpooling;
-    public DMGFont dmgfont;
-    public Transform gameUI;
-    public TMP_Text gameUiText;
-    public GameUiText ScreenText;
-    public Transform EventTimeBar;
-    public Image TimeBar;
-    public TMP_Text TimeText;
+    public bool MovingStop;
+    //레인지모드 Sclae.x값 변경조건
+    public bool AimLeft;
+    public bool AimRight;
+
+    //다른 스크립트 접근용 변수
+    [HideInInspector] public Player player;
+    [HideInInspector] public Enemys enemys;
+    [HideInInspector] public DmgPooling dmgpooling;
+    [HideInInspector] public DMGFont dmgfont;
+    [HideInInspector] public Transform gameUI;
+    [HideInInspector] public TMP_Text gameUiText;
+    [HideInInspector] public GameUiText ScreenText;
+    [HideInInspector] public Transform GameGuideTR;
+    [HideInInspector] public MainUiText GuideText0;
+    [HideInInspector] public Transform EventTimeBar;
+    [HideInInspector] public Image TimeBar;
+    [HideInInspector] public TMP_Text TimeText;
+    [HideInInspector] public Transform backgroundTR;
+    [HideInInspector] public Tilemap gamebackground;
+    
 
 
 
@@ -112,21 +120,36 @@ public class GameManager : MonoBehaviour
         meleeMode = true;
         CurArrow = 100;
         MaxArrow = 100;
-        talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>();
-        player = FindObjectOfType<Player>();
-        enemys = FindObjectOfType<Enemys>();
-        dmgpooling = FindObjectOfType<DmgPooling>();
+
+        //접근 참조용
+        talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>(); // NPC대화창 폴더
+        gameUI = GameObject.Find("GameUI").GetComponent<Transform>(); // 게임UI 폴더
+        backgroundTR = GameObject.Find("BackGround").GetComponent<Transform>(); //백그라운드 폴더
+        //스크립트 연결용
+        player = FindObjectOfType<Player>(); //플레이어
+        enemys = FindObjectOfType<Enemys>(); //좀비 1,2
+        dmgpooling = FindObjectOfType<DmgPooling>(); // 몹위에 대미지
         dmgfont = FindObjectOfType<DMGFont>();
         
-        NpcSprite = TalkBox.transform.Find("NpcSprite").GetComponent<Image>();
-        TalkBowNPCName = TalkBox.transform.Find("Name").GetComponent<TMP_Text>();
-        text =FindObjectOfType<TypeEffect>();
-        gameUI = GameObject.Find("GameUI").GetComponent<Transform>();
-        gameUiText = gameUI.transform.Find("EventText").GetComponent <TMP_Text>();
-        ScreenText = gameUiText.GetComponent<GameUiText>();
-        EventTimeBar = gameUI.transform.Find("EventTimeBar").GetComponent<Transform>();
-        TimeBar = EventTimeBar.transform.GetChild(1).GetComponent<Image>();
-        TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>();
+        // NPC대화창 접근용
+        NpcSprite = TalkBox.transform.Find("NpcSprite").GetComponent<Image>(); // NPC 스프라이트
+        TalkBowNPCName = TalkBox.transform.Find("Name").GetComponent<TMP_Text>(); // NPC 이름
+        text =FindObjectOfType<TypeEffect>(); // 대화창 타이핑 
+      
+        //게임UI 접근용
+        gameUiText = gameUI.transform.Find("EventText").GetComponent <TMP_Text>();  //// 이벤트용 MainText접근용
+        ScreenText = gameUiText.GetComponent<GameUiText>(); // 이벤트용 MainText
+        EventTimeBar = gameUI.transform.Find("EventTimeBar").GetComponent<Transform>(); // 이벤트 시간바
+        TimeBar = EventTimeBar.transform.GetChild(1).GetComponent<Image>();  // 이벤트 시간바 Fill값 접근용
+        TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>(); // 이벤트 시간바안에 텍스트
+
+        //가이드UI 접근용
+        GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
+        GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
+
+
+        //이벤트용 배경색 조절용
+        gamebackground = backgroundTR.transform.Find("Sky").GetComponent<Tilemap>();
     }
     private void Update()
     {

@@ -10,7 +10,9 @@ public class Bullet : MonoBehaviour
     private int Bullet_DMG;
     Transform OriginBullet;
     Vector2 ArrowDir;
+    TrailRenderer trail;
     arrowAttack Arrowbox;
+    
 
     float z;
 
@@ -19,6 +21,7 @@ public class Bullet : MonoBehaviour
         Arrowbox = GameObject.FindAnyObjectByType<arrowAttack>();
         Rb = GetComponent<Rigidbody2D>();
         Bullet_DMG = 1;
+        trail = transform.GetChild(0).GetComponent<TrailRenderer>();
      }
 
     private void Update()
@@ -37,6 +40,7 @@ public class Bullet : MonoBehaviour
     {
         Rb.velocity = Vector3.zero;
         Arrowbox.F_SetArrow(gameObject);
+        trail.Clear();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

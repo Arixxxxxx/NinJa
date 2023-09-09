@@ -19,7 +19,7 @@ public class arrowAttack : MonoBehaviour
     private void Awake()
     { 
          maincam = Camera.main;
-       
+         
 
          for (int i = 0; i < 30; i++)
         {
@@ -37,6 +37,15 @@ public class arrowAttack : MonoBehaviour
         m_Arrow.right = dir;
         transform.position = GameManager.Instance.player.transform.position;
         
+        //에임조준중일때 플레이어 캐릭터 보는방향 컨트롤해줄수잇게 마우스좌표x값으로 방향 bool 저장
+        if(mousePos.x < GameManager.Instance.player.transform.position.x)
+        {
+            GameManager.Instance.AimLeft = true;
+        }
+        else if(mousePos.x > GameManager.Instance.player.transform.position.x)
+        {
+            GameManager.Instance.AimLeft = false;
+        }
     }
 
     private void ArrowFire()
