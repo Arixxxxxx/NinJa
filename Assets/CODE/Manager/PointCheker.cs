@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Pointer
 {
-    point0,point1,point2
+    point0,point1,point2,point3,point4,point5,point6,point7,point8,point9,point10,point11,point12
 }
 public class PointCheker : MonoBehaviour
 {

@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     //다른 스크립트 접근용 변수
     [HideInInspector] public Player player;
+    [HideInInspector] public Transform playerTR;
+
     [HideInInspector] public Enemys enemys;
     [HideInInspector] public DmgPooling dmgpooling;
     [HideInInspector] public DMGFont dmgfont;
@@ -58,9 +60,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public TMP_Text TimeText;
     [HideInInspector] public Transform backgroundTR;
     [HideInInspector] public Tilemap gamebackground;
-    
+    [HideInInspector] public GuideManager guideM;
 
 
+ 
 
 
 
@@ -81,18 +84,26 @@ public class GameManager : MonoBehaviour
         
         if(talk == null) 
         {
+         
+
+            if (_objname == "전투교관")
+            {
+                guideM.isBattleGuideStart = true;
+            }
+
             isTalking = false;
             TalkIndex = 0;
             Invoke("SpriteSetFalse", 0.3f);
             return; 
         }
-
+     
         if (_isNPC)
         {
-            TalkBowNPCName.text = $"< {_objname} >";
+            TalkBowNPCName.text = $"< {_objname} >"; // 이름 = 오브젝트이름
             NpcSprite.gameObject.SetActive(true);
             text.F_SetMsg(talk.Split(':')[0]);
             NpcSprite.sprite = talkmanager.F_GetSprite(_ID, int.Parse(talk.Split(':')[1]));
+           
         }
 
         else
@@ -121,10 +132,12 @@ public class GameManager : MonoBehaviour
         CurArrow = 100;
         MaxArrow = 100;
 
+        
         //접근 참조용
         talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>(); // NPC대화창 폴더
         gameUI = GameObject.Find("GameUI").GetComponent<Transform>(); // 게임UI 폴더
         backgroundTR = GameObject.Find("BackGround").GetComponent<Transform>(); //백그라운드 폴더
+        playerTR = GameObject.Find("Player").GetComponent<Transform>();
         //스크립트 연결용
         player = FindObjectOfType<Player>(); //플레이어
         enemys = FindObjectOfType<Enemys>(); //좀비 1,2
@@ -146,6 +159,7 @@ public class GameManager : MonoBehaviour
         //가이드UI 접근용
         GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
         GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
+        guideM = GameGuideTR.GetComponent<GuideManager>();
 
 
         //이벤트용 배경색 조절용

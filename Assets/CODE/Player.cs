@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float KB_Power;
     private bool isCharMove;
     bool OnDMG;
-    private bool isGround;
+    public bool isGround;
     public bool isDodge;
     public float DodgeSpeed;
     public bool KB;
@@ -57,11 +57,13 @@ public class Player : MonoBehaviour
     Transform Bow;
     public Transform RealBow;
     private bool ShieldOn;
+    [HideInInspector] public bool isAttacking;
 
     //원거리모드 위치고정
     private bool isAiming;
-    
 
+    //파티클 참조
+    PaticleManager paticle;
     // 무기 근접속도
     [Header("# 근접공격")]
     [SerializeField] private float MeleeSpeed;
@@ -111,6 +113,7 @@ public class Player : MonoBehaviour
         btn2 = weaponBtn2.GetComponent<Animator>();
         textani = text.GetComponent<Animator>();
         weaponTrail = Sword.GetComponent<TrailRenderer>();
+        paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
     }
     
    
@@ -319,24 +322,23 @@ public class Player : MonoBehaviour
                 Timer += Time.deltaTime;
                 if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn & !JumpOn)
                 {
+                    isAttacking = true;
                     SwordAni.SetTrigger("R");
                     Timer = 0;
-                    //StartCoroutine(IE_MeleeAttack());
+                    //StartCoroutine(isAttackEnd());
                 }
             }
         }
     }
 
-    //공격레이어를 애니메이션 함수로 옮겻음 [23.09.10]
-    //IEnumerator IE_MeleeAttack()
+    
+    //IEnumerator isAttackEnd()
     //{
-    //    //Sword.gameObject.layer = 15;
-    //    //SwordAni.SetTrigger("R");
-    //    //Timer = 0;
+       
+    //    yield return new WaitForSecondsRealtime(0.4f);
+    //    isAttacking = false;
 
-    //    //yield return new WaitForSecondsRealtime(0.5f);
 
-    //    //Sword.gameObject.layer = 16;
     //}
 
     //방패막기
@@ -346,7 +348,8 @@ public class Player : MonoBehaviour
         {
             if (GameManager.Instance.meleeMode)
             {
-                if (Input.GetMouseButton(1))
+               
+                if (Input.GetMouseButton(1) && !isAttacking)
                 {
                     ShieldOn = true;
                     weapon1.gameObject.SetActive(false);
@@ -355,10 +358,12 @@ public class Player : MonoBehaviour
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
+                    weaponTrail.Clear();
                     ShieldOn = false;
                     weapon1.gameObject.SetActive(true);
                     sheld.gameObject.SetActive(true);
                     Defence.gameObject.SetActive(false);
+                    
                 }
             }
         }
@@ -516,10 +521,18 @@ public class Player : MonoBehaviour
     //bool 점프딜레이
     float JumpTime;
     public bool wallJumpon;
+    float dusttimer;
     private void F_WallJump()
     {
         if (Iswall)
         {
+            dusttimer += Time.deltaTime;
+            if (dusttimer > 0.08f)
+            {
+                paticle.iswallPaticle.Play();
+                dusttimer = 0;
+            }
+            
             JumpTime += Time.deltaTime;
             wallJumpon = false;
             RealBow.gameObject.SetActive(false);
@@ -762,14 +775,17 @@ public class Player : MonoBehaviour
             F_JumpReset();
         }
 
+   
         if (collision.gameObject.CompareTag("Trap") && Rb.velocity.y < 0.2f)
         {
             F_JumpReset();
             StartCoroutine(F_OnHit());
         }
+      
         if (collision.gameObject.CompareTag("Wall") && Rb.velocity.y < 0.2f)
         {
             F_JumpReset();
+            paticle.wall.Play();
         }
         if (collision.gameObject.CompareTag("Saw"))
         {

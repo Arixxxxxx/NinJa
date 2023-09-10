@@ -88,7 +88,7 @@ public class arrowAttack : MonoBehaviour
     }
     public void F_SetArrow(GameObject obj)
     {
-        obj.SetActive(false);
+        
         obj.transform.position = transform.position;
         ArrowBox.Enqueue(obj);
     }

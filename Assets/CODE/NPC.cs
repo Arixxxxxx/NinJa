@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    public enum RiRiNPC
-    {
-        action1, action2, action3, action4, action5
-    }
-
-    public RiRiNPC npc;
-
+   
     Transform btn;
    
 

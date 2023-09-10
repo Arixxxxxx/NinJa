@@ -31,4 +31,8 @@ public class AttackLayer : MonoBehaviour
     {
         trail.Clear();
     }
+    public void AttackEnd()
+    {
+        GameManager.Instance.player.isAttacking = false;
+    }
 }

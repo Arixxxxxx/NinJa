@@ -8,16 +8,19 @@ public class PoolManager : MonoBehaviour
     private Queue<GameObject> EnemyAQ;
     [SerializeField] GameObject[] EnemyA;
     EnemySpawn EnemySc;
+    Queue<GameObject> Dust;
+    
     Transform SpawnPoint;
-   
+
 
     private void Awake()
     {
-   
+        
         EnemyAQ = new Queue<GameObject>();
         EnemySc = FindAnyObjectByType<EnemySpawn>();
         SpawnPoint = EnemySc.transform.GetChild(0).GetComponent<Transform>();
-     
+        Dust = new Queue<GameObject>();
+
         if (Instance == null)
         {
             Instance = this;
@@ -26,7 +29,7 @@ public class PoolManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-         
+
         for (int i = 0; i < 50; i++)
         {
             int Rand = Random.Range(0, 2);
@@ -35,7 +38,15 @@ public class PoolManager : MonoBehaviour
             enemyobj.SetActive(false);
 
         }
-        
+
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject obj = Instantiate(EnemyA[2], transform.position, Quaternion.identity, transform);
+            Dust.Enqueue(obj);
+            obj.SetActive(false);
+        }
+ 
+
     }
 
     // 오브젝트 풀링
@@ -53,7 +64,16 @@ public class PoolManager : MonoBehaviour
                     return objs;
                    
                 }
-                                default: return null;   
+
+            case "Dust":
+                {
+                    GameObject objs = Dust.Dequeue();
+                    objs.transform.position = SpawnPoint.transform.position;
+                    objs.SetActive(true);
+                    return objs;
+                }
+        
+            default: return null;   
           }
         
     }
@@ -67,6 +87,12 @@ public class PoolManager : MonoBehaviour
                 _obj.SetActive(false) ;
                 EnemyAQ.Enqueue(_obj);
                 break;
+
+            case "Dust":
+                _obj.SetActive(false);
+                Dust.Enqueue(_obj);
+                break;
+
         }
 
     }
