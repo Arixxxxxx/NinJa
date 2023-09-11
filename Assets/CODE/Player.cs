@@ -9,27 +9,46 @@ using TMPro;
 public class Player : MonoBehaviour
 {
 
-    public Rigidbody2D Rb;
-    public Animator Ani;
-    public SpriteRenderer Sr;
-   
+    [HideInInspector] public Rigidbody2D Rb;
+    [HideInInspector] public Animator Ani;
+    [HideInInspector] public SpriteRenderer Sr;
+
     //캐릭터이동
-    public Vector2 Char_Vec;
+    [Header("# 캐릭터 이동관련")]
+    [HideInInspector] public Vector2 Char_Vec;
     private Vector2 VZ = Vector2.zero;
     [SerializeField] private float Char_Speed;
     [SerializeField] private float Char_MaxSpeed;
     [SerializeField] private float KB_Power;
+    [SerializeField] private float DodgeSpeed;
     private bool isCharMove;
+    [Header("# 캐릭터 현재상태 관련")]
+    [Space]
     bool OnDMG;
     public bool isGround;
     public bool isDodge;
-    public float DodgeSpeed;
     public bool KB;
+  
+
+    //캐릭터 점프
+    [Header("# Jump")]
+    [Space]
+    [SerializeField] float JumpPower;
+    private int JumpCount;
+    [SerializeField] bool JumpOn;
+    [SerializeField] public bool DJumpOn;
+    [Range(0f, 10f)][SerializeField] float dropSpeed;
+    Vector2 verGravity;
+
+    [SerializeField] Transform groundCheker;
+
+
+
     //현재 보는방향
-    public bool isLeft;
+    [HideInInspector] public bool isLeft;
 
     //벽체크
-    [Header("벽체크")]
+    [Header("# 벽체크")]
     public Transform WallCheck;
     public float WallCheakDis;
     public LayerMask Wall_Layer;
@@ -55,7 +74,7 @@ public class Player : MonoBehaviour
     Vector3 sheldOriginPos;
     private SpriteRenderer sheldSR;
     Transform Bow;
-    public Transform RealBow;
+    [HideInInspector] public Transform RealBow;
     private bool ShieldOn;
     [HideInInspector] public bool isAttacking;
 
@@ -64,19 +83,20 @@ public class Player : MonoBehaviour
 
     //파티클 참조
     PaticleManager paticle;
+
     // 무기 근접속도
     [Header("# 근접공격")]
     [SerializeField] private float MeleeSpeed;
     [SerializeField] private float Timer;
-    Animator SwordAni;
-    Transform Sword;
-    Transform Defence;
+    private Animator SwordAni;
+    private Transform Sword;
+    private Transform Defence;
 
     //캐릭터 말풍선
-    Transform PlayerMSGUI;
-   
-    TMP_Text text;
-    Animator textani;
+    private Transform PlayerMSGUI;
+    private TMP_Text text;
+    private Animator textani;
+
     //게임UI
     Transform gameUiMain;
     Transform weaponBtn1;
@@ -85,7 +105,7 @@ public class Player : MonoBehaviour
     Transform weaponBtn2;
     Transform btnBoxOutLine2;
     Animator btn2;
-    public bool MovingStop;
+    [HideInInspector] public bool MovingStop;
     private void Awake()
     {
        
@@ -114,24 +134,25 @@ public class Player : MonoBehaviour
         textani = text.GetComponent<Animator>();
         weaponTrail = Sword.GetComponent<TrailRenderer>();
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
+
+        //점프
+        groundCheker = transform.Find("GroundCheker").GetComponent<Transform> ();
+        verGravity = new Vector2(0, -Physics2D.gravity.y);
     }
     
    
 
     void Update()
     {
-        MovingStop = GameManager.Instance.MovingStop;
-        if( MovingStop )
-        {
-            RealBow.gameObject.SetActive(false);
-        }
+        Wallok(); // 
+        MoveStopFuntion();
         SetCharDir();
-        F_CharJump();
-        F_WallJump();
+        CharJump();
+        WallJump();
         SuchTalk();
-        F_SpRecovery();
-        F_HpRecovery();
-        F_MeleeAttack();
+        SpRecovery();
+        HpRecovery();
+        MeleeAttack();
         SheldOn();
         F_TextBoxPos();
         AttackModeShow();
@@ -139,12 +160,22 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         
-        F_MovdChar();
-        F_CharAniParameter();
-        F_WallCheaking();
+        MovdChar();
+        CharAniParameter();
+        WallCheaking();
         
     }
 
+
+    //캐릭터 일시정지기능
+    private void MoveStopFuntion()
+    {
+        MovingStop = GameManager.Instance.MovingStop;
+        if (MovingStop)
+        {
+            RealBow.gameObject.SetActive(false);
+        }
+    }
     bool meleeitemshowok;
     bool rangeitemshowok;
     private float ModeChangeTimer;
@@ -313,7 +344,7 @@ public class Player : MonoBehaviour
         text.gameObject.SetActive(false);
     }
     //근접공격
-    private void F_MeleeAttack()
+    private void MeleeAttack()
     {
         if (!MovingStop)
         {
@@ -325,21 +356,11 @@ public class Player : MonoBehaviour
                     isAttacking = true;
                     SwordAni.SetTrigger("R");
                     Timer = 0;
-                    //StartCoroutine(isAttackEnd());
                 }
             }
         }
     }
-
-    
-    //IEnumerator isAttackEnd()
-    //{
-       
-    //    yield return new WaitForSecondsRealtime(0.4f);
-    //    isAttacking = false;
-
-
-    //}
+      
 
     //방패막기
     private void SheldOn()
@@ -415,8 +436,8 @@ public class Player : MonoBehaviour
     }
   
 
-    //캐릭터 이동
-    private void F_MovdChar()
+    //캐릭터 이동 및 구르기
+    private void MovdChar()
 
     {
         if (!MovingStop)
@@ -425,7 +446,7 @@ public class Player : MonoBehaviour
             if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge && !GameManager.Instance.isTalking)
             {
                 Char_Vec.x = Input.GetAxisRaw("Horizontal");
-                Rb.velocity = new Vector3(Char_Vec.x * Char_Speed, Rb.velocity.y);
+                Rb.velocity = new Vector2(Char_Vec.x * Char_Speed, Rb.velocity.y);
             }
             //캐릭터 방향 스케일
             if (GameManager.Instance.meleeMode)
@@ -522,9 +543,9 @@ public class Player : MonoBehaviour
     float JumpTime;
     public bool wallJumpon;
     float dusttimer;
-    private void F_WallJump()
+    private void WallJump()
     {
-        if (Iswall)
+        if (Iswall && !isGround)
         {
             dusttimer += Time.deltaTime;
             if (dusttimer > 0.08f)
@@ -538,6 +559,7 @@ public class Player : MonoBehaviour
             RealBow.gameObject.SetActive(false);
             sheld.gameObject.SetActive(false);
             weapon1.gameObject.SetActive(false);
+
             Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * SliedSpeed);
 
             if (Input.GetButtonDown("Jump") && Iswall && JumpTime >= 0.1f)
@@ -577,9 +599,9 @@ public class Player : MonoBehaviour
     {
         wallJumpon = false;
     }
+    
     //벽 & 바닥 체크 RayCast
-
-    private void F_WallCheaking()
+    private void WallCheaking()
     {
         //벽체크 레이캐스트 방향전환
         if(!isLeft/*Rb.velocity.x > 0*/)
@@ -593,30 +615,61 @@ public class Player : MonoBehaviour
         
         //벽 Wall 체크
         Iswall = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, Wall_Layer);
-                
+
         //바닥체크
-        isGround = Physics2D.Raycast(transform.position, Vector2.down, 0.65f, LayerMask.GetMask("Ground"));
+        //isGround = Physics2D.OverlapCapsule(groundCheker.position, new Vector2(0.2f, 0.1f), CapsuleDirection2D.Horizontal, 0, LayerMask.GetMask("Ground"));
+        isGround = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, LayerMask.GetMask("Ground"));
     }
 
-
-    //캐릭터 점프
-    [Header("Jump")]
-    [SerializeField] float JumpPower;
-    [SerializeField] int JumpCount;
-    [SerializeField] bool JumpOn;
-    [SerializeField] bool DJumpOn;
-    
-    private void F_CharJump()
+    [SerializeField] float jumpStayTime; // 점프 유지시간
+    [SerializeField] float jumpTime;
+    [SerializeField] float stayPower;
+    [SerializeField] bool isOneJump;
+    private void CharJump()
     {
-        if(!MovingStop)
+        if (!MovingStop)
         {
+            // 점프 길게 누르고잇으면 살짝 더 
+            if (Rb.velocity.y > 0 && isOneJump)
+            {
+                jumpStayTime += Time.deltaTime;
+                if (jumpStayTime > jumpTime)
+                {
+                    isOneJump = false;
+                }
+
+                // 공중 지체시간의 절반이 넘어가면 상승속도 절반으로 ..
+                float t = jumpStayTime / jumpTime;
+                float currentJumpM = stayPower;
+
+                if( t > 0.5f)
+                {
+                    currentJumpM = stayPower * (1 * t);
+                }
+
+                Rb.velocity += verGravity * currentJumpM * Time.deltaTime;
+            }
+            if (Input.GetButtonUp("Jump") && isOneJump)
+            {
+                isOneJump = false;
+                jumpStayTime = 0;
+                if(Rb.velocity.y > 0)
+                {
+                    Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * 0.6f);
+                }
+            }
             if (Input.GetButtonDown("Jump") && JumpCount < 2 && !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon)
             {
+                isOneJump = true;
                 JumpOn = true;
+                Rb.velocity = new Vector2(Rb.velocity.x, JumpPower);
                 weaponTrail.Clear();
                 JumpCount++;
                 Ani.SetBool("Jump", true);
-                Rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
+
+                jumpStayTime = 0;
+
+
 
 
                 //2단점프 제어
@@ -636,6 +689,12 @@ public class Player : MonoBehaviour
                     DJumpOn = true;
                 }
             }
+            //하강 중 속도 증가
+            if (Rb.velocity.y < 0)
+            {
+                Rb.velocity -= verGravity * dropSpeed * Time.deltaTime;
+            }
+
 
             // 착지시 bool값 제어
             if (isGround && Rb.velocity.y < 0.3f)
@@ -648,8 +707,6 @@ public class Player : MonoBehaviour
 
             }
         }
-      
-
     }
     
     public IEnumerator F_OnHit()
@@ -704,14 +761,44 @@ public class Player : MonoBehaviour
         //Time.timeScale = 0;
     }
 
+    bool isWllAcion;
+    void Wallok()
+    {
+
+        if(Iswall && !isGround)
+        {
+            isWllAcion = true;
+        }
+        else
+        {
+            isWllAcion = false;
+        }
+
+    }
 
     // 캐릭터 애니메이션
-    private void F_CharAniParameter()
+    private void CharAniParameter()
     {
         isCharMove = Mathf.Abs(Char_Vec.x) > 0;
+        if(Rb.velocity.y > 0.05f)
+        {
+            Ani.SetBool("JumpUp", true);
+            Ani.SetBool("JumpDown",false);
+        }
+        else if (Rb.velocity.y < -0.05f)
+        {
+            Ani.SetBool("JumpUp", false);
+            Ani.SetBool("JumpDown", true);
+        }
+        if(isGround)
+        {
+            
+            Ani.SetBool("JumpDown", false);
+        }
+
         Ani.SetBool("Run", isCharMove);
         Ani.SetBool("DJump", DJumpOn);
-        Ani.SetBool("Wall", Iswall);
+        Ani.SetBool("Wall", isWllAcion);
         Ani.SetBool("RangeMode", GameManager.Instance.rangeMode);
         Ani.SetBool("MeleeMode", GameManager.Instance.meleeMode);
 
@@ -739,7 +826,7 @@ public class Player : MonoBehaviour
     }
     
     //기력회복
-    private void F_SpRecovery()
+    private void SpRecovery()
     {
         if(GameManager.Instance.Player_CurSP > GameManager.Instance.Player_MaxSP)
         {
@@ -754,7 +841,7 @@ public class Player : MonoBehaviour
     }
 
     //체력자연회복
-    private void F_HpRecovery()
+    private void HpRecovery()
     {
         if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
         {
@@ -773,6 +860,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             F_JumpReset();
+            
         }
 
    
@@ -864,7 +952,7 @@ public class Player : MonoBehaviour
             
         }
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(WallCheck.position, CastDir * WallCheakDis);

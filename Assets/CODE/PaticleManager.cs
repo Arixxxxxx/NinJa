@@ -16,8 +16,9 @@ public class PaticleManager : MonoBehaviour
     [SerializeField] float fallvelo;
 
     Rigidbody2D PlayerRb;
+    Rigidbody2D Rb;
     bool isGround;
-
+    public float beforeDropSpeed;
     private void Awake()
     {
         PlayerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
@@ -25,6 +26,7 @@ public class PaticleManager : MonoBehaviour
         fallPaticle = transform.Find("FallPaticle").GetComponent<ParticleSystem>();
         wall = transform.Find("WallPaticle").GetComponent<ParticleSystem>();
         iswallPaticle = transform.Find("isWallPaticle").GetComponent<ParticleSystem>();
+        Rb = GetComponent<Rigidbody2D>();
     }
     float conter;
 
@@ -43,29 +45,33 @@ public class PaticleManager : MonoBehaviour
                 conter = 0;
             }
         }
-
-        
-        //else if(Mathf.Abs(PlayerRb.velocity.x) < createDustVelocity)
-        //{
-        //    movePaticle.Pause();
-        //}
+        if (GameManager.Instance.player.DJumpOn)
+        {
+            beforeDjump = true;
+        }
+        if (!isGround)
+        {
+            beforeDropSpeed += Time.deltaTime;
+        }
     }
     bool ok;
+    bool beforeDjump;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+        
             isGround = true;
             if (!ok)
             {
-                if(PlayerRb.velocity.y < 0.5f)
+                if (beforeDropSpeed > fallvelo)
                 {
                     fallPaticle.Play();
                     ok = true;
                 }
-             
+
             }
-          
+
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -74,6 +80,7 @@ public class PaticleManager : MonoBehaviour
         {
             isGround = false;
             ok = false;
+            beforeDropSpeed = 0;
         }
     }
 
