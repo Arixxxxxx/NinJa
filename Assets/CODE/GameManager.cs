@@ -69,16 +69,16 @@ public class GameManager : MonoBehaviour
 
     public void F_TalkSurch(GameObject _obj)
     {
-         
+            
             ScanNPC = _obj;
             SetNPCId sc = ScanNPC.GetComponent<SetNPCId>();
-            TalkOn(sc.ID, sc.isNPC, _obj.name);
+            TalkOn(sc.ID, sc.isNPC, _obj.name, _obj);
             //TalkBox.gameObject.SetActive(true);
             TalkBox.SetBool("Show", isTalking);
     }
 
     public int TalkIndex;
-    private void TalkOn(int _ID, bool _isNPC, string _objname)
+    private void TalkOn(int _ID, bool _isNPC, string _objname, GameObject _obj)
     {
              string talk =  talkmanager.F_GetMsg(_ID, TalkIndex);
         
@@ -89,6 +89,13 @@ public class GameManager : MonoBehaviour
             if (_objname == "전투교관")
             {
                 guideM.isBattleGuideStart = true;
+                _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
+            }
+            if (_objname == "리리")
+            {
+                Debug.Log("진입");
+                _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
+                
             }
 
             isTalking = false;
@@ -163,7 +170,7 @@ public class GameManager : MonoBehaviour
 
 
         //이벤트용 배경색 조절용
-        gamebackground = backgroundTR.transform.Find("Sky").GetComponent<Tilemap>();
+        gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
     }
     private void Update()
     {

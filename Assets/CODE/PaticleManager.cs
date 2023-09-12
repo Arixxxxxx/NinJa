@@ -19,6 +19,9 @@ public class PaticleManager : MonoBehaviour
     Rigidbody2D Rb;
     bool isGround;
     public float beforeDropSpeed;
+
+    bool ok;
+    bool beforeDjump;
     private void Awake()
     {
         PlayerRb = GameObject.Find("Player").GetComponent<Rigidbody2D>();
@@ -54,8 +57,7 @@ public class PaticleManager : MonoBehaviour
             beforeDropSpeed += Time.deltaTime;
         }
     }
-    bool ok;
-    bool beforeDjump;
+  
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

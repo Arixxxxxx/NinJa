@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     [Space]
     bool OnDMG;
     public bool isGround;
+    public bool isFrontGround;
     public bool isDodge;
     public bool KB;
   
@@ -156,6 +157,7 @@ public class Player : MonoBehaviour
         SheldOn();
         F_TextBoxPos();
         AttackModeShow();
+        
     }
     private void FixedUpdate()
     {
@@ -165,7 +167,7 @@ public class Player : MonoBehaviour
         WallCheaking();
         
     }
-
+  
 
     //캐릭터 일시정지기능
     private void MoveStopFuntion()
@@ -188,7 +190,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (GameManager.Instance.meleeMode)
+                if (GameManager.Instance.meleeMode && !isDodge && !isflying)
                 {
                     return;
                 }
@@ -202,7 +204,7 @@ public class Player : MonoBehaviour
                 }
 
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && !ShieldOn)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && !ShieldOn & !isDodge && !isflying)
             {
                 if (!GameManager.Instance.meleeMode)
                 {
@@ -333,6 +335,13 @@ public class Player : MonoBehaviour
                 text.gameObject.SetActive(true);
                 text.color = Color.red;
                 text.text = "화살이 부족합니다..";
+                textani.SetTrigger("Ok");
+                break;
+
+            case "WallJumpFail":
+                text.gameObject.SetActive(true);
+                text.color = Color.red;
+                text.text = "'SpaceBar키만 사용하세요!";
                 textani.SetTrigger("Ok");
                 break;
 
@@ -489,7 +498,7 @@ public class Player : MonoBehaviour
             }
            
             //구르기
-            if (Input.GetKey(KeyCode.LeftControl) && !isDodge && !JumpOn && !Iswall && !DJumpOn)
+            if (Input.GetKey(KeyCode.LeftControl) && !isDodge && !JumpOn && !Iswall && !DJumpOn && !isAttacking)
             {
                 if (GameManager.Instance.Player_CurSP < 15)
                 {
@@ -615,6 +624,7 @@ public class Player : MonoBehaviour
         
         //벽 Wall 체크
         Iswall = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, Wall_Layer);
+        isFrontGround = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, LayerMask.GetMask("Ground"));
 
         //바닥체크
         //isGround = Physics2D.OverlapCapsule(groundCheker.position, new Vector2(0.2f, 0.1f), CapsuleDirection2D.Horizontal, 0, LayerMask.GetMask("Ground"));
@@ -629,35 +639,35 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-            // 점프 길게 누르고잇으면 살짝 더 
-            if (Rb.velocity.y > 0 && isOneJump)
-            {
-                jumpStayTime += Time.deltaTime;
-                if (jumpStayTime > jumpTime)
-                {
-                    isOneJump = false;
-                }
+            //// 점프 길게 누르고잇으면 살짝 더 
+            //if (Rb.velocity.y > 0 && isOneJump)
+            //{
+            //    jumpStayTime += Time.deltaTime;
+            //    if (jumpStayTime > jumpTime)
+            //    {
+            //        isOneJump = false;
+            //    }
 
-                // 공중 지체시간의 절반이 넘어가면 상승속도 절반으로 ..
-                float t = jumpStayTime / jumpTime;
-                float currentJumpM = stayPower;
+            //    // 공중 지체시간의 절반이 넘어가면 상승속도 절반으로 ..
+            //    float t = jumpStayTime / jumpTime;
+            //    float currentJumpM = stayPower;
 
-                if( t > 0.5f)
-                {
-                    currentJumpM = stayPower * (1 * t);
-                }
+            //    if( t > 0.5f)
+            //    {
+            //        currentJumpM = stayPower * (1 * t);
+            //    }
 
-                Rb.velocity += verGravity * currentJumpM * Time.deltaTime;
-            }
-            if (Input.GetButtonUp("Jump") && isOneJump)
-            {
-                isOneJump = false;
-                jumpStayTime = 0;
-                if(Rb.velocity.y > 0)
-                {
-                    Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * 0.6f);
-                }
-            }
+            //    Rb.velocity += verGravity * currentJumpM * Time.deltaTime;
+            //}
+            //if (Input.GetButtonUp("Jump") && isOneJump)
+            //{
+            //    isOneJump = false;
+            //    jumpStayTime = 0;
+            //    if(Rb.velocity.y > 0)
+            //    {
+            //        Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * 0.6f);
+            //    }
+            //
             if (Input.GetButtonDown("Jump") && JumpCount < 2 && !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon)
             {
                 isOneJump = true;
@@ -668,9 +678,6 @@ public class Player : MonoBehaviour
                 Ani.SetBool("Jump", true);
 
                 jumpStayTime = 0;
-
-
-
 
                 //2단점프 제어
                 if (JumpCount == 2)
@@ -780,22 +787,7 @@ public class Player : MonoBehaviour
     private void CharAniParameter()
     {
         isCharMove = Mathf.Abs(Char_Vec.x) > 0;
-        if(Rb.velocity.y > 0.05f)
-        {
-            Ani.SetBool("JumpUp", true);
-            Ani.SetBool("JumpDown",false);
-        }
-        else if (Rb.velocity.y < -0.05f)
-        {
-            Ani.SetBool("JumpUp", false);
-            Ani.SetBool("JumpDown", true);
-        }
-        if(isGround)
-        {
-            
-            Ani.SetBool("JumpDown", false);
-        }
-
+      
         Ani.SetBool("Run", isCharMove);
         Ani.SetBool("DJump", DJumpOn);
         Ani.SetBool("Wall", isWllAcion);
@@ -806,6 +798,7 @@ public class Player : MonoBehaviour
 
     private void F_JumpReset()
     {
+        MovingStop = false;
         weaponTrail.Clear();
         JumpOn = false;
         DJumpOn = false;
@@ -928,7 +921,7 @@ public class Player : MonoBehaviour
         {
             
             WindPower = Vector2.up * WindP;
-            MaxWinY = new Vector2(Rb.velocity.x, 30);
+            MaxWinY = new Vector2(Rb.velocity.x, 30); // 최대 올라가는 속도 제한
             
             if (Rb.velocity.y > MaxWinY.y)
             {

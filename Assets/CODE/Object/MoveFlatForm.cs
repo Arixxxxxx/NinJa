@@ -20,8 +20,8 @@ public class MoveFlatForm : MonoBehaviour
     }
     void Update()
     {
-        if(Vector2.Distance(transform.position, point1.position) < .1f)  targetPos = point2.position;
-        if(Vector2.Distance(transform.position, point2.position) < .1f)  targetPos = point1.position;
+        if(Vector2.Distance(transform.position, point1.position) < 0.1f)  targetPos = point2.position;
+        if(Vector2.Distance(transform.position, point2.position) < 0.1f)  targetPos = point1.position;
 
         transform.position = Vector2.MoveTowards(transform.position, targetPos, flatFormSpeed * Time.deltaTime);
     }

@@ -9,7 +9,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] GameObject[] EnemyA;
     EnemySpawn EnemySc;
     Queue<GameObject> Dust;
-    
+
     Transform SpawnPoint;
 
 
