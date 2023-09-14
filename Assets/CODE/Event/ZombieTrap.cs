@@ -83,7 +83,6 @@ public class ZombieTrap : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("G³¡");
                     skyreturn = false;
                     returnskycolorfinish = true;
 

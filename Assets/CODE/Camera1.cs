@@ -7,6 +7,8 @@ public class Camera1 : MonoBehaviour
     private Transform target;
     private float minX = 0;
     private float MaX = 5000;
+    [Range(0f, 30f)]
+    [SerializeField] private float camVerticalValue;
     [SerializeField] float smooth;
     private void Start()
     {
@@ -19,10 +21,11 @@ public class Camera1 : MonoBehaviour
         if (target != null)
         {
             Vector3 vec = transform.position;
+            vec.y = target.position.y + camVerticalValue;
             vec.x = Mathf.Max(target.position.x, minX);
             vec.x = Mathf.Min(vec.x, MaX);
-            vec.y = Mathf.Max(target.position.y, 1.54f);
-            vec.y = Mathf.Min(vec.y, 40);
+            vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+            //vec.y = Mathf.Min(vec.y, 40);
             //transform.position = vec;
 
             transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);

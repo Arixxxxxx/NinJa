@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GuideManager : MonoBehaviour
 {
+
+    //시작 알림 bool
+    public bool startTutorial;
     //밑에 가이드들 애니매이션발동
     Transform gudiegurop;
 
@@ -34,6 +38,10 @@ public class GuideManager : MonoBehaviour
     Transform player;
     PointCheker pc;
 
+    //트랩 가이드
+    Animator Ani5, Ani5_2;
+    Transform Ani5_1;
+
     private void Awake()
     {
         player = GameManager.Instance.playerTR.GetComponent<Transform>();
@@ -60,6 +68,11 @@ public class GuideManager : MonoBehaviour
         Ani4 = gudiegurop.transform.Find("4").GetComponent<Animator>();
         Ani4_1 = gudiegurop.transform.Find("4-1").GetComponent<Animator>();
 
+        //트랩가이드
+        Ani5 = gudiegurop.transform.Find("5").GetComponent<Animator>();
+        Ani5_1 = gudiegurop.transform.Find("5-1").GetComponent<Transform>();
+        Ani5_2 = gudiegurop.transform.Find("5-2").GetComponent<Animator>();
+
     }
     // 키고끄기
 
@@ -70,50 +83,81 @@ public class GuideManager : MonoBehaviour
         GuideBoxoff_2();
         GuideBoxoff_3();
         GuideBoxoff_4();
+        GuideBoxoff_5();
+        StartTutorial();
     }
 
- 
-    public void F_GetColl(Pointer _value)
+    private void StartTutorial()
     {
-        switch (_value)
+        if (!startTutorial) { return; }
+        else if (startTutorial)
         {
-            case Pointer.point0:
-                StopCharacter();
-                Invoke("StartMSG", 6.2f);
-                StartCoroutine(ActionShow0());
-                break;
+            startTutorial = false;
+            //StopCharacter();
+            Invoke("StartMSG", 0.1f);
+            StartCoroutine(ActionShow0());
+        }
+       
+    }
+    //콜라이더로 서칭하다가 레이캐스트로 변경햇음
+    //public void F_GetColl(Pointer _value)
+    //public void F_GetColl(Pointer _value)
+    //{
+    //    switch (_value)
+    //    {
+    //        case Pointer.point0:
+    //            StopCharacter();
+    //            Invoke("StartMSG", 6.2f);
+    //            StartCoroutine(ActionShow0());
+    //            break;
+    //    }
+    //}
 
-            case Pointer.point1:
-                StopCharacter();
-                GameManager.Instance.player.MovingStop = true;
-                Ani1.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0,3.5f);
-                Ani1.gameObject.SetActive(true);
-                Ani1.SetBool("Show", true);
-                               
-                break;
 
-            case Pointer.point2:
-                StopCharacter();
-                Ani2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
-                Ani2.gameObject.SetActive(true);
-                Ani2.SetBool("Show", true);
-                break;
-            
-            case Pointer.point3:
-                StopCharacter();
-                Ani3.gameObject.SetActive(true);
-                Ani3.SetBool("Show", true);
-                break;
+        public void F_GetColl(GameObject _obj)
+        {
+            string pointNum = _obj.name;
+            switch (pointNum)
+            {
 
-            case Pointer.point4:
-                StopCharacter();
-                Ani4.gameObject.transform.position = player.transform.position;
+                case "GuidePoint1":
+                    StopCharacter();
+                    GameManager.Instance.player.MovingStop = true;
+                    Ani1.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
+                    Ani1.gameObject.SetActive(true);
+                    Ani1.SetBool("Show", true);
+
+                    break;
+
+                case "GuidePoint2":
+                    StopCharacter();
+                    Ani2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
+                    Ani2.gameObject.SetActive(true);
+                    Ani2.SetBool("Show", true);
+                    break;
+
+                case "GuidePoint3":
+                    StopCharacter();
+                    Ani3.gameObject.SetActive(true);
+                    Ani3.SetBool("Show", true);
+                    break;
+
+                case "GuidePoint4":
+                    StopCharacter();
+                Ani4.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
                 Ani4.gameObject.SetActive(true);
-                Ani4.SetBool("Show", true);
+                    Ani4.SetBool("Show", true);
+                    break;
+
+            case "GuidePoint5":
+                StopCharacter();
+                Ani5.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
+                Ani5.gameObject.SetActive(true);
+                Ani5.SetBool("Show", true);
                 break;
         }
-    }
-
+        }
+        
     private void StartMSG()
     {
         Ani0.gameObject.SetActive(true);
@@ -122,11 +166,14 @@ public class GuideManager : MonoBehaviour
     }
     IEnumerator ActionShow0()
     {
-        yield return new WaitForSecondsRealtime(18);
-        Ani0.SetBool("Show", false);
-        yield return new WaitForSecondsRealtime(1.5f);
+       
+        yield return new WaitForSecondsRealtime(6);
         GameManager.Instance.MovingStop = false;
+        Ani0.SetBool("Show", false);
+            
+        yield return new WaitForSecondsRealtime(1.5f);
         Ani0.gameObject.SetActive(false);
+        
     } 
   
 
@@ -286,6 +333,54 @@ public class GuideManager : MonoBehaviour
             }
         }
     }
+
+    public float Next5, Next5_1, Next5_2;
+    private void GuideBoxoff_5() // //2번 연출 [ 벽점프, 슬라이딩 설명]
+    {
+        if (Ani5.gameObject.activeSelf)
+        {
+            Next5 += Time.deltaTime; // 연속으로 안눌리게 조절
+            if (Input.GetKeyDown(KeyCode.F) && Next5 > 0.25f)
+            {
+                Next5 = 0;
+                Ani5.gameObject.SetActive(false);
+
+                Ani5_1.gameObject.transform.position = Ani5.gameObject.transform.position;
+                Ani5_1.gameObject.SetActive(true);
+
+            }
+        }
+
+        if (Ani5_1.gameObject.activeSelf)
+        {
+            Next5_1 += Time.deltaTime; // 연속으로 안눌리게 조절
+            if (Input.GetKeyDown(KeyCode.F) && Next5_1 > 0.25f)
+            {
+                Next5_1 = 0;
+                Ani5_1.gameObject.SetActive(false);
+                Ani5_2.gameObject.transform.position = Ani5.gameObject.transform.position;
+                Ani5_2.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+                Ani5_2.gameObject.SetActive(true);
+
+            }
+        }
+        if (Ani5_2.gameObject.activeSelf)
+        {
+            Next5_2 += Time.deltaTime; // 연속으로 안눌리게 조절
+            if (Input.GetKeyDown(KeyCode.F) && Next5_2 > 0.255f)
+            {
+
+                GameManager.Instance.MovingStop = false;
+                GameManager.Instance.player.MovingStop = false;
+                Ani5_2.SetBool("Hide", true);
+
+
+                Invoke("OffWindws", 0.3f);
+
+
+            }
+        }
+    }
     private void StopCharacter() // 캐릭터 멈춤
     {
         GameManager.Instance.player.Rb.velocity = Vector2.zero;
@@ -316,7 +411,13 @@ public class GuideManager : MonoBehaviour
             Next4_1 = 0;
             Ani4_1.gameObject.SetActive(false);
         }
-
+        if (Ani5_2.gameObject.activeSelf)
+        {
+            Ani5_2.SetBool("Hide", false);
+            GameManager.Instance.once = false;
+            Next5_2 = 0;
+            Ani5_2.gameObject.SetActive(false);
+        }
     }
 
 }

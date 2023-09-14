@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     //NPC 검색
     [Header("# NPC 탐색")]
     public GameObject ScanObject;
+    public GameObject ScanGuideBox;
     RaycastHit2D Scanobj;
 
     // 무기방패 위치이동
@@ -434,12 +435,21 @@ public class Player : MonoBehaviour
             { return; }
 
              Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("NPC"));
-            //hitPoint = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("Point"));
             if (Scanobj.collider != null)
             {
                 Rb.velocity = Vector2.zero;
                 ScanObject = Scanobj.collider.gameObject;
                 GameManager.Instance.F_TalkSurch(ScanObject);
+            }
+
+            hitPoint = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("Point"));
+             if(hitPoint.collider != null && !GameManager.Instance.once)
+            {
+                GameManager.Instance.MovingStop = true;
+                Rb.velocity = Vector2.zero;
+                ScanGuideBox = hitPoint.collider.gameObject;
+                GameManager.Instance.once = true;
+                GameManager.Instance.guideM.F_GetColl(hitPoint.collider.gameObject);
             }
             //if (hitPoint.collider != null)
             //{
