@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour
     //레인지모드 Sclae.x값 변경조건
     public bool AimLeft;
     public bool AimRight;
-
+    // 가이드 게시판 체크용
+    public bool once;
     //다른 스크립트 접근용 변수
     [HideInInspector] public Player player;
     [HideInInspector] public Transform playerTR;
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Transform backgroundTR;
     [HideInInspector] public Tilemap gamebackground;
     [HideInInspector] public GuideManager guideM;
+    [HideInInspector] public FloatForm floatform;
 
 
  
@@ -150,7 +152,8 @@ public class GameManager : MonoBehaviour
         enemys = FindObjectOfType<Enemys>(); //좀비 1,2
         dmgpooling = FindObjectOfType<DmgPooling>(); // 몹위에 대미지
         dmgfont = FindObjectOfType<DMGFont>();
-        
+        floatform = FindObjectOfType<FloatForm>();
+
         // NPC대화창 접근용
         NpcSprite = TalkBox.transform.Find("NpcSprite").GetComponent<Image>(); // NPC 스프라이트
         TalkBowNPCName = TalkBox.transform.Find("Name").GetComponent<TMP_Text>(); // NPC 이름

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Pointer
@@ -10,22 +11,64 @@ public class PointCheker : MonoBehaviour
 {
     public Pointer type;
     GuideManager guideManager;
-    private bool once;
+    Transform btn;
 
     private void Awake()
     {
-        
+        btn = transform.GetComponentsInChildren<Transform>(true)[4];
     }
-   
-    
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!once && collision.gameObject.CompareTag("Player"))
+        if(this.type == Pointer.point0) // 시작지점일경우
         {
-            guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
-            guideManager.F_GetColl(type, collision);
-            once = true;
+            guideManager.F_GetColl(type);
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+              btn.gameObject.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.once)
+            {
+
+                GameManager.Instance.once = true;
+                guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
+                guideManager.F_GetColl(type);
+            }
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            btn.gameObject.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.once)
+            {
+                Debug.Log("눌림");
+                GameManager.Instance.once = true;
+                //guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
+                GameManager.Instance.guideM.F_GetColl(type);
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        btn.gameObject.SetActive(false);
+    }
+
+
+
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (!once && collision.gameObject.CompareTag("Player"))
+    //    {
+    //        guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
+    //        guideManager.F_GetColl(type, collision);
+    //        once = true;
+    //    }
+    //}
 }

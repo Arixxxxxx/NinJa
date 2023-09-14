@@ -16,6 +16,7 @@ TagManager:
   - Saw
   - HitBox
   - Ghost
+  - Point
   layers:
   - Default
   - TransparentFX
@@ -38,7 +39,7 @@ TagManager:
   - NPC
   - HitBox
   - BoxPapyun
-  - 
+  - Point
   - 
   - 
   - 

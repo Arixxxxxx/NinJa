@@ -27,10 +27,17 @@ public class GuideManager : MonoBehaviour
     Transform Ani3_2;
     Animator Ani3_3;
     public bool isBattleGuideStart;
-    
+
+    //이동플랫폼 가이드
+    Animator Ani4, Ani4_1;
+
+    Transform player;
+    PointCheker pc;
 
     private void Awake()
     {
+        player = GameManager.Instance.playerTR.GetComponent<Transform>();
+        pc = GameObject.FindAnyObjectByType<PointCheker>();
         gudiegurop = transform.GetChild(0).GetComponent<Transform>();
         Ani0 = transform.Find("GuideGroup/0").GetComponent<Animator>();
 
@@ -48,6 +55,11 @@ public class GuideManager : MonoBehaviour
         Ani3_2 = gudiegurop.transform.Find("3-2").GetComponent<Transform>();
         Ani3_3 = gudiegurop.transform.Find("3-3").GetComponent<Animator>();
 
+        //이동플랫폼 가이드
+
+        Ani4 = gudiegurop.transform.Find("4").GetComponent<Animator>();
+        Ani4_1 = gudiegurop.transform.Find("4-1").GetComponent<Animator>();
+
     }
     // 키고끄기
 
@@ -57,10 +69,11 @@ public class GuideManager : MonoBehaviour
         GuideBoxoff_1();
         GuideBoxoff_2();
         GuideBoxoff_3();
+        GuideBoxoff_4();
     }
 
  
-    public void F_GetColl(Pointer _value, Collider2D _collider)
+    public void F_GetColl(Pointer _value)
     {
         switch (_value)
         {
@@ -83,14 +96,20 @@ public class GuideManager : MonoBehaviour
                 StopCharacter();
                 Ani2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
                 Ani2.gameObject.SetActive(true);
-                Ani2.SetBool("Guide2", true);
-                ani2true = true;
+                Ani2.SetBool("Show", true);
                 break;
             
             case Pointer.point3:
                 StopCharacter();
                 Ani3.gameObject.SetActive(true);
                 Ani3.SetBool("Show", true);
+                break;
+
+            case Pointer.point4:
+                StopCharacter();
+                Ani4.gameObject.transform.position = player.transform.position;
+                Ani4.gameObject.SetActive(true);
+                Ani4.SetBool("Show", true);
                 break;
         }
     }
@@ -116,56 +135,68 @@ public class GuideManager : MonoBehaviour
     private float nextbtnTimer2;
     private float nextbtnTimer3;
 
+    float Next1, Next1_1;
     private void GuideBoxoff_1() // 1번연출 [점프 설명]
     {
+       
         if (Ani1.gameObject.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            Next1 += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.F) && Next1 > 0.25f)
             {
+                Next1 = 0;
                 Ani1.gameObject.SetActive(false);
-                Ani1_1.gameObject.SetActive(true);
+                
+                Ani1_1.transform.localScale = new Vector3(0.8f, 0.8f, 1);
                 Ani1_1.transform.position = Ani1.gameObject.transform.position;
+                Ani1_1.gameObject.SetActive(true);
+
+                
 
             }
         }
 
         else if (Ani1_1.gameObject.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            Next1_1 += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.F) && Next1_1 > 0.25f)
             {
-                
                 Ani1_1.SetBool("Hide", true);
-                Ani1_1.gameObject.SetActive(false);
                 GameManager.Instance.MovingStop = false;
                 GameManager.Instance.player.MovingStop = false;
+
+
+                Invoke("OffWindws", 0.2f);
             }
         }
     }
 
+    float Next2, Next2_1;
     private void GuideBoxoff_2() // //2번 연출 [ 벽점프, 슬라이딩 설명]
     {
-        if (ani2true)
+        if (Ani2.gameObject.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            Next2 += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.F) && Next2 > 0.25f)
             {
-                ani2true = false;
+                Next2 = 0;
+                Ani2.gameObject.SetActive(false);
+                Ani2_1.transform.localScale = new Vector3(0.8f, 0.8f, 1);
                 Ani2_1.gameObject.transform.position = Ani2.gameObject.transform.position;
                 Ani2_1.gameObject.SetActive(true);
-                Ani2.gameObject.SetActive(false);
-                Invoke("OffWindws", 2);
             }
         }
 
         if (Ani2_1.gameObject.activeSelf)
         {
-            nextbtnTimer += Time.deltaTime; // 연속으로 안눌리게 조절
-            if (Input.GetKeyDown(KeyCode.F) && nextbtnTimer > 1)
+            Next2_1 += Time.deltaTime; // 연속으로 안눌리게 조절
+            if (Input.GetKeyDown(KeyCode.F) && Next2_1 > 0.25f)
             {
                 GameManager.Instance.MovingStop = false;
                 GameManager.Instance.player.MovingStop = false;
-                Ani2_1.SetBool("Guide2", true);
-                Invoke("OffWindws", 2);
-                nextbtnTimer = 0;
+                Ani2_1.SetBool("Hide", true);
+                Invoke("OffWindws", 0.35f);
+
             }
         }
     }
@@ -214,7 +245,6 @@ public class GuideManager : MonoBehaviour
             {
 
                 Ani3_3.SetBool("Hide", true);
-                Invoke("OffWindws3", 2);
                 nextbtnTimer3 -= 0;
                 GameManager.Instance.MovingStop = false;
 
@@ -222,15 +252,70 @@ public class GuideManager : MonoBehaviour
         }
     }
 
+    public float Next4, Next4_1;
+    private void GuideBoxoff_4() // //2번 연출 [ 벽점프, 슬라이딩 설명]
+    {
+        if (Ani4.gameObject.activeSelf)
+        {
+            Next4 += Time.deltaTime; // 연속으로 안눌리게 조절
+            if (Input.GetKeyDown(KeyCode.F) && Next4 > 0.25f)
+            {
+                Next4 = 0;
+                Ani4.gameObject.SetActive(false);
+                Ani4_1.gameObject.transform.position = Ani4.gameObject.transform.position;
+                Ani4_1.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+                Ani4_1.gameObject.SetActive(true);
+               
+            }
+        }
+
+        if (Ani4_1.gameObject.activeSelf)
+        {
+            Next4_1 += Time.deltaTime; // 연속으로 안눌리게 조절
+            if (Input.GetKeyDown(KeyCode.F) && Next4_1 > 0.255f)
+            {
+               
+                GameManager.Instance.MovingStop = false;
+                GameManager.Instance.player.MovingStop = false;
+                Ani4_1.SetBool("Hide", true);
+                
+
+                Invoke("OffWindws", 0.3f);
+              
+                
+            }
+        }
+    }
     private void StopCharacter() // 캐릭터 멈춤
     {
         GameManager.Instance.player.Rb.velocity = Vector2.zero;
         GameManager.Instance.MovingStop = true;
         GameManager.Instance.player.Char_Vec.x = 0;
     }
-    private void OffWindws3()
+    private void OffWindws()
     {
-        Ani3_2.gameObject.SetActive(false );
+        if(Ani1_1.gameObject.activeSelf)
+        {
+            Ani1_1.SetBool("Hide", false);
+            GameManager.Instance.once = false;
+            Next1_1 = 0;
+            Ani1_1.gameObject.SetActive(false);
+        }
+        
+        if(Ani2_1.gameObject.activeSelf)
+        {
+            Ani2_1.SetBool("Hide", false);
+            GameManager.Instance.once = false;
+            Next2_1 = 0;
+            Ani2_1.gameObject.SetActive(false);
+        }
+        if (Ani4_1.gameObject.activeSelf)
+        {
+            Ani4_1.SetBool("Hide", false);
+            GameManager.Instance.once = false;
+            Next4_1 = 0;
+            Ani4_1.gameObject.SetActive(false);
+        }
 
     }
 
