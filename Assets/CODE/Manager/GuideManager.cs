@@ -42,6 +42,8 @@ public class GuideManager : MonoBehaviour
     Animator Ani5, Ani5_2;
     Transform Ani5_1;
 
+ 
+
     private void Awake()
     {
         player = GameManager.Instance.playerTR.GetComponent<Transform>();

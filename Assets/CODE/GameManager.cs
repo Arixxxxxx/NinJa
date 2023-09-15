@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Tilemaps;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -64,8 +65,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GuideManager guideM;
     [HideInInspector] public FloatForm floatform;
 
+    //剐府规绢备 劝己拳
+    public bool isGetMeleeItem;
 
- 
 
 
 
@@ -95,9 +97,26 @@ public class GameManager : MonoBehaviour
             }
             if (_objname == "府府")
             {
-                Debug.Log("柳涝");
                 _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
-                
+                SetNPCId sc = _obj.GetComponent<SetNPCId>();
+
+                switch (sc.ID)
+                {
+                    case 100:
+                        {
+                            sc.ID += 1;
+                            NPC script = _obj.GetComponent<NPC>();
+                            script.ani.SetBool("Show", true);
+                            StartCoroutine(RiRITel(_obj));
+
+
+
+                        }
+                        break;
+
+                }
+              
+          
             }
 
             isTalking = false;
@@ -126,6 +145,7 @@ public class GameManager : MonoBehaviour
         isTalking = true;
         TalkIndex++;
     }
+
 
     private void Awake()
     {
@@ -186,4 +206,12 @@ public class GameManager : MonoBehaviour
         NpcSprite.gameObject.SetActive(false);
     }
 
+   private IEnumerator RiRITel(GameObject _obj)
+    {
+        
+        yield return new WaitForSecondsRealtime(1.6f);
+        _obj.transform.position = _obj.transform.Find("TelPoint1").transform.position;
+        NPC sc = _obj.GetComponent<NPC>();
+        sc.ani.SetBool("Show", false);
+    }
 }

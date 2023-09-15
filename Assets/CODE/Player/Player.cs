@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 
 //23년 8월 28일 시작
 //23년 8월 30일 플라잉팬, 스파이크트랩,구르기(회피),근접무기 애니메이션, 에너미B제작
@@ -70,7 +71,7 @@ public class Player : MonoBehaviour
 
     // 무기방패 위치이동
     private Transform weapon;
-    TrailRenderer weaponTrail;
+   
     Vector3 weaponOriginPos;
     private Transform sheld;
     Vector3 sheldOriginPos;
@@ -92,6 +93,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float Timer;
     private Animator SwordAni;
     private Transform Sword;
+    SpriteRenderer SwordSr;
     private Transform Defence;
 
     //캐릭터 말풍선
@@ -116,6 +118,7 @@ public class Player : MonoBehaviour
         Sr = GetComponent<SpriteRenderer>();
         weapon1 = transform.GetChild(0).GetComponent<Transform>();
         Sword = transform.GetChild(0).GetChild(0).GetComponent<Transform>();
+        SwordSr = Sword.GetComponent<SpriteRenderer>();
         sheld = transform.Find("Sheld").GetComponent<Transform>();
         sheldSR = sheld.GetComponent<SpriteRenderer>();
         SwordAni = weapon1.GetComponent<Animator>();
@@ -134,7 +137,7 @@ public class Player : MonoBehaviour
         btn1 = weaponBtn1.GetComponent<Animator>();
         btn2 = weaponBtn2.GetComponent<Animator>();
         textani = text.GetComponent<Animator>();
-        weaponTrail = Sword.GetComponent<TrailRenderer>();
+    
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
 
         //점프
@@ -230,6 +233,7 @@ public class Player : MonoBehaviour
                 //좌측하단 무기UI바 아웃라인체크 활성화
                 btnBoxOutLine1.gameObject.SetActive(true);
                 btnBoxOutLine2.gameObject.SetActive(false);
+
                 if (Iswall || DJumpOn || JumpOn || isDodge)
                 {
                     return;
@@ -274,8 +278,10 @@ public class Player : MonoBehaviour
                     return;
                 }
                 //근접무기 비활성화
-                weapon1.gameObject.SetActive(false);
-                sheld.gameObject.SetActive(false);
+                sheldSR.enabled = false;
+                SwordSr.enabled = false;
+                //weapon1.gameObject.SetActive(false);
+                //sheld.gameObject.SetActive(false);
                 rangeitemshowok = true;
             }
         }
@@ -287,8 +293,10 @@ public class Player : MonoBehaviour
         meleeitemshowok = true;
 
         yield return new WaitForSecondsRealtime(0.2f);
-        weapon1.gameObject.SetActive(true);
-        sheld.gameObject.SetActive(true);
+        sheldSR.enabled = true;
+        SwordSr.enabled = true;
+        //weapon1.gameObject.SetActive(true);
+        //sheld.gameObject.SetActive(true);
         RealBow.gameObject.SetActive(false);
         
 
@@ -361,7 +369,7 @@ public class Player : MonoBehaviour
             if (GameManager.Instance.meleeMode)
             {
                 Timer += Time.deltaTime;
-                if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn & !JumpOn)
+                if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn)
                 {
                     isAttacking = true;
                     SwordAni.SetTrigger("R");
@@ -383,16 +391,20 @@ public class Player : MonoBehaviour
                 if (Input.GetMouseButton(1) && !isAttacking)
                 {
                     ShieldOn = true;
-                    weapon1.gameObject.SetActive(false);
-                    sheld.gameObject.SetActive(false);
+                    sheldSR.enabled = false;
+                    SwordSr.enabled = false;
+                    //weapon1.gameObject.SetActive(false);
+                    //sheld.gameObject.SetActive(false);
                     Defence.gameObject.SetActive(true);
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
-                    weaponTrail.Clear();
+                    
                     ShieldOn = false;
-                    weapon1.gameObject.SetActive(true);
-                    sheld.gameObject.SetActive(true);
+                    sheldSR.enabled = true;
+                    SwordSr.enabled = true;
+                    //weapon1.gameObject.SetActive(true);
+                    //sheld.gameObject.SetActive(true);
                     Defence.gameObject.SetActive(false);
                     
                 }
@@ -514,7 +526,7 @@ public class Player : MonoBehaviour
             }
            
             //구르기
-            if (Input.GetKey(KeyCode.LeftControl) && !isDodge && !JumpOn && !Iswall && !DJumpOn && !isAttacking)
+            if (Input.GetKey(KeyCode.LeftControl) && !JumpOn && !Iswall && !DJumpOn && !isDodge)
             {
                 if (GameManager.Instance.Player_CurSP < 15)
                 {
@@ -523,17 +535,21 @@ public class Player : MonoBehaviour
                 }
                 else if (GameManager.Instance.Player_CurSP > 15)
                 {
-                    weaponTrail.Clear();
+
                     isDodge = true;
                     Rb.velocity = Vector2.zero;
-                    sheld.gameObject.SetActive(false);
-                    weapon1.gameObject.SetActive(false);
+                    sheldSR.enabled = false;
+                    SwordSr.enabled = false;
+                    //sheld.gameObject.SetActive(false);
+                    //weapon1.gameObject.SetActive(false);
                     GameManager.Instance.Player_CurSP -= 15;
                    
-                   
+
+
 
                     if (!isLeft)
                     {
+                        
                         Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
                         gameObject.layer = 10;
                         Invoke("F_ReturnLayer", 0.5f);
@@ -541,6 +557,7 @@ public class Player : MonoBehaviour
                     }
                     else if (isLeft)
                     {
+                      
                         Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
                         gameObject.layer = 10;
                         Invoke("F_ReturnLayer", 0.5f);
@@ -552,14 +569,15 @@ public class Player : MonoBehaviour
         }
       
     }
-
     private void F_ReturnLayer()
     {
-        weaponTrail.Clear();
+ 
         gameObject.layer = 6;
         isDodge = false;
-        sheld.gameObject.SetActive(true);
-        weapon1.gameObject.SetActive(true);
+        sheldSR.enabled = true;
+        SwordSr.enabled = true;
+        //sheld.gameObject.SetActive(true);
+        //weapon1.gameObject.SetActive(true);
     }
 
 
@@ -582,8 +600,10 @@ public class Player : MonoBehaviour
             JumpTime += Time.deltaTime;
             wallJumpon = false;
             RealBow.gameObject.SetActive(false);
-            sheld.gameObject.SetActive(false);
-            weapon1.gameObject.SetActive(false);
+            sheldSR.enabled = false;
+            SwordSr.enabled = false;
+            //sheld.gameObject.SetActive(false);
+            //weapon1.gameObject.SetActive(false);
 
             Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * SliedSpeed);
 
@@ -689,7 +709,7 @@ public class Player : MonoBehaviour
                 isOneJump = true;
                 JumpOn = true;
                 Rb.velocity = new Vector2(Rb.velocity.x, JumpPower);
-                weaponTrail.Clear();
+           
                 JumpCount++;
                 Ani.SetBool("Jump", true);
 
@@ -700,8 +720,11 @@ public class Player : MonoBehaviour
                 {
                     if (GameManager.Instance.meleeMode)
                     {
-                        sheld.gameObject.SetActive(false);
-                        weapon1.gameObject.SetActive(false);
+                        //sheld.gameObject.SetActive(false);
+                        //weapon1.gameObject.SetActive(false);
+                        sheldSR.enabled = false;
+                        SwordSr.enabled = false;
+                        
                     }
                     else
                     {
@@ -815,7 +838,7 @@ public class Player : MonoBehaviour
     private void F_JumpReset()
     {
         MovingStop = false;
-        weaponTrail.Clear();
+      
         JumpOn = false;
         DJumpOn = false;
         Ani.SetBool("Jump", false);
@@ -823,8 +846,11 @@ public class Player : MonoBehaviour
         wallJumpon = false;
         if (GameManager.Instance.meleeMode)
         {
-            sheld.gameObject.SetActive(true);
-            weapon1.gameObject.SetActive(true);
+
+            sheldSR.enabled = true;
+            SwordSr.enabled = true;
+            //sheld.gameObject.SetActive(true);
+            //weapon1.gameObject.SetActive(true);
         }
         else
         {
