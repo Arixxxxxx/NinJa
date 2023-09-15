@@ -19,6 +19,7 @@ public class Trap_Saw : MonoBehaviour
     private Vector2 Saw_Dir;
     public bool isSawOk;
     Transform point1, point2;
+    float dir;
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
@@ -30,10 +31,12 @@ public class Trap_Saw : MonoBehaviour
         { 
                 case StartDir.Left:
                 Saw_Dir = Vector2.left;
+                dir = -1;
                 break;
 
                 case StartDir.Right:
                 Saw_Dir = Vector2.right;
+                dir = 1;
                 break;
        }
     }
@@ -45,10 +48,12 @@ public class Trap_Saw : MonoBehaviour
         if (Vector2.Distance(transform.position, point1.position) < 0.1f)
         {
             Saw_Dir = Vector2.right;
+            transform.localScale = new Vector3(-1, 1,1);
         }
         else if (Vector2.Distance(transform.position, point2.position) < 0.1f)
         {
             Saw_Dir = Vector2.left;
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
 

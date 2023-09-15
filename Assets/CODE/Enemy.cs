@@ -115,6 +115,7 @@ public class Enemy : MonoBehaviour
                 }
               
                 Rb.MovePosition(Rb.position + saw_vec);
+
                 break;
 
          
@@ -131,6 +132,9 @@ public class Enemy : MonoBehaviour
             case EnemyType.SpikeBox:
                 if (collision.gameObject.CompareTag("Ground") && !AttackEnd)
                 {
+                    ParticleSystem particleSystem= transform.GetChild(0).GetComponent<ParticleSystem>();
+
+                    particleSystem.Play();
                     StartCoroutine(ReturnSpikeEnemy());
                     Ani.SetBool("BHIT", true);
                 }

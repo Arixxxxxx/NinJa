@@ -19,6 +19,7 @@ public class SpikeTrap_Ground : MonoBehaviour
         spawnPosition = transform.Find("SpawnPosition").GetComponent<Transform>();
         boxColl = GetComponent<BoxCollider2D>();
 
+
         for (int i = 1; i < SB.Length; i++)
         {
             SB[i] = transform.GetComponentsInChildren<Transform>(true)[i];

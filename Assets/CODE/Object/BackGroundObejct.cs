@@ -68,27 +68,28 @@ public class BackGroundObejct : MonoBehaviour
             
                case ObjectName.jungleLeaft:
 
-                leafCounter += Time.deltaTime;
+                //leafCounter += Time.deltaTime;
 
-                if (leafCounter < dirTime)
-                {
-                    turnValue += Time.deltaTime * Speed;
-                }
-                else if (leafCounter >= dirTime && leafCounter < dirTime * 2)
-                {
-                    turnValue -= Time.deltaTime * Speed;
-                }
-                else if (leafCounter >= dirTime * 2)
-                {
-                    leafCounter = 0;
-                }
+                //if (leafCounter < dirTime)
+                //{
+                //    turnValue += Time.deltaTime * Speed;
+                //}
+                //else if (leafCounter >= dirTime && leafCounter < dirTime * 2)
+                //{
+                //    turnValue -= Time.deltaTime * Speed;
+                //}
+                //else if (leafCounter >= dirTime * 2)
+                //{
+                //    leafCounter = 0;
+                //}
 
                 // 현재 오브젝트의 현재 각도를 가져옵니다.
                 Vector3 curRotation = transform.eulerAngles;
+                float Originz = transform.eulerAngles.z;
 
                 // Z 축 각도에 turnValue를 더하거나 빼서 흔들도록 설정합니다.
                 curRotation.z = Mathf.Sin(Time.time * Speed) * MaxAngle;
-
+                curRotation.z = curRotation.z + Originz;
                 // 수정된 각도를 적용합니다.
                 transform.eulerAngles = curRotation;
                 break;
