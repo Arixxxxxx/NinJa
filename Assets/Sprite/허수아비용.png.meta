@@ -1,0 +1,505 @@
+fileFormatVersion: 2
+guid: 54fa3d81a5117ba47a4286aeab9398c9
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 70
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_0
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 554
+        width: 49
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e23e401331361ce48906a95aa36f7a02
+      internalID: -1031026817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_1
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 547
+        width: 69
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8199aae8cd3fa5a43b76ecf8a7ba5f17
+      internalID: -417521151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_2
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 542
+        width: 49
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd6d321eb68681e46912d59c39205b94
+      internalID: -1931832262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_3
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 542
+        width: 53
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12779f7792e39344aa206804b17d76e4
+      internalID: -1902215651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_4
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 530
+        width: 62
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24854c828ec29d24c8b4c33555d6fdb8
+      internalID: -149090917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_5
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 545
+        width: 78
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 470071db8aef2c845acb3662fb4fb11d
+      internalID: 660619546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_6
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 358
+        width: 80
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db2fcd9a198f25247b90eda4ecfa3764
+      internalID: 1724602525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_7
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 345
+        width: 70
+        height: 188
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40298797610d01e47a67fc55914b5219
+      internalID: 148919008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_8
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 335
+        width: 65
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78b530004486cd14c892e22f6a4221d5
+      internalID: 397895477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_9
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 342
+        width: 81
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 843a0ae50cd4bd14aab8b5479dcb8f54
+      internalID: -1225559645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_10
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 338
+        width: 69
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34a0df3be9704554292950bddd751a60
+      internalID: 1864461206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_11
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 343
+        width: 83
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2083f6a9d1d29724cb76ba83a66d6cc0
+      internalID: 1922536657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_12
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 134
+        width: 82
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 138fc2e1c242cc24ab0092c3088d1b4e
+      internalID: -1274606213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_13
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 139
+        width: 98
+        height: 188
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf562bf678a831946b050a32f6f1727d
+      internalID: 2072450122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_14
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 147
+        width: 81
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c1070d3e0d0fab42bb549c42fe34095
+      internalID: -337525922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RPG Pixel Art Icons_ Bows, Wildan Rahmat_15
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 135
+        width: 85
+        height: 196
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d5438c2bda52db45a0f1c2f0c984323
+      internalID: 2091262138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 1fb77e94379e84543bec74381d109a5b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_0: -1031026817
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_1: -417521151
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_10: 1864461206
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_11: 1922536657
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_12: -1274606213
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_13: 2072450122
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_14: -337525922
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_15: 2091262138
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_2: -1931832262
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_3: -1902215651
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_4: -149090917
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_5: 660619546
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_6: 1724602525
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_7: 148919008
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_8: 397895477
+      RPG Pixel Art Icons_ Bows, Wildan Rahmat_9: -1225559645
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

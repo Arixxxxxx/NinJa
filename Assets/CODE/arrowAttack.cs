@@ -32,44 +32,52 @@ public class arrowAttack : MonoBehaviour
 
     private void LookAtMouse()
     {
-        Vector2 mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 dir = new Vector2(mousePos.x - m_Arrow.position.x, mousePos.y - m_Arrow.position.y);
-        m_Arrow.right = dir;
-        transform.position = GameManager.Instance.player.transform.position;
-        
-        //에임조준중일때 플레이어 캐릭터 보는방향 컨트롤해줄수잇게 마우스좌표x값으로 방향 bool 저장
-        if(mousePos.x < GameManager.Instance.player.transform.position.x)
+        if (GameManager.Instance.isGetRangeItem)
         {
-            GameManager.Instance.AimLeft = true;
+            Vector2 mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 dir = new Vector2(mousePos.x - m_Arrow.position.x, mousePos.y - m_Arrow.position.y);
+            m_Arrow.right = dir;
+            transform.position = GameManager.Instance.player.transform.position;
+
+            //에임조준중일때 플레이어 캐릭터 보는방향 컨트롤해줄수잇게 마우스좌표x값으로 방향 bool 저장
+            if (mousePos.x < GameManager.Instance.player.transform.position.x)
+            {
+                GameManager.Instance.AimLeft = true;
+            }
+            else if (mousePos.x > GameManager.Instance.player.transform.position.x)
+            {
+                GameManager.Instance.AimLeft = false;
+            }
         }
-        else if(mousePos.x > GameManager.Instance.player.transform.position.x)
-        {
-            GameManager.Instance.AimLeft = false;
-        }
+          
     }
 
     private void ArrowFire()
     {
-        curTime += Time.deltaTime;
-
-        if (curTime > 0.3f)
+        if (GameManager.Instance.isGetRangeItem)
         {
-            if (Input.GetMouseButton(0) && !GameManager.Instance.meleeMode && GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            curTime += Time.deltaTime;
+
+            if (curTime > 0.3f)
             {
-                if(GameManager.Instance.CurArrow <= 0) 
+                if (Input.GetMouseButton(0) && !GameManager.Instance.meleeMode && GameManager.Instance.player.RealBow.gameObject.activeSelf)
                 {
-                    GameManager.Instance.player.F_CharText("Arrow");
-                    return; 
+                    if (GameManager.Instance.CurArrow <= 0)
+                    {
+                        GameManager.Instance.player.F_CharText("Arrow");
+                        return;
+                    }
+                    GameObject obj = F_GetArrow();
+                    obj.transform.position = BowPos.position;
+                    obj.transform.rotation = m_Arrow.rotation;
+                    obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 15f;
+                    curTime = 0;
+                    GameManager.Instance.CurArrow--;
+                    FillAni.SetTrigger("Ok");
                 }
-                GameObject obj = F_GetArrow();
-                obj.transform.position = BowPos.position;
-                obj.transform.rotation = m_Arrow.rotation;
-                obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 15f;
-                curTime = 0;
-                GameManager.Instance.CurArrow--;
-                FillAni.SetTrigger("Ok");
             }
         }
+       
     }
     void Update()
     {

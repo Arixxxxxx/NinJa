@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -45,6 +46,11 @@ public class GameManager : MonoBehaviour
     public bool AimRight;
     // 가이드 게시판 체크용
     public bool once;
+
+    //리리 캐릭터컴퍼넌트
+    public NPC npc;
+    public Rigidbody2D ririRB;
+    
     //다른 스크립트 접근용 변수
     [HideInInspector] public Player player;
     [HideInInspector] public Transform playerTR;
@@ -64,12 +70,21 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Tilemap gamebackground;
     [HideInInspector] public GuideManager guideM;
     [HideInInspector] public FloatForm floatform;
-
+    //텔포용 포인트
+    [HideInInspector] public Transform telPoint1;
     //밀리방어구 활성화
     public bool isGetMeleeItem;
 
+     //원거리방어구 활성화
+    public bool isGetRangeItem;
 
+    // 검정화면 조절기능
+    public Image blackScreen;
 
+    //튜토리얼 이벤트[배틀존]
+    [HideInInspector] public Transform tutorialEvent;
+    [HideInInspector] public Transform battlezone;
+    
 
     public void F_TalkSurch(GameObject _obj)
     {
@@ -92,8 +107,24 @@ public class GameManager : MonoBehaviour
 
             if (_objname == "전투교관")
             {
-                guideM.isBattleGuideStart = true;
+             
                 _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
+                SetNPCId sc = _obj.GetComponent<SetNPCId>();
+                switch(sc.ID)
+                {
+                    case 200:
+                        sc.ID += 1;
+                        Animator ZomebieBox = battlezone.transform.GetChild(1).GetComponent<Animator>();
+                        ZomebieBox.SetBool("Open", true);
+
+                        break;
+
+                    case 201:
+                        //sc.ID += 1;
+
+                        break;
+                }
+
             }
             if (_objname == "리리")
             {
@@ -102,15 +133,30 @@ public class GameManager : MonoBehaviour
 
                 switch (sc.ID)
                 {
-                    case 100:
+                    case 100: //시작지점에서 동굴안으로
+                        {
+                            sc.ID += 1;
+                            NPC script = _obj.GetComponent<NPC>();
+                          
+                            Transform questionMark =_obj.transform.GetChild(0).GetComponent<Transform>();
+                            questionMark.gameObject.SetActive(false);
+                            _obj.gameObject.layer = 12;
+                            script.ani.SetBool("Show", true);
+                            StartCoroutine(RiRITel(_obj));
+
+                        }
+                    break;
+
+                    case 101: //동굴안에서 일단 사라지셈
                         {
                             sc.ID += 1;
                             NPC script = _obj.GetComponent<NPC>();
                             script.ani.SetBool("Show", true);
                             StartCoroutine(RiRITel(_obj));
 
+                            //소환문 소환
 
-
+                            StartCoroutine(GatePlay());
                         }
                         break;
 
@@ -154,7 +200,8 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         else
-        {
+        {//삭제 되었음.
+            Debug.Log("삭제되엇음");
             Destroy(gameObject);
         }
         meleeMode = true;
@@ -191,9 +238,21 @@ public class GameManager : MonoBehaviour
         GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
         guideM = GameGuideTR.GetComponent<GuideManager>();
 
+        npc = GameObject.Find("NPC/리리").GetComponent<NPC>();
+        ririRB = npc.transform.GetComponent<Rigidbody2D>();
+
+        //씬넘길때 사용할 배경
+        blackScreen = gameUI.transform.Find("BlackScreen").GetComponent<Image>();
 
         //이벤트용 배경색 조절용
         gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
+
+        //텔레포트 포인터용
+        telPoint1 = transform.Find("TelPoint0").GetComponent<Transform>();
+
+        //튜토리얼존
+        tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
+        battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
     }
     private void Update()
     {
@@ -206,12 +265,32 @@ public class GameManager : MonoBehaviour
         NpcSprite.gameObject.SetActive(false);
     }
 
+    //리리 대화이후 동굴끝으로 순간이동
    private IEnumerator RiRITel(GameObject _obj)
     {
-        
-        yield return new WaitForSecondsRealtime(1.6f);
+        yield return new WaitForSecondsRealtime(1.7f);
         _obj.transform.position = _obj.transform.Find("TelPoint1").transform.position;
+        Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
+        _obj.gameObject.layer = 18;
+        questionMark.gameObject.SetActive(true);
         NPC sc = _obj.GetComponent<NPC>();
+
         sc.ani.SetBool("Show", false);
+        ririRB.gravityScale = 0;
+        _obj.gameObject.SetActive(false);
+    }
+
+    private IEnumerator GatePlay()
+    {
+        GameManager.Instance.MovingStop = true;
+        GameManager.Instance.playerTR.localScale = new Vector3(3, 3, 3);
+        GetItemNPC.Instance.aniGate.SetTrigger("ShowUp");
+        GetItemNPC.Instance.partiGate.Play();
+        Emoticon.instance.F_GetEmoticonBox("Question");
+
+        yield return new WaitForSecondsRealtime(6.5f);
+
+        GameManager.Instance.MovingStop = false;
+        GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
     }
 }

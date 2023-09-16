@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 
-//23년 8월 28일 시작
-//23년 8월 30일 플라잉팬, 스파이크트랩,구르기(회피),근접무기 애니메이션, 에너미B제작
+
+
 public class Player : MonoBehaviour
 {
 
@@ -31,6 +30,7 @@ public class Player : MonoBehaviour
     public bool isDodge;
     public bool KB;
     RaycastHit2D hitPoint;
+    RaycastHit2D GetItem;
 
     //캐릭터 점프
     [Header("# Jump")]
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
     public float SliedSpeed;
     public float WalljumpPower;
     Vector2 CastDir;
-    Transform weapon1;
+    public Transform weapon1;
 
     //바람타기
     private bool isflying;
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
     private Transform weapon;
    
     Vector3 weaponOriginPos;
-    private Transform sheld;
+    public Transform sheld;
     Vector3 sheldOriginPos;
     private SpriteRenderer sheldSR;
     Transform Bow;
@@ -109,7 +109,10 @@ public class Player : MonoBehaviour
     Transform weaponBtn2;
     Transform btnBoxOutLine2;
     Animator btn2;
-    [HideInInspector] public bool MovingStop;
+    /*[HideInInspector] */public bool MovingStop;
+
+    // 무기획득 오오라
+    public Animator ora;
     private void Awake()
     {
        
@@ -139,6 +142,7 @@ public class Player : MonoBehaviour
         textani = text.GetComponent<Animator>();
     
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
+        ora = transform.Find("Up").GetComponent<Animator>();
 
         //점프
         groundCheker = transform.Find("GroundCheker").GetComponent<Transform> ();
@@ -191,80 +195,94 @@ public class Player : MonoBehaviour
         {
         
             ModeChangeTimer += Time.deltaTime;
+            if (GameManager.Instance.isGetMeleeItem)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1) && !isDodge && !JumpOn && !isflying)
+                {
+                    if (GameManager.Instance.meleeMode)
+                    {
+                        return;
+                    }
+                    if (ModeChangeTimer > 0.4f)
+                    {
+                        Ani.SetTrigger("ModeChange");
+                        F_CharText("Melee");
+                        GameManager.Instance.meleeMode = true;
+                        btn1.SetTrigger("Ok");
+                        ModeChangeTimer = 0;
+                    }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1) && !isDodge && !JumpOn && !isflying)
+                }
+            }
+            if (GameManager.Instance.isGetRangeItem)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha2) && !ShieldOn & !isDodge && !JumpOn && !isflying)
+                {
+                    if (!GameManager.Instance.meleeMode)
+                    {
+                        return;
+                    }
+                    if (ModeChangeTimer > 0.4f)
+                    {
+                        F_RangeMode();
+                        //Ani.SetTrigger("ModeChange");
+                        //btn2.SetTrigger("Ok");
+                        //F_CharText("Range");
+                        //GameManager.Instance.meleeMode = false;
+                        ModeChangeTimer = 0;
+                    }
+                }
+          
+
+            }
+
+            //
+            if (GameManager.Instance.isGetMeleeItem)
             {
                 if (GameManager.Instance.meleeMode)
                 {
-                    return;
-                }
-                if (ModeChangeTimer > 0.4f)
-                {
-                    Ani.SetTrigger("ModeChange");
-                    F_CharText("Melee");
-                    GameManager.Instance.meleeMode = true;
-                    btn1.SetTrigger("Ok");
-                    ModeChangeTimer = 0;
-                }
+                    rangeitemshowok = false;
+                    if (meleeitemshowok) { return; }
+                    //좌측하단 무기UI바 아웃라인체크 활성화
+                    btnBoxOutLine1.gameObject.SetActive(true);
+                    btnBoxOutLine2.gameObject.SetActive(false);
 
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && !ShieldOn & !isDodge && !JumpOn && !isflying)
-            {
-                if (!GameManager.Instance.meleeMode)
-                {
-                    return;
-                }
-                if (ModeChangeTimer > 0.4f)
-                {
-                    Ani.SetTrigger("ModeChange");
-                    btn2.SetTrigger("Ok");
-                    F_CharText("Range");
-                    GameManager.Instance.meleeMode = false;
-                    ModeChangeTimer = 0;
-                }
+                    if (Iswall || DJumpOn || JumpOn || isDodge)
+                    {
+                        return;
+                    }
 
-            }
-
-            //근접모드
-            if (GameManager.Instance.meleeMode)
-            {
-                rangeitemshowok = false;
-                if (meleeitemshowok) { return; }
-                //좌측하단 무기UI바 아웃라인체크 활성화
-                btnBoxOutLine1.gameObject.SetActive(true);
-                btnBoxOutLine2.gameObject.SetActive(false);
-
-                if (Iswall || DJumpOn || JumpOn || isDodge)
-                {
-                    return;
-                }
-
-                if (Defence.gameObject.activeSelf)
-                {
-                    return;
-                }
-                else if (!Defence.gameObject.activeSelf)
-                {
-                    StartCoroutine(mellemodeitemshow());
+                    if (Defence.gameObject.activeSelf)
+                    {
+                        return;
+                    }
+                    else if (!Defence.gameObject.activeSelf)
+                    {
+                        StartCoroutine(mellemodeitemshow());
+                    }
                 }
             }
+            
 
             // 원거리모드
             else if (GameManager.Instance.rangeMode)
             {
                 meleeitemshowok = false;
-            
+                if (GameManager.Instance.isGetRangeItem)
+                {
                     // 활 마우스 컨트롤
                     if (Input.GetMouseButton(1))
                     {
                         isAiming = true;
                         RealBow.gameObject.SetActive(true);
                     }
-                    if (Input.GetMouseButtonUp(1) )
+                    if (Input.GetMouseButtonUp(1))
                     {
                         isAiming = false;
                         RealBow.gameObject.SetActive(false);
                     }
+                }
+                   
               
                 
 
@@ -287,7 +305,13 @@ public class Player : MonoBehaviour
         }
      
     }
-
+    public void F_RangeMode()
+    {
+        Ani.SetTrigger("ModeChange");
+        btn2.SetTrigger("Ok");
+        F_CharText("Range");
+        GameManager.Instance.meleeMode = false;
+    }
     IEnumerator mellemodeitemshow()
     {
         meleeitemshowok = true;
@@ -366,16 +390,20 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-            if (GameManager.Instance.meleeMode)
+            if (GameManager.Instance.isGetMeleeItem)
             {
-                Timer += Time.deltaTime;
-                if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn)
+                if (GameManager.Instance.meleeMode)
                 {
-                    isAttacking = true;
-                    SwordAni.SetTrigger("R");
-                    Timer = 0;
+                    Timer += Time.deltaTime;
+                    if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn)
+                    {
+                        isAttacking = true;
+                        SwordAni.SetTrigger("R");
+                        Timer = 0;
+                    }
                 }
             }
+          
         }
     }
       
@@ -385,30 +413,34 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-            if (GameManager.Instance.meleeMode)
+            if (GameManager.Instance.isGetMeleeItem)
             {
-               
-                if (Input.GetMouseButton(1) && !isAttacking)
+                if (GameManager.Instance.meleeMode)
                 {
-                    ShieldOn = true;
-                    sheldSR.enabled = false;
-                    SwordSr.enabled = false;
-                    //weapon1.gameObject.SetActive(false);
-                    //sheld.gameObject.SetActive(false);
-                    Defence.gameObject.SetActive(true);
-                }
-                if (Input.GetMouseButtonUp(1))
-                {
-                    
-                    ShieldOn = false;
-                    sheldSR.enabled = true;
-                    SwordSr.enabled = true;
-                    //weapon1.gameObject.SetActive(true);
-                    //sheld.gameObject.SetActive(true);
-                    Defence.gameObject.SetActive(false);
-                    
+
+                    if (Input.GetMouseButton(1) && !isAttacking)
+                    {
+                        ShieldOn = true;
+                        sheldSR.enabled = false;
+                        SwordSr.enabled = false;
+                        //weapon1.gameObject.SetActive(false);
+                        //sheld.gameObject.SetActive(false);
+                        Defence.gameObject.SetActive(true);
+                    }
+                    if (Input.GetMouseButtonUp(1))
+                    {
+
+                        ShieldOn = false;
+                        sheldSR.enabled = true;
+                        SwordSr.enabled = true;
+                        //weapon1.gameObject.SetActive(true);
+                        //sheld.gameObject.SetActaive(true);
+                        Defence.gameObject.SetActive(false);
+
+                    }
                 }
             }
+           
         }
        
     }
@@ -445,7 +477,8 @@ public class Player : MonoBehaviour
              //상호작용 글 다 안읽으면 못넘기게함 (게시판이나 npc)
             if(GameManager.Instance.text.NextTextOk)
             { return; }
-
+            
+            //NPC체크
              Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("NPC"));
             if (Scanobj.collider != null)
             {
@@ -454,6 +487,21 @@ public class Player : MonoBehaviour
                 GameManager.Instance.F_TalkSurch(ScanObject);
             }
 
+
+            GetItem = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem"));
+            if(GetItem.collider != null)
+            {
+                GameManager.Instance.isGetMeleeItem = true;
+
+            }
+            GetItem = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem2"));
+            if (GetItem.collider != null)
+            {
+                GameManager.Instance.isGetRangeItem = true;
+
+            }
+
+            //찾아서 써놓기
             hitPoint = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("Point"));
              if(hitPoint.collider != null && !GameManager.Instance.once)
             {
@@ -665,6 +713,7 @@ public class Player : MonoBehaviour
         //바닥체크
         //isGround = Physics2D.OverlapCapsule(groundCheker.position, new Vector2(0.2f, 0.1f), CapsuleDirection2D.Horizontal, 0, LayerMask.GetMask("Ground"));
         isGround = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, LayerMask.GetMask("Ground"));
+        
     }
 
     [SerializeField] float jumpStayTime; // 점프 유지시간
