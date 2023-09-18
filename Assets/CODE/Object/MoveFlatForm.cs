@@ -17,9 +17,13 @@ public class MoveFlatForm : MonoBehaviour
     [SerializeField] private float flatFormSpeed;
     [Range(0.3f,1f)][SerializeField] private float checkDis = 0.5f;
     [SerializeField] private LayerMask surchLayer;
+
+    [SerializeField] private float startTimer = 0.2f;
+    [SerializeField] private float count;
     private Vector2 targetPos;
     public GameObject obj;
 
+    
 
     
     BoxCollider2D coll;
@@ -60,11 +64,17 @@ public class MoveFlatForm : MonoBehaviour
                 
                 if (box.collider != null)
                 {
-                    targetPos = point1.position;
+                    count += Time.deltaTime;
+                    if(count > startTimer)
+                    {
+                        targetPos = point1.position;
+                    }
+                   
                 }
                 else if(box.collider == null)
                 {
                     targetPos = point2.position;
+                    count = 0;
                 }
                 transform.position = Vector2.MoveTowards(transform.position, targetPos, flatFormSpeed * Time.deltaTime);
 

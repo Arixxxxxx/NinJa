@@ -35,7 +35,7 @@ public class GetItemNPC : MonoBehaviour
         guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
         itemLight = transform.Find("Light").GetComponent<ParticleSystem>();
         itemsSprite = transform.Find("KAL").GetComponent<Transform>();
-        canvas = transform.Find("Canvas").GetComponent<Transform>();
+        canvas = transform.Find("Canvas").GetComponent<Transform>(); //장비획득 표시창
         aniGate = transform.Find("GateWay/Gate").GetComponent <Animator>();
         partiGate = transform.Find("GateWay/Parti").GetComponent<ParticleSystem>();
 
@@ -46,24 +46,31 @@ public class GetItemNPC : MonoBehaviour
         MeleeItem();
         RangeItem();
     }
+    
+    //테스트용
+    public bool Itemoff;
     private void MeleeItem()
     {
-        if (itemLight.gameObject.activeSelf)
+        //if (itemLight.gameObject.activeSelf)
+        if(!Itemoff)
         {
             if (GameManager.Instance.isGetMeleeItem)
             {
-
+                GameManager.Instance.player.Itemget0 = true;
                 //먹었으니 템주고 플레이어 전투기능 켜줌설명서 보여줌
                 if (!once)
                 {
                     once = true;
                     guideManager.StopCharacter();
                     itemsSprite.gameObject.SetActive(false);
-                    canvas.gameObject.SetActive(false);
+                    canvas.gameObject.SetActive(false); // 장비획득표시창 off
                     StartCoroutine(itemShowMeleeMode());
                     GameManager.Instance.player.ora.SetTrigger("Up");
 
                     StartCoroutine(ShowAni3());
+
+                    //테스트끝나면 삭제해야함
+                     Itemoff = true;
                 }
 
 
@@ -85,10 +92,12 @@ public class GetItemNPC : MonoBehaviour
         {
             if (GameManager.Instance.isGetRangeItem)
             {
+                GameManager.Instance.player.Itemget1 = true;
 
                 //먹었으니 템주고 플레이어 전투기능 켜줌설명서 보여줌
                 if (!once1)
                 {
+                    Debug.Log("진입");
                     once1 = true;
                     guideManager.StopCharacter();
                     itemsSprite.gameObject.SetActive(false);
@@ -116,6 +125,7 @@ public class GetItemNPC : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.6f);
         GameManager.Instance.player.weapon1.gameObject.SetActive(true);
         GameManager.Instance.player.sheld.gameObject.SetActive(true);
+
         GameManager.Instance.player.Ani.SetBool("GetMelee", true);
       
     }

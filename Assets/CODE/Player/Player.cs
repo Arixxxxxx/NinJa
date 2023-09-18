@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public bool KB;
     RaycastHit2D hitPoint;
     RaycastHit2D GetItem;
+    RaycastHit2D GetItemRange;
 
     //캐릭터 점프
     [Header("# Jump")]
@@ -460,6 +461,9 @@ public class Player : MonoBehaviour
 
     // Scan NPC && 오브젝트
     Vector3 ScanDir;
+    public bool Itemget0;
+    public bool Itemget1;
+    
     private void SuchTalk()
     { 
         if (Rb.velocity.x < 0 && Char_Vec.x < 0)
@@ -489,13 +493,12 @@ public class Player : MonoBehaviour
 
 
             GetItem = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem"));
-            if(GetItem.collider != null)
+            if(GetItem.collider != null && !Itemget0)
             {
                 GameManager.Instance.isGetMeleeItem = true;
-
             }
-            GetItem = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem2"));
-            if (GetItem.collider != null)
+            GetItemRange = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem2"));
+            if (GetItemRange.collider != null && !Itemget1)
             {
                 GameManager.Instance.isGetRangeItem = true;
 
@@ -895,7 +898,6 @@ public class Player : MonoBehaviour
         wallJumpon = false;
         if (GameManager.Instance.meleeMode)
         {
-
             sheldSR.enabled = true;
             SwordSr.enabled = true;
             //sheld.gameObject.SetActive(true);
@@ -1034,6 +1036,29 @@ public class Player : MonoBehaviour
                 isflying = false;
             }
             
+        }
+    }
+
+    /// <summary>
+    /// 밀리아이템 스프라이트 on/off
+    /// </summary>
+    /// <param name="_Value">0 = true, 1 = false</param>
+    public void MeleeItemShow(int _Value)
+    {
+        switch (_Value)
+        {
+            case 0:
+                {
+                    sheldSR.enabled = true;
+                    SwordSr.enabled = true;
+                }
+                break;
+            case 1:
+                {
+                    sheldSR.enabled = false;
+                    SwordSr.enabled = false;
+                }
+                break;
         }
     }
     private void OnDrawGizmosSelected()

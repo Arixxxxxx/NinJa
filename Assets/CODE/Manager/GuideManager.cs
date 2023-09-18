@@ -139,10 +139,10 @@ public class GuideManager : MonoBehaviour
                     break;
 
                 case "GuidePoint3":
-                    StopCharacter();
-                    Ani3.gameObject.SetActive(true);
+                    //StopCharacter();
+                    //Ani3.gameObject.SetActive(true);
                     
-                    Ani3.SetBool("Show", true);
+                    //Ani3.SetBool("Show", true);
                     break;
 
                 case "GuidePoint4":
