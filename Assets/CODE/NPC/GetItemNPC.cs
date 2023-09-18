@@ -51,8 +51,8 @@ public class GetItemNPC : MonoBehaviour
     public bool Itemoff;
     private void MeleeItem()
     {
-        //if (itemLight.gameObject.activeSelf)
-        if(!Itemoff)
+        if (itemLight.gameObject.activeSelf)
+            //if (!Itemoff)
         {
             if (GameManager.Instance.isGetMeleeItem)
             {
@@ -70,7 +70,7 @@ public class GetItemNPC : MonoBehaviour
                     StartCoroutine(ShowAni3());
 
                     //테스트끝나면 삭제해야함
-                     Itemoff = true;
+                     //Itemoff = true;
                 }
 
 

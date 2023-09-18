@@ -6,7 +6,7 @@ public class CaveCanon : MonoBehaviour
 {
     RaycastHit2D hit;
 
-    [Range(1f, 10f)][SerializeField] float Radius = 1;
+    [Range(1f, 20f)][SerializeField] float Radius = 1;
     [SerializeField] private LayerMask target;
     [SerializeField] private bool Attack;
     [SerializeField] private float AttackSpeed;
@@ -30,15 +30,19 @@ public class CaveCanon : MonoBehaviour
     float counter;
     private void AttackTarget()
     {
-        if (Attack)
+        if (!GameManager.Instance.FireStop)
         {
-            counter += Time.deltaTime;
-            if (counter >= AttackSpeed)
+            if (Attack)
             {
-                aniEye.SetTrigger("Attack");
-                counter = 0;
+                counter += Time.deltaTime;
+                if (counter >= AttackSpeed)
+                {
+                    aniEye.SetTrigger("Attack");
+                    counter = 0;
+                }
             }
         }
+        
         
     }
     private void scanNPC()

@@ -7,10 +7,12 @@ using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-   
+    
+
     [Header("# 캐릭터 전투관련")]
     [Space]
     public bool meleeMode;
@@ -56,6 +58,14 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Transform playerTR;
 
     [HideInInspector] public Enemys enemys;
+
+    private Enemys _enemy;
+    public Enemys Enemy2
+    { 
+        get => _enemy;
+        private set => _enemy = value;
+    }
+
     [HideInInspector] public DmgPooling dmgpooling;
     [HideInInspector] public DMGFont dmgfont;
     [HideInInspector] public Transform gameUI;
@@ -85,6 +95,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Transform tutorialEvent;
     [HideInInspector] public Transform battlezone;
 
+    //배틀존 엘레베이터 사격중지
+    [HideInInspector] public bool FireStop;
+
     private void Awake()
     {
         if (Instance == null)
@@ -106,9 +119,11 @@ public class GameManager : MonoBehaviour
         gameUI = GameObject.Find("GameUI").GetComponent<Transform>(); // 게임UI 폴더
         backgroundTR = GameObject.Find("BackGround").GetComponent<Transform>(); //백그라운드 폴더
         playerTR = GameObject.Find("Player").GetComponent<Transform>();
+
         //스크립트 연결용
         player = FindObjectOfType<Player>(); //플레이어
         enemys = FindObjectOfType<Enemys>(); //좀비 1,2
+        _enemy = FindObjectOfType<Enemys>(); //좀비 1,2
         dmgpooling = FindObjectOfType<DmgPooling>(); // 몹위에 대미지
         dmgfont = FindObjectOfType<DMGFont>();
         floatform = FindObjectOfType<FloatForm>();

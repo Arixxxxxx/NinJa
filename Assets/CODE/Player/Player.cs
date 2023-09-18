@@ -807,6 +807,10 @@ public class Player : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// 코루틴 입니다
+    /// </summary>
+    /// <returns>코루틴이야 코루틴으로 꺼내</returns>
     public IEnumerator F_OnHit()
    {
         if (GameManager.Instance.Player_CurHP > 0 && !OnDMG)
