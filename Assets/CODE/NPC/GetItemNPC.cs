@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GetItemNPC : MonoBehaviour
@@ -9,11 +10,7 @@ public class GetItemNPC : MonoBehaviour
     public Animator aniGate;
     public ParticleSystem partiGate;
 
-    public enum ItemType
-    {
-        Melee, Range
-    }
-    public ItemType type;
+   
 
     Transform itemsSprite;
     Transform canvas;
@@ -43,16 +40,16 @@ public class GetItemNPC : MonoBehaviour
 
     private void Update()
     {
-        MeleeItem();
-        RangeItem();
-    }
+     
+       MeleeItem();
+                 }
     
     //테스트용
     public bool Itemoff;
     private void MeleeItem()
     {
-        if (itemLight.gameObject.activeSelf)
-            //if (!Itemoff)
+        //if (itemLight.gameObject.activeSelf)
+        if (!Itemoff)
         {
             if (GameManager.Instance.isGetMeleeItem)
             {
@@ -70,7 +67,7 @@ public class GetItemNPC : MonoBehaviour
                     StartCoroutine(ShowAni3());
 
                     //테스트끝나면 삭제해야함
-                     //Itemoff = true;
+                    Itemoff = true;
                 }
 
 
@@ -86,40 +83,7 @@ public class GetItemNPC : MonoBehaviour
         }
     }
 
-    private void RangeItem()
-    {
-        if (itemLight.gameObject.activeSelf)
-        {
-            if (GameManager.Instance.isGetRangeItem)
-            {
-                GameManager.Instance.player.Itemget1 = true;
-
-                //먹었으니 템주고 플레이어 전투기능 켜줌설명서 보여줌
-                if (!once1)
-                {
-                    Debug.Log("진입");
-                    once1 = true;
-                    guideManager.StopCharacter();
-                    itemsSprite.gameObject.SetActive(false);
-                    canvas.gameObject.SetActive(false);
-                    StartCoroutine(itemShowRangeMode());
-                    GameManager.Instance.player.ora.SetTrigger("Up");
-
-                    StartCoroutine(ShowAni4());
-                }
-
-
-
-
-                itemLight.startColor -= new Color(1, 1, 1, 0.02f) * Time.deltaTime;
-
-                if (itemLight.startColor.a < 0.1f)
-                {
-                    itemLight.gameObject.SetActive(false);
-                }
-            }
-        }
-    }
+  
     IEnumerator itemShowMeleeMode()
     {
         yield return new WaitForSecondsRealtime(0.6f);
@@ -130,14 +94,7 @@ public class GetItemNPC : MonoBehaviour
       
     }
 
-    IEnumerator itemShowRangeMode()
-    {
-        yield return new WaitForSecondsRealtime(0.6f);
-        
-        GameManager.Instance.player.Ani.SetBool("GetMelee", true);
-        GameManager.Instance.player.F_RangeMode();
-    }
-
+  
     public IEnumerator ririSpawn()
     {
        
@@ -158,37 +115,27 @@ public class GetItemNPC : MonoBehaviour
         guideManager.Ani3.SetBool("Show", true);
     }
 
-    //장비 획득 후  <원거리> 모드 설명 On
-    IEnumerator ShowAni4()
-    {
-        yield return new WaitForSecondsRealtime(2f);
-        guideManager.Ani3_2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 2.3f);
-        guideManager.Ani3_2.gameObject.SetActive(true);
-        guideManager.Ani3_2.SetBool("Show", true);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if(collision.CompareTag("Player"))
-        {
-            if (GameManager.Instance.isGetMeleeItem)
-            {
-                return;
+             if (collision.CompareTag("Player"))
+             {
+             if (GameManager.Instance.isGetMeleeItem)
+             {
+             return;
+             }
+                       
+                        else if (!GameManager.Instance.isGetMeleeItem)
+                        {
+                            canvas.gameObject.SetActive(true);
+                         }
+                                     
             }
-            else if (!GameManager.Instance.isGetMeleeItem)
-            {
-                canvas.gameObject.SetActive(true);
-            }
-                
-        }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            
+
             canvas.gameObject.SetActive(false);
         }
     }

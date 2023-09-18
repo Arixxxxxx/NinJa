@@ -5,14 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
-
-
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    
 
+    public GameObject glodbalLight;
+    public Light2D worldLight;
     [Header("# 캐릭터 전투관련")]
     [Space]
     public bool meleeMode;
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         CurArrow = 100;
         MaxArrow = 100;
 
-
+        worldLight = glodbalLight.GetComponent<Light2D>();
         //접근 참조용
         talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>(); // NPC대화창 폴더
         gameUI = GameObject.Find("GameUI").GetComponent<Transform>(); // 게임UI 폴더
@@ -161,6 +161,11 @@ public class GameManager : MonoBehaviour
         tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
         battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
     }
+
+    private void Start()
+    {
+        
+    }
     private void Update()
     {
         if (!meleeMode) { rangeMode = true; }
@@ -198,7 +203,7 @@ public class GameManager : MonoBehaviour
                 {
                     case 200:
                         sc.ID += 1;
-                        Animator ZomebieBox = battlezone.transform.GetChild(1).GetComponent<Animator>();
+                        Animator ZomebieBox = battlezone.Find("ZombieBox").GetComponent<Animator>();
                         ZomebieBox.SetBool("Open", true);
                         GameManager.Instance.MovingStop = false;
 
@@ -206,7 +211,7 @@ public class GameManager : MonoBehaviour
 
                     case 201:
                         //sc.ID += 1;
-                        Animator ZomebieBoxs = battlezone.transform.GetChild(1).GetComponent<Animator>();
+                        Animator ZomebieBoxs = battlezone.transform.Find("ZombieBox").GetComponent<Animator>();
                         ZomebieBoxs.gameObject.SetActive(false);
 
 

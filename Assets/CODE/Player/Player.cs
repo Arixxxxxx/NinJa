@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-        
+
             ModeChangeTimer += Time.deltaTime;
             if (GameManager.Instance.isGetMeleeItem)
             {
@@ -226,6 +226,7 @@ public class Player : MonoBehaviour
                     if (ModeChangeTimer > 0.4f)
                     {
                         F_RangeMode();
+
                         //Ani.SetTrigger("ModeChange");
                         //btn2.SetTrigger("Ok");
                         //F_CharText("Range");
@@ -233,7 +234,7 @@ public class Player : MonoBehaviour
                         ModeChangeTimer = 0;
                     }
                 }
-          
+
 
             }
 
@@ -263,14 +264,15 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            
+        
+        if (GameManager.Instance.isGetRangeItem)
+        {
 
             // 원거리모드
-            else if (GameManager.Instance.rangeMode)
+            if (GameManager.Instance.rangeMode)
             {
                 meleeitemshowok = false;
-                if (GameManager.Instance.isGetRangeItem)
-                {
+               
                     // 활 마우스 컨트롤
                     if (Input.GetMouseButton(1))
                     {
@@ -282,32 +284,32 @@ public class Player : MonoBehaviour
                         isAiming = false;
                         RealBow.gameObject.SetActive(false);
                     }
-                }
-                   
-              
-                
 
-                // 한번 모드변경햇다면 예외처리
-                if (rangeitemshowok) { return; }
-                //좌측하단 무기UI바 아웃라인체크 활성화
-                btnBoxOutLine1.gameObject.SetActive(false);
-                btnBoxOutLine2.gameObject.SetActive(true);
-                if (DJumpOn || JumpOn || isDodge || Iswall)
-                {
-                    return;
+                    // 한번 모드변경햇다면 예외처리
+                    if (rangeitemshowok) { return; }
+                    //좌측하단 무기UI바 아웃라인체크 활성화
+                    btnBoxOutLine1.gameObject.SetActive(false);
+                    btnBoxOutLine2.gameObject.SetActive(true);
+                    if (DJumpOn || JumpOn || isDodge || Iswall)
+                    {
+                        return;
+                    }
+                    //근접무기 비활성화
+                    sheldSR.enabled = false;
+                    SwordSr.enabled = false;
+                    //weapon1.gameObject.SetActive(false);
+                    //sheld.gameObject.SetActive(false);
+                    rangeitemshowok = true;
+
                 }
-                //근접무기 비활성화
-                sheldSR.enabled = false;
-                SwordSr.enabled = false;
-                //weapon1.gameObject.SetActive(false);
-                //sheld.gameObject.SetActive(false);
-                rangeitemshowok = true;
+                           
             }
         }
      
     }
     public void F_RangeMode()
     {
+        
         Ani.SetTrigger("ModeChange");
         btn2.SetTrigger("Ok");
         F_CharText("Range");

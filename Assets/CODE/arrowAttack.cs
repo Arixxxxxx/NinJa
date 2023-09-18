@@ -23,13 +23,14 @@ public class arrowAttack : MonoBehaviour
 
          for (int i = 0; i < 30; i++)
         {
-            FillAni = GameObject.Find("GameUI").transform.Find("Btn2/ArrowFill").GetComponentInParent<Animator>();
+            FillAni = GameObject.Find("GameUI").transform.Find("Btn2/ArrowFill").GetComponent<Animator>();
             GameObject obj = Instantiate(Arrow, transform.position, Quaternion.Euler(0,0,0), ArrowTong);
             obj.SetActive(false);
             ArrowBox.Enqueue(obj);
         }
     }
 
+    
     private void LookAtMouse()
     {
         if (GameManager.Instance.isGetRangeItem)
@@ -83,7 +84,6 @@ public class arrowAttack : MonoBehaviour
     {
         LookAtMouse();
         ArrowFire();
-
 
     }
 

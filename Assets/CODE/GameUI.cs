@@ -41,7 +41,7 @@ public class GameUI : MonoBehaviour
             once= true;
             meleeUI.gameObject.SetActive(true);
         }
-        if (GameManager.Instance.isGetRangeItem && once1)
+        if (GameManager.Instance.isGetRangeItem && !once1)
         {
             once1 = true;
             rangeUi.gameObject.SetActive(true);
