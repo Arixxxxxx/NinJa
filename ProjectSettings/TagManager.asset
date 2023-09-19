@@ -17,6 +17,7 @@ TagManager:
   - HitBox
   - Ghost
   - Point
+  - Eagle
   layers:
   - Default
   - TransparentFX

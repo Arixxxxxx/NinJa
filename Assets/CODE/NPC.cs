@@ -18,7 +18,12 @@ public class NPC : MonoBehaviour
             ani = GetComponent<Animator>();
             Sr = GetComponent<SpriteRenderer>();
         }
-       
+        if (gameObject.name == "전투교관")
+        {
+            ani = GetComponent<Animator>();
+            Sr = GetComponent<SpriteRenderer>();
+        }
+
         btn = transform.Find("Canvas").GetComponent<Transform>();
     }
     private void Update()

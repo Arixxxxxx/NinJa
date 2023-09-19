@@ -61,6 +61,19 @@ public class Bullet : MonoBehaviour
         Arrowbox.F_SetArrow(gameObject);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Eagle"))
+        {
+            Debug.Log("¡¯¿‘");
+            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
+            obj.transform.position = this.gameObject.transform.position;
+            ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
+            sc1.Play();
+
+            F_BulletReturn();
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -73,7 +86,9 @@ public class Bullet : MonoBehaviour
             sc.F_OnHIt(Bullet_DMG);
             F_BulletReturn();
         }
-        if(collision.gameObject.CompareTag("Ghost"))
+
+
+        if (collision.gameObject.CompareTag("Ghost"))
         {
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;

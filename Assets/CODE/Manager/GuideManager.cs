@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GuideManager : MonoBehaviour
@@ -40,6 +41,8 @@ public class GuideManager : MonoBehaviour
     //트랩 가이드
     Animator Ani5, Ani5_2;
     Transform Ani5_1;
+
+    
 
  
 
@@ -438,6 +441,9 @@ public class GuideManager : MonoBehaviour
             GameManager.Instance.once = false;
             next3_3 = 0;
             Ani3_3.gameObject.SetActive(false);
+
+            //원거리무기 획득시 가이드끝나면 전투교관 소환
+            StartCoroutine(GetItemNPC2.Instance.ririSpawn());
         }
 
         if (Ani4_1.gameObject.activeSelf)

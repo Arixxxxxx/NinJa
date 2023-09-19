@@ -10,9 +10,13 @@ using UnityEngine.Rendering.Universal;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
+    
     public GameObject glodbalLight;
+
+    // 라이트 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public Light2D worldLight;
+
+
     [Header("# 캐릭터 전투관련")]
     [Space]
     public bool meleeMode;
@@ -50,9 +54,14 @@ public class GameManager : MonoBehaviour
     public bool once;
 
     //리리 캐릭터컴퍼넌트
-    public NPC npc;
-    public Rigidbody2D ririRB;
-    
+    [HideInInspector] public NPC npc;
+    [HideInInspector] public Rigidbody2D ririRB;
+
+    //전투교관 캐릭터컴퍼넌트
+    [HideInInspector] public NPC npc2;
+    [HideInInspector] public Transform questMark; // 퀘스트창
+    [HideInInspector] public Rigidbody2D battleNpcRb;
+
     //다른 스크립트 접근용 변수
     [HideInInspector] public Player player;
     [HideInInspector] public Transform playerTR;
@@ -94,9 +103,18 @@ public class GameManager : MonoBehaviour
     //튜토리얼 이벤트[배틀존]
     [HideInInspector] public Transform tutorialEvent;
     [HideInInspector] public Transform battlezone;
+    [HideInInspector] public Transform rangeZone;
 
     //배틀존 엘레베이터 사격중지
     [HideInInspector] public bool FireStop;
+
+    //마지막 튜토용 이동만불가 불리언
+    public bool legStop;
+    public int deathEagleConter; // 킬카운터
+    public int totalDeathEagle = 10; // 잡아야하는 독수리양
+
+    //튜토리얼 씬 종료
+    bool Act1End;
 
     private void Awake()
     {
@@ -145,8 +163,15 @@ public class GameManager : MonoBehaviour
         GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
         guideM = GameGuideTR.GetComponent<GuideManager>();
 
+        //리리npc 
         npc = GameObject.Find("NPC/리리").GetComponent<NPC>();
         ririRB = npc.transform.GetComponent<Rigidbody2D>();
+
+        //전투교관npc
+        npc2 = GameObject.Find("NPC/전투교관").GetComponent<NPC>();
+        battleNpcRb = npc2.transform.GetComponent<Rigidbody2D>();
+        questMark = npc2.transform.Find("TalkCheak").GetComponent<Transform>();
+
 
         //씬넘길때 사용할 배경
         blackScreen = gameUI.transform.Find("BlackScreen").GetComponent<Image>();
@@ -160,6 +185,7 @@ public class GameManager : MonoBehaviour
         //튜토리얼존
         tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
         battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
+        rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
     }
 
     private void Start()
@@ -170,6 +196,22 @@ public class GameManager : MonoBehaviour
     {
         if (!meleeMode) { rangeMode = true; }
         else { rangeMode = false; }
+
+        Act1EndBlackScreenOn();
+    }
+
+    private void Act1EndBlackScreenOn()
+    {
+        if (!Act1End)
+        {
+            return;
+        }
+       else if (Act1End)
+        {
+            blackScreen.gameObject.SetActive(true);
+            blackScreen.color += new Color(0, 0, 0, 0.15f) * Time.deltaTime;
+        }
+      
     }
     public void F_TalkSurch(GameObject _obj)
     {
@@ -196,26 +238,66 @@ public class GameManager : MonoBehaviour
             if (_objname == "전투교관")
             {
              
-                _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
+                
                 SetNPCId sc = _obj.GetComponent<SetNPCId>();
 
                 switch(sc.ID)
                 {
+                    //인사하고 좀비꺼내줌
                     case 200:
                         sc.ID += 1;
-                        Animator ZomebieBox = battlezone.Find("ZombieBox").GetComponent<Animator>();
-                        ZomebieBox.SetBool("Open", true);
-                        GameManager.Instance.MovingStop = false;
+                        //Animator ZomebieBox = battlezone.Find("ZombieBox").GetComponent<Animator>();
+                        //ZomebieBox.SetBool("Open", true);
+                        //GameManager.Instance.MovingStop = false;
 
+                        StartCoroutine(Step1ZomeBieBoxOpen());
+                      //코르틴으로 처리 
                         break;
 
+                   //산으로 가라그러고 텔탐
                     case 201:
-                        //sc.ID += 1;
+                        sc.ID += 1;
                         Animator ZomebieBoxs = battlezone.transform.Find("ZombieBox").GetComponent<Animator>();
                         ZomebieBoxs.gameObject.SetActive(false);
+                        _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
 
+                        _obj.gameObject.layer = 12;
+                        NPC script = _obj.GetComponent<NPC>();
+                        script.ani.SetBool("Show", true);
+
+                        StartCoroutine(RiRITel(_obj));
 
                         break;
+                     // 좋은활먹어서 ㅊㅋ한다하고 집으로돌아감
+                    case 202:
+                        sc.ID += 1;
+                        NPC script2 = _obj.GetComponent<NPC>();
+                        Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
+                        questionMark.gameObject.SetActive(false); // 스캔기능 종료
+
+                        script2.ani.SetBool("Show", true);
+                        StartCoroutine(BattleNpcGotoHome(_obj));
+                        StartCoroutine(GatePlay(_obj));
+
+                        break;
+
+                        //뒤에 의자위에서 활쏘라고함
+                    case 203:
+                        _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
+                        sc.ID += 1;
+
+                        rangeZone.gameObject.SetActive(true) ;
+                        break;
+
+                    case 204:
+                        questMark.gameObject.SetActive(false);
+                        questMark.transform.parent.GetChild(0).gameObject.SetActive(false);
+                        Act1End = true;
+                        MovingStop = true;
+
+                        break;
+
+
                 }
 
             }
@@ -252,7 +334,7 @@ public class GameManager : MonoBehaviour
 
                             //소환문 소환
 
-                            StartCoroutine(GatePlay());
+                            StartCoroutine(GatePlay(_obj));
                         }
                         break;
 
@@ -288,7 +370,18 @@ public class GameManager : MonoBehaviour
         TalkIndex++;
     }
 
-
+    IEnumerator Step1ZomeBieBoxOpen()
+    {
+        Animator ZomebieBox = battlezone.Find("ZombieBox").GetComponent<Animator>();
+        ZomebieBox.SetBool("Open", true);
+        GameManager.Instance.MovingStop = false;
+        yield return new WaitForSecondsRealtime(4);
+        for(int i = 0; i < 6; i++)
+        {
+            ZomebieBox.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 3;
+        }
+        ZomebieBox.SetBool("Down", true);
+    }
     
 
     public void SpriteSetFalse()
@@ -310,24 +403,69 @@ public class GameManager : MonoBehaviour
         ririRB.gravityScale = 0;
         _obj.gameObject.SetActive(false);
     }
+    private IEnumerator BattleNpcGotoHome(GameObject _obj)
+    {
+        _obj.transform.Find("TalkCheak").gameObject.SetActive(false);
+        yield return new WaitForSecondsRealtime(1.7f);
+        _obj.transform.position = _obj.transform.Find("TelPoint2").transform.position;
+        Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
+        _obj.gameObject.layer = 18;
+        questionMark.gameObject.SetActive(true);
+        NPC sc = _obj.GetComponent<NPC>();
 
-    private IEnumerator GatePlay()
+        sc.ani.SetBool("Show", false);
+
+        _obj.gameObject.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(18);
+        _obj.gameObject.SetActive(true);
+        sc.ani.SetBool("Show", true);
+        yield return new WaitForSecondsRealtime(1);
+        sc.ani.SetBool("Show", false);
+        _obj.transform.Find("TalkCheak").gameObject.SetActive(true);
+
+    }
+
+
+    private IEnumerator GatePlay(GameObject obj)
     {
         GameManager.Instance.MovingStop = true;
         yield return new WaitForSecondsRealtime(1.3f);
         GameManager.Instance.playerTR.localScale = new Vector3(3, 3, 3); //우측 바라봄
-        
+
         //바닥진동과 이모티콘박스 궁금중
-        GetItemNPC.Instance.partiGate.Play();
+        if (obj.gameObject.name == "리리")
+        {
+            GetItemNPC.Instance.partiGate.Play();
+        }
+        else if(obj.gameObject.name == "전투교관")
+        {
+            GetItemNPC2.Instance.partiGate.Play();
+        }
         Emoticon.instance.F_GetEmoticonBox("Question");
+        if (obj.gameObject.name == "리리")
+        {
+            yield return new WaitForSecondsRealtime(1.5f);
+            GetItemNPC.Instance.aniGate.SetTrigger("ShowUp");
+
+            yield return new WaitForSecondsRealtime(7f);
+
+            GameManager.Instance.MovingStop = false;
+            GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
+        }
+        else if(obj.gameObject.name == "전투교관")
+        {
+            yield return new WaitForSecondsRealtime(1.5f);
+            GetItemNPC2.Instance.aniGate.SetTrigger("ShowUp");
+
+            yield return new WaitForSecondsRealtime(7f);
+
+            GameManager.Instance.MovingStop = false;
+            GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
+        }
+        
 
         // 게이트 올라옴
-        yield return new WaitForSecondsRealtime(1.5f);
-        GetItemNPC.Instance.aniGate.SetTrigger("ShowUp");
-
-        yield return new WaitForSecondsRealtime(7f);
-
-        GameManager.Instance.MovingStop = false;
-        GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
+        
     }
 }

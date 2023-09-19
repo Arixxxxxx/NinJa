@@ -530,30 +530,18 @@ public class Player : MonoBehaviour
     private void MovdChar()
 
     {
-        if (!MovingStop)
+        if (!GameManager.Instance.legStop)
         {
-            //이동
-            if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge && !GameManager.Instance.isTalking)
+            if (!MovingStop)
             {
-                Char_Vec.x = Input.GetAxisRaw("Horizontal");
-                Rb.velocity = new Vector2(Char_Vec.x * Char_Speed, Rb.velocity.y);
-            }
-            //캐릭터 방향 스케일
-            if (GameManager.Instance.meleeMode)
-            {
-                if (Rb.velocity.x > 0 && Char_Vec.x > 0 && !KB)
+                //이동
+                if (!OnDMG && !GameManager.Instance.isPlayerDead && !wallJumpon && !isDodge && !GameManager.Instance.isTalking)
                 {
-                    transform.localScale = new Vector3(3, 3, 1);
+                    Char_Vec.x = Input.GetAxisRaw("Horizontal");
+                    Rb.velocity = new Vector2(Char_Vec.x * Char_Speed, Rb.velocity.y);
                 }
-                else if (Rb.velocity.x < 0 && Char_Vec.x < 0 && !KB)
-                {
-                    transform.localScale = new Vector3(-3, 3, 1);
-                }
-            }
-
-            if(GameManager.Instance.rangeMode) 
-            {
-                if (!isAiming)
+                //캐릭터 방향 스케일
+                if (GameManager.Instance.meleeMode)
                 {
                     if (Rb.velocity.x > 0 && Char_Vec.x > 0 && !KB)
                     {
@@ -564,63 +552,79 @@ public class Player : MonoBehaviour
                         transform.localScale = new Vector3(-3, 3, 1);
                     }
                 }
-                else
+
+                if (GameManager.Instance.rangeMode)
                 {
-                    if (GameManager.Instance.AimLeft)
+                    if (!isAiming)
                     {
-                        transform.localScale = new Vector3(-3, 3, 1);
+                        if (Rb.velocity.x > 0 && Char_Vec.x > 0 && !KB)
+                        {
+                            transform.localScale = new Vector3(3, 3, 1);
+                        }
+                        else if (Rb.velocity.x < 0 && Char_Vec.x < 0 && !KB)
+                        {
+                            transform.localScale = new Vector3(-3, 3, 1);
+                        }
                     }
                     else
                     {
-                        transform.localScale = new Vector3(3, 3, 1);
+                        if (GameManager.Instance.AimLeft)
+                        {
+                            transform.localScale = new Vector3(-3, 3, 1);
+                        }
+                        else
+                        {
+                            transform.localScale = new Vector3(3, 3, 1);
+                        }
                     }
+
                 }
-              
-            }
-           
-            //구르기
-            if (Input.GetKey(KeyCode.LeftControl) && !JumpOn && !Iswall && !DJumpOn && !isDodge)
-            {
-                if (GameManager.Instance.Player_CurSP < 15)
+
+                //구르기
+                if (Input.GetKey(KeyCode.LeftControl) && !JumpOn && !Iswall && !DJumpOn && !isDodge)
                 {
-                    F_CharText("SP");
-                    return;
-                }
-                else if (GameManager.Instance.Player_CurSP > 15)
-                {
-
-                    isDodge = true;
-                    Rb.velocity = Vector2.zero;
-                    sheldSR.enabled = false;
-                    SwordSr.enabled = false;
-                    //sheld.gameObject.SetActive(false);
-                    //weapon1.gameObject.SetActive(false);
-                    GameManager.Instance.Player_CurSP -= 15;
-                   
-
-
-
-                    if (!isLeft)
+                    if (GameManager.Instance.Player_CurSP < 15)
                     {
-                        
-                        Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
-                        gameObject.layer = 10;
-                        Invoke("F_ReturnLayer", 0.5f);
-                        Ani.SetTrigger("Dodge");
+                        F_CharText("SP");
+                        return;
                     }
-                    else if (isLeft)
+                    else if (GameManager.Instance.Player_CurSP > 15)
                     {
-                      
-                        Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
-                        gameObject.layer = 10;
-                        Invoke("F_ReturnLayer", 0.5f);
-                        Ani.SetTrigger("Dodge");
 
+                        isDodge = true;
+                        Rb.velocity = Vector2.zero;
+                        sheldSR.enabled = false;
+                        SwordSr.enabled = false;
+                        //sheld.gameObject.SetActive(false);
+                        //weapon1.gameObject.SetActive(false);
+                        GameManager.Instance.Player_CurSP -= 15;
+
+
+
+
+                        if (!isLeft)
+                        {
+
+                            Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
+                            gameObject.layer = 10;
+                            Invoke("F_ReturnLayer", 0.5f);
+                            Ani.SetTrigger("Dodge");
+                        }
+                        else if (isLeft)
+                        {
+
+                            Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
+                            gameObject.layer = 10;
+                            Invoke("F_ReturnLayer", 0.5f);
+                            Ani.SetTrigger("Dodge");
+
+                        }
                     }
                 }
             }
+
         }
-      
+
     }
     private void F_ReturnLayer()
     {
@@ -904,10 +908,9 @@ public class Player : MonoBehaviour
         wallJumpon = false;
         if (GameManager.Instance.meleeMode)
         {
-            sheldSR.enabled = true;
-            SwordSr.enabled = true;
-            //sheld.gameObject.SetActive(true);
-            //weapon1.gameObject.SetActive(true);
+            //sheldSR.enabled = true;
+            //SwordSr.enabled = true;
+            MeleeItemShow(0);
         }
         else
         {

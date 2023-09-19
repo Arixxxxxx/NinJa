@@ -60,7 +60,7 @@ public class GetItemNPC2 : MonoBehaviour
                 //먹었으니 템주고 플레이어 전투기능 켜줌설명서 보여줌
                 if (!once1)
                 {
-                    Debug.Log("진입");
+                    
                     once1 = true;
                     guideManager.StopCharacter();
                     itemsSprite.gameObject.SetActive(false);
@@ -102,6 +102,19 @@ public class GetItemNPC2 : MonoBehaviour
         guideManager.Ani3_2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 2.3f);
         guideManager.Ani3_2.gameObject.SetActive(true);
         guideManager.Ani3_2.SetBool("Show", true);
+    }
+
+    //산속에서 템먹고나면 텔타서 전투교관 나타남
+    public IEnumerator ririSpawn()
+    {
+        GameManager.Instance.battleNpcRb.gameObject.SetActive(true);
+        GameManager.Instance.npc2.ani.SetBool("Show", true);
+
+        yield return new WaitForSecondsRealtime(1.7f);
+
+        GameManager.Instance.npc2.ani.SetBool("Show", false);
+        GameManager.Instance.npc2.transform.Find("TalkCheak").gameObject.SetActive(true);
+        GameManager.Instance.battleNpcRb.gravityScale = 1;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

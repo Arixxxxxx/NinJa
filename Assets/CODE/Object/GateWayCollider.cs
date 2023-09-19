@@ -32,6 +32,7 @@ public class GateWayCollider : MonoBehaviour
         colorup();
         colordown();
         Gatedelete();
+
     }
 
     private void colorup()
@@ -45,11 +46,22 @@ public class GateWayCollider : MonoBehaviour
             switch (telePortNum)
             {
                 case 0:
+                    telePortNum++;
                     transform.parent.position = transform.parent.Find("Tellpon1").transform.position;
                     GetItemNPC.Instance.partiGate.gameObject.SetActive(true);
 
                     //GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
                     StartCoroutine(Step1());
+
+                    break;
+
+                case 1:
+                    
+                    transform.parent.position = transform.parent.Find("Tellpon1").transform.position;
+                    GetItemNPC2.Instance.partiGate.gameObject.SetActive(true);
+                    GameManager.Instance.worldLight.intensity = 1;
+                    //GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
+                    StartCoroutine(Step2());
 
                     break;
 
@@ -117,6 +129,20 @@ public class GateWayCollider : MonoBehaviour
             }
         }
     }
+
+    //float counter3 = 1;
+    //private void Gatedelete2()
+    //{
+    //    if (GateOff)
+    //    {
+    //        counter3 -= Time.deltaTime * speed;
+    //        GateSr.color -= new Color(1, 1, 1, counter3);
+    //        if (GateSr.color.a < 0.05f)
+    //        {
+    //            GateOff = false;
+    //        }
+    //    }
+    //}
     IEnumerator Step1()
     {
         GameManager.Instance.player.Sr.enabled = false;
@@ -138,6 +164,36 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.player.Sr.enabled = true;
         GameManager.Instance.player.MeleeItemShow(0);
         GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
+        GameManager.Instance.MovingStop = false;
+        yield return new WaitForSecondsRealtime(2f);
+        GateOff = true;
+    }
+
+    IEnumerator Step2()
+    {
+        GameManager.Instance.player.Sr.enabled = false;
+        GameManager.Instance.player.MeleeItemShow(1);
+        GateSr.enabled = false;
+        GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
+
+        yield return new WaitForSecondsRealtime(2.5f);
+
+
+        GetItemNPC2.Instance.partiGate.Play();
+        yield return new WaitForSecondsRealtime(0.5f);
+        transform.localScale = new Vector3(-1, 1, 1);
+        //GateSr.enabled = true;
+        GetItemNPC2.Instance.aniGate.SetTrigger("ShowUp");
+        yield return new WaitForSecondsRealtime(0.2f);
+        GateSr.enabled = true;
+        yield return new WaitForSecondsRealtime(5.3f);
+     
+        if (GameManager.Instance.meleeMode)
+        {
+            GameManager.Instance.player.MeleeItemShow(0);
+        }
+        GameManager.Instance.player.Sr.enabled = true;
+        GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
         GameManager.Instance.MovingStop = false;
         yield return new WaitForSecondsRealtime(2f);
         GateOff = true;

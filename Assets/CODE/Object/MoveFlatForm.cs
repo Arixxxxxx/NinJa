@@ -22,7 +22,7 @@ public class MoveFlatForm : MonoBehaviour
     [SerializeField] private float count;
     private Vector2 targetPos;
     public GameObject obj;
-
+    private float exitTimeCounter;
     
 
     
@@ -73,7 +73,12 @@ public class MoveFlatForm : MonoBehaviour
                 }
                 else if(box.collider == null)
                 {
-                    targetPos = point2.position;
+                    exitTimeCounter += Time.deltaTime;
+                    if(exitTimeCounter > 1.5f)
+                    {
+                        targetPos = point2.position;
+                    }
+                   
                     count = 0;
                 }
                 transform.position = Vector2.MoveTowards(transform.position, targetPos, flatFormSpeed * Time.deltaTime);

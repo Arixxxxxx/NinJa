@@ -11,6 +11,7 @@ public class Action1 : MonoBehaviour
     {
         right = transform.Find("Right").GetComponent<Transform>();
         left = transform.Find("Left").GetComponent<Transform>();
+        
     }
     bool once;
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,7 +26,20 @@ public class Action1 : MonoBehaviour
             GameObject E2 = PoolManager.Instance.F_GetObj("Enemy");
             E2.transform.position = left.transform.position;
 
+            if(boxColl == null)
+            {
+                boxColl = GetComponent<BoxCollider2D>();
+            }
             boxColl.enabled = false;
+            StartCoroutine(TreeLayerReturn());
         }
+    }
+    IEnumerator TreeLayerReturn()
+    {
+        yield return new WaitForSecondsRealtime(2);
+
+        right.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        left.GetComponent<SpriteRenderer>().sortingOrder = 5;
+
     }
 }
