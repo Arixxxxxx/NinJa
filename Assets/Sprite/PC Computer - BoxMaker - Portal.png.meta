@@ -136,15 +136,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_0
+      name: 1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 656
-        width: 127
-        height: 130
+        x: 2
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -157,15 +157,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_1
+      name: 2
       rect:
         serializedVersion: 2
-        x: 130
-        y: 656
-        width: 127
-        height: 130
+        x: 131
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -178,15 +178,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_2
+      name: 3
       rect:
         serializedVersion: 2
-        x: 259
-        y: 656
-        width: 127
-        height: 130
+        x: 260
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -199,15 +199,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_3
+      name: 4
       rect:
         serializedVersion: 2
-        x: 388
-        y: 656
-        width: 127
-        height: 130
+        x: 389
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -220,15 +220,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_4
+      name: 5
       rect:
         serializedVersion: 2
-        x: 517
-        y: 656
-        width: 127
-        height: 130
+        x: 518
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -241,15 +241,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_5
+      name: 6
       rect:
         serializedVersion: 2
-        x: 646
-        y: 656
-        width: 127
-        height: 130
+        x: 647
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -262,15 +262,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_6
+      name: 7
       rect:
         serializedVersion: 2
-        x: 775
-        y: 656
-        width: 127
-        height: 130
+        x: 776
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -283,15 +283,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_7
+      name: 8
       rect:
         serializedVersion: 2
-        x: 904
-        y: 656
-        width: 127
-        height: 130
+        x: 905
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -304,15 +304,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_8
+      name: 9
       rect:
         serializedVersion: 2
-        x: 1033
-        y: 656
-        width: 127
-        height: 130
+        x: 1034
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -325,15 +325,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_9
+      name: 10
       rect:
         serializedVersion: 2
-        x: 1162
-        y: 656
-        width: 127
-        height: 130
+        x: 1163
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -346,15 +346,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_10
+      name: 11
       rect:
         serializedVersion: 2
-        x: 1291
-        y: 656
-        width: 127
-        height: 130
+        x: 1292
+        y: 658
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -367,36 +367,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_11
+      name: 13
       rect:
         serializedVersion: 2
-        x: 1
-        y: 525
-        width: 127
-        height: 130
+        x: 131
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ea019769c51ebc24ca2613deb79cefd0
-      internalID: 1019495597
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_12
-      rect:
-        serializedVersion: 2
-        x: 130
-        y: 525
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -409,15 +388,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_13
+      name: 14
       rect:
         serializedVersion: 2
-        x: 259
-        y: 525
-        width: 127
-        height: 130
+        x: 260
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -430,15 +409,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_14
+      name: 15
       rect:
         serializedVersion: 2
-        x: 388
-        y: 525
-        width: 127
-        height: 130
+        x: 389
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -451,15 +430,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_15
+      name: 16
       rect:
         serializedVersion: 2
-        x: 517
-        y: 525
-        width: 127
-        height: 130
+        x: 518
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -472,15 +451,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_16
+      name: 17
       rect:
         serializedVersion: 2
-        x: 646
-        y: 525
-        width: 127
-        height: 130
+        x: 647
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -493,15 +472,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_17
+      name: 18
       rect:
         serializedVersion: 2
-        x: 775
-        y: 525
-        width: 127
-        height: 130
+        x: 776
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -514,15 +493,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_18
+      name: 19
       rect:
         serializedVersion: 2
-        x: 904
-        y: 525
-        width: 127
-        height: 130
+        x: 905
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -535,15 +514,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_19
+      name: 20
       rect:
         serializedVersion: 2
-        x: 1033
-        y: 525
-        width: 127
-        height: 130
+        x: 1034
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -556,15 +535,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_20
+      name: 21
       rect:
         serializedVersion: 2
-        x: 1162
-        y: 525
-        width: 127
-        height: 130
+        x: 1163
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -577,15 +556,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_21
+      name: 22
       rect:
         serializedVersion: 2
-        x: 1291
-        y: 525
-        width: 127
-        height: 130
+        x: 1292
+        y: 527
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -598,36 +577,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_22
+      name: 24
       rect:
         serializedVersion: 2
-        x: 1
-        y: 394
-        width: 127
-        height: 130
+        x: 131
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 46589f5e47e863447a1faabef0baf370
-      internalID: -786212332
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_23
-      rect:
-        serializedVersion: 2
-        x: 130
-        y: 394
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -640,15 +598,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_24
+      name: 25
       rect:
         serializedVersion: 2
-        x: 259
-        y: 394
-        width: 127
-        height: 130
+        x: 260
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -661,15 +619,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_25
+      name: 26
       rect:
         serializedVersion: 2
-        x: 388
-        y: 394
-        width: 127
-        height: 130
+        x: 389
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -682,15 +640,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_26
+      name: 27
       rect:
         serializedVersion: 2
-        x: 517
-        y: 394
-        width: 127
-        height: 130
+        x: 518
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -703,15 +661,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_27
+      name: 28
       rect:
         serializedVersion: 2
-        x: 646
-        y: 394
-        width: 127
-        height: 130
+        x: 647
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -724,15 +682,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_28
+      name: 29
       rect:
         serializedVersion: 2
-        x: 775
-        y: 394
-        width: 127
-        height: 130
+        x: 776
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -745,15 +703,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_29
+      name: 30
       rect:
         serializedVersion: 2
-        x: 904
-        y: 394
-        width: 127
-        height: 130
+        x: 905
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -766,78 +724,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_30
+      name: 23
       rect:
         serializedVersion: 2
-        x: 1033
-        y: 394
-        width: 127
-        height: 130
+        x: 2
+        y: 396
+        width: 126
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3ac26169a5bee2c4b8261c8cb9c61320
-      internalID: 1477473233
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_31
-      rect:
-        serializedVersion: 2
-        x: 1162
-        y: 394
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7b55e2162890b2b419176cad714dc2b2
-      internalID: -47984317
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_32
-      rect:
-        serializedVersion: 2
-        x: 1291
-        y: 394
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 42dc1e60b15a75e42846c5349e182e44
-      internalID: -1016924188
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_33
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -845,615 +740,6 @@ TextureImporter:
       bones: []
       spriteID: f759bfbc25ca65e4698516c9a41e1b73
       internalID: 1173194805
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_34
-      rect:
-        serializedVersion: 2
-        x: 130
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e002ce419431a2488c3b215ea0d7d50
-      internalID: -510435179
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_35
-      rect:
-        serializedVersion: 2
-        x: 259
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e0a19b278cece254796a5ffd8e1ec699
-      internalID: -1016055211
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_36
-      rect:
-        serializedVersion: 2
-        x: 388
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 55a28cf0c8867d441a247ddf4863cd4a
-      internalID: 1286560828
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_37
-      rect:
-        serializedVersion: 2
-        x: 517
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 490e6ca9634b34345b0757866f09d154
-      internalID: -1552071227
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_38
-      rect:
-        serializedVersion: 2
-        x: 646
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 449c49b5569226142aa0ca2c968369fa
-      internalID: -1536256486
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_39
-      rect:
-        serializedVersion: 2
-        x: 775
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a9fc5e2a4336bcc40a636f29a1724d43
-      internalID: -438138196
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_40
-      rect:
-        serializedVersion: 2
-        x: 904
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 66f0aaffe39804a4c9265bd597a7fd8a
-      internalID: -1115294299
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_41
-      rect:
-        serializedVersion: 2
-        x: 1033
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7b6d19c64ea4027448a4c1c14651a734
-      internalID: 142583263
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_42
-      rect:
-        serializedVersion: 2
-        x: 1162
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b045c0d30c3dd684ba5ead551a6aeab9
-      internalID: -115654615
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_43
-      rect:
-        serializedVersion: 2
-        x: 1291
-        y: 263
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fa365f46249e5474f85342c14bd45419
-      internalID: 1786003342
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_44
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3273bf13bfce2ab4883bab4813c2ef73
-      internalID: -664881915
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_45
-      rect:
-        serializedVersion: 2
-        x: 130
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7050e2030e5b8a489ef5cdefcaa8a4a
-      internalID: -552697234
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_46
-      rect:
-        serializedVersion: 2
-        x: 259
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: df5f3b88ed65a8346807014d08f87445
-      internalID: 834913593
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_47
-      rect:
-        serializedVersion: 2
-        x: 388
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 84428cdf51a00ce4a8acf1b3c911ce4d
-      internalID: -1788534165
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_48
-      rect:
-        serializedVersion: 2
-        x: 517
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 155055b92eda9a64ea968fafbb7adc05
-      internalID: 269458818
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_49
-      rect:
-        serializedVersion: 2
-        x: 646
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 291c9fe5788c94546a48e38729feb948
-      internalID: -277909135
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_50
-      rect:
-        serializedVersion: 2
-        x: 775
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1205159a144ca1e46b2f1a04b1639068
-      internalID: -1335599271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_51
-      rect:
-        serializedVersion: 2
-        x: 904
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3ba697967cff86b48b641c8c2c135381
-      internalID: 556044106
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_52
-      rect:
-        serializedVersion: 2
-        x: 1033
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f7b076a1afa439b4292f76e777822dc4
-      internalID: 430020556
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_53
-      rect:
-        serializedVersion: 2
-        x: 1162
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b4d13bb8747fde846b56ee805953b79e
-      internalID: -1487445293
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_54
-      rect:
-        serializedVersion: 2
-        x: 1291
-        y: 132
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f561e2454d5292c4198d0b41c9c72ecc
-      internalID: -1273979170
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_55
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 02f401c18fd634a4688fd1caccbe14d8
-      internalID: -1176661718
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_56
-      rect:
-        serializedVersion: 2
-        x: 130
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9f91aa4a0bfc37b4b8557c913291b2b1
-      internalID: 1489623537
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_57
-      rect:
-        serializedVersion: 2
-        x: 259
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 66f462d7e336c5c4ca234aba659acc57
-      internalID: -910710502
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_58
-      rect:
-        serializedVersion: 2
-        x: 388
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 36b81fafaac0e204089315c2fb1f7442
-      internalID: 136831114
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_59
-      rect:
-        serializedVersion: 2
-        x: 517
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ac5c6c1066b4424a9c41fcc45981179
-      internalID: -21423489
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_60
-      rect:
-        serializedVersion: 2
-        x: 646
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e7dd1660d9438c4a97b39efe8233baf
-      internalID: 1552396561
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_61
-      rect:
-        serializedVersion: 2
-        x: 775
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e91c8a337be25942bacbdb9f3fc344c
-      internalID: 2129903387
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PC Computer - BoxMaker - Portal_62
-      rect:
-        serializedVersion: 2
-        x: 904
-        y: 1
-        width: 127
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5fa8fcc7790329d44aa695507508e0b5
-      internalID: -1237295275
       vertices: []
       indices: 
       edges: []
@@ -1467,7 +753,7 @@ TextureImporter:
         width: 127
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1488,7 +774,7 @@ TextureImporter:
         width: 127
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1509,7 +795,7 @@ TextureImporter:
         width: 127
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1517,6 +803,27 @@ TextureImporter:
       bones: []
       spriteID: a3ab3a4bda8503c4e92bd86af78c5e9e
       internalID: 64478614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 12
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 527
+        width: 126
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6893d4ac263e47a4b89e33201a5a250a
+      internalID: -109583126
       vertices: []
       indices: 
       edges: []
@@ -1532,41 +839,47 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PC Computer - BoxMaker - Portal_0: 2146930652
-      PC Computer - BoxMaker - Portal_1: -129674683
-      PC Computer - BoxMaker - Portal_10: -1837003648
+      1: 2146930652
+      10: -381201102
+      11: -1837003648
+      12: -109583126
+      13: 459765224
+      14: 1549889123
+      15: -1974315412
+      16: 179756603
+      17: 1264122286
+      18: -1435625931
+      19: -1368124138
+      2: -129674683
+      20: -1305562668
+      21: 1373187904
+      22: -62892904
+      23: 1173194805
+      24: -764561276
+      25: 217918383
+      26: 2038725991
+      27: 336410176
+      28: -1718543558
+      29: -93697191
+      3: 831405971
+      30: 1569721721
+      4: 476589691
+      5: -866992075
+      6: 88351867
+      7: 813804809
+      8: -1165351126
+      9: 1433676295
       PC Computer - BoxMaker - Portal_11: 1019495597
-      PC Computer - BoxMaker - Portal_12: 459765224
-      PC Computer - BoxMaker - Portal_13: 1549889123
-      PC Computer - BoxMaker - Portal_14: -1974315412
-      PC Computer - BoxMaker - Portal_15: 179756603
-      PC Computer - BoxMaker - Portal_16: 1264122286
-      PC Computer - BoxMaker - Portal_17: -1435625931
-      PC Computer - BoxMaker - Portal_18: -1368124138
-      PC Computer - BoxMaker - Portal_19: -1305562668
-      PC Computer - BoxMaker - Portal_2: 831405971
-      PC Computer - BoxMaker - Portal_20: 1373187904
-      PC Computer - BoxMaker - Portal_21: -62892904
       PC Computer - BoxMaker - Portal_22: -786212332
-      PC Computer - BoxMaker - Portal_23: -764561276
-      PC Computer - BoxMaker - Portal_24: 217918383
-      PC Computer - BoxMaker - Portal_25: 2038725991
-      PC Computer - BoxMaker - Portal_26: 336410176
-      PC Computer - BoxMaker - Portal_27: -1718543558
-      PC Computer - BoxMaker - Portal_28: -93697191
-      PC Computer - BoxMaker - Portal_29: 1569721721
-      PC Computer - BoxMaker - Portal_3: 476589691
       PC Computer - BoxMaker - Portal_30: 1477473233
       PC Computer - BoxMaker - Portal_31: -47984317
       PC Computer - BoxMaker - Portal_32: -1016924188
-      PC Computer - BoxMaker - Portal_33: 1173194805
       PC Computer - BoxMaker - Portal_34: -510435179
       PC Computer - BoxMaker - Portal_35: -1016055211
       PC Computer - BoxMaker - Portal_36: 1286560828
       PC Computer - BoxMaker - Portal_37: -1552071227
       PC Computer - BoxMaker - Portal_38: -1536256486
       PC Computer - BoxMaker - Portal_39: -438138196
-      PC Computer - BoxMaker - Portal_4: -866992075
       PC Computer - BoxMaker - Portal_40: -1115294299
       PC Computer - BoxMaker - Portal_41: 142583263
       PC Computer - BoxMaker - Portal_42: -115654615
@@ -1577,7 +890,6 @@ TextureImporter:
       PC Computer - BoxMaker - Portal_47: -1788534165
       PC Computer - BoxMaker - Portal_48: 269458818
       PC Computer - BoxMaker - Portal_49: -277909135
-      PC Computer - BoxMaker - Portal_5: 88351867
       PC Computer - BoxMaker - Portal_50: -1335599271
       PC Computer - BoxMaker - Portal_51: 556044106
       PC Computer - BoxMaker - Portal_52: 430020556
@@ -1588,16 +900,12 @@ TextureImporter:
       PC Computer - BoxMaker - Portal_57: -910710502
       PC Computer - BoxMaker - Portal_58: 136831114
       PC Computer - BoxMaker - Portal_59: -21423489
-      PC Computer - BoxMaker - Portal_6: 813804809
       PC Computer - BoxMaker - Portal_60: 1552396561
       PC Computer - BoxMaker - Portal_61: 2129903387
       PC Computer - BoxMaker - Portal_62: -1237295275
       PC Computer - BoxMaker - Portal_63: 1863666154
       PC Computer - BoxMaker - Portal_64: 1560641855
       PC Computer - BoxMaker - Portal_65: 64478614
-      PC Computer - BoxMaker - Portal_7: -1165351126
-      PC Computer - BoxMaker - Portal_8: 1433676295
-      PC Computer - BoxMaker - Portal_9: -381201102
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

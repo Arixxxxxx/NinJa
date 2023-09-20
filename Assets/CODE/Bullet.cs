@@ -66,6 +66,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Eagle"))
         {
             Debug.Log("¡¯¿‘");
+            GameManager.Instance.curEagle--;
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
@@ -57,6 +58,7 @@ public class EnemyBullet : MonoBehaviour
         //Debug.Log(dir);
         transform.localEulerAngles = new Vector3(0, 0, angle);
         Rb.velocity = transform.up * Speed;
+        once = false;
     }
 
     void Update()
@@ -72,16 +74,22 @@ public class EnemyBullet : MonoBehaviour
         Rb.velocity = transform.up * Speed;
     }
 
+    bool once;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")) 
+        if (collision.gameObject.CompareTag("Player") && !once)
         {
-            StartCoroutine(collision.GetComponent<Player>().F_OnHit());
-            PoolManager.Instance.F_ReturnObj(gameObject, "EB");
+            once = true;
+            StartCoroutine(PlayerDMG(collision));
+            //Player sc = collision.gameObject.GetComponent<Player>();
+            //StartCoroutine(sc.F_OnHit());
+
+            //PoolManager.Instance.F_ReturnObj(gameObject, "EB");
         }
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Shield"))
+          else if (collision.gameObject.layer == LayerMask.NameToLayer("Shield") && !once)
         {
+            once = true;
             GameManager.Instance.Player_CurSP -= 5;
             
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
@@ -91,9 +99,9 @@ public class EnemyBullet : MonoBehaviour
 
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") && !once)
         {
-            
+            once = true;
             PoolManager.Instance.F_GetObj("Dust");
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = gameObject.transform.position;
@@ -101,11 +109,33 @@ public class EnemyBullet : MonoBehaviour
             PoolManager.Instance.F_ReturnObj(gameObject, "EB");
         }
 
-    }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && !once)
+        {
+            once = true;
+            PoolManager.Instance.F_GetObj("Dust");
+            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
+            obj.transform.position = gameObject.transform.position;
 
+            PoolManager.Instance.F_ReturnObj(gameObject, "EB");
+           
+        }
+    }
+  
     private void OnBecameInvisible()
     {
         PoolManager.Instance.F_ReturnObj(gameObject, "EB");
+    }
+    
+    IEnumerator PlayerDMG(Collider2D collision)
+    {
+        Player sc = collision.gameObject.GetComponent<Player>();
+        StartCoroutine(sc.F_OnHit());
+        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+
+        yield return new WaitForSecondsRealtime(1.6f);
+        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+        
+        //PoolManager.Instance.F_ReturnObj(gameObject, "EB");
     }
 }
 

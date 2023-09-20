@@ -13,7 +13,12 @@ public class FireStop : MonoBehaviour
         {
             if(GameManager.Instance.worldLight.intensity > 0.5f)
             {
-                GameManager.Instance.worldLight.intensity -= Time.deltaTime;
+                GameManager.Instance.worldLight.intensity -= Time.deltaTime * 0.8f;
+
+                if (GameManager.Instance.worldLight.intensity <= 0.5f)
+                {
+                    once = false;
+                }
             }
           
         }

@@ -26,8 +26,22 @@ public class CaveCanon : MonoBehaviour
     {
         AttackTarget();
         scanNPC();
+        EyeDir();
     }
     float counter;
+
+    private void EyeDir() 
+    {
+        bool left = GameManager.Instance.playerTR.position.x < transform.position.x;
+        if (left)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
     private void AttackTarget()
     {
         if (!GameManager.Instance.FireStop)

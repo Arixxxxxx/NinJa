@@ -47,7 +47,7 @@ public class PoolManager : MonoBehaviour
             Dust.Enqueue(obj);
             obj.SetActive(false);
         }
-          for (int i = 0;i < 20; i++)
+          for (int i = 0;i < 40; i++)
         {
             GameObject obj = Instantiate(Bullet[0], transform.position, Quaternion.identity, transform);
             EnemyBullets.Enqueue(obj);

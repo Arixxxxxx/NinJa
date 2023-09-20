@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Xml;
+using Unity.VisualScripting;
 
 public class RangeZone : MonoBehaviour
 {
     [SerializeField] private GameObject Eagles;
+    [SerializeField] private float Speed= 0.5f;
    private Transform spawnPoint1, spawnPoint2;
     private Transform EventUi;
    public bool gameStart;
     TMP_Text KillText;
     Animator chairBoom;
- 
+    float count = 4.5f;
+    float countTimer;
+    float total;
     //생성 마리수
     int makeEagleEA;
+    bool spawnStart;
 
     private void Awake()
     {
@@ -34,29 +40,54 @@ public class RangeZone : MonoBehaviour
         Event();
     }
     bool once;
+    bool once1;
     float Timer;
     [Range(1f,3f)][SerializeField] float reSapwnTime;
     public void Event()
     {
         if (gameStart && makeEagleEA > 0)
         {
-            KillText.text = $"남은 마리수 : {GameManager.Instance.deathEagleConter} / {GameManager.Instance.totalDeathEagle}";
-            Timer += Time.deltaTime;
-            if (Timer > reSapwnTime)
+            GameManager.Instance.EventTimeBar.gameObject.SetActive(true);
+            GameManager.Instance.TimeText.text = $"남은 마리수 : {GameManager.Instance.curEagle} / {GameManager.Instance.totalDeathEagle}";
+            float value = GameManager.Instance.curEagle / GameManager.Instance.totalDeathEagle;
+            if(value < GameManager.Instance.TimeBar.fillAmount)
             {
-                Timer = 0f;
-                makeEagleEA--;
-                GameObject obj = Instantiate(Eagles, spawnPoint1.position, Quaternion.identity, transform);
-                Eagle sc = obj.transform.GetChild(0).GetComponent<Eagle>();
-                if (sc.moveType == 0)
+                GameManager.Instance.TimeBar.fillAmount -= Time.deltaTime * Speed;
+            }
+
+            countTimer += Time.deltaTime;
+            total = count - countTimer;
+            if(total > 0)
+            {
+                KillText.text = total.ToString("F0");
+            }
+            if(total < 0 && !once1)
+            {
+                once1 = true;
+                StartCoroutine(StartGame());
+            }
+                        
+            if (spawnStart)
+            {
+                //KillText.text = $"남은 마리수 : {GameManager.Instance.deathEagleConter} / {GameManager.Instance.totalDeathEagle}";
+                Timer += Time.deltaTime;
+                if (Timer > reSapwnTime)
                 {
-                    obj.transform.position = spawnPoint1.position;
-                }
-                else if (sc.moveType == 1)
-                {
-                    obj.transform.position = spawnPoint2.position;
+                    Timer = 0f;
+                    makeEagleEA--;
+                    GameObject obj = Instantiate(Eagles, spawnPoint1.position, Quaternion.identity, transform);
+                    Eagle sc = obj.transform.GetChild(0).GetComponent<Eagle>();
+                    if (sc.moveType == 0)
+                    {
+                        obj.transform.position = spawnPoint1.position;
+                    }
+                    else if (sc.moveType == 1)
+                    {
+                        obj.transform.position = spawnPoint2.position;
+                    }
                 }
             }
+           
         }
         else if (GameManager.Instance.deathEagleConter == GameManager.Instance.totalDeathEagle)
         {
@@ -70,7 +101,15 @@ public class RangeZone : MonoBehaviour
             
         }
     }
-
+    IEnumerator StartGame()
+    {
+        yield return new WaitForSecondsRealtime(0.6f);
+        KillText.text = "Start";
+        yield return new WaitForSecondsRealtime(0.6f);
+        spawnStart = true;
+        KillText.text = string.Empty;
+    }
+  
     // 의자 콜라이더 정보 가져와서 시작
     public void StartEvent(Collision2D coll)
     {
@@ -94,11 +133,19 @@ public class RangeZone : MonoBehaviour
     IEnumerator EndEvent()
     {
         GameManager.Instance.npc2.transform.Find("TalkCheak").gameObject.SetActive(true);
-        KillText.text = $"남은 마리수 : {GameManager.Instance.deathEagleConter} / {GameManager.Instance.totalDeathEagle}";
+        //KillText.text = $"남은 마리수 : {GameManager.Instance.deathEagleConter} / {GameManager.Instance.totalDeathEagle}";
         yield return new WaitForSecondsRealtime(0.2f);
         KillText.text = "미션 완료!";
         yield return new WaitForSecondsRealtime(0.5f);
         chairBoom.SetTrigger("Boom");
+
+        GameManager.Instance.EventTimeBar.gameObject.SetActive(false);
+        GameManager.Instance.TimeBar.fillAmount = 1;
+        GameManager.Instance.TimeText.text = string.Empty;
+
+
+
+        chairBoom.transform.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSecondsRealtime(3);
         EventUi.gameObject.SetActive(false);
         

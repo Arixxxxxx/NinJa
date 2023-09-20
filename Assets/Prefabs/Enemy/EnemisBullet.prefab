@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5897681895883546018}
   - component: {fileID: 6831494901437304117}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: BulletSR
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,9 +96,9 @@ GameObject:
   - component: {fileID: 5062441018053156128}
   - component: {fileID: 5059934387217045357}
   - component: {fileID: 8497531744906320473}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: EnemisBullet
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 8651273399745390792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 136.3, y: 11.5, z: -0.062174227}
+  m_LocalPosition: {x: 94.50893, y: 3.2478514, z: -0.062174227}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

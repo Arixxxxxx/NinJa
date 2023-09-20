@@ -5,12 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 public class GateWayCollider : MonoBehaviour
 {
+    public enum GateType
+    {
+        RiRiGate, BattleNpcGate
+    }
+    public GateType type;
     float counter;
     
     [SerializeField] bool up;
     [SerializeField] bool down;
     [SerializeField] bool end;
-    [SerializeField] int telePortNum = 0;
+
     [Range(0f,1f)][SerializeField] private float speed = 0.2f;
     Image back;
 
@@ -31,7 +36,7 @@ public class GateWayCollider : MonoBehaviour
     {
         colorup();
         colordown();
-        Gatedelete();
+        //Gatedelete();
 
     }
 
@@ -43,10 +48,9 @@ public class GateWayCollider : MonoBehaviour
             down = true;
 
             //검정화면때 순간이동
-            switch (telePortNum)
+            switch (type)
             {
-                case 0:
-                    telePortNum++;
+                case GateType.RiRiGate:
                     transform.parent.position = transform.parent.Find("Tellpon1").transform.position;
                     GetItemNPC.Instance.partiGate.gameObject.SetActive(true);
 
@@ -55,7 +59,7 @@ public class GateWayCollider : MonoBehaviour
 
                     break;
 
-                case 1:
+                case GateType.BattleNpcGate:
                     
                     transform.parent.position = transform.parent.Find("Tellpon1").transform.position;
                     GetItemNPC2.Instance.partiGate.gameObject.SetActive(true);
@@ -89,7 +93,6 @@ public class GateWayCollider : MonoBehaviour
             {
                 end = true;
                 down = false;
-                telePortNum++;
                 back.gameObject.SetActive(false);
 
             }
@@ -145,6 +148,7 @@ public class GateWayCollider : MonoBehaviour
     //}
     IEnumerator Step1()
     {
+        GetItemNPC.Instance.aniGate.SetBool("active", false);
         GameManager.Instance.player.Sr.enabled = false;
         GameManager.Instance.player.MeleeItemShow(1);
         GateSr.enabled = false;
@@ -153,24 +157,31 @@ public class GateWayCollider : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
       
 
-        GetItemNPC.Instance.partiGate.Play();
+        GetItemNPC.Instance.partiGate.Play(); //쿠구구구
+        GameManager.Instance.CameraShakeSwitch(0); //카메라흔들고
         yield return new WaitForSecondsRealtime(0.5f);
-        transform.localScale = new Vector3(-1, 1, 1);
+        transform.localScale = new Vector3(-1, 1, 1); //방향바꿔주고
         //GateSr.enabled = true;
-        GetItemNPC.Instance.aniGate.SetTrigger("ShowUp");
+        GetItemNPC.Instance.aniGate.SetTrigger("ShowUp"); // 올라오고
         yield return new WaitForSecondsRealtime(0.2f);
-        GateSr.enabled = true;
+        GateSr.enabled = true; //스프라이트 키고
         yield return new WaitForSecondsRealtime(5.3f);
         GameManager.Instance.player.Sr.enabled = true;
         GameManager.Instance.player.MeleeItemShow(0);
         GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
         GameManager.Instance.MovingStop = false;
+        
+        yield return new WaitForSecondsRealtime(0.2f);
+        GameManager.Instance.CameraShakeSwitch(1);
         yield return new WaitForSecondsRealtime(2f);
-        GateOff = true;
+        //GateOff = true;
+        GetItemNPC.Instance.aniGate.SetBool("Hide",true);
+        GetItemNPC2.Instance.aniGate.transform.position = GameManager.Instance.gateOriginPos;
     }
 
     IEnumerator Step2()
     {
+        GetItemNPC2.Instance.aniGate.SetBool("active", false);
         GameManager.Instance.player.Sr.enabled = false;
         GameManager.Instance.player.MeleeItemShow(1);
         GateSr.enabled = false;
@@ -180,6 +191,7 @@ public class GateWayCollider : MonoBehaviour
 
 
         GetItemNPC2.Instance.partiGate.Play();
+        GameManager.Instance.CameraShakeSwitch(0);
         yield return new WaitForSecondsRealtime(0.5f);
         transform.localScale = new Vector3(-1, 1, 1);
         //GateSr.enabled = true;
@@ -195,7 +207,22 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.player.Sr.enabled = true;
         GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
         GameManager.Instance.MovingStop = false;
+        yield return new WaitForSecondsRealtime(0.2f);
+        GameManager.Instance.CameraShakeSwitch(1);
         yield return new WaitForSecondsRealtime(2f);
-        GateOff = true;
+        GetItemNPC2.Instance.aniGate.SetBool("Hide", true);
+        //GateOff = true;
+    }
+
+    //리리 차원문 활성화
+    public void GateActive1()
+    {
+        GetItemNPC.Instance.aniGate.SetBool("active", true);
+    }
+
+    //배틀npc 차원문 활성화
+    public void GateActive2()
+    {
+        GetItemNPC2.Instance.aniGate.SetBool("active", true);
     }
 }

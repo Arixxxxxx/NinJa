@@ -68,6 +68,15 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public Enemys enemys;
 
+    // 카메라 연출 컨트롤
+    [Header("# 카메라 연출 확인용")]
+    [Space]
+    public bool normalCamera;
+     public bool cameraShake;
+
+    //고대차원문 위치기억
+    public Vector3 gateOriginPos;
+
     private Enemys _enemy;
     public Enemys Enemy2
     { 
@@ -110,8 +119,10 @@ public class GameManager : MonoBehaviour
 
     //마지막 튜토용 이동만불가 불리언
     public bool legStop;
-    public int deathEagleConter; // 킬카운터
-    public int totalDeathEagle = 10; // 잡아야하는 독수리양
+    public float deathEagleConter; // 킬카운터
+    
+    public float curEagle = 10; // 킬카운터
+    public float totalDeathEagle = 10; // 잡아야하는 독수리양
 
     //튜토리얼 씬 종료
     bool Act1End;
@@ -127,6 +138,9 @@ public class GameManager : MonoBehaviour
             Debug.Log("삭제되엇음");
             Destroy(gameObject);
         }
+
+        CameraShakeSwitch(1);
+
         meleeMode = true;
         CurArrow = 100;
         MaxArrow = 100;
@@ -153,7 +167,7 @@ public class GameManager : MonoBehaviour
 
         //게임UI 접근용
         gameUiText = gameUI.transform.Find("EventText").GetComponent<TMP_Text>();  //// 이벤트용 MainText접근용
-        ScreenText = gameUiText.GetComponent<GameUiText>(); // 이벤트용 MainText
+        ScreenText = gameUiText.GetComponent<GameUiText>(); // 이벤트용 MainText <화면중앙>
         EventTimeBar = gameUI.transform.Find("EventTimeBar").GetComponent<Transform>(); // 이벤트 시간바
         TimeBar = EventTimeBar.transform.GetChild(1).GetComponent<Image>();  // 이벤트 시간바 Fill값 접근용
         TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>(); // 이벤트 시간바안에 텍스트
@@ -380,7 +394,10 @@ public class GameManager : MonoBehaviour
         {
             ZomebieBox.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 3;
         }
-        ZomebieBox.SetBool("Down", true);
+        ZomebieBox.SetTrigger("Hide");
+        ZomebieBox.transform.Find("Door").GetComponent<BoxCollider2D>().enabled = false;
+       
+        
     }
     
 
@@ -407,7 +424,7 @@ public class GameManager : MonoBehaviour
     {
         _obj.transform.Find("TalkCheak").gameObject.SetActive(false);
         yield return new WaitForSecondsRealtime(1.7f);
-        _obj.transform.position = _obj.transform.Find("TelPoint2").transform.position;
+        _obj.transform.position = transform.Find("TelPoint1").transform.position;
         Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
         _obj.gameObject.layer = 18;
         questionMark.gameObject.SetActive(true);
@@ -427,6 +444,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+    //동굴에서 게이트 소환씬
     private IEnumerator GatePlay(GameObject obj)
     {
         GameManager.Instance.MovingStop = true;
@@ -434,38 +452,58 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.playerTR.localScale = new Vector3(3, 3, 3); //우측 바라봄
 
         //바닥진동과 이모티콘박스 궁금중
-        if (obj.gameObject.name == "리리")
+          if (obj.gameObject.name == "리리")
         {
             GetItemNPC.Instance.partiGate.Play();
-        }
-        else if(obj.gameObject.name == "전투교관")
-        {
-            GetItemNPC2.Instance.partiGate.Play();
-        }
-        Emoticon.instance.F_GetEmoticonBox("Question");
-        if (obj.gameObject.name == "리리")
-        {
+            Emoticon.instance.F_GetEmoticonBox("Question");
+            CameraShakeSwitch(0);
             yield return new WaitForSecondsRealtime(1.5f);
+            gateOriginPos = GetItemNPC.Instance.aniGate.transform.position;
             GetItemNPC.Instance.aniGate.SetTrigger("ShowUp");
 
             yield return new WaitForSecondsRealtime(7f);
 
             GameManager.Instance.MovingStop = false;
+
+            CameraShakeSwitch(1);
             GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
+
         }
+
         else if(obj.gameObject.name == "전투교관")
         {
+            GetItemNPC2.Instance.partiGate.Play();
+            Emoticon.instance.F_GetEmoticonBox("Question");
+            CameraShakeSwitch(0);
             yield return new WaitForSecondsRealtime(1.5f);
             GetItemNPC2.Instance.aniGate.SetTrigger("ShowUp");
 
             yield return new WaitForSecondsRealtime(7f);
 
             GameManager.Instance.MovingStop = false;
+            CameraShakeSwitch(1);
             GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
         }
-        
 
-        // 게이트 올라옴
-        
+    }
+
+    /// <summary>
+    /// 카메라 쉐이크
+    /// </summary>
+    /// <param name="_Value">0="켜기" , 1="끄기"</param>
+    public void CameraShakeSwitch(int _Value)
+    {
+        switch (_Value)
+        {
+            case 0:
+                normalCamera = false;
+                cameraShake = true;
+                break;
+            case 1:
+                normalCamera = true;
+                cameraShake = false;
+                break;
+        }
+
     }
 }

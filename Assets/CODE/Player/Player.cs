@@ -834,7 +834,7 @@ public class Player : MonoBehaviour
                 
                 gameObject.layer = 10;
                 Sr.color = new Color(1, 1, 1, 0.3f);
-
+                Debug.Log("진입1");
                 //넉백
                 if (isLeft)
                 {
@@ -846,10 +846,10 @@ public class Player : MonoBehaviour
                     Rb.AddForce(new Vector3(-3 * KB_Power, 6), ForceMode2D.Impulse);
                     KB = true;
                 }
-
-                yield return new WaitForSeconds(1.5f);
-
-                gameObject.layer = 6;
+                Debug.Log("진입2");
+                yield return new WaitForSecondsRealtime(1.5f);
+                Debug.Log("진입3");
+                gameObject.layer = LayerMask.NameToLayer("Player");
                 Sr.color = new Color(1, 1, 1, 1);
                 OnDMG = false;
             }

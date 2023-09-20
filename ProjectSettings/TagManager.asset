@@ -18,6 +18,7 @@ TagManager:
   - Ghost
   - Point
   - Eagle
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -45,7 +46,7 @@ TagManager:
   - GetItem2
   - EmoticonPointer
   - Shield
-  - 
+  - EnemyBullet
   - 
   - 
   - 
