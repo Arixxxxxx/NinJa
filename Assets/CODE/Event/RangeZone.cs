@@ -15,7 +15,7 @@ public class RangeZone : MonoBehaviour
    public bool gameStart;
     TMP_Text KillText;
     Animator chairBoom;
-    float count = 4.5f;
+    float count = 3.5f;
     float countTimer;
     float total;
     //생성 마리수
@@ -59,7 +59,7 @@ public class RangeZone : MonoBehaviour
             total = count - countTimer;
             if(total > 0)
             {
-                KillText.text = total.ToString("F0");
+                KillText.text = (total + 1).ToString("F0");
             }
             if(total < 0 && !once1)
             {

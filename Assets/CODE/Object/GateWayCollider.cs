@@ -119,33 +119,8 @@ public class GateWayCollider : MonoBehaviour
             boxColl.enabled = false;
         }
     }
-    float counter2 = 1;
-    private void Gatedelete()
-    {
-        if (GateOff)
-        {
-            counter2 -= Time.deltaTime * speed;
-            GateSr.color -= new Color(1, 1, 1, counter2);
-            if(GateSr.color.a < 0.05f)
-            {
-                GateOff = false;
-            }
-        }
-    }
-
-    //float counter3 = 1;
-    //private void Gatedelete2()
-    //{
-    //    if (GateOff)
-    //    {
-    //        counter3 -= Time.deltaTime * speed;
-    //        GateSr.color -= new Color(1, 1, 1, counter3);
-    //        if (GateSr.color.a < 0.05f)
-    //        {
-    //            GateOff = false;
-    //        }
-    //    }
-    //}
+   
+   
     IEnumerator Step1()
     {
         GetItemNPC.Instance.aniGate.SetBool("active", false);
@@ -166,12 +141,15 @@ public class GateWayCollider : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
         GateSr.enabled = true; //스프라이트 키고
         yield return new WaitForSecondsRealtime(5.3f);
-        GameManager.Instance.player.Sr.enabled = true;
-        GameManager.Instance.player.MeleeItemShow(0);
-        GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
-        GameManager.Instance.MovingStop = false;
+
+        //플레이어 Show 애니메이션으로 이사갈께요
+        //GameManager.Instance.player.Sr.enabled = true;
+        //GameManager.Instance.player.MeleeItemShow(0);
+        //GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
+        //GameManager.Instance.MovingStop = false;
         
-        yield return new WaitForSecondsRealtime(0.2f);
+        // 
+        //yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
         yield return new WaitForSecondsRealtime(2f);
         //GateOff = true;
@@ -200,13 +178,13 @@ public class GateWayCollider : MonoBehaviour
         GateSr.enabled = true;
         yield return new WaitForSecondsRealtime(5.3f);
      
-        if (GameManager.Instance.meleeMode)
-        {
-            GameManager.Instance.player.MeleeItemShow(0);
-        }
-        GameManager.Instance.player.Sr.enabled = true;
-        GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
-        GameManager.Instance.MovingStop = false;
+        //if (GameManager.Instance.meleeMode)
+        //{
+        //    GameManager.Instance.player.MeleeItemShow(0);
+        //}
+        //GameManager.Instance.player.Sr.enabled = true;
+        //GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
+        //GameManager.Instance.MovingStop = false;
         yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
         yield return new WaitForSecondsRealtime(2f);
@@ -224,5 +202,39 @@ public class GateWayCollider : MonoBehaviour
     public void GateActive2()
     {
         GetItemNPC2.Instance.aniGate.SetBool("active", true);
+    }
+
+    public int ShowCount = 0; // 애니메이션으로 켜줄껀데 동굴에서 처음나올때는 작동되면안되서 이때는 인트만올려줌
+    public void ShowCharactor()
+        
+    {
+        ShowCount++;
+        if (ShowCount == 2)
+        {
+            GameManager.Instance.player.Sr.enabled = true;
+            GameManager.Instance.player.MeleeItemShow(0);
+            GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
+            GameManager.Instance.MovingStop = false;
+        }
+        
+    }
+    public int ShowCount1 = 0; // 애니메이션으로 켜줄껀데 동굴에서 처음나올때는 작동되면안되서 이때는 인트만올려줌
+    public void ShowCharActer2()
+    {
+        ShowCount1++;
+
+        if(ShowCount1 == 2)
+        {
+            GameManager.Instance.player.Sr.enabled = true;
+            GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
+            GameManager.Instance.MovingStop = false;
+
+            if (GameManager.Instance.meleeMode)
+            {
+                GameManager.Instance.player.MeleeItemShow(0);
+            }
+           
+        }
+       
     }
 }

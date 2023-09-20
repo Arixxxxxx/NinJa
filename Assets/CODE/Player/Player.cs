@@ -478,7 +478,7 @@ public class Player : MonoBehaviour
         }
         Debug.DrawRay(transform.position, CastDir * 1.5f,Color.red);
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.isWaitTalking)
         {
              //상호작용 글 다 안읽으면 못넘기게함 (게시판이나 npc)
             if(GameManager.Instance.text.NextTextOk)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEditor;
 
 
 public class Ghost : MonoBehaviour
@@ -29,6 +30,11 @@ public class Ghost : MonoBehaviour
 
     Vector3 MyCurPos;
     Vector3 PlayerPos;
+
+    [Header("# Gizmo")]
+    [SerializeField] private bool ShowRange;
+    [SerializeField][Range(0f, 10f)] private float Range = 5f;
+    [SerializeField] private Color gizmoColor;
 
     public RaycastHit2D Target;
     public bool TargetOk;
@@ -74,7 +80,7 @@ public class Ghost : MonoBehaviour
     }
     private void F_SurchPlayer()
     {
-        Target = Physics2D.CircleCast(transform.position, 5f, Vector2.zero, 0, LayerMask.GetMask("Player", "OnDMG"));
+        Target = Physics2D.CircleCast(transform.position, Range, Vector2.zero, 0, LayerMask.GetMask("Player", "OnDMG"));
         TargetOk = Target.collider != null ? true : false;
          mark.gameObject.SetActive(TargetOk);
         
@@ -207,6 +213,18 @@ public class Ghost : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (ShowRange)
+        {
+            Handles.color = gizmoColor;
+            Handles.DrawWireDisc(transform.position, Vector3.forward, Range);
+        }
+        
+    }
+#endif
     private void OnEnable()
     {
         this.gameObject.layer = 8;

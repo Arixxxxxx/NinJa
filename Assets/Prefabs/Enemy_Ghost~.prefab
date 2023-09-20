@@ -295,7 +295,7 @@ Transform:
   m_GameObject: {fileID: 5364411248970423474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65.53, y: 1.19, z: 0}
+  m_LocalPosition: {x: 1.27, y: 2.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -459,6 +459,9 @@ MonoBehaviour:
   frequency: 3.2
   waveheight: 2.2
   dirRight: 1
+  ShowRange: 1
+  Range: 5
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   TargetOk: 0
   GhostDead: 0
 --- !u!1 &5395504549894577484

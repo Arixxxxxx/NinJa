@@ -18,6 +18,7 @@ public class ZombieBox : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !once)
         {
+            Emoticon.instance.F_GetEmoticonBox("Angry");
             Ani.SetTrigger("Open");
         }
         

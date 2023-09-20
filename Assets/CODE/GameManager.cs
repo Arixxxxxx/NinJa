@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator TalkBox;
     [SerializeField] public bool isTalking;
     [SerializeField] private TalkManager talkmanager;
+    [SerializeField] public bool isWaitTalking;
+
+
     public TypeEffect text;
     private Image NpcSprite;
     public bool MovingStop;
@@ -212,6 +215,7 @@ public class GameManager : MonoBehaviour
         else { rangeMode = false; }
 
         Act1EndBlackScreenOn();
+        TalkOk();
     }
 
     private void Act1EndBlackScreenOn()
@@ -247,7 +251,7 @@ public class GameManager : MonoBehaviour
         
         if(talk == null) 
         {
-         
+            isWaitTalking = true;
 
             if (_objname == "전투교관")
             {
@@ -485,6 +489,27 @@ public class GameManager : MonoBehaviour
             GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
         }
 
+    }
+
+    float talkingtimer;
+    [SerializeField] float talkingWaitTime = 2;
+    private void TalkOk()
+    {
+        if (!isWaitTalking) 
+        {
+            return;
+        }
+
+        else if (isWaitTalking)
+        {
+            talkingtimer += Time.deltaTime;
+            if(talkingtimer > talkingWaitTime)
+            {
+                talkingtimer = 0;
+                isWaitTalking = false;
+            }
+
+        }
     }
 
     /// <summary>

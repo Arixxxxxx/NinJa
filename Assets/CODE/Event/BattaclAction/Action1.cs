@@ -19,6 +19,7 @@ public class Action1 : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Player") && !once)
         {
+            Emoticon.instance.F_GetEmoticonBox("Angry");
             once = true;
             GameObject E1 = PoolManager.Instance.F_GetObj("Enemy");
             E1.transform.position = right.transform.position;
