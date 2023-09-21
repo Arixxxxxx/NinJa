@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class MainSceneUi : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class MainSceneUi : MonoBehaviour
     private Image blackBackGround;
     private Image openingLogo;
     private Transform backGround;
-    private Transform btn1, btn2;
+    private Image btn1, btn2;
     private SpriteRenderer mainLogo;
     private TMP_Text mainLogoText;
 
@@ -20,6 +21,7 @@ public class MainSceneUi : MonoBehaviour
 
     bool step1, step2;
     bool step3, step4;
+    TMP_Text btn1_T, btn2_T;
 
     private void Awake()
     {
@@ -33,8 +35,13 @@ public class MainSceneUi : MonoBehaviour
         mainLogoText = mainLogo.transform.GetChild(0).GetChild(0).GetComponent <TMP_Text>();
 
 
-        btn1 = transform.Find("btn1").GetComponent < Transform> ();
-        btn2 = transform.Find("btn2").GetComponent < Transform> ();
+        btn1 = transform.Find("btn1").GetComponent <Image> ();
+        btn1_T = btn1.transform.GetChild(0).GetComponent<TMP_Text> ();
+        
+        btn2 = transform.Find("btn2").GetComponent <Image> ();
+        btn2_T = btn2.transform.GetChild(0).GetComponent<TMP_Text>();
+
+
         MainScrrenInit();
     }
 
@@ -42,6 +49,8 @@ public class MainSceneUi : MonoBehaviour
     {
         OpeningLogoPopup();
         Stpe2Start();
+        Step6Start();
+        BlackScreenOn();
     }
 
     bool once;
@@ -92,6 +101,7 @@ public class MainSceneUi : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1.5f);
         step1 = true;
+        
     }
     bool step5;
     private void Stpe2Start()
@@ -119,11 +129,26 @@ public class MainSceneUi : MonoBehaviour
         
     }
 
+    bool step6;
     IEnumerator BtnOn()
     {
         yield return new WaitForSecondsRealtime(1.5f);
-        btn1.gameObject.SetActive(true);
-        btn2.gameObject.SetActive(true);
+        step6 = true;
+    }
+
+    private void Step6Start()
+    {
+        if (step6)
+        {
+            btn1.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
+            btn2.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
+            btn1_T.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
+            btn2_T.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
+            if(btn1.color.a > 0.95f)
+            {
+                step6 = false;
+            }
+        }
     }
     private void MainScrrenInit()
     {
@@ -135,8 +160,83 @@ public class MainSceneUi : MonoBehaviour
         mainLogo.color = new Color(1, 1, 1, 0);
         mainLogoText.color = new Color(0, 0, 0, 0);
 
-        btn1.gameObject.SetActive(false);
-        btn2.gameObject.SetActive(false);
+        //btn1.gameObject.SetActive(false);
+        //btn2.gameObject.SetActive(false);
+
+        btn1.color = new Color(1, 1, 1, 0);
+        btn2.color = new Color(1, 1, 1, 0);
+        btn1_T.color = new Color(1, 1, 1, 0);
+        btn2_T.color = new Color(1, 1, 1, 0);
     }
 
+    public void MouseOnEnterBtn()
+    {
+        switch (gameObject.name)
+        {
+            case "btn1T":
+                btn1_T.color = new Color(0, 0, 0, 1);
+
+                break;
+
+            case "btn2T":
+                btn2_T.color = new Color(0, 0, 0, 1);
+                break;
+
+        }
+    }
+
+    public void MouseOnExitBtn()
+    {
+        switch (gameObject.name)
+        {
+            case "btn1T":
+                btn1_T.color = new Color(1, 1, 1, 1);
+
+                break;
+
+            case "btn2T":
+                btn2_T.color = new Color(1, 1, 1, 1);
+                break;
+
+        }
+    }
+
+
+    // 마우스클릭류
+    bool step7, step8;
+    public void NexrScene()
+    {
+        blackBackGround.gameObject.SetActive(true);
+        step7 = true;
+    }
+    private void BlackScreenOn()
+    {
+        if (step7)
+        {
+            blackBackGround.color += new Color(0, 0, 0, 0.2f) * alpahColorSpeed * Time.deltaTime;
+
+            if(blackBackGround.color.a > 0.98f)
+            {
+                StartCoroutine(FinalCutton());
+            }
+        }
+
+        if (step8)
+        {
+            step8 = false;
+            SceneManager.LoadScene("Chapter1");
+        }
+        
+    }
+
+    IEnumerator FinalCutton()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        step7 = false;
+        step8 = true;
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
