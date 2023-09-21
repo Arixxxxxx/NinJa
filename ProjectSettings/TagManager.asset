@@ -3,56 +3,47 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Ground
-  - Trap
-  - Enemy
-  - Bullet
-  - FloatForm
-  - Wall
-  - Weapon
-  - Fan
-  - Wind
-  - Saw
-  - HitBox
-  - Ghost
-  - Point
-  - Eagle
-  - EnemyBullet
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
-  - Player
-  - 'Bullet '
-  - Enemy
-  - Wall
-  - OnDMG
-  - FlatForm
-  - Blood
-  - EnemyDead
-  - PlayerDead
-  - Weapon
-  - noWeapon
-  - Trap
-  - NPC
-  - HitBox
-  - BoxPapyun
-  - Point
-  - GetItem
-  - GetItem2
-  - EmoticonPointer
-  - Shield
-  - EnemyBullet
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2424153585
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 3928980359
     locked: 0
