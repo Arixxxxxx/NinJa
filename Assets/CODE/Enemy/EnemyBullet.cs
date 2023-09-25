@@ -108,6 +108,15 @@ public class EnemyBullet : MonoBehaviour
 
             PoolManager.Instance.F_ReturnObj(gameObject, "EB");
         }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("NoWall") && !once)
+        {
+            once = true;
+            PoolManager.Instance.F_GetObj("Dust");
+            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
+            obj.transform.position = gameObject.transform.position;
+
+            PoolManager.Instance.F_ReturnObj(gameObject, "EB");
+        }
 
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && !once)
         {

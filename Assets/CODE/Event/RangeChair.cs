@@ -31,6 +31,6 @@ public class RangeChair : MonoBehaviour
     }
     public void boom()
     {
-        transform.parent.gameObject.SetActive(false);
+        transform.gameObject.SetActive(false);
     }
 }

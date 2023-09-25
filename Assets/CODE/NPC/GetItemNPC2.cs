@@ -16,6 +16,8 @@ public class GetItemNPC2 : MonoBehaviour
     Transform canvas;
     ParticleSystem itemLight;
     GuideManager guideManager;
+    BoxCollider2D noWay;
+    
     bool once;
     bool once1;
 
@@ -35,6 +37,7 @@ public class GetItemNPC2 : MonoBehaviour
         canvas = transform.Find("Canvas").GetComponent<Transform>(); //장비획득 표시창
         aniGate = transform.Find("GateWay/Gate").GetComponent <Animator>();
         partiGate = transform.Find("GateWay/Parti").GetComponent<ParticleSystem>();
+        noWay = transform.Find("NoWay").GetComponent<BoxCollider2D>();
 
     }
 
@@ -67,7 +70,7 @@ public class GetItemNPC2 : MonoBehaviour
                     canvas.gameObject.SetActive(false);
                     StartCoroutine(itemShowRangeMode());
                     GameManager.Instance.player.ora.SetTrigger("Up");
-
+                    noWay.enabled = true;
                     StartCoroutine(ShowAni4());
                 }
 

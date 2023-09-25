@@ -17,34 +17,35 @@ TagManager:
   - Saw
   - EnemyBullet
   - Ghost
+  - HitBox
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Bullet
+  - Enemy
+  - Wall
+  - OnDMG
+  - FlatForm
+  - Blood
+  - EnemyDead
+  - PlayerDead
+  - Weapon
+  - noWeapon
+  - Trap
+  - NPC
+  - HitBox
+  - NoWall
+  - Point
+  - GetItem
+  - GetItem2
+  - EmoticonPointer
+  - Shield
+  - EnemyBullet
   - 
   - 
   - 

@@ -48,8 +48,8 @@ public class GetItemNPC : MonoBehaviour
     public bool Itemoff;
     private void MeleeItem()
     {
-        //if (itemLight.gameObject.activeSelf)
-        if (!Itemoff)
+        //if (!Itemoff)
+        if (itemLight.gameObject.activeSelf)
         {
             if (GameManager.Instance.isGetMeleeItem)
             {
@@ -67,7 +67,7 @@ public class GetItemNPC : MonoBehaviour
                     StartCoroutine(ShowAni3());
 
                     //테스트끝나면 삭제해야함
-                    Itemoff = true;
+                    //Itemoff = true;
                 }
 
 
@@ -97,12 +97,13 @@ public class GetItemNPC : MonoBehaviour
   
     public IEnumerator ririSpawn()
     {
-       
+        GameManager.Instance.npc.transform.Find("Byuk2").GetComponent<Transform>().gameObject.SetActive(true);
         GameManager.Instance.ririRB.gameObject.SetActive(true);
         GameManager.Instance.npc.ani.SetBool("Show", true);
         yield return new WaitForSecondsRealtime(1.7f);
         GameManager.Instance.npc.ani.SetBool("Show", false);
         GameManager.Instance.ririRB.gravityScale = 1;
+        GameManager.Instance.npc.transform.Find("TalkCheak").gameObject.SetActive(true);
     }
 
     //장비 획득 후  <근접모드> 설명 On

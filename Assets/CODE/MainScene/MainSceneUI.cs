@@ -15,6 +15,7 @@ public class MainSceneUi : MonoBehaviour
     private Image btn1, btn2;
     private SpriteRenderer mainLogo;
     private TMP_Text mainLogoText;
+    private AudioSource clickAudio;
 
     [SerializeField] private float alpahColorSpeed;
 
@@ -41,19 +42,25 @@ public class MainSceneUi : MonoBehaviour
         btn2 = transform.Find("btn2").GetComponent <Image> ();
         btn2_T = btn2.transform.GetChild(0).GetComponent<TMP_Text>();
 
+        clickAudio = GetComponent<AudioSource>();
 
         MainScrrenInit();
     }
-
+    private void Start()
+    {
+        transform.Find("AnyKey").gameObject.SetActive(false);
+    }
     private void Update()
     {
         OpeningLogoPopup();
         Stpe2Start();
         Step6Start();
         BlackScreenOn();
+        StartGameOption();
     }
 
     bool once;
+    bool musicstart;
     private void OpeningLogoPopup()
     {
         if (!whiteBackGround.gameObject.activeSelf)
@@ -79,11 +86,17 @@ public class MainSceneUi : MonoBehaviour
                 {
                     whiteBackGround.color -= new Color(1, 1, 1, 0.1f) * alpahColorSpeed * Time.deltaTime;
 
+                    if (!musicstart)
+                    {
+                        musicstart = true;
+                        SoundManager.instance.Audio.Play();
+                    }
+
                     if (whiteBackGround.color.a < 0.1f)
                     {
                         
                         step2 = true;
-
+                        
                     }
                 }
             }
@@ -123,16 +136,35 @@ public class MainSceneUi : MonoBehaviour
             if (step4)  
             {
                 step5= true;
-                StartCoroutine(BtnOn());
+                StartCoroutine(AneKeyPopUp());
+             
+                
             }
         }
         
     }
-
+    IEnumerator AneKeyPopUp()
+    {
+        yield return new WaitForSeconds(1f);
+        transform.Find("AnyKey").gameObject.SetActive(true);
+    }
+    private void StartGameOption()
+    {
+        bool one = false;
+        if (transform.Find("AnyKey").gameObject.activeSelf)
+        {
+            if (Input.anyKeyDown && !one)
+            {
+                one = true;
+                StartCoroutine(BtnOn());
+                transform.Find("AnyKey").gameObject.SetActive(false);
+            }
+        }
+    }
     bool step6;
     IEnumerator BtnOn()
     {
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(0.1f);
         step6 = true;
     }
 
@@ -140,10 +172,10 @@ public class MainSceneUi : MonoBehaviour
     {
         if (step6)
         {
-            btn1.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
-            btn2.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
-            btn1_T.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
-            btn2_T.color += new Color(1, 1, 1, 0.2f) * alpahColorSpeed * Time.deltaTime;
+            btn1.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
+            btn2.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
+            btn1_T.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
+            btn2_T.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
             if(btn1.color.a > 0.95f)
             {
                 step6 = false;
@@ -169,43 +201,12 @@ public class MainSceneUi : MonoBehaviour
         btn2_T.color = new Color(1, 1, 1, 0);
     }
 
-    public void MouseOnEnterBtn()
-    {
-        switch (gameObject.name)
-        {
-            case "btn1T":
-                btn1_T.color = new Color(0, 0, 0, 1);
-
-                break;
-
-            case "btn2T":
-                btn2_T.color = new Color(0, 0, 0, 1);
-                break;
-
-        }
-    }
-
-    public void MouseOnExitBtn()
-    {
-        switch (gameObject.name)
-        {
-            case "btn1T":
-                btn1_T.color = new Color(1, 1, 1, 1);
-
-                break;
-
-            case "btn2T":
-                btn2_T.color = new Color(1, 1, 1, 1);
-                break;
-
-        }
-    }
-
-
+  
     // 마우스클릭류
     bool step7, step8;
     public void NexrScene()
     {
+        clickAudio.Play();
         blackBackGround.gameObject.SetActive(true);
         step7 = true;
     }
@@ -237,6 +238,7 @@ public class MainSceneUi : MonoBehaviour
     }
     public void ExitGame()
     {
+        clickAudio.Play();
         Application.Quit();
     }
 }

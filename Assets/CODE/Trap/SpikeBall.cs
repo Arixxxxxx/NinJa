@@ -56,7 +56,6 @@ public class SpikeBall : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.GetMask("Ground")) ;
         {
-            Debug.Log("¥Í¿Ω");
             Invoke("F_OffSpike", 2);
         }
     }

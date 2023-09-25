@@ -19,6 +19,7 @@ public class OpeningScene : MonoBehaviour
     }
     private void Start()
     {
+     
         GameManager.Instance.gameUI.gameObject.SetActive(false);
         openingText.F_SetMsg("Chapter 1.  서막의 시작");
         GameManager.Instance.MovingStop = true;
@@ -27,13 +28,18 @@ public class OpeningScene : MonoBehaviour
 
     IEnumerator ActionShow0()
     {
-        yield return new WaitForSecondsRealtime(5);
-        BackAni.SetBool("off", true);
+       
 
+        yield return new WaitForSecondsRealtime(5);
+        
+        BackAni.SetBool("off", true);
+        SoundManager.instance.AudioChanger(SoundManager.instance.Audio.clip = SoundManager.instance.mainThema);
         yield return new WaitForSecondsRealtime(2);
         openingText.gameObject.SetActive(false);
         GameManager.Instance.MovingStop = false;
+        
         gameObject.SetActive(false);
+
         GameManager.Instance.gameUI.gameObject.SetActive(true);
         GameManager.Instance.guideM.startTutorial = true;
 

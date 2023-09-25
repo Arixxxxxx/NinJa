@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using System.Xml;
-using Unity.VisualScripting;
 
 public class RangeZone : MonoBehaviour
 {
@@ -22,10 +18,12 @@ public class RangeZone : MonoBehaviour
     int makeEagleEA;
     bool spawnStart;
 
+    bool barOpen;
     private void Awake()
     {
         spawnPoint1 = transform.Find("SpawnPoint1").GetComponent<Transform>();
         spawnPoint2 = transform.Find("SpawnPoint2").GetComponent<Transform>();
+
         EventUi = transform.Find("UI").GetComponent<Transform>();
         KillText = EventUi.transform.Find("KillCount").GetComponent<TMP_Text>();
         chairBoom = transform.Find("Chair").GetComponent<Animator>();
@@ -45,16 +43,20 @@ public class RangeZone : MonoBehaviour
     [Range(1f,3f)][SerializeField] float reSapwnTime;
     public void Event()
     {
-        if (gameStart && makeEagleEA > 0)
+        if (gameStart && !barOpen)
         {
             GameManager.Instance.EventTimeBar.gameObject.SetActive(true);
             GameManager.Instance.TimeText.text = $"남은 마리수 : {GameManager.Instance.curEagle} / {GameManager.Instance.totalDeathEagle}";
             float value = GameManager.Instance.curEagle / GameManager.Instance.totalDeathEagle;
-            if(value < GameManager.Instance.TimeBar.fillAmount)
+            if (value < GameManager.Instance.TimeBar.fillAmount)
             {
                 GameManager.Instance.TimeBar.fillAmount -= Time.deltaTime * Speed;
             }
+        }
 
+        if (gameStart && makeEagleEA > 0)
+        {
+           //시작카운트
             countTimer += Time.deltaTime;
             total = count - countTimer;
             if(total > 0)
@@ -64,12 +66,12 @@ public class RangeZone : MonoBehaviour
             if(total < 0 && !once1)
             {
                 once1 = true;
-                StartCoroutine(StartGame());
+                StartCoroutine(StartGame());  //여기서 스폰 열어줌
             }
                         
-            if (spawnStart)
+            //스폰시작
+            if (spawnStart )
             {
-                //KillText.text = $"남은 마리수 : {GameManager.Instance.deathEagleConter} / {GameManager.Instance.totalDeathEagle}";
                 Timer += Time.deltaTime;
                 if (Timer > reSapwnTime)
                 {
@@ -87,7 +89,8 @@ public class RangeZone : MonoBehaviour
                     }
                 }
             }
-           
+         
+            
         }
         else if (GameManager.Instance.deathEagleConter == GameManager.Instance.totalDeathEagle)
         {
@@ -133,21 +136,31 @@ public class RangeZone : MonoBehaviour
     IEnumerator EndEvent()
     {
         GameManager.Instance.npc2.transform.Find("TalkCheak").gameObject.SetActive(true);
-        //KillText.text = $"남은 마리수 : {GameManager.Instance.deathEagleConter} / {GameManager.Instance.totalDeathEagle}";
+        GameManager.Instance.battleNPCiD.ID++;
+        
         yield return new WaitForSecondsRealtime(0.2f);
+        
         KillText.text = "미션 완료!";
+        Emoticon.instance.F_GetEmoticonBox("Smile");
+
         yield return new WaitForSecondsRealtime(0.5f);
         chairBoom.SetTrigger("Boom");
+        chairBoom.transform.GetComponent<BoxCollider2D>().enabled = false;
+       
 
+        yield return new WaitForSecondsRealtime(1f);
+        barOpen = true;
         GameManager.Instance.EventTimeBar.gameObject.SetActive(false);
         GameManager.Instance.TimeBar.fillAmount = 1;
         GameManager.Instance.TimeText.text = string.Empty;
 
 
 
-        chairBoom.transform.GetComponent<BoxCollider2D>().enabled = false;
-        yield return new WaitForSecondsRealtime(3);
+      
+        yield return new WaitForSecondsRealtime(1);
         EventUi.gameObject.SetActive(false);
+        yield return new WaitForSecondsRealtime(0.5f);
+        gameObject.SetActive(false);
         
     }
 

@@ -46,9 +46,17 @@ public class Enemys : MonoBehaviour
     }
     void Update()
     {
-        F_FlipX();
-        F_ToTargetMove();
-        F_VeloLimit();
+        if (!GameManager.Instance.NpcSprite.gameObject.activeSelf)
+        {
+            F_FlipX();
+            F_ToTargetMove();
+            F_VeloLimit();
+        }
+        else if(GameManager.Instance.NpcSprite.gameObject.activeSelf)
+        {
+            Rb.velocity = Vector2.zero;
+        }
+       
     }
 
 
@@ -89,6 +97,11 @@ public class Enemys : MonoBehaviour
             //ÇÇ°¡Æ¦
             if (CurHP <= 0)
             {
+                if(gameObject.name == "Q1")
+                {
+                    GameManager.Instance.Q1++;
+                }
+
                 for (int i = 0; i < 6; i++)
                 {
                     Bloody[i] = transform.GetChild(i).GetComponent<Transform>();

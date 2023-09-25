@@ -117,6 +117,7 @@ public class GateWayCollider : MonoBehaviour
             up = true;
             back.gameObject.SetActive(true);
             boxColl.enabled = false;
+            SoundManager.instance.AudioChanger(SoundManager.instance.cityThema);
         }
     }
    
@@ -130,8 +131,8 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
 
         yield return new WaitForSecondsRealtime(1.5f);
-      
 
+        
         GetItemNPC.Instance.partiGate.Play(); //쿠구구구
         GameManager.Instance.CameraShakeSwitch(0); //카메라흔들고
         yield return new WaitForSecondsRealtime(0.5f);
@@ -151,6 +152,7 @@ public class GateWayCollider : MonoBehaviour
         // 
         //yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
+        GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("마을");
         yield return new WaitForSecondsRealtime(2f);
         //GateOff = true;
         GetItemNPC.Instance.aniGate.SetBool("Hide",true);
@@ -187,6 +189,7 @@ public class GateWayCollider : MonoBehaviour
         //GameManager.Instance.MovingStop = false;
         yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
+        GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("마을");
         yield return new WaitForSecondsRealtime(2f);
         GetItemNPC2.Instance.aniGate.SetBool("Hide", true);
         //GateOff = true;
