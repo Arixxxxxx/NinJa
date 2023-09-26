@@ -17,7 +17,7 @@ public class GetItemNPC2 : MonoBehaviour
     ParticleSystem itemLight;
     GuideManager guideManager;
     BoxCollider2D noWay;
-    
+    public AudioSource Audio;
     bool once;
     bool once1;
 
@@ -31,6 +31,7 @@ public class GetItemNPC2 : MonoBehaviour
         {
             Destroy(this);
         }
+        Audio = GetComponent<AudioSource>();    
         guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
         itemLight = transform.Find("Light").GetComponent<ParticleSystem>();
         itemsSprite = transform.Find("KAL").GetComponent<Transform>();

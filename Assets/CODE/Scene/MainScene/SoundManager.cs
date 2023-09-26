@@ -2,18 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
+    
+    public GameObject soundMan;
+    private Queue<GameObject> audioQue;
+
     public static SoundManager instance;
 
     public AudioSource Audio;
     public AudioMixer audioMixer;
 
 
+
     [Range(0.01f,10f)][SerializeField] private float audioChangeSpeed;
     private void Awake()
     {
+        audioQue = new Queue<GameObject>();
+
         if (instance == null)
         {
             instance = this;
@@ -25,6 +33,16 @@ public class SoundManager : MonoBehaviour
 
         Audio = GetComponent<AudioSource>();
         Audio.volume = 0.5f;
+       if(SceneManager.GetActiveScene().name == "Chapter1")
+       {
+            for (int i = 0; i < 20; i++)
+            {
+                GameObject obj = Instantiate(soundMan, transform.position, Quaternion.identity, transform.Find("SoundMan"));
+                obj.gameObject.SetActive(false);
+                audioQue.Enqueue(obj);
+            }
+        }
+       
     }
 
 
@@ -38,7 +56,10 @@ public class SoundManager : MonoBehaviour
     //효과음
     [Header("# 효과음")]
     public AudioClip BtnClick; // 버튼 클릭
-
+    public AudioClip ItemGet; // 장비 획득
+    public AudioClip ziZin; // 지진소리
+    public AudioClip npcTeleport; // 텔
+    public AudioClip gateUpComplete; // 게이트 쿵
 
 
     [Header("# 플레이어")] 
@@ -106,5 +127,50 @@ public class SoundManager : MonoBehaviour
         audioMixer.SetFloat("MasterV", Mathf.Log10(_value) * 20);
     }
 
+    /// <summary>
+    /// 사운드재생기
+    /// </summary>
+    /// <param name="_clip"> 재생클립</param>
+    /// <param name="_volume"> 볼륨0f ~ 1.0f </param>
+   
+   
+    public void F_SoundPlay(AudioClip _clip, float _volume)
+    {
+        GameObject obj;
+       
+        if (audioQue.Count == 0)
+        {
+            obj = Instantiate(soundMan, transform.position, Quaternion.identity, transform.Find("SoundMan"));
+
+        }
+        else
+        {
+            obj = audioQue.Dequeue();
+            obj.SetActive(true);
+        }
+
+        AudioSource Audios = obj.GetComponent<AudioSource>();
+       
+        Audios.clip = _clip;
+        Audios.volume = _volume;
+        Audios.Play();
+
+        StartCoroutine(EndCheak(Audios, obj));
+    }
+
+    IEnumerator EndCheak(AudioSource _Audio, GameObject _obj)
+    {
+        while (_Audio.isPlaying)
+        {
+            yield return null;
+        }
+
+        _obj.gameObject.SetActive(false);
+        audioQue.Enqueue(_obj);
+
+    }
+
+
+    
 
 }

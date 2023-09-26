@@ -2119,6 +2119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6135525dba2d27e418756d2d62e98927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundMan: {fileID: 0}
   Audio: {fileID: 0}
   audioMixer: {fileID: 0}
   audioChangeSpeed: 0
@@ -2128,6 +2129,10 @@ MonoBehaviour:
   Deongen: {fileID: 0}
   CaveThema: {fileID: 0}
   BtnClick: {fileID: 0}
+  ItemGet: {fileID: 0}
+  ziZin: {fileID: 0}
+  npcTeleport: {fileID: 0}
+  gateUpComplete: {fileID: 0}
   playerStep: {fileID: 0}
   jump: {fileID: 0}
   block: {fileID: 0}
@@ -2138,6 +2143,7 @@ MonoBehaviour:
   enemyhit: []
   popup: {fileID: 0}
   popdown: {fileID: 0}
+  talkBoxChatSound: {fileID: 0}
 --- !u!82 &414575471
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2913,7 +2919,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1e851e0f5b507f547b99c2b2e6692b53, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0c117708cc4b7ed459f90df0d0696630, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

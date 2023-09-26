@@ -9,8 +9,8 @@ public class GetItemNPC : MonoBehaviour
     //소환문 소환
     public Animator aniGate;
     public ParticleSystem partiGate;
+    public AudioSource Audio;
 
-   
 
     Transform itemsSprite;
     Transform canvas;
@@ -21,7 +21,7 @@ public class GetItemNPC : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -29,21 +29,21 @@ public class GetItemNPC : MonoBehaviour
         {
             Destroy(this);
         }
+        Audio = GetComponent<AudioSource>();
         guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
         itemLight = transform.Find("Light").GetComponent<ParticleSystem>();
         itemsSprite = transform.Find("KAL").GetComponent<Transform>();
         canvas = transform.Find("Canvas").GetComponent<Transform>(); //장비획득 표시창
-        aniGate = transform.Find("GateWay/Gate").GetComponent <Animator>();
+        aniGate = transform.Find("GateWay/Gate").GetComponent<Animator>();
         partiGate = transform.Find("GateWay/Parti").GetComponent<ParticleSystem>();
 
     }
 
     private void Update()
     {
-     
-       MeleeItem();
-                 }
-    
+        MeleeItem();
+    }
+
     //테스트용
     public bool Itemoff;
     private void MeleeItem()
@@ -83,7 +83,7 @@ public class GetItemNPC : MonoBehaviour
         }
     }
 
-  
+
     IEnumerator itemShowMeleeMode()
     {
         yield return new WaitForSecondsRealtime(0.6f);
@@ -91,10 +91,10 @@ public class GetItemNPC : MonoBehaviour
         GameManager.Instance.player.sheld.gameObject.SetActive(true);
 
         GameManager.Instance.player.Ani.SetBool("GetMelee", true);
-      
+
     }
 
-  
+
     public IEnumerator ririSpawn()
     {
         GameManager.Instance.npc.transform.Find("Byuk2").GetComponent<Transform>().gameObject.SetActive(true);
@@ -107,33 +107,33 @@ public class GetItemNPC : MonoBehaviour
     }
 
     //장비 획득 후  <근접모드> 설명 On
-   IEnumerator ShowAni3()
+    IEnumerator ShowAni3()
     {
-        
+
         yield return new WaitForSecondsRealtime(2f);
         guideManager.Audio.clip = SoundManager.instance.popup;
         guideManager.Audio.Play();
         guideManager.Ani3.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
-       
+
         guideManager.Ani3.gameObject.SetActive(true);
         guideManager.Ani3.SetBool("Show", true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-             if (collision.CompareTag("Player"))
-             {
-             if (GameManager.Instance.isGetMeleeItem)
-             {
-             return;
-             }
-                       
-                        else if (!GameManager.Instance.isGetMeleeItem)
-                        {
-                            canvas.gameObject.SetActive(true);
-                         }
-                                     
+        if (collision.CompareTag("Player"))
+        {
+            if (GameManager.Instance.isGetMeleeItem)
+            {
+                return;
             }
+
+            else if (!GameManager.Instance.isGetMeleeItem)
+            {
+                canvas.gameObject.SetActive(true);
+            }
+
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

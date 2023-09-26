@@ -67,8 +67,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Eagle"))
         {
-            Audio.clip = SoundManager.instance.rangeHit;
-            Audio.Play();
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
        
             GameManager.Instance.curEagle--;
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
@@ -98,7 +97,7 @@ public class Bullet : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Ghost"))
         {
-          
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem scc = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
@@ -109,7 +108,7 @@ public class Bullet : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
-            
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem sc = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();

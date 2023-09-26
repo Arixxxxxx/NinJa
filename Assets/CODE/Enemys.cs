@@ -188,8 +188,7 @@ public class Enemys : MonoBehaviour
         {
             if (CurHP > 0 && !Enemy_Hit)
             {
-                Audio.clip = SoundManager.instance.rangeHit;
-                Audio.Play();
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
             }
 
         }

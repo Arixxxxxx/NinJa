@@ -316,6 +316,7 @@ public class GameManager : MonoBehaviour
                         _obj.gameObject.layer = 12;
                         NPC script = _obj.GetComponent<NPC>();
                         script.ani.SetBool("Show", true);
+                        
 
                         StartCoroutine(RiRITel(_obj));
 
@@ -330,6 +331,7 @@ public class GameManager : MonoBehaviour
                         questionMark.gameObject.SetActive(false); // 스캔기능 종료
 
                         script2.ani.SetBool("Show", true);
+                       
                         StartCoroutine(BattleNpcGotoHome(_obj));
                         StartCoroutine(GatePlay(_obj));
 
@@ -376,6 +378,7 @@ public class GameManager : MonoBehaviour
                             questionMark.gameObject.SetActive(false);
                             _obj.gameObject.layer = 12;
                             script.ani.SetBool("Show", true);
+                            
                             StartCoroutine(RiRITel(_obj));
                             //transform.Find("Byuk").gameObject.SetActive(false);
                         }
@@ -390,6 +393,7 @@ public class GameManager : MonoBehaviour
                             questionMark.gameObject.SetActive(false); // 스캔기능 종료
 
                             script.ani.SetBool("Show", true);
+                            
                             StartCoroutine(RiRITel(_obj));
 
                             //소환문 소환
@@ -501,6 +505,8 @@ public class GameManager : MonoBehaviour
         //바닥진동과 이모티콘박스 궁금중
           if (obj.gameObject.name == "리리")
         {
+
+            GetItemNPC.Instance.Audio.Play();
             GetItemNPC.Instance.partiGate.Play();
             Emoticon.instance.F_GetEmoticonBox("Question");
             CameraShakeSwitch(0);
@@ -513,6 +519,7 @@ public class GameManager : MonoBehaviour
             GameManager.Instance.MovingStop = false;
 
             CameraShakeSwitch(1);
+            GetItemNPC.Instance.Audio.Stop();
             GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
 
         }
@@ -520,6 +527,7 @@ public class GameManager : MonoBehaviour
         else if(obj.gameObject.name == "전투교관")
         {
             GetItemNPC2.Instance.partiGate.Play();
+            GetItemNPC2.Instance.Audio.Play();
             Emoticon.instance.F_GetEmoticonBox("Question");
             CameraShakeSwitch(0);
             yield return new WaitForSecondsRealtime(1.5f);
@@ -529,6 +537,7 @@ public class GameManager : MonoBehaviour
 
             GameManager.Instance.MovingStop = false;
             CameraShakeSwitch(1);
+            GetItemNPC2.Instance.Audio.Stop();
             GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
         }
 

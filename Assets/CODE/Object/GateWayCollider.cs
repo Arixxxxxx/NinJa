@@ -134,6 +134,7 @@ public class GateWayCollider : MonoBehaviour
 
         
         GetItemNPC.Instance.partiGate.Play(); //쿠구구구
+        GetItemNPC.Instance.Audio.Play();
         GameManager.Instance.CameraShakeSwitch(0); //카메라흔들고
         yield return new WaitForSecondsRealtime(0.5f);
         transform.localScale = new Vector3(-1, 1, 1); //방향바꿔주고
@@ -152,6 +153,7 @@ public class GateWayCollider : MonoBehaviour
         // 
         //yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
+        GetItemNPC.Instance.Audio.Stop();
         GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("마을");
         yield return new WaitForSecondsRealtime(2f);
         //GateOff = true;
@@ -171,6 +173,7 @@ public class GateWayCollider : MonoBehaviour
 
 
         GetItemNPC2.Instance.partiGate.Play();
+        GetItemNPC2.Instance.Audio.Play();
         GameManager.Instance.CameraShakeSwitch(0);
         yield return new WaitForSecondsRealtime(0.5f);
         transform.localScale = new Vector3(-1, 1, 1);
@@ -189,6 +192,7 @@ public class GateWayCollider : MonoBehaviour
         //GameManager.Instance.MovingStop = false;
         yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
+        GetItemNPC2.Instance.Audio.Stop();
         GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("마을");
         yield return new WaitForSecondsRealtime(2f);
         GetItemNPC2.Instance.aniGate.SetBool("Hide", true);
@@ -199,12 +203,14 @@ public class GateWayCollider : MonoBehaviour
     public void GateActive1()
     {
         GetItemNPC.Instance.aniGate.SetBool("active", true);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.7f);
     }
 
     //배틀npc 차원문 활성화
     public void GateActive2()
     {
         GetItemNPC2.Instance.aniGate.SetBool("active", true);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.7f);
     }
 
     public int ShowCount = 0; // 애니메이션으로 켜줄껀데 동굴에서 처음나올때는 작동되면안되서 이때는 인트만올려줌

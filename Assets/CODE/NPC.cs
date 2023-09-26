@@ -26,9 +26,10 @@ public class NPC : MonoBehaviour
 
         btn = transform.Find("Canvas").GetComponent<Transform>();
     }
-    private void Update()
+    
+    public void TelSoundOn()
     {
-        
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.npcTeleport, 0.8f);
     }
 
     public void offSprite()

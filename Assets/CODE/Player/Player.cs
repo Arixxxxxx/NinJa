@@ -529,12 +529,13 @@ public class Player : MonoBehaviour
             if (GetItem.collider != null && !Itemget0)
             {
                 GameManager.Instance.isGetMeleeItem = true;
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.ItemGet, 0.5f);
             }
             GetItemRange = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem2"));
             if (GetItemRange.collider != null && !Itemget1)
             {
                 GameManager.Instance.isGetRangeItem = true;
-
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.ItemGet, 0.5f);
             }
 
             //찾아서 써놓기
