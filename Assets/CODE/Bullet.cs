@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     Vector2 ArrowDir;
     TrailRenderer trail;
     arrowAttack Arrowbox;
-
+    public AudioSource Audio;
     SpriteRenderer Sr;
 
     float z;
@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
         Bullet_DMG = 1;
         trail = transform.GetChild(0).GetComponent<TrailRenderer>();
         Sr = GetComponent<SpriteRenderer>();
+        Audio = GetComponent<AudioSource>();
      }
 
     private void Update()
@@ -35,6 +36,7 @@ public class Bullet : MonoBehaviour
     private void OnEnable()
     {
          Invoke("F_BulletReturn", 1.5f);
+        Audio.volume = 0.8f;
     }
 
 
@@ -65,13 +67,16 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Eagle"))
         {
-            Debug.Log("¡¯¿‘");
+            Audio.clip = SoundManager.instance.rangeHit;
+            Audio.Play();
+       
             GameManager.Instance.curEagle--;
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
             sc1.Play();
 
+           
             F_BulletReturn();
         }
     }
@@ -79,18 +84,21 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
             sc1.Play();
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
             sc.F_OnHIt(Bullet_DMG);
+          
             F_BulletReturn();
         }
 
 
         if (collision.gameObject.CompareTag("Ghost"))
         {
+          
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem scc = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
@@ -101,6 +109,7 @@ public class Bullet : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
+            
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = this.gameObject.transform.position;
             ParticleSystem sc = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();

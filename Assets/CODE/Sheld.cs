@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class Sheld : MonoBehaviour
 {
+    AudioSource Audio;
+
+    private void Awake()
+    {
+        Audio = GetComponent<AudioSource>();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            Debug.Log("¤³¤·");
+            Audio.clip = SoundManager.instance.block;
+            Audio.Play();
+        }
+           
+    }
     //[SerializeField] private float Power;
     //private void OnCollisionEnter2D(Collision2D collision)
     //{

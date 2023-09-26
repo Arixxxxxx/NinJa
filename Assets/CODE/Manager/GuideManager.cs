@@ -20,7 +20,7 @@ public class GuideManager : MonoBehaviour
     //벽점프 가이드
     Animator Ani2;
     Animator Ani2_1;
-   
+
     bool ani2true;
     bool ani21true;
     bool ani3true;
@@ -42,9 +42,11 @@ public class GuideManager : MonoBehaviour
     Animator Ani5, Ani5_2;
     Transform Ani5_1;
 
-    
+   public AudioSource Audio;
 
- 
+
+
+
 
     private void Awake()
     {
@@ -88,6 +90,7 @@ public class GuideManager : MonoBehaviour
         Ani5_2 = gudiegurop.transform.Find("5-2").GetComponent<Animator>();
         Ani5_2.gameObject.SetActive(false);
 
+        Audio = GetComponent<AudioSource>();
     }
     // 키고끄기
 
@@ -104,7 +107,7 @@ public class GuideManager : MonoBehaviour
         StartTutorial(); // 시작 기본조작
     }
 
-   
+
 
     private void StartTutorial()
     {
@@ -116,44 +119,46 @@ public class GuideManager : MonoBehaviour
             Invoke("StartMSG", 0.1f);
             StartCoroutine(ActionShow0());
         }
-       
+
     }
 
-        public void F_GetColl(GameObject _obj)
+    public void F_GetColl(GameObject _obj)
+    {
+        string pointNum = _obj.name;
+        Audio.clip = SoundManager.instance.popup;
+        Audio.Play();
+        switch (pointNum)
         {
-            string pointNum = _obj.name;
-            switch (pointNum)
-            {
 
-                case "GuidePoint1":
-                    StopCharacter();
-                    GameManager.Instance.player.MovingStop = true;
-                    Ani1.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
-                    Ani1.gameObject.SetActive(true);
-                    Ani1.SetBool("Show", true);
+            case "GuidePoint1":
+                StopCharacter();
+                GameManager.Instance.player.MovingStop = true;
+                Ani1.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
+                Ani1.gameObject.SetActive(true);
+                Ani1.SetBool("Show", true);
 
-                    break;
+                break;
 
-                case "GuidePoint2":
-                    StopCharacter();
-                    Ani2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
-                    Ani2.gameObject.SetActive(true);
-                    Ani2.SetBool("Show", true);
-                    break;
+            case "GuidePoint2":
+                StopCharacter();
+                Ani2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 3.5f);
+                Ani2.gameObject.SetActive(true);
+                Ani2.SetBool("Show", true);
+                break;
 
-                case "GuidePoint3":
-                    //StopCharacter();
-                    //Ani3.gameObject.SetActive(true);
-                    
-                    //Ani3.SetBool("Show", true);
-                    break;
+            case "GuidePoint3":
+                //StopCharacter();
+                //Ani3.gameObject.SetActive(true);
 
-                case "GuidePoint4":
-                    StopCharacter();
+                //Ani3.SetBool("Show", true);
+                break;
+
+            case "GuidePoint4":
+                StopCharacter();
                 Ani4.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
                 Ani4.gameObject.SetActive(true);
-                    Ani4.SetBool("Show", true);
-                    break;
+                Ani4.SetBool("Show", true);
+                break;
 
             case "GuidePoint5":
                 StopCharacter();
@@ -161,9 +166,9 @@ public class GuideManager : MonoBehaviour
                 Ani5.gameObject.SetActive(true);
                 Ani5.SetBool("Show", true);
                 break;
-             }
         }
-        
+    }
+
     private void StartMSG()
     {
         Ani0.gameObject.SetActive(true);
@@ -172,16 +177,16 @@ public class GuideManager : MonoBehaviour
     }
     IEnumerator ActionShow0()
     {
-       
+
         yield return new WaitForSecondsRealtime(6);
         GameManager.Instance.MovingStop = false;
         Ani0.SetBool("Show", false);
-            
+
         yield return new WaitForSecondsRealtime(1.5f);
         Ani0.gameObject.SetActive(false);
-        
-    } 
-  
+
+    }
+
 
 
 
@@ -191,18 +196,18 @@ public class GuideManager : MonoBehaviour
 
         if (Ani1.gameObject.activeSelf)
         {
-            
+
             Next1 += Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.F) && Next1 > 0.25f)
             {
                 Next1 = 0;
                 Ani1.gameObject.SetActive(false);
-                
+
                 Ani1_1.transform.localScale = new Vector3(0.8f, 0.8f, 1);
                 Ani1_1.transform.position = Ani1.gameObject.transform.position;
                 Ani1_1.gameObject.SetActive(true);
 
-                
+
 
             }
         }
@@ -216,7 +221,7 @@ public class GuideManager : MonoBehaviour
                 GameManager.Instance.MovingStop = false;
                 GameManager.Instance.player.MovingStop = false;
 
-
+                PopDownSound();
                 Invoke("OffWindws", 0.2f);
             }
         }
@@ -246,6 +251,7 @@ public class GuideManager : MonoBehaviour
                 GameManager.Instance.MovingStop = false;
                 GameManager.Instance.player.MovingStop = false;
                 Ani2_1.SetBool("Hide", true);
+                PopDownSound();
                 Invoke("OffWindws", 0.35f);
 
             }
@@ -257,30 +263,30 @@ public class GuideManager : MonoBehaviour
         if (Ani3.gameObject.activeSelf)
         {
             next3 += Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.F) &&  next3 > 0.25f)
+            if (Input.GetKeyDown(KeyCode.F) && next3 > 0.25f)
             {
                 next3 = 0;
-                
+
                 Ani3.gameObject.SetActive(false);
                 Ani3_1.gameObject.SetActive(true);
                 Ani3_1.gameObject.transform.position = Ani3.gameObject.transform.position;
             }
         }
-        if (Ani3_1.gameObject.activeSelf) 
+        if (Ani3_1.gameObject.activeSelf)
         {
             next3_1 += Time.deltaTime; // 연속으로 안눌리게 조절
             if (Input.GetKeyDown(KeyCode.F) && next3_1 > 0.25f)
             {
-                
+
                 GameManager.Instance.MovingStop = false;
                 GameManager.Instance.player.MovingStop = false;
                 Ani3_1.SetBool("Hide", true);
 
-
+                PopDownSound();
                 Invoke("OffWindws", 0.3f);
-                
 
-               
+
+
             }
         }
     }
@@ -310,7 +316,7 @@ public class GuideManager : MonoBehaviour
                 GameManager.Instance.player.MovingStop = false;
                 Ani3_3.SetBool("Hide", true);
 
-
+                PopDownSound();
                 Invoke("OffWindws", 0.3f);
 
 
@@ -332,7 +338,7 @@ public class GuideManager : MonoBehaviour
                 Ani4_1.gameObject.transform.position = Ani4.gameObject.transform.position;
                 Ani4_1.transform.localScale = new Vector3(0.8f, 0.8f, 1);
                 Ani4_1.gameObject.SetActive(true);
-               
+
             }
         }
 
@@ -341,15 +347,15 @@ public class GuideManager : MonoBehaviour
             Next4_1 += Time.deltaTime; // 연속으로 안눌리게 조절
             if (Input.GetKeyDown(KeyCode.F) && Next4_1 > 0.255f)
             {
-               
+
                 GameManager.Instance.MovingStop = false;
                 GameManager.Instance.player.MovingStop = false;
                 Ani4_1.SetBool("Hide", true);
-                
 
+                PopDownSound();
                 Invoke("OffWindws", 0.3f);
-              
-                
+
+
             }
         }
     }
@@ -394,11 +400,17 @@ public class GuideManager : MonoBehaviour
                 GameManager.Instance.player.MovingStop = false;
                 Ani5_2.SetBool("Hide", true);
 
-
+                PopDownSound();
                 Invoke("OffWindws", 0.3f);
 
             }
         }
+    }
+
+    private void PopDownSound()
+    {
+        Audio.clip = SoundManager.instance.popdown;
+        Audio.Play();
     }
     public void StopCharacter() // 캐릭터 멈춤
     {
@@ -408,16 +420,18 @@ public class GuideManager : MonoBehaviour
     }
     private void OffWindws()
     {
-        if(Ani1_1.gameObject.activeSelf)
+        if (Ani1_1.gameObject.activeSelf)
         {
+         
             Ani1_1.SetBool("Hide", false);
             GameManager.Instance.once = false;
             Next1_1 = 0;
             Ani1_1.gameObject.SetActive(false);
         }
-        
-        if(Ani2_1.gameObject.activeSelf)
+
+        if (Ani2_1.gameObject.activeSelf)
         {
+          
             Ani2_1.SetBool("Hide", false);
             GameManager.Instance.once = false;
             Next2_1 = 0;
@@ -425,6 +439,7 @@ public class GuideManager : MonoBehaviour
         }
         if (Ani3_1.gameObject.activeSelf)
         {
+         
             Ani3_1.SetBool("Hide", false);
             GameManager.Instance.once = false;
             next3_1 = 0;
@@ -433,10 +448,11 @@ public class GuideManager : MonoBehaviour
             //근접무기 획득시 가이드글 끝나면 리리 튜토리얼 끝 동굴안쪽으로 소환
 
             StartCoroutine(GetItemNPC.Instance.ririSpawn());
-            
+
         }
         if (Ani3_3.gameObject.activeSelf)
         {
+        
             Ani3_3.SetBool("Hide", false);
             GameManager.Instance.once = false;
             next3_3 = 0;
@@ -448,6 +464,7 @@ public class GuideManager : MonoBehaviour
 
         if (Ani4_1.gameObject.activeSelf)
         {
+           
             Ani4_1.SetBool("Hide", false);
             GameManager.Instance.once = false;
             Next4_1 = 0;
@@ -455,6 +472,7 @@ public class GuideManager : MonoBehaviour
         }
         if (Ani5_2.gameObject.activeSelf)
         {
+           
             Ani5_2.SetBool("Hide", false);
             GameManager.Instance.once = false;
             Next5_2 = 0;

@@ -101,7 +101,10 @@ public class GetItemNPC2 : MonoBehaviour
     //장비 획득 후  <원거리> 모드 설명 On
     IEnumerator ShowAni4()
     {
+
         yield return new WaitForSecondsRealtime(2f);
+        guideManager.Audio.clip = SoundManager.instance.popup;
+        guideManager.Audio.Play();
         guideManager.Ani3_2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 2.3f);
         guideManager.Ani3_2.gameObject.SetActive(true);
         guideManager.Ani3_2.SetBool("Show", true);

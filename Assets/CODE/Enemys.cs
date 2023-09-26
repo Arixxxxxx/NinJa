@@ -15,6 +15,7 @@ public class Enemys : MonoBehaviour
     public float CurHP;
     public float MaxHp;
     public HpUi EnemyHpBar;
+    AudioSource Audio;
 
     Transform[] Bloody;
 
@@ -36,7 +37,7 @@ public class Enemys : MonoBehaviour
         EnemyHpBar = transform.GetChild(6).GetComponent<HpUi>();
         EnemyHpBar.gameObject.SetActive(false);
         DMG_Font = transform.GetComponentInChildren<DMGFont>(true);
-               
+        Audio = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -97,6 +98,9 @@ public class Enemys : MonoBehaviour
             //ÇÇ°¡Æ¦
             if (CurHP <= 0)
             {
+                int R = Random.Range(0, 4);
+                Audio.clip = SoundManager.instance.enemyDie[R];
+                Audio.Play();
                 if(gameObject.name == "Q1")
                 {
                     GameManager.Instance.Q1++;
@@ -180,6 +184,16 @@ public class Enemys : MonoBehaviour
 
         }
 
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            if (CurHP > 0 && !Enemy_Hit)
+            {
+                Audio.clip = SoundManager.instance.rangeHit;
+                Audio.Play();
+            }
+
+        }
+
         if (collision.gameObject.CompareTag("Weapon"))
         {
             if (Sr.flipX && !KB)
@@ -197,6 +211,11 @@ public class Enemys : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Trap"))
         {
+            if (CurHP > 0 && !Enemy_Hit)
+            {
+                Audio.clip = SoundManager.instance.meleeAttack;
+                Audio.Play();
+            }
             F_OnHIt(1);
         }
     }

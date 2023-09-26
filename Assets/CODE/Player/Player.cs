@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
     private Transform Sword;
     SpriteRenderer SwordSr;
     private Transform Defence;
+    AudioSource meleeAtkAudio;
 
     //캐릭터 말풍선
     private Transform PlayerMSGUI;
@@ -132,6 +133,7 @@ public class Player : MonoBehaviour
         weapon1 = transform.GetChild(0).GetComponent<Transform>();
         Sword = transform.GetChild(0).GetChild(0).GetComponent<Transform>();
         SwordSr = Sword.GetComponent<SpriteRenderer>();
+        meleeAtkAudio = transform.Find("Weapon").GetComponent<AudioSource>();
         sheld = transform.Find("Sheld").GetComponent<Transform>();
         sheldSR = sheld.GetComponent<SpriteRenderer>();
         SwordAni = weapon1.GetComponent<Animator>();
@@ -221,6 +223,7 @@ public class Player : MonoBehaviour
                     }
                     if (ModeChangeTimer > 0.4f)
                     {
+                     
                         Ani.SetTrigger("ModeChange");
                         F_CharText("Melee");
                         GameManager.Instance.meleeMode = true;
@@ -415,6 +418,15 @@ public class Player : MonoBehaviour
                     Timer += Time.deltaTime;
                     if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn)
                     {
+                        //if (!meleeAtkAudio.isPlaying)
+                        //{
+                        //    if (meleeAtkAudio.clip != SoundManager.instance.meleeAttack)
+                        //    {
+                        //        meleeAtkAudio.clip = SoundManager.instance.meleeAttack;
+                        //    }
+                        //    meleeAtkAudio.Play();
+                        //}
+                        
                         isAttacking = true;
                         SwordAni.SetTrigger("R");
                         Timer = 0;
@@ -544,7 +556,8 @@ public class Player : MonoBehaviour
         }
     }
 
-
+     float runConter;
+    [SerializeField] float runTime = 0.4f;
     //캐릭터 이동 및 구르기
     private void MovdChar()
 
@@ -558,14 +571,28 @@ public class Player : MonoBehaviour
                 {
                     Char_Vec.x = Input.GetAxisRaw("Horizontal");
                     Rb.velocity = new Vector2(Char_Vec.x * Char_Speed, Rb.velocity.y);
+                   
                     if (isCharMove)
                     {
-                        if (!Audio.isPlaying && isGround)
+                        runConter += Time.deltaTime;
+                        if (runConter > runTime && isGround)
                         {
-                            Audio.Play();
-
+                            if(Audio.clip != SoundManager.instance.playerStep)
+                            {
+                                Audio.clip = SoundManager.instance.playerStep;
+                            }
                             
+                            Audio.Play();
+                            runConter = 0;
+
                         }
+                        //if (!Audio.isPlaying && isGround)
+                        //{
+                        //    Audio.clip = SoundManager.instance.playerStep;
+                        //    Audio.Play();
+
+
+                        //}
 
                     }
                     else
@@ -706,6 +733,8 @@ public class Player : MonoBehaviour
                 // 벽 점프 
                 if (!isLeft)
                 {
+                    Audio.clip = SoundManager.instance.jump;
+                    Audio.Play();
                     isLeft = true;
                     wallJumpon = true;
                     CastDir = Vector2.left;
@@ -717,6 +746,8 @@ public class Player : MonoBehaviour
                 }
                 else if (isLeft)
                 {
+                    Audio.clip = SoundManager.instance.jump;
+                    Audio.Play();
                     isLeft = false;
                     wallJumpon = true;
                     CastDir = Vector2.right;
@@ -806,6 +837,8 @@ public class Player : MonoBehaviour
             //
             if (Input.GetButtonDown("Jump") && JumpCount < 2 && !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon && !noWallCheak)
             {
+                
+
                 isOneJump = true;
                 JumpOn = true;
                 Rb.velocity = new Vector2(Rb.velocity.x, JumpPower);

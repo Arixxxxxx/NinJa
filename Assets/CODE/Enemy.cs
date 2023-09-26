@@ -15,7 +15,8 @@ public class Enemy : MonoBehaviour
     
     Vector3 OriginPosition;
     Animator Ani;
-    
+    AudioSource Audio;
+    bool once;
 
     //ÇÃ¶óÀ×ÆÒ [ÀÌµ¿ÇÃ·§Æû]
     private Vector2 flying_vec;
@@ -49,7 +50,7 @@ public class Enemy : MonoBehaviour
         saw_vec = Vector2.left;
         HitBoxHp = 2;
         brokenbox = new Transform[6];
-
+        Audio = GetComponent<AudioSource>();
     }
 
 
@@ -76,6 +77,7 @@ public class Enemy : MonoBehaviour
 
                     if (Timer > 3f)
                     {
+                        once = false;
                         AttackEnd = false;
                     }
                 }
@@ -135,6 +137,12 @@ public class Enemy : MonoBehaviour
                     ParticleSystem particleSystem= transform.GetChild(0).GetComponent<ParticleSystem>();
 
                     particleSystem.Play();
+                    if (!once)
+                    {
+                        once = true;
+                        Audio.Play();
+                    }
+                    
                     StartCoroutine(ReturnSpikeEnemy());
                     Ani.SetBool("BHIT", true);
                 }

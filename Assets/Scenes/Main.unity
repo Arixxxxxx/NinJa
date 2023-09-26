@@ -2120,12 +2120,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
+  audioMixer: {fileID: 0}
   audioChangeSpeed: 0
-  mainThema: {fileID: 0}
-  cityThema: {fileID: 0}
+  mainThema: {fileID: 8300000, guid: b9bcaaefbb6aa456bb5f7dee23f8736f, type: 3}
+  cityThema: {fileID: 8300000, guid: 13b481262ca11bc4cbfa819b6dfe28cc, type: 3}
   jungleCaveThema: {fileID: 0}
   Deongen: {fileID: 0}
   CaveThema: {fileID: 0}
+  BtnClick: {fileID: 0}
+  playerStep: {fileID: 0}
+  jump: {fileID: 0}
+  block: {fileID: 0}
+  meleeAttack: {fileID: 0}
+  rangeAttak: {fileID: 0}
+  rangeHit: {fileID: 0}
+  enemyDie: []
+  enemyhit: []
+  popup: {fileID: 0}
+  popdown: {fileID: 0}
 --- !u!82 &414575471
 AudioSource:
   m_ObjectHideFlags: 0

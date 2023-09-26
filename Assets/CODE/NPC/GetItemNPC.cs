@@ -109,7 +109,10 @@ public class GetItemNPC : MonoBehaviour
     //장비 획득 후  <근접모드> 설명 On
    IEnumerator ShowAni3()
     {
+        
         yield return new WaitForSecondsRealtime(2f);
+        guideManager.Audio.clip = SoundManager.instance.popup;
+        guideManager.Audio.Play();
         guideManager.Ani3.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
        
         guideManager.Ani3.gameObject.SetActive(true);

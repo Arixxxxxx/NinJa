@@ -69,6 +69,8 @@ public class arrowAttack : MonoBehaviour
                         return;
                     }
                     GameObject obj = F_GetArrow();
+                    obj.transform.GetComponent<Bullet>().Audio.clip = SoundManager.instance.rangeAttak;
+                    obj.transform.GetComponent<Bullet>().Audio.Play();
                     obj.transform.position = BowPos.position;
                     obj.transform.rotation = m_Arrow.rotation;
                     obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 15f;

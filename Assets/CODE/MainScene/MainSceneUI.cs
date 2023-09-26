@@ -26,6 +26,7 @@ public class MainSceneUi : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1.0f;
         whiteBackGround = transform.Find("BGw").GetComponent<Image>();
         openingLogo = whiteBackGround.transform.GetChild(0).GetComponent<Image>();
 
@@ -73,6 +74,8 @@ public class MainSceneUi : MonoBehaviour
             if (openingLogo.color.a > 0.9f && !once)
             {
                 once = true;
+                SoundManager.instance.Audio.clip = SoundManager.instance.cityThema;
+                SoundManager.instance.Audio.Play();
                 StartCoroutine(Step1End());
             }
             else if (!step1)
@@ -89,6 +92,7 @@ public class MainSceneUi : MonoBehaviour
                     if (!musicstart)
                     {
                         musicstart = true;
+                        SoundManager.instance.Audio.clip = SoundManager.instance.mainThema;
                         SoundManager.instance.Audio.Play();
                     }
 

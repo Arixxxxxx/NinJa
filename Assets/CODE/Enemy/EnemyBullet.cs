@@ -11,6 +11,7 @@ public class EnemyBullet : MonoBehaviour
     Vector3 bulleVec;
     Vector3 dir;
     private Rigidbody2D _Rb;
+    private AudioSource Audio;
     private Rigidbody2D Rb
     {
         get
@@ -28,7 +29,7 @@ public class EnemyBullet : MonoBehaviour
     [SerializeField] private float Speed = 5;
     private void Awake()
     {
-
+        Audio = GetComponent<AudioSource>();
     }
     //void Start()
     //{
@@ -90,6 +91,7 @@ public class EnemyBullet : MonoBehaviour
           else if (collision.gameObject.layer == LayerMask.NameToLayer("Shield") && !once)
         {
             once = true;
+            
             GameManager.Instance.Player_CurSP -= 5;
             
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");

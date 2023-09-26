@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
     public AudioSource Audio;
- 
+    public AudioMixer audioMixer;
+
 
     [Range(0.01f,10f)][SerializeField] private float audioChangeSpeed;
     private void Awake()
@@ -22,6 +24,7 @@ public class SoundManager : MonoBehaviour
         }
 
         Audio = GetComponent<AudioSource>();
+        Audio.volume = 0.5f;
     }
 
 
@@ -32,7 +35,27 @@ public class SoundManager : MonoBehaviour
     public AudioClip CaveThema; //동굴안 테마곡
     private AudioClip caseThema; // 함수 사용 케이스
 
-    [Header("# 플레이어")] public AudioClip playerStep;
+    //효과음
+    [Header("# 효과음")]
+    public AudioClip BtnClick; // 버튼 클릭
+
+
+
+    [Header("# 플레이어")] 
+    public AudioClip playerStep;
+    public AudioClip jump;
+    public AudioClip block;
+    public AudioClip meleeAttack;
+    public AudioClip rangeAttak;
+    public AudioClip rangeHit;
+
+    [Header("# 몬스터관련")] 
+    public AudioClip[] enemyDie;
+    public AudioClip[] enemyhit;
+
+    [Header("# UI")]
+    public AudioClip popup;
+    public AudioClip popdown;
 
 
     //외부에서 싱글톤으로 넣어줌
@@ -64,9 +87,10 @@ public class SoundManager : MonoBehaviour
 
     private void VolumeUp()
     {
-        if (Audio.volume == 1)
+        if (Audio.volume >= 0.5f)
         {
-              return;
+            Audio.volume = 0.5f;
+             return;
         }
         else
         {
@@ -76,7 +100,10 @@ public class SoundManager : MonoBehaviour
 
     }
 
-
+    public void SoundValueChanger(float _value)
+    {
+        audioMixer.SetFloat("MasterV", Mathf.Log10(_value) * 20);
+    }
 
 
 }
