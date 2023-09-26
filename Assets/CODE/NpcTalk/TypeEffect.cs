@@ -13,10 +13,18 @@ public class TypeEffect : MonoBehaviour
     public Image pressBtn;
     public bool NextTextOk;
 
+    private AudioSource Audio;
+
     private void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
-        
+        Audio = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        Audio.volume = 0.4f;
+        Audio.clip = SoundManager.instance.talkBoxChatSound;
     }
     public void F_SetMsg(string _MSG)
     {
@@ -25,7 +33,7 @@ public class TypeEffect : MonoBehaviour
     }
     private void EffectStart()
     {
-        NextTextOk=true;
+        NextTextOk = true;
         text.text = "";
         MsgIndex = 0;
         pressBtn.gameObject.SetActive(false);
@@ -34,7 +42,7 @@ public class TypeEffect : MonoBehaviour
     }
     private void Effecting()
     {
-        if(text.text== Msg)
+        if (text.text == Msg)
         {
             EffectEnd();
             return;
@@ -42,7 +50,7 @@ public class TypeEffect : MonoBehaviour
 
         text.text += Msg[MsgIndex];
         MsgIndex++;
-
+        Audio.Play();
         Invoke("Effecting", 1 / TypeingSpeed);
     }
     private void EffectEnd()

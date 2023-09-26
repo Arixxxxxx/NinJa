@@ -56,6 +56,7 @@ public class SoundManager : MonoBehaviour
     [Header("# UI")]
     public AudioClip popup;
     public AudioClip popdown;
+    public AudioClip talkBoxChatSound;
 
 
     //ø‹∫Œø°º≠ ΩÃ±€≈Ê¿∏∑Œ ≥÷æÓ¡‹

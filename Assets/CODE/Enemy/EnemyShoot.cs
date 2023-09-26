@@ -6,6 +6,13 @@ using UnityEngine;
 public class EnemyShoot : MonoBehaviour
 {
     Transform firePos;
+    AudioSource Audio;
+
+    private void Awake()
+    {
+        Audio = GetComponent<AudioSource>();
+    }
+
 
     public void Shoot()
     {
@@ -14,6 +21,7 @@ public class EnemyShoot : MonoBehaviour
         obj.transform.position = firePos.position;
 
         EnemyBullet bullet = obj.GetComponent<EnemyBullet>();
+        Audio.Play();
         bullet.Shoot();
     }
 }

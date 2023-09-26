@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
+using System.Collections.Generic;
 
 public class RangeZone : MonoBehaviour
 {
@@ -17,8 +19,10 @@ public class RangeZone : MonoBehaviour
     //생성 마리수
     int makeEagleEA;
     bool spawnStart;
+    AudioSource Audio;
 
     bool barOpen;
+    bool isSoundOk;
     private void Awake()
     {
         spawnPoint1 = transform.Find("SpawnPoint1").GetComponent<Transform>();
@@ -28,9 +32,9 @@ public class RangeZone : MonoBehaviour
         KillText = EventUi.transform.Find("KillCount").GetComponent<TMP_Text>();
         chairBoom = transform.Find("Chair").GetComponent<Animator>();
 
-
+        Audio = GetComponent<AudioSource>();
         makeEagleEA = 10;
-  
+        Audio.volume = 0.5f;
     }
 
     private void Update()
@@ -56,12 +60,19 @@ public class RangeZone : MonoBehaviour
 
         if (gameStart && makeEagleEA > 0)
         {
-           //시작카운트
+            //시작카운트
+
+            
             countTimer += Time.deltaTime;
             total = count - countTimer;
             if(total > 0)
             {
                 KillText.text = (total + 1).ToString("F0");
+                if (!isSoundOk)
+                {
+                    isSoundOk = true;
+                    StartCoroutine(SoundStart());
+                }
             }
             if(total < 0 && !once1)
             {
@@ -104,6 +115,15 @@ public class RangeZone : MonoBehaviour
             
         }
     }
+
+    IEnumerator SoundStart()
+    { 
+        //사운드파일 1초 안맞아서 일로왔음
+        yield return new WaitForSecondsRealtime(1f);
+        
+        Audio.Play();
+    }
+
     IEnumerator StartGame()
     {
         yield return new WaitForSecondsRealtime(0.6f);
