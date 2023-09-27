@@ -107,7 +107,7 @@ public class EnemyBullet : MonoBehaviour
             PoolManager.Instance.F_GetObj("Dust");
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = gameObject.transform.position;
-
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.block, 0.6f);
             PoolManager.Instance.F_ReturnObj(gameObject, "EB");
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("NoWall") && !once)
@@ -126,7 +126,7 @@ public class EnemyBullet : MonoBehaviour
             PoolManager.Instance.F_GetObj("Dust");
             GameObject obj = PoolManager.Instance.F_GetObj("Dust");
             obj.transform.position = gameObject.transform.position;
-
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.block, 0.6f);
             PoolManager.Instance.F_ReturnObj(gameObject, "EB");
            
         }

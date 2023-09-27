@@ -40,6 +40,7 @@ public class FireTrap : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+           
             GameManager.Instance.player.F_OnHit();
         }
     }

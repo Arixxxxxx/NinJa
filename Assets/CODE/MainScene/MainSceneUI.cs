@@ -176,6 +176,12 @@ public class MainSceneUi : MonoBehaviour
     {
         if (step6)
         {
+            if (!btn1.gameObject.activeSelf)
+            {
+                btn1.gameObject.SetActive(true);
+                btn2.gameObject.SetActive(true);
+            }
+          
             btn1.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
             btn2.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
             btn1_T.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
@@ -196,13 +202,15 @@ public class MainSceneUi : MonoBehaviour
         mainLogo.color = new Color(1, 1, 1, 0);
         mainLogoText.color = new Color(0, 0, 0, 0);
 
-        //btn1.gameObject.SetActive(false);
-        //btn2.gameObject.SetActive(false);
+
 
         btn1.color = new Color(1, 1, 1, 0);
         btn2.color = new Color(1, 1, 1, 0);
         btn1_T.color = new Color(1, 1, 1, 0);
         btn2_T.color = new Color(1, 1, 1, 0);
+
+        btn1.gameObject.SetActive(false);
+        btn2.gameObject.SetActive(false);
     }
 
   

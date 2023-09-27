@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public enum ArrowType
+    {
+        normal, boomArrow, boom, triple
+    }
+    public ArrowType type;
+
 
     private Rigidbody2D Rb;
     private int Bullet_DMG;
@@ -26,7 +32,7 @@ public class Bullet : MonoBehaviour
         Sr = GetComponent<SpriteRenderer>();
         Audio = GetComponent<AudioSource>();
      }
-
+   
     private void Update()
     {
        transform.right = Rb.velocity;
@@ -40,11 +46,11 @@ public class Bullet : MonoBehaviour
     }
 
 
-    private void F_BulletReturn ()
+    private void F_BulletReturn (ArrowType type)
     {
         gameObject.SetActive(false);
         Rb.velocity = Vector3.zero;
-        Arrowbox.F_SetArrow(gameObject);
+        Arrowbox.F_SetArrow(gameObject, type);
         trail.Clear();
     }
 
@@ -60,63 +66,124 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
        
         
-        Arrowbox.F_SetArrow(gameObject);
+        Arrowbox.F_SetArrow(gameObject,0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Eagle"))
         {
-            SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
-       
-            GameManager.Instance.curEagle--;
-            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
-            obj.transform.position = this.gameObject.transform.position;
-            ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
-            sc1.Play();
+            switch (type)
+            {
+                case ArrowType.normal:
 
+                    //SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
+
+                    //GameManager.Instance.curEagle--;
+                    //GameObject obj = PoolManager.Instance.F_GetObj("Dust");
+                    //obj.transform.position = this.gameObject.transform.position;
+                    //ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
+                    //sc1.Play();
+
+                    normalArrow();
+                    F_BulletReturn(ArrowType.normal);
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+            }
            
-            F_BulletReturn();
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            
-            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
-            obj.transform.position = this.gameObject.transform.position;
-            ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
-            sc1.Play();
-            Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt(Bullet_DMG);
+            switch (type)
+            {
+                case ArrowType.normal:
+                    normalArrow();
+
+                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                    sc.F_OnHIt(Bullet_DMG);
+
+                    F_BulletReturn(ArrowType.normal);
+                    break;
+
+                case ArrowType.triple:
+                   
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+            }
           
-            F_BulletReturn();
         }
 
 
         if (collision.gameObject.CompareTag("Ghost"))
         {
-            SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
-            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
-            obj.transform.position = this.gameObject.transform.position;
-            ParticleSystem scc = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
-            scc.Play();
-            Ghost sc = collision.gameObject.GetComponent<Ghost>();
-            sc.F_OnHIt(Bullet_DMG);
-            F_BulletReturn();
+            switch (type)
+            {
+                case ArrowType.normal:
+                    normalArrow();
+
+                    Ghost sc = collision.gameObject.GetComponent<Ghost>();
+                    sc.F_OnHIt(Bullet_DMG);
+                    F_BulletReturn(ArrowType.normal);
+                    break;
+
+                case ArrowType.triple:
+
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+            }
+            
         }
+
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
-            SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
-            GameObject obj = PoolManager.Instance.F_GetObj("Dust");
-            obj.transform.position = this.gameObject.transform.position;
-            ParticleSystem sc = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
-            sc.Play();
+            switch (type)
+            {
+                case ArrowType.normal:
 
-            //StartCoroutine(Returns(obj));
-            F_BulletReturn();
+                    normalArrow();
+                    F_BulletReturn(type);
+
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+            }
+           
         }
 
+    }
+
+    private void normalArrow()
+    {
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
+        GameManager.Instance.curEagle--;
+        GameObject obj = PoolManager.Instance.F_GetObj("Dust");
+        obj.transform.position = this.gameObject.transform.position;
+        ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
+        sc1.Play();
+    }
+
+
+    private void Boom()
+    {
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.boomArrow, 0.7f);
+        GameObject obj = arrowAttack.Instance.F_Get_Boom();
+        obj.transform.position = transform.position;
+        obj.GetComponent<ParticleSystem>().Play();
+
+        F_BulletReturn(type);
     }
 }

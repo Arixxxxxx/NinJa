@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class GameManager : MonoBehaviour
     [Space]
     public float Player_CurHP;
      public  float Player_MaxHP;
+    public float Player_CurMP;
+    public float Player_MaxMP;
     [Header("# 캐릭터 SP설정")]
     [Space]
     public float Player_CurSP;
@@ -243,7 +246,8 @@ public class GameManager : MonoBehaviour
         {
             ScUp();
         }
-       
+
+              
     }
 
     bool once2;
@@ -438,6 +442,7 @@ public class GameManager : MonoBehaviour
     {
         Animator ZomebieBox = battlezone.Find("ZombieBox").GetComponent<Animator>();
         ZomebieBox.SetBool("Open", true);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.zombieSpawn, 0.8f);
         ZomebieBox.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         GameManager.Instance.MovingStop = false;
         yield return new WaitForSecondsRealtime(4);

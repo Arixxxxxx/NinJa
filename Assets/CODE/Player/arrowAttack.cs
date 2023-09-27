@@ -2,35 +2,71 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Bullet;
 
 public class arrowAttack : MonoBehaviour
 {
+    public static arrowAttack Instance;
+
+
     [Header("일반화살")]
     [SerializeField] GameObject Arrow;
+    [SerializeField] GameObject boomArrow;
+    [SerializeField] GameObject Boom;
+    [SerializeField] GameObject tripleArrow;
     [SerializeField] Transform m_Arrow;
     [SerializeField] Transform BowPos;
     [SerializeField] Transform ArrowTong;
+    private Transform tong;
     Camera maincam;
     Queue<GameObject> ArrowBox = new Queue<GameObject>();
+    Queue<GameObject> boomArrowQUE = new Queue<GameObject>();
+    public Queue<GameObject> boomQUE = new Queue<GameObject>();
+    Queue<GameObject> TripleArrowQUE = new Queue<GameObject>();
     float curTime;
     Animator FillAni;
-    
+
 
     private void Awake()
-    { 
-         maincam = Camera.main;
-         
-
-         for (int i = 0; i < 30; i++)
+    {
+        if (Instance == null)
         {
-            FillAni = GameObject.Find("GameUI").transform.Find("Btn2/ArrowFill").GetComponent<Animator>();
-            GameObject obj = Instantiate(Arrow, transform.position, Quaternion.Euler(0,0,0), ArrowTong);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        maincam = Camera.main;
+        tong = transform.Find("Tong").GetComponent<Transform>();
+        FillAni = GameObject.Find("GameUI").transform.Find("Btn2/ArrowFill").GetComponent<Animator>();
+
+        for (int i = 0; i < 30; i++)
+        {
+
+            GameObject obj = Instantiate(Arrow, transform.position, Quaternion.identity, ArrowTong);
             obj.SetActive(false);
             ArrowBox.Enqueue(obj);
+
+            GameObject objs = Instantiate(tripleArrow, transform.position, Quaternion.identity, ArrowTong);
+            objs.SetActive(false);
+            TripleArrowQUE.Enqueue(objs);
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject obj = Instantiate(boomArrow, transform.position, Quaternion.identity, ArrowTong);
+            obj.SetActive(false);
+            boomArrowQUE.Enqueue(obj);
+
+            GameObject objs = Instantiate(Boom, transform.position, Quaternion.identity, ArrowTong);
+            objs.SetActive(false);
+            boomQUE.Enqueue(objs);
+
         }
     }
 
-    
+
     private void LookAtMouse()
     {
         if (GameManager.Instance.isGetRangeItem)
@@ -50,7 +86,7 @@ public class arrowAttack : MonoBehaviour
                 GameManager.Instance.AimLeft = false;
             }
         }
-          
+
     }
 
     private void ArrowFire()
@@ -68,7 +104,7 @@ public class arrowAttack : MonoBehaviour
                         GameManager.Instance.player.F_CharText("Arrow");
                         return;
                     }
-                    GameObject obj = F_GetArrow();
+                    GameObject obj = F_GetArrow(0);
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeAttak, 1f);
 
                     obj.transform.position = BowPos.position;
@@ -80,26 +116,153 @@ public class arrowAttack : MonoBehaviour
                 }
             }
         }
-       
+
+    }
+
+    public float shootPower;
+    public float MaxPower;
+    private void TripleArrow()
+    {
+        if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                StartCoroutine(ArrowSpawn());
+                GameManager.Instance.Player_CurMP -= 5;
+            }
+
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                shootPower += Time.deltaTime * 7;
+                if(shootPower > MaxPower)
+                {
+                    shootPower = MaxPower;
+                }
+                
+             
+            }
+
+            if (Input.GetKeyUp(KeyCode.Alpha4))
+            {
+                GameObject obj = F_GetArrow(ArrowType.boomArrow);
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeAttak, 1f);
+
+                obj.transform.position = BowPos.position;
+                obj.transform.rotation = m_Arrow.rotation;
+                obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * shootPower;
+                shootPower = 0;
+            }
+        }
+    }
+
+    IEnumerator ArrowSpawn()
+    {
+        ArrowOnsShot();
+        yield return new WaitForSeconds(0.15f);
+        ArrowOnsShot();
+        yield return new WaitForSeconds(0.15f);
+        ArrowOnsShot();
+    }
+
+    private void ArrowOnsShot()
+    {
+        GameObject obj = F_GetArrow(ArrowType.triple);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeAttak, 1f);
+
+        obj.transform.position = BowPos.position;
+        obj.transform.rotation = m_Arrow.rotation;
+        obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 20f;
     }
     void Update()
     {
         LookAtMouse();
         ArrowFire();
+        TripleArrow();
 
     }
 
-    public GameObject F_GetArrow()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_value">0=노말,1=트리블,2붐화살,3붐</param>
+    /// <returns></returns>
+    public GameObject F_GetArrow(ArrowType type)
     {
         GameObject arrow = null;
-        arrow = ArrowBox.Dequeue();
-        arrow.SetActive(true);
-        return arrow;
+
+        switch (type)
+        {
+            case ArrowType.normal:
+
+                arrow = ArrowBox.Dequeue();
+                arrow.SetActive(true);
+                return arrow;
+
+                break;
+
+            case ArrowType.triple:
+
+                arrow = TripleArrowQUE.Dequeue();
+                arrow.SetActive(true);
+                return arrow;
+                break;
+
+            case ArrowType.boomArrow:
+                arrow = boomArrowQUE.Dequeue();
+                arrow.SetActive(true);
+                return arrow;
+                break;
+
+
+
+            default: return null;
+        }
+
     }
-    public void F_SetArrow(GameObject obj)
+
+    public GameObject F_Get_Boom()
     {
-        
+        GameObject obj = boomQUE.Dequeue();
+        obj.SetActive(true);
+        return obj;
+    }
+    public void F_Set_Boom(GameObject obj)
+    {
         obj.transform.position = transform.position;
-        ArrowBox.Enqueue(obj);
+        obj.gameObject.SetActive(false);
+        boomQUE.Enqueue(obj);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="_value">0=노말,1=트리블,2붐화살,3붐</param>
+    public void F_SetArrow(GameObject obj, ArrowType type)
+    {
+        switch (type)
+        {
+            case ArrowType.normal:
+                obj.transform.position = transform.position;
+                ArrowBox.Enqueue(obj);
+                break;
+
+            case ArrowType.triple:
+                obj.transform.position = transform.position;
+                TripleArrowQUE.Enqueue(obj);
+                break;
+
+            case ArrowType.boomArrow:
+                obj.transform.position = transform.position;
+                boomArrowQUE.Enqueue(obj);
+
+                break;
+            case ArrowType.boom:
+                obj.transform.position = transform.position;
+                boomQUE.Enqueue(obj);
+                break;
+
+        }
+
     }
 }

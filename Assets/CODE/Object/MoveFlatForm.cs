@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveFlatForm : MonoBehaviour
@@ -41,6 +42,8 @@ public class MoveFlatForm : MonoBehaviour
 
 
     }
+    bool once, once2;
+    public bool soundOn;
     void Update()
     {
         switch (type)
@@ -57,18 +60,44 @@ public class MoveFlatForm : MonoBehaviour
 
             case MoveType.onPlayerMove:
 
-                //RaycastHit2D ray = Physics2D.CapsuleCast(transform.position, new Vector2(1.8f, 0.5f), CapsuleDirection2D.Horizontal, 0, Vector2.zero, LayerMask.GetMask("Player")) ;
-                //RaycastHit2D ray = Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, CapsuleDirection2D.Horizontal, 0 , Vector2.up, surchLayer);
+              
+              
                 box = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0, Vector3.up, checkDis, surchLayer);
                 
                 if (box.collider != null)
                 {
                     count += Time.deltaTime;
-                    if(count > startTimer)
+                    if (count > startTimer)
                     {
+                        if (transform.position.y == point1.position.y && !once)
+                        {
+                            once = true;
+                            soundOn = false;
+
+                            if(this.gameObject.name != "FlatForm")
+                            {
+                                SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 1);
+                            }
+                            
+                        }
                         targetPos = point1.position;
+
+                        if(Vector3.Distance(transform.position, point1.position) > 0.05f)
+                        {
+                            soundOn = true;
+                        }
+                        else
+                        {
+                            soundOn = false;
+                        }
+                       
+
                     }
                    
+                    if(Vector3.Distance(targetPos, point1.position) > 5)
+                    {
+                        once = false;
+                    }
                 }
                 else if(box.collider == null)
                 {
@@ -95,6 +124,7 @@ public class MoveFlatForm : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             collision.transform.SetParent(this.transform);
+
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

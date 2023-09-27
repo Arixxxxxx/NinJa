@@ -56,6 +56,7 @@ public class SpikeBall : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.GetMask("Ground")) ;
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.spikeball, 0.8f);
             Invoke("F_OffSpike", 2);
         }
     }

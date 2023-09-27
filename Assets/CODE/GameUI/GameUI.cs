@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using System;
 
 public class GameUI : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class GameUI : MonoBehaviour
     Image mapMoveBar;
     TMP_Text mapMoveText;
 
+    // 시간바
+    string ampm;
+    int hour;
+    int minute;
+    TMP_Text timeText;
+
 
     private void Awake()
     {
@@ -26,7 +33,7 @@ public class GameUI : MonoBehaviour
         rangeUi = transform.Find("Btn2").GetComponent<Transform>();
         mapMoveBar = transform.Find("MapMoveBar").GetComponent<Image>();
         mapMoveText = mapMoveBar.transform.GetChild(0).GetComponent<TMP_Text>();
-
+        timeText = transform.Find("UnitFream/TimeBar/Time").GetComponent<TMP_Text>();
         mapMoveBar.fillAmount = 0;
         mapMoveText.color = new Color(1, 1, 1, 0);
         mapMoveText.text = string.Empty;
@@ -36,7 +43,7 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-
+        
         ArrowEaText();  // 화살갯수 text
         ArrowFillAmount(); // 화살갯수 게이지
         WeaponeUIActive();
@@ -47,7 +54,22 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        TimeTexT();
+    }
+
     bool once, once1;
+    private void TimeTexT()
+    {
+        //ampm = DateTime.Now.ToString("t");
+        hour = DateTime.Now.Hour;
+        ampm = hour <= 12 ? "AM" : "PM";
+        hour = hour % 12;
+        minute = DateTime.Now.Minute;
+
+        timeText.text = $"{ampm} {hour}:{minute}";
+    }
 
     private void WeaponeUIActive()
     {

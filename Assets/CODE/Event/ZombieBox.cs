@@ -18,6 +18,7 @@ public class ZombieBox : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !once)
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.zombieSpawn, 0.8f);
             Emoticon.instance.F_GetEmoticonBox("Angry");
             Ani.SetTrigger("Open");
         }

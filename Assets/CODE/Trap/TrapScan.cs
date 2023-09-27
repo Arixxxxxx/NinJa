@@ -10,6 +10,7 @@ public class TrapScan : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.firetrapOn, 0.8f);
             Trap_on = true;
         }
     }

@@ -20,6 +20,7 @@ public class Action1 : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !once)
         {
             Emoticon.instance.F_GetEmoticonBox("Angry");
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.zombieSpawn, 0.8f);
             once = true;
             GameObject E1 = PoolManager.Instance.F_GetObj("Enemy");
             E1.transform.position = right.transform.position;

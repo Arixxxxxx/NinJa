@@ -650,6 +650,7 @@ public class Player : MonoBehaviour
                     if (GameManager.Instance.Player_CurSP < 15)
                     {
                         F_CharText("SP");
+                       
                         return;
                     }
                     else if (GameManager.Instance.Player_CurSP > 15)
@@ -668,7 +669,7 @@ public class Player : MonoBehaviour
 
                         if (!isLeft)
                         {
-
+                            SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
                             Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
                             gameObject.layer = 10;
                             Invoke("F_ReturnLayer", 0.5f);
@@ -676,7 +677,7 @@ public class Player : MonoBehaviour
                         }
                         else if (isLeft)
                         {
-
+                            SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
                             Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
                             gameObject.layer = 10;
                             Invoke("F_ReturnLayer", 0.5f);
@@ -838,7 +839,8 @@ public class Player : MonoBehaviour
             //
             if (Input.GetButtonDown("Jump") && JumpCount < 2 && !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon && !noWallCheak)
             {
-                
+
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.normalJump, 0.5f);
 
                 isOneJump = true;
                 JumpOn = true;
@@ -907,7 +909,7 @@ public class Player : MonoBehaviour
             else
             {
                 // 잠시무적
-
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.onHIt, 0.8f);
                 gameObject.layer = 10;
                 Sr.color = new Color(1, 1, 1, 0.3f);
                 Debug.Log("진입1");
@@ -1030,8 +1032,9 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.ground, 0.5f);
             F_JumpReset();
-
+            
         }
 
 

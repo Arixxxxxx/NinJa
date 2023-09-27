@@ -33,6 +33,7 @@ public class SpikeTrap_Ground : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && TrapOn == false)
         {
             TrapOn = true;
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.onTrap, 1);
             Ani.SetBool("TrapOn", true);
 
             for (int i = 1; i < SB.Length; i++)

@@ -109,7 +109,7 @@ public class GateWayCollider : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.enterGate, 1);
             end = false;
             GameManager.Instance.MovingStop = true;
             GameManager.Instance.player.Rb.velocity = Vector3.zero;

@@ -159,7 +159,7 @@ public class RangeZone : MonoBehaviour
         GameManager.Instance.battleNPCiD.ID++;
         
         yield return new WaitForSecondsRealtime(0.2f);
-        
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.questComplete, 1f);
         KillText.text = "미션 완료!";
         Emoticon.instance.F_GetEmoticonBox("Smile");
 
