@@ -18,6 +18,7 @@ TagManager:
   - EnemyBullet
   - Ghost
   - HitBox
+  - SkillTrap
   layers:
   - Default
   - TransparentFX

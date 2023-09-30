@@ -12,7 +12,7 @@ public class PoolManager : MonoBehaviour
     Queue<GameObject> Dust;
     Queue<GameObject> EnemyBullets;
 
-    Transform SpawnPoint;
+    public Transform SpawnPoint;
 
 
     private void Awake()

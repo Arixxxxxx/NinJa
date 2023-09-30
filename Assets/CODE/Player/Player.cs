@@ -8,6 +8,7 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
 
     [HideInInspector] public Rigidbody2D Rb;
     [HideInInspector] public Animator Ani;
@@ -97,7 +98,7 @@ public class Player : MonoBehaviour
     [Header("# 근접공격")]
     [SerializeField] private float MeleeSpeed;
     [SerializeField] private float Timer;
-    private Animator SwordAni;
+    public Animator SwordAni;
     private Transform Sword;
     SpriteRenderer SwordSr;
     private Transform Defence;
@@ -121,12 +122,22 @@ public class Player : MonoBehaviour
 
     // 무기획득 오오라
     public Animator ora;
+    public ParticleSystem Ps;
+    public ParticleSystem Ps2;
+    public ParticleSystem powerShotPs;
 
     // 오디오
     private AudioSource Audio; // 발소리
     private void Awake()
     {
-
+        if(instance == null) 
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
         Rb = GetComponent<Rigidbody2D>();
         Ani = GetComponent<Animator>();
         Sr = GetComponent<SpriteRenderer>();
@@ -155,7 +166,9 @@ public class Player : MonoBehaviour
 
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
         ora = transform.Find("Up").GetComponent<Animator>();
-
+        Ps = transform.Find("Paticle/GetMelee").GetComponent<ParticleSystem>();
+        Ps2 = transform.Find("Paticle/GetRange").GetComponent<ParticleSystem>();
+        powerShotPs = transform.Find("Paticle/RangeCarge").GetComponent<ParticleSystem>();
         //점프
         groundCheker = transform.Find("GroundCheker").GetComponent<Transform>();
         verGravity = new Vector2(0, -Physics2D.gravity.y);
@@ -215,46 +228,55 @@ public class Player : MonoBehaviour
             ModeChangeTimer += Time.deltaTime;
             if (GameManager.Instance.isGetMeleeItem)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha1) && !isDodge && !JumpOn && !isflying)
+                if (Input.GetKeyDown(KeyCode.BackQuote) && !isDodge && !JumpOn && !isflying)
                 {
-                    if (GameManager.Instance.meleeMode)
-                    {
-                        return;
-                    }
-                    if (ModeChangeTimer > 0.4f)
-                    {
-                     
-                        Ani.SetTrigger("ModeChange");
-                        F_CharText("Melee");
-                        GameManager.Instance.meleeMode = true;
-                        btn1.SetTrigger("Ok");
-                        ModeChangeTimer = 0;
-                    }
 
+                    if (!GameManager.Instance.meleeMode && GameManager.Instance.rangeMode)
+                    {
+                        if (ModeChangeTimer > 0.4f)
+                        {
+
+                            Ani.SetTrigger("ModeChange");
+                            F_CharText("Melee");
+                            GameManager.Instance.meleeMode = true;
+                            btn1.SetTrigger("Ok");
+                            ModeChangeTimer = 0;
+                        }
+                    }
+                    
+                    else if(GameManager.Instance.meleeMode && !GameManager.Instance.rangeMode)
+                    {
+                        if (GameManager.Instance.isGetRangeItem)
+                        {
+                            F_RangeMode();
+                            ModeChangeTimer = 0;
+                        }
+                       
+                    }
                 }
             }
-            if (GameManager.Instance.isGetRangeItem)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha2) && !ShieldOn & !isDodge && !JumpOn && !isflying)
-                {
-                    if (!GameManager.Instance.meleeMode)
-                    {
-                        return;
-                    }
-                    if (ModeChangeTimer > 0.4f)
-                    {
-                        F_RangeMode();
+            //if (GameManager.Instance.isGetRangeItem)
+            //{
+            //    if (Input.GetKeyDown(KeyCode.BackQuote) && !ShieldOn & !isDodge && !JumpOn && !isflying)
+            //    {
+            //        if (!GameManager.Instance.meleeMode)
+            //        {
+            //            return;
+            //        }
+            //        if (ModeChangeTimer > 0.4f)
+            //        {
+            //            F_RangeMode();
 
-                        //Ani.SetTrigger("ModeChange");
-                        //btn2.SetTrigger("Ok");
-                        //F_CharText("Range");
-                        //GameManager.Instance.meleeMode = false;
-                        ModeChangeTimer = 0;
-                    }
-                }
+            //            //Ani.SetTrigger("ModeChange");
+            //            //btn2.SetTrigger("Ok");
+            //            //F_CharText("Range");
+            //            //GameManager.Instance.meleeMode = false;
+            //            ModeChangeTimer = 0;
+            //        }
+            //    }
 
 
-            }
+            //}
 
             //
             if (GameManager.Instance.isGetMeleeItem)
@@ -665,23 +687,34 @@ public class Player : MonoBehaviour
                         GameManager.Instance.Player_CurSP -= 15;
 
 
-
-
-                        if (!isLeft)
+                        if (GameManager.Instance.rangeMode)
                         {
                             SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
-                            Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
+                            Rb.velocity = new Vector3(transform.localScale.x >= 0 ? -1 : 1, 0) * DodgeSpeed / 1.5f;
                             gameObject.layer = 10;
                             Invoke("F_ReturnLayer", 0.5f);
                             Ani.SetTrigger("Dodge");
                         }
-                        else if (isLeft)
+
+                        else
                         {
-                            SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
-                            Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
-                            gameObject.layer = 10;
-                            Invoke("F_ReturnLayer", 0.5f);
-                            Ani.SetTrigger("Dodge");
+                            if (!isLeft)
+                            {
+                                SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
+                                Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
+                                gameObject.layer = 10;
+                                Invoke("F_ReturnLayer", 0.5f);
+                                Ani.SetTrigger("Dodge");
+                            }
+                            else if (isLeft)
+                            {
+                                SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
+                                Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
+                                gameObject.layer = 10;
+                                Invoke("F_ReturnLayer", 0.5f);
+                                Ani.SetTrigger("Dodge");
+
+                            }
 
                         }
                     }

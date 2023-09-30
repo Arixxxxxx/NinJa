@@ -51,7 +51,15 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
         Rb.velocity = Vector3.zero;
         Arrowbox.F_SetArrow(gameObject, type);
-        trail.Clear();
+        if(transform.GetChild(0).GetComponent<ParticleSystem>() != null)
+        {
+            transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
+        }
+      
+        if (trail != null) 
+            {
+                trail.Clear();
+            } 
     }
 
     IEnumerator Returns(GameObject obj)
@@ -84,7 +92,7 @@ public class Bullet : MonoBehaviour
                     //obj.transform.position = this.gameObject.transform.position;
                     //ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
                     //sc1.Play();
-
+                    GameManager.Instance.curEagle--;
                     normalArrow();
                     F_BulletReturn(ArrowType.normal);
                     break;
@@ -92,6 +100,10 @@ public class Bullet : MonoBehaviour
                 case ArrowType.boomArrow:
                     Boom();
                     break;
+
+                case ArrowType.triple:
+                    break;
+
             }
            
         }
@@ -112,7 +124,11 @@ public class Bullet : MonoBehaviour
                     break;
 
                 case ArrowType.triple:
-                   
+                    TripleShot();
+
+                    Enemys scs = collision.gameObject.GetComponent<Enemys>();
+                    scs.F_OnHIt(Bullet_DMG);
+                    F_BulletReturn(type);
                     break;
 
                 case ArrowType.boomArrow:
@@ -160,6 +176,12 @@ public class Bullet : MonoBehaviour
                 case ArrowType.boomArrow:
                     Boom();
                     break;
+
+                    case ArrowType.triple:
+                    TripleShot();
+                    F_BulletReturn(type);
+                    break;
+
             }
            
         }
@@ -167,6 +189,15 @@ public class Bullet : MonoBehaviour
     }
 
     private void normalArrow()
+    {
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
+        GameObject obj = PoolManager.Instance.F_GetObj("Dust");
+        obj.transform.position = this.gameObject.transform.position;
+        ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
+        sc1.Play();
+    }
+
+    private void TripleShot()
     {
         SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
         GameManager.Instance.curEagle--;

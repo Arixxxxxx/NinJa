@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class GetItemNPC2 : MonoBehaviour
 {
@@ -70,7 +71,8 @@ public class GetItemNPC2 : MonoBehaviour
                     itemsSprite.gameObject.SetActive(false);
                     canvas.gameObject.SetActive(false);
                     StartCoroutine(itemShowRangeMode());
-                    GameManager.Instance.player.ora.SetTrigger("Up");
+                    //GameManager.Instance.player.ora.SetTrigger("Up");
+                    StartCoroutine(ShowAura());
                     noWay.enabled = true;
                     StartCoroutine(ShowAni4());
                 }
@@ -97,13 +99,20 @@ public class GetItemNPC2 : MonoBehaviour
         GameManager.Instance.player.F_RangeMode();
     }
 
-   
+    IEnumerator ShowAura()
+    {
+        Player.instance.Ps2.gameObject.SetActive(true);
+        Player.instance.Ps2.Play();
+        yield return new WaitForSeconds(2.5f);
+        Player.instance.Ps2.Stop();
+        Player.instance.Ps2.gameObject.SetActive(false);
+    }
     
     //장비 획득 후  <원거리> 모드 설명 On
     IEnumerator ShowAni4()
     {
-
-        yield return new WaitForSecondsRealtime(2f);
+      
+        yield return new WaitForSecondsRealtime(2.5f);
         guideManager.Audio.clip = SoundManager.instance.popup;
         guideManager.Audio.Play();
         guideManager.Ani3_2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 2.3f);

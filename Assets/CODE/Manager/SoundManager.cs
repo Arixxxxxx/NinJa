@@ -80,6 +80,16 @@ public class SoundManager : MonoBehaviour
     public AudioClip rangeAttak;
     public AudioClip rangeHit;
 
+    [Header("# 활 관련")]
+    public AudioClip Start;
+    public AudioClip Shoot;
+    public AudioClip tripleShot;
+    public AudioClip trapThrow;
+    public AudioClip trapActive;
+    public AudioClip elecSmall;
+    public AudioClip elecLarge;
+
+
     [Header("# 몬스터관련")] 
     public AudioClip[] enemyDie;
     public AudioClip[] enemyhit;

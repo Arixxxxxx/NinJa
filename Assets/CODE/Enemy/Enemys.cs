@@ -17,6 +17,8 @@ public class Enemys : MonoBehaviour
     public HpUi EnemyHpBar;
     AudioSource Audio;
 
+    private ParticleSystem Ps;
+
     Transform[] Bloody;
 
     bool isEnemyDead;
@@ -28,6 +30,9 @@ public class Enemys : MonoBehaviour
     DmgPooling dmp;
     DMGFont dmpText;
 
+    // ÇÃ·¹ÀÌ¾î Æ®·¦¹â´Â È¦µù
+    bool onTrap;
+
     private void Awake()
     {
         Sr = GetComponent<SpriteRenderer>();
@@ -38,6 +43,7 @@ public class Enemys : MonoBehaviour
         EnemyHpBar.gameObject.SetActive(false);
         DMG_Font = transform.GetComponentInChildren<DMGFont>(true);
         Audio = GetComponent<AudioSource>();
+        Ps = transform.Find("Stun").GetComponent<ParticleSystem>();
     }
     private void Start()
     {
@@ -49,9 +55,16 @@ public class Enemys : MonoBehaviour
     {
         if (!GameManager.Instance.NpcSprite.gameObject.activeSelf)
         {
-            F_FlipX();
-            F_ToTargetMove();
-            F_VeloLimit();
+            if (!onTrap)
+            {
+                F_FlipX();
+                F_ToTargetMove();
+                F_VeloLimit();
+            }
+        }
+        if (onTrap)
+        {
+            Rb.velocity = Vector2.zero;
         }
         else if(GameManager.Instance.NpcSprite.gameObject.activeSelf)
         {
@@ -60,7 +73,26 @@ public class Enemys : MonoBehaviour
        
     }
 
+    /// <summary>
+    /// ¸÷ ½ºÅÏ
+    /// </summary>
+    /// <param name="_duration">½ºÅÏ Áö¼Ó½Ã°£ float</param>
+    public void F_Stun_Enemy(float _duration)
+    {
+       
+        StartCoroutine(Holding(_duration));
+    } 
 
+    IEnumerator Holding(float _duration)
+    {
+     
+        onTrap = true;
+        Ps.gameObject.SetActive(true);
+        yield return new WaitForSeconds(_duration);
+        onTrap = false;
+        Ps.gameObject.SetActive(false);
+
+    }
     //Enemy ÆË¾÷ ½ÇÇà
     private void OnEnable()
     {

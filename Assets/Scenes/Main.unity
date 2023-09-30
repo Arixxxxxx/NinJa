@@ -2123,7 +2123,7 @@ MonoBehaviour:
   Audio: {fileID: 0}
   audioMixer: {fileID: 0}
   audioChangeSpeed: 0
-  mainThema: {fileID: 8300000, guid: b9bcaaefbb6aa456bb5f7dee23f8736f, type: 3}
+  mainThema: {fileID: 8300000, guid: 04df551c72e6d104eb33c51acb250b9e, type: 3}
   cityThema: {fileID: 8300000, guid: 13b481262ca11bc4cbfa819b6dfe28cc, type: 3}
   jungleCaveThema: {fileID: 0}
   Deongen: {fileID: 0}
@@ -2133,14 +2133,26 @@ MonoBehaviour:
   ziZin: {fileID: 0}
   npcTeleport: {fileID: 0}
   gateUpComplete: {fileID: 0}
+  enterGate: {fileID: 0}
+  Elevator: {fileID: 0}
+  questComplete: {fileID: 0}
+  zombieSpawn: {fileID: 0}
+  boomArrow: {fileID: 0}
   playerStep: {fileID: 0}
   jump: {fileID: 0}
+  dodge: {fileID: 0}
+  normalJump: {fileID: 0}
+  ground: {fileID: 0}
+  onHIt: {fileID: 0}
   block: {fileID: 0}
   meleeAttack: {fileID: 0}
   rangeAttak: {fileID: 0}
   rangeHit: {fileID: 0}
   enemyDie: []
   enemyhit: []
+  onTrap: {fileID: 0}
+  spikeball: {fileID: 0}
+  firetrapOn: {fileID: 0}
   popup: {fileID: 0}
   popdown: {fileID: 0}
   talkBoxChatSound: {fileID: 0}

@@ -42,6 +42,7 @@ public class BoomArrow : MonoBehaviour
             
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
             sc.F_OnHIt((int)BoomDMG);
+            sc.F_Stun_Enemy(1);
         }
 
       

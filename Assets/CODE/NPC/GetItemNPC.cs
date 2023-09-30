@@ -62,7 +62,9 @@ public class GetItemNPC : MonoBehaviour
                     itemsSprite.gameObject.SetActive(false);
                     canvas.gameObject.SetActive(false); // 장비획득표시창 off
                     StartCoroutine(itemShowMeleeMode());
-                    GameManager.Instance.player.ora.SetTrigger("Up");
+                    //GameManager.Instance.player.ora.SetTrigger("Up");
+                    Player.instance.Ps.gameObject.SetActive(true);
+                    Player.instance.Ps.Play();
 
                     StartCoroutine(ShowAni3());
 
@@ -110,7 +112,9 @@ public class GetItemNPC : MonoBehaviour
     IEnumerator ShowAni3()
     {
 
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(2f); 
+        Player.instance.Ps.Stop();
+        Player.instance.Ps.gameObject.SetActive(false);
         guideManager.Audio.clip = SoundManager.instance.popup;
         guideManager.Audio.Play();
         guideManager.Ani3.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);

@@ -195,6 +195,14 @@ public class GameUI : MonoBehaviour
             Invoke("EffectEnd", mapMoveToolSpeed);
         }
     }
+
+    public void SpawnZombie()
+    {
+        GameObject obj = PoolManager.Instance.F_GetObj("Enemy");
+        obj.transform.position = PoolManager.Instance.SpawnPoint.position;
+
+
+    }
 }
 
 
