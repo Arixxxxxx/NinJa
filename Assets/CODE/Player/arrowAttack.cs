@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Bullet;
@@ -41,6 +42,9 @@ public class arrowAttack : MonoBehaviour
 
     int originCamSize;
 
+    Image skill1, skill2, skill3, skill4;
+    TMP_Text Cool1, Cool2, Cool3, Cool4;
+    Animator Ani;
 
     private void Awake()
     {
@@ -99,7 +103,24 @@ public class arrowAttack : MonoBehaviour
         powerGaugeBar = Player.instance.transform.Find("PowerGaugeBar").GetComponent<Transform>();
         powerGaugeBar.gameObject.SetActive(false);
         bar = powerGaugeBar.transform.GetChild(1).GetComponent<Image>();
+
+        skill1 = GameManager.Instance.gameUI.Find("ActionBar/Range/1/1").GetComponent<Image>();
+        skill2 = GameManager.Instance.gameUI.Find("ActionBar/Range/2/2").GetComponent<Image>();
+        skill3= GameManager.Instance.gameUI.Find("ActionBar/Range/3/3").GetComponent<Image>();
+        skill4= GameManager.Instance.gameUI.Find("ActionBar/Range/4/4").GetComponent<Image>();
        
+        Cool1 = skill1.transform.parent.Find("CoolTime").GetComponent<TMP_Text>();
+        Cool2 = skill2.transform.parent.Find("CoolTime").GetComponent<TMP_Text>();
+        Cool3 = skill3.transform.parent.Find("CoolTime").GetComponent<TMP_Text>();
+        Cool4 = skill4.transform.parent.Find("CoolTime").GetComponent<TMP_Text>();
+
+        Ani = GameManager.Instance.gameUI.Find("ActionBar/Range").GetComponent<Animator>();
+
+        skill1Timer = SkillManager.instance.electronicShotCoolTime;
+        skill2Timer = SkillManager.instance.tripleShotCoolTime;
+        skill3Timer = SkillManager.instance.boomShotCoolTime;
+        skill4Timer = SkillManager.instance.throwTrapCoolTime;
+
     }
 
     void Update()
@@ -110,8 +131,125 @@ public class arrowAttack : MonoBehaviour
         ThrowTrap();
         PowerBarNoScale();
         PowerShot();
+        RangeUnitFrame();
     }
 
+    private float skill1Timer;
+    private float skill2Timer;
+    private float skill3Timer;
+    private float skill4Timer;
+
+    private bool isSkill1Ok;
+    private bool isSkill2Ok;
+    private bool isSkill3Ok;
+    private bool isSkill4Ok;
+
+    private bool ani1, ani2, ani3, ani4;
+    private void RangeUnitFrame()
+    {
+        skill1.fillAmount = skill1Timer / SkillManager.instance.electronicShotCoolTime;
+        Cool1.text = (SkillManager.instance.electronicShotCoolTime - skill1Timer).ToString("F0");
+
+        skill2.fillAmount = skill2Timer / SkillManager.instance.tripleShotCoolTime;
+        Cool2.text = (SkillManager.instance.tripleShotCoolTime - skill2Timer).ToString("F0");
+
+        skill3.fillAmount = skill3Timer / SkillManager.instance.boomShotCoolTime;
+        Cool3.text = (SkillManager.instance.boomShotCoolTime - skill3Timer).ToString("F0");
+
+        skill4.fillAmount = skill4Timer / SkillManager.instance.throwTrapCoolTime;
+        Cool4.text = (SkillManager.instance.throwTrapCoolTime - skill4Timer).ToString("F0");
+
+        if (skill1Timer >= SkillManager.instance.electronicShotCoolTime)
+        {
+            isSkill1Ok = true;
+            skill1Timer = SkillManager.instance.electronicShotCoolTime;
+          
+
+            if (!ani1)
+            {
+                ani1 = true;
+                Ani.SetTrigger("1");
+                SkillManager.instance.electronicShotDmg = SkillManager.instance.originElectronicShotDmg;
+                Cool1.gameObject.SetActive(false);
+            }
+
+        }
+        else if (skill1Timer < SkillManager.instance.electronicShotCoolTime)
+        {
+            if (!Cool1.gameObject.activeSelf)
+            {
+                Cool1.gameObject.SetActive(true);
+            }
+            isSkill1Ok = false;
+            skill1Timer += Time.deltaTime;
+        }
+
+        if (skill2Timer >= SkillManager.instance.tripleShotCoolTime)
+        {
+            isSkill2Ok = true;
+            skill2Timer = SkillManager.instance.tripleShotCoolTime;
+            if (!ani2)
+            {
+                ani2 = true;
+                Ani.SetTrigger("2");
+             
+                Cool2.gameObject.SetActive(false);
+            }
+        }
+        else if (skill2Timer < SkillManager.instance.tripleShotCoolTime)
+        {
+            if (!Cool2.gameObject.activeSelf)
+            {
+                Cool2.gameObject.SetActive(true);
+            }
+            isSkill2Ok = false;
+            skill2Timer += Time.deltaTime;
+        }
+
+        if (skill3Timer >= SkillManager.instance.boomShotCoolTime)
+        {
+            isSkill3Ok = true;
+            skill3Timer = SkillManager.instance.boomShotCoolTime;
+
+            if (!ani3)
+            {
+                ani3 = true;
+                Ani.SetTrigger("3");
+                Cool3.gameObject.SetActive(false);
+            }
+        }
+        else if (skill3Timer < SkillManager.instance.boomShotCoolTime)
+        {
+            if (!Cool3.gameObject.activeSelf)
+            {
+                Cool3.gameObject.SetActive(true);
+            }
+            isSkill3Ok = false;
+            skill3Timer += Time.deltaTime;
+        }
+
+        if (skill4Timer >= SkillManager.instance.throwTrapCoolTime)
+        {
+            isSkill4Ok = true;
+            skill4Timer = SkillManager.instance.throwTrapCoolTime;
+
+            if (!ani4)
+            {
+                ani4 = true;
+                Ani.SetTrigger("4");
+                Cool4.gameObject.SetActive(false);
+            }
+        }
+        else if (skill4Timer < SkillManager.instance.throwTrapCoolTime)
+        {
+            if (!Cool4.gameObject.activeSelf)
+            {
+                Cool4.gameObject.SetActive(true);
+            }
+            isSkill4Ok = false;
+            skill4Timer += Time.deltaTime;
+        }
+    }
     private void PowerBarNoScale()
     {
         if (Player.instance.GetComponent<Transform>().transform.localScale.x < 0)
@@ -177,13 +315,20 @@ public class arrowAttack : MonoBehaviour
 
     float powerShotPower;
     public float powerMaxPower;
+    bool Psonce;
     private void PowerShot()
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok)
             {
-                Player.instance.powerShotPs.Play();
+                if (!Psonce)
+                {
+                    Psonce = true;
+                    Player.instance.powerShotPs.gameObject.SetActive(true);
+                    Player.instance.powerShotPs.Play();
+                }
+               
                 F_PowerGaugeBar(powerShotPower, powerMaxPower);
                 powerShotPower += Time.deltaTime * 7;
                 if (!soundOk)
@@ -197,17 +342,26 @@ public class arrowAttack : MonoBehaviour
                     powerShotPower = powerMaxPower;
                 }
             }
-
-            if (Input.GetKeyUp(KeyCode.Alpha1))
+            else if (Input.GetKeyDown(KeyCode.Alpha1) && !Player.instance.isSkillStartOk && !isSkill1Ok)
             {
+                Player.instance.F_CharText("CoolTime");
+            }
+
+            if (Input.GetKeyUp(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok)
+            {
+                Psonce = false;
                 Player.instance.powerShotPs.Stop();
+                Player.instance.powerShotPs.gameObject.SetActive(false);
                 soundOk = false;
-                if(powerShotPower < powerMaxPower)
+                ani1 = false;
+                skill1Timer = 0;
+                if (powerShotPower < powerMaxPower)
                 {
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.elecSmall, 1f);
                 }
-                else
+                else if (powerShotPower >= powerMaxPower)
                 {
+                    SkillManager.instance.electronicShotDmg *= 2;
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.elecLarge, 1f);
                 }
                 
@@ -254,13 +408,23 @@ public class arrowAttack : MonoBehaviour
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill2Ok)
             {
+                skill2Timer = 0;
+                ani2 = false;
                 StartCoroutine(ArrowSpawn());
                 GameManager.Instance.Player_CurMP -= 5;
             }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill2Ok)
+            {
+                Player.instance.F_CharText("CoolTime");
+            }
 
-            if (Input.GetKey(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill3Ok)
+            {
+                Player.instance.F_CharText("CoolTime");
+            }
+                if (Input.GetKey(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok)
             {
                 F_PowerGaugeBar(shootPower, MaxPower);
                 shootPower += Time.deltaTime * 7;
@@ -276,8 +440,11 @@ public class arrowAttack : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.Alpha3))
+
+            if (Input.GetKeyUp(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok)
             {
+                ani3 = false;
+                skill3Timer = 0;
                 soundOk = false;
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.Shoot, 1f);
                 //GameManager.Instance.CameraShakeSwitch(1);
@@ -308,8 +475,10 @@ public class arrowAttack : MonoBehaviour
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha4))
+            if (Input.GetKeyDown(KeyCode.Alpha4) && isSkill4Ok && GameManager.Instance.player.RealBow.gameObject.activeSelf)
             {
+                ani4 = false;
+                skill4Timer = 0;
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.trapThrow, 1f);
                 GameObject trap = trapQUE.Dequeue();
                 trap.gameObject.SetActive(true);
@@ -317,6 +486,10 @@ public class arrowAttack : MonoBehaviour
                 trap.transform.rotation = m_Arrow.rotation;
                 trap.GetComponent<Animator>().SetTrigger("Throw");
                 trap.GetComponent<Rigidbody2D>().velocity = trap.transform.right * 5;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill4Ok)
+            {
+                Player.instance.F_CharText("CoolTime");
             }
         }
     }

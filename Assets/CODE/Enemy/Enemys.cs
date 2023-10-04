@@ -106,7 +106,7 @@ public class Enemys : MonoBehaviour
     bool Enemy_Hit;
     bool KB;
     public float KBSpeed;
-    public void F_OnHIt(int _DMG)
+    public void F_OnHIt(float _DMG)
     {
         if (CurHP > 0 && !Enemy_Hit)
         {

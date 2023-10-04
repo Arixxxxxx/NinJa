@@ -80,6 +80,13 @@ public class SoundManager : MonoBehaviour
     public AudioClip rangeAttak;
     public AudioClip rangeHit;
 
+    [Header("# 근접모드")]
+    public AudioClip shcokWave;
+    public AudioClip dregonPier;
+    public AudioClip sheildOn;
+    public AudioClip cry;
+
+
     [Header("# 활 관련")]
     public AudioClip Start;
     public AudioClip Shoot;

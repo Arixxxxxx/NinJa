@@ -168,7 +168,7 @@ public class Ghost : MonoBehaviour
         }
     }
     bool Enemy_Hit;
-    public void F_OnHIt(int _DMG)
+    public void F_OnHIt(float _DMG)
     {
         if (CurHp > 0 && !Enemy_Hit)
         {

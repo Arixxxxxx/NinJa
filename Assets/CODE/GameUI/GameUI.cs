@@ -23,7 +23,8 @@ public class GameUI : MonoBehaviour
     int minute;
     TMP_Text timeText;
 
-
+    Transform MeleeBar;
+    Transform RangeBar;
     private void Awake()
     {
         ArrowFill = transform.Find("Btn2/ArrowFill/ArrowFill").GetComponent<Image>();
@@ -37,13 +38,17 @@ public class GameUI : MonoBehaviour
         mapMoveBar.fillAmount = 0;
         mapMoveText.color = new Color(1, 1, 1, 0);
         mapMoveText.text = string.Empty;
+        MeleeBar = transform.Find("ActionBar/Melee").GetComponent <Transform>();
+        MeleeBar.gameObject.SetActive(false);
+        RangeBar = transform.Find("ActionBar/Range").GetComponent <Transform>();
+        RangeBar.gameObject.SetActive(false);
     }
 
    
 
     private void Update()
     {
-        
+        SkillBarSwap();
         ArrowEaText();  // 화살갯수 text
         ArrowFillAmount(); // 화살갯수 게이지
         WeaponeUIActive();
@@ -60,6 +65,7 @@ public class GameUI : MonoBehaviour
     }
 
     bool once, once1;
+
     private void TimeTexT()
     {
         //ampm = DateTime.Now.ToString("t");
@@ -71,6 +77,20 @@ public class GameUI : MonoBehaviour
         timeText.text = $"{ampm} {hour}:{minute}";
     }
 
+
+    private void SkillBarSwap()
+    {
+        if (GameManager.Instance.meleeMode)
+        {
+            RangeBar.gameObject.SetActive(false);   
+            MeleeBar.gameObject.SetActive(true) ;
+        }
+        else if(GameManager.Instance.rangeMode)
+        {
+            RangeBar.gameObject.SetActive(true);
+            MeleeBar.gameObject.SetActive(false);
+        }
+    }
     private void WeaponeUIActive()
     {
         if (GameManager.Instance.isGetMeleeItem && !once)

@@ -18,7 +18,7 @@ public class PowerShot : MonoBehaviour
         {
             if(collision.GetComponent<Enemys>() != null)
             {
-                collision.GetComponent<Enemys>().F_OnHIt(3);
+                collision.GetComponent<Enemys>().F_OnHIt(SkillManager.instance.electronicShotDmg);
                
             }
 

@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     Vector3 weaponOriginPos;
     public Transform sheld;
     Vector3 sheldOriginPos;
-    private SpriteRenderer sheldSR;
+    public SpriteRenderer sheldSR;
     Transform Bow;
     [HideInInspector] public Transform RealBow;
     private bool ShieldOn;
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float Timer;
     public Animator SwordAni;
     private Transform Sword;
-    SpriteRenderer SwordSr;
+    public SpriteRenderer SwordSr;
     private Transform Defence;
     AudioSource meleeAtkAudio;
 
@@ -125,6 +125,9 @@ public class Player : MonoBehaviour
     public ParticleSystem Ps;
     public ParticleSystem Ps2;
     public ParticleSystem powerShotPs;
+
+    // 휠윈드중
+    public bool isWhilWind;
 
     // 오디오
     private AudioSource Audio; // 발소리
@@ -196,7 +199,7 @@ public class Player : MonoBehaviour
         SheldOn();
         F_TextBoxPos();
         AttackModeShow();
-
+        SkillOk();
     }
     private void FixedUpdate()
     {
@@ -206,8 +209,14 @@ public class Player : MonoBehaviour
         WallCheaking();
 
     }
+    public bool isSkillStartOk;
+    private void SkillOk()
+    {
+        isSkillStartOk = isDodge || JumpOn || DJumpOn || ShieldOn;
+    }
 
-
+   
+    
     //캐릭터 일시정지기능
     private void MoveStopFuntion()
     {
@@ -224,11 +233,11 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-
+            
             ModeChangeTimer += Time.deltaTime;
             if (GameManager.Instance.isGetMeleeItem)
             {
-                if (Input.GetKeyDown(KeyCode.BackQuote) && !isDodge && !JumpOn && !isflying)
+                if ((Input.GetAxis("Mouse ScrollWheel") > 0f) && !isDodge && !JumpOn && !isflying)
                 {
 
                     if (!GameManager.Instance.meleeMode && GameManager.Instance.rangeMode)
@@ -243,17 +252,21 @@ public class Player : MonoBehaviour
                             ModeChangeTimer = 0;
                         }
                     }
-                    
-                    else if(GameManager.Instance.meleeMode && !GameManager.Instance.rangeMode)
+                }
+                if ((Input.GetAxis("Mouse ScrollWheel") < 0f) && !isDodge && !JumpOn && !isflying)
+                {
+                    if (GameManager.Instance.meleeMode && !GameManager.Instance.rangeMode)
                     {
                         if (GameManager.Instance.isGetRangeItem)
                         {
                             F_RangeMode();
                             ModeChangeTimer = 0;
                         }
-                       
+
                     }
                 }
+               
+             
             }
             //if (GameManager.Instance.isGetRangeItem)
             //{
@@ -413,6 +426,13 @@ public class Player : MonoBehaviour
                 text.text = "화살이 부족합니다..";
                 textani.SetTrigger("Ok");
                 break;
+                    
+                case "CoolTime":
+                text.gameObject.SetActive(true);
+                text.color = Color.red;
+                text.text = "아직 더 기다려야합니다";
+                textani.SetTrigger("Ok");
+                break;
 
                 //case "WallJumpFail":
                 //    text.gameObject.SetActive(true);
@@ -438,7 +458,7 @@ public class Player : MonoBehaviour
                 if (GameManager.Instance.meleeMode)
                 {
                     Timer += Time.deltaTime;
-                    if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn)
+                    if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind)
                     {
                         //if (!meleeAtkAudio.isPlaying)
                         //{
@@ -460,28 +480,46 @@ public class Player : MonoBehaviour
     }
 
 
+    bool isSoundPlay;
     //방패막기
     private void SheldOn()
     {
         if (!MovingStop)
         {
+            if (GameManager.Instance.rangeMode)
+            {
+                ShieldOn = false;
+                Defence.gameObject.SetActive(false);
+
+            }
+            else
+            {
+                RealBow.gameObject.SetActive(false);
+            }
+
             if (GameManager.Instance.isGetMeleeItem)
             {
                 if (GameManager.Instance.meleeMode)
                 {
 
-                    if (Input.GetMouseButton(1) && !isAttacking)
+                    if (Input.GetMouseButton(1) && !isAttacking && !isWhilWind)
                     {
                         ShieldOn = true;
+                        if (!isSoundPlay)
+                        {
+                            isSoundPlay=true;
+                            SoundManager.instance.F_SoundPlay(SoundManager.instance.sheildOn, 1f);
+                        }
+                       
                         sheldSR.enabled = false;
                         SwordSr.enabled = false;
                         //weapon1.gameObject.SetActive(false);
                         //sheld.gameObject.SetActive(false);
                         Defence.gameObject.SetActive(true);
                     }
-                    if (Input.GetMouseButtonUp(1))
+                    if (Input.GetMouseButtonUp(1) && !isWhilWind)
                     {
-
+                        isSoundPlay = false;
                         ShieldOn = false;
                         sheldSR.enabled = true;
                         SwordSr.enabled = true;
@@ -502,10 +540,12 @@ public class Player : MonoBehaviour
         if (transform.localScale.x == -3)
         {
             isLeft = true;
+            SkillManager.instance.buffPs.transform.localScale = new Vector3(-0.25f, 0.3f);
         }
         else if (transform.localScale.x == 3)
         {
             isLeft = false;
+            SkillManager.instance.buffPs.transform.localScale = new Vector3(0.25f, 0.3f);
         }
     }
 
@@ -551,6 +591,7 @@ public class Player : MonoBehaviour
             if (GetItem.collider != null && !Itemget0)
             {
                 GameManager.Instance.isGetMeleeItem = true;
+                GameManager.Instance.gameUI.Find("UnitFrame").gameObject.SetActive(true);
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.ItemGet, 0.5f);
             }
             GetItemRange = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem2"));
@@ -598,7 +639,7 @@ public class Player : MonoBehaviour
                     if (isCharMove)
                     {
                         runConter += Time.deltaTime;
-                        if (runConter > runTime && isGround)
+                        if (runConter > runTime && isGround && !isWhilWind)
                         {
                             if(Audio.clip != SoundManager.instance.playerStep)
                             {
@@ -667,7 +708,7 @@ public class Player : MonoBehaviour
                 }
 
                 //구르기
-                if (Input.GetKey(KeyCode.LeftControl) && !JumpOn && !Iswall && !DJumpOn && !isDodge)
+                if (Input.GetKey(KeyCode.LeftControl) && !JumpOn && !Iswall && !DJumpOn && !isDodge && !isWhilWind)
                 {
                     if (GameManager.Instance.Player_CurSP < 15)
                     {
@@ -870,7 +911,7 @@ public class Player : MonoBehaviour
             //        Rb.velocity = new Vector2(Rb.velocity.x, Rb.velocity.y * 0.6f);
             //    }
             //
-            if (Input.GetButtonDown("Jump") && JumpCount < 2 && !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon && !noWallCheak)
+            if (Input.GetButtonDown("Jump") && JumpCount < 2 && !OnDMG & !Iswall && !isflying && !GameManager.Instance.isTalking && !wallJumpon && !noWallCheak && !isWhilWind)
             {
 
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.normalJump, 0.5f);

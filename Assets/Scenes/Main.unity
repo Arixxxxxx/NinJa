@@ -2128,7 +2128,7 @@ MonoBehaviour:
   jungleCaveThema: {fileID: 0}
   Deongen: {fileID: 0}
   CaveThema: {fileID: 0}
-  BtnClick: {fileID: 0}
+  BtnClick: {fileID: 8300000, guid: ef7aa2dee07602e44b12e3bebdde5a65, type: 3}
   ItemGet: {fileID: 0}
   ziZin: {fileID: 0}
   npcTeleport: {fileID: 0}
@@ -2148,6 +2148,17 @@ MonoBehaviour:
   meleeAttack: {fileID: 0}
   rangeAttak: {fileID: 0}
   rangeHit: {fileID: 0}
+  shcokWave: {fileID: 0}
+  dregonPier: {fileID: 0}
+  sheildOn: {fileID: 0}
+  cry: {fileID: 0}
+  Start: {fileID: 0}
+  Shoot: {fileID: 0}
+  tripleShot: {fileID: 0}
+  trapThrow: {fileID: 0}
+  trapActive: {fileID: 0}
+  elecSmall: {fileID: 0}
+  elecLarge: {fileID: 0}
   enemyDie: []
   enemyhit: []
   onTrap: {fileID: 0}
@@ -2920,6 +2931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3617c638626084096e9bccfee4ce2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Btn: {fileID: 8300000, guid: 0c117708cc4b7ed459f90df0d0696630, type: 3}
   alpahColorSpeed: 3
 --- !u!82 &569363078
 AudioSource:

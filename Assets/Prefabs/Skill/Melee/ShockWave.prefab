@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e92e135e70dfea4b903da1e9c37671e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 0.2
+  interval: 0.025
   DMG: 3
 --- !u!1 &5036957145354398241
 GameObject:

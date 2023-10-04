@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour
             Audio.clip = SoundManager.instance.enemyhit[R];
             Audio.Play();
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt((int)SwordDMG);
+            sc.F_OnHIt(SkillManager.instance.MeleeDmg) ;
             
           }
         if (collision.gameObject.CompareTag("Ghost"))
@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour
             Audio.clip = SoundManager.instance.enemyhit[R];
             Audio.Play();
             Ghost sc = collision.gameObject.GetComponent<Ghost>();
-            sc.F_OnHIt((int)SwordDMG);
+            sc.F_OnHIt(SkillManager.instance.MeleeDmg);
            
         }
     }

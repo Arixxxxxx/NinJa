@@ -16,6 +16,9 @@ public class MainSceneUi : MonoBehaviour
     private SpriteRenderer mainLogo;
     private TMP_Text mainLogoText;
     private AudioSource clickAudio;
+    public AudioClip Btn;
+    
+
 
     [SerializeField] private float alpahColorSpeed;
 
@@ -26,6 +29,7 @@ public class MainSceneUi : MonoBehaviour
 
     private void Awake()
     {
+        
         Time.timeScale = 1.0f;
         whiteBackGround = transform.Find("BGw").GetComponent<Image>();
         openingLogo = whiteBackGround.transform.GetChild(0).GetComponent<Image>();
@@ -162,6 +166,10 @@ public class MainSceneUi : MonoBehaviour
                 one = true;
                 StartCoroutine(BtnOn());
                 transform.Find("AnyKey").gameObject.SetActive(false);
+                clickAudio.clip = SoundManager.instance.BtnClick;
+                clickAudio.Play();
+
+
             }
         }
     }
@@ -218,6 +226,7 @@ public class MainSceneUi : MonoBehaviour
     bool step7, step8;
     public void NexrScene()
     {
+        clickAudio.clip = Btn;
         clickAudio.Play();
         blackBackGround.gameObject.SetActive(true);
         step7 = true;

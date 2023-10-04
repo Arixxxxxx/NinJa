@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
 
 
     private Rigidbody2D Rb;
-    private int Bullet_DMG;
+    private float Bullet_DMG;
     Transform OriginBullet;
     Vector2 ArrowDir;
     TrailRenderer trail;
@@ -118,7 +118,7 @@ public class Bullet : MonoBehaviour
                     normalArrow();
 
                     Enemys sc = collision.gameObject.GetComponent<Enemys>();
-                    sc.F_OnHIt(Bullet_DMG);
+                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
 
                     F_BulletReturn(ArrowType.normal);
                     break;
@@ -127,7 +127,7 @@ public class Bullet : MonoBehaviour
                     TripleShot();
 
                     Enemys scs = collision.gameObject.GetComponent<Enemys>();
-                    scs.F_OnHIt(Bullet_DMG);
+                    scs.F_OnHIt(SkillManager.instance.tripleShotDmg);
                     F_BulletReturn(type);
                     break;
 
@@ -147,7 +147,7 @@ public class Bullet : MonoBehaviour
                     normalArrow();
 
                     Ghost sc = collision.gameObject.GetComponent<Ghost>();
-                    sc.F_OnHIt(Bullet_DMG);
+                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
                     F_BulletReturn(ArrowType.normal);
                     break;
 

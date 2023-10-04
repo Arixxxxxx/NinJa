@@ -19,7 +19,8 @@ public class Trap_Saw : MonoBehaviour
     private Vector2 Saw_Dir;
     public bool isSawOk;
     Transform point1, point2;
-    float dir;
+    int dir;
+    
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();

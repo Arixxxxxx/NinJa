@@ -237,8 +237,19 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!meleeMode) { rangeMode = true; }
-        else { rangeMode = false; }
+        if (isGetMeleeItem && isGetRangeItem)
+        {
+            if (!meleeMode)
+            {
+                rangeMode = true;
+            }
+            else
+            {
+                rangeMode = false;
+            }
+        }
+        
+        
 
         Act1EndBlackScreenOn();
         TalkOk();
@@ -249,6 +260,8 @@ public class GameManager : MonoBehaviour
 
               
     }
+
+
 
     bool once2;
     private void Act1EndBlackScreenOn()
