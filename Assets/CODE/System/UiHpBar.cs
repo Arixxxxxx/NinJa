@@ -21,9 +21,20 @@ public class UiHpBar : MonoBehaviour
 
     private void Awake()
     {
-        Front = transform.GetChild(1).GetComponent<Image>();
-        Back = transform.GetChild(0).GetComponent<Image>();
-        HpText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        if(type == UiBarType.Hp || type == UiBarType.Mp)
+        {
+            Front = transform.GetChild(0).GetComponent<Image>();
+            Back = transform.GetComponent<Image>();
+            HpText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        }
+
+        else if(type == UiBarType.SP)
+        {
+            Front = transform.GetChild(1).GetComponent<Image>();
+            Back = transform.GetChild(0).GetComponent<Image>();
+            HpText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        }
+       
     }
           void Update()
     {

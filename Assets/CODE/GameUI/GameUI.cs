@@ -32,12 +32,18 @@ public class GameUI : MonoBehaviour
         ArrowEA = transform.Find("Btn2/ArrowFill/ArrowEA").GetComponent<TMP_Text>();
         meleeUI = transform.Find("Btn1").GetComponent<Transform>();
         rangeUi = transform.Find("Btn2").GetComponent<Transform>();
+
+        //지역이동 알림바
         mapMoveBar = transform.Find("MapMoveBar").GetComponent<Image>();
         mapMoveText = mapMoveBar.transform.GetChild(0).GetComponent<TMP_Text>();
-        timeText = transform.Find("UnitFream/TimeBar/Time").GetComponent<TMP_Text>();
         mapMoveBar.fillAmount = 0;
         mapMoveText.color = new Color(1, 1, 1, 0);
         mapMoveText.text = string.Empty;
+
+        //시간
+        timeText = transform.Find("UnitFream/TimeBar/Time").GetComponent<TMP_Text>();
+        
+        
         MeleeBar = transform.Find("ActionBar/Melee").GetComponent <Transform>();
         MeleeBar.gameObject.SetActive(false);
         RangeBar = transform.Find("ActionBar/Range").GetComponent <Transform>();
@@ -52,11 +58,11 @@ public class GameUI : MonoBehaviour
         ArrowEaText();  // 화살갯수 text
         ArrowFillAmount(); // 화살갯수 게이지
         WeaponeUIActive();
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetMapMoveBar("초원");
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    SetMapMoveBar("초원");
 
-        }
+        //}
     }
 
     private void LateUpdate()
@@ -97,11 +103,16 @@ public class GameUI : MonoBehaviour
         {
             once = true;
             meleeUI.gameObject.SetActive(true);
+            GameManager.Instance.gameUI.Find("ActionBar").gameObject.SetActive(true);
         }
         if (GameManager.Instance.isGetRangeItem && !once1)
         {
             once1 = true;
             rangeUi.gameObject.SetActive(true);
+            if (!GameManager.Instance.gameUI.Find("ActionBar").gameObject.activeSelf)
+            {
+                GameManager.Instance.gameUI.Find("ActionBar").gameObject.SetActive(true);
+            }
         }
     }
     private void ArrowEaText()

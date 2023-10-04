@@ -44,8 +44,18 @@ public class SoundManager : MonoBehaviour
         }
        
     }
+    public enum enumBgm
+    {
+        MainThema,a,b,c,d,e,f,g
 
+    }
 
+    public void F_SoundAA(enumBgm _value, float _aaa)
+    {
+        Audio.clip = listBgm[(int)_value];
+    }
+    [SerializeField] private List<AudioClip> listBgm;
+ //listbgm[0]
     public AudioClip mainThema; //메인 테마곡
     public AudioClip cityThema; // 전투교관있는 마을
     public AudioClip jungleCaveThema; // 전투장비있는 동굴

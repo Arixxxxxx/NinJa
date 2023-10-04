@@ -302,7 +302,7 @@ public class SkillManager : MonoBehaviour
                     Player.instance.isWhilWind = true;
                     Player.instance.sheldSR.enabled = false;
                     Player.instance.SwordSr.enabled = false;
-                    Player.instance.gameObject.layer = 10;
+                    //Player.instance.gameObject.layer = 10;
                     Player.instance.transform.Find("Skill").GetComponent<BoxCollider2D>().enabled = true;
                     Player.instance.transform.Find("WhilWInd").gameObject.SetActive(true);
                     Player.instance.Ani.SetBool("WhilWind", true);
@@ -339,7 +339,7 @@ public class SkillManager : MonoBehaviour
                     Player.instance.isWhilWind = false;
                     Player.instance.sheldSR.enabled = true;
                     Player.instance.SwordSr.enabled = true;
-                    Player.instance.gameObject.layer = 6;
+                    //Player.instance.gameObject.layer = 6;
                     Player.instance.Ani.SetBool("WhilWind", false);
                     Player.instance.transform.Find("WhilWInd").gameObject.SetActive(false);
                     Player.instance.transform.Find("Skill").GetComponent<BoxCollider2D>().enabled = false;
