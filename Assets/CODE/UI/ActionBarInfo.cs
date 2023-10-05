@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+    
 
 public class ActionBarInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+
     public enum SkillType
     {
         waveShock, whilWind, dragonPier, warCry, powerShot, tripleShot, boomShot, trap
     }
-
     public SkillType type;
     
     Transform skillbar;
@@ -23,7 +24,9 @@ public class ActionBarInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         skillbar.gameObject.SetActive(true);
-       skillbar.transform.position = new Vector2(transform.position.x - 270, skillbar.transform.position.y);
+        //skillbar.transform.position = new Vector2(transform.position.x - 270, skillbar.transform.position.y);
+        skillbar.transform.position = new Vector2(transform.position.x, skillbar.transform.position.y);
+        
 
         sc.F_VideoChanger(type);
 

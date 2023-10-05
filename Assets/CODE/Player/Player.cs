@@ -257,8 +257,13 @@ public class Player : MonoBehaviour
                             Ani.SetTrigger("ModeChange");
                             F_CharText("Melee");
                             GameManager.Instance.meleeMode = true;
-                           
+                            
                             ModeChangeTimer = 0;
+                            if (GameManager.Instance.gameUI.transform.Find("ActionBar/ModeUpDown").gameObject.activeSelf)
+                            {
+                                GameManager.Instance.gameUI.transform.Find("ActionBar/ModeUpDown/Up").GetComponent<Animator>().SetTrigger("Up");
+                            }
+                            
                         }
                     }
                 }
@@ -270,6 +275,10 @@ public class Player : MonoBehaviour
                         {
                             F_RangeMode();
                             ModeChangeTimer = 0;
+                            if (GameManager.Instance.gameUI.transform.Find("ActionBar/ModeUpDown").gameObject.activeSelf)
+                            {
+                                GameManager.Instance.gameUI.transform.Find("ActionBar/ModeUpDown/Down").GetComponent<Animator>().SetTrigger("Down");
+                            }
                         }
 
                     }

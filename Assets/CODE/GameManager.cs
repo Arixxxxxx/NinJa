@@ -242,6 +242,10 @@ public class GameManager : MonoBehaviour
     {
         if (isGetMeleeItem && isGetRangeItem)
         {
+            if (!gameUI.transform.Find("ActionBar/ModeUpDown").gameObject.activeSelf)
+            {
+                gameUI.transform.Find("ActionBar/ModeUpDown").gameObject.SetActive(true);
+            }
             if (!meleeMode)
             {
                 rangeMode = true;

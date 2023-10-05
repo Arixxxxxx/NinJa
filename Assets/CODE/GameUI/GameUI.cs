@@ -25,6 +25,7 @@ public class GameUI : MonoBehaviour
     Transform RangeBar;
 
     Image normalAttackFillFont, normalAttackFillBack;
+    Image sideAttackBar;
     Transform RF, RB, MF , MB;
     
     private void Awake()
@@ -49,7 +50,6 @@ public class GameUI : MonoBehaviour
         RangeBar.gameObject.SetActive(false);
 
         //∆Ú≈∏UI
-
         normalAttackFillFont = transform.Find("ActionBar/AttackIcon/Circle/Front").GetComponent<Image>();
         normalAttackFillBack = transform.Find("ActionBar/AttackIcon/Circle/Back").GetComponent<Image>();
         RF = normalAttackFillFont.transform.Find("R").GetComponent<Transform>();
@@ -57,6 +57,8 @@ public class GameUI : MonoBehaviour
 
         MF = normalAttackFillFont.transform.Find("M").GetComponent<Transform>();
         MB = normalAttackFillBack.transform.Find("M").GetComponent<Transform>();
+
+        sideAttackBar = transform.Find("ActionBar/AttackIcon/Circle/SideBar").GetComponent<Image>();
     }
 
    
@@ -115,10 +117,12 @@ public class GameUI : MonoBehaviour
         if (GameManager.Instance.rangeMode)
         {
             normalAttackFillFont.fillAmount = arrowAttack.Instance.curTime / arrowAttack.Instance.normalShootSpeed;
+            sideAttackBar.fillAmount = arrowAttack.Instance.curTime / arrowAttack.Instance.normalShootSpeed;
         }
         else if (GameManager.Instance.meleeMode)
         {
             normalAttackFillFont.fillAmount = Player.instance.Timer / Player.instance.MeleeSpeed;
+            sideAttackBar.fillAmount = Player.instance.Timer / Player.instance.MeleeSpeed;
         }
     }
 
