@@ -96,8 +96,8 @@ public class Player : MonoBehaviour
 
     // 무기 근접속도
     [Header("# 근접공격")]
-    [SerializeField] private float MeleeSpeed;
-    [SerializeField] private float Timer;
+    public float MeleeSpeed;
+    public float Timer;
     public Animator SwordAni;
     private Transform Sword;
     public SpriteRenderer SwordSr;
@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
     Transform btnBoxOutLine1;
     Animator btn1;
     Transform weaponBtn2;
-    Transform btnBoxOutLine2;
+ 
     Animator btn2;
     /*[HideInInspector] */
     public bool MovingStop;
@@ -159,12 +159,11 @@ public class Player : MonoBehaviour
         Bow = GameObject.Find("ArrowDir").GetComponent<Transform>();
         RealBow = Bow.transform.GetChild(0).GetComponent<Transform>();
         gameUiMain = GameObject.Find("GameUI").GetComponent<Transform>();
-        weaponBtn1 = gameUiMain.transform.Find("Btn1").GetComponent<Transform>();
-        btnBoxOutLine1 = weaponBtn1.transform.Find("BoxOutLine").GetComponent<Transform>();
-        weaponBtn2 = gameUiMain.transform.Find("Btn2").GetComponent<Transform>();
-        btnBoxOutLine2 = weaponBtn2.transform.Find("BoxOutLine").GetComponent<Transform>();
-        btn1 = weaponBtn1.GetComponent<Animator>();
-        btn2 = weaponBtn2.GetComponent<Animator>();
+        //weaponBtn1 = gameUiMain.transform.Find("Btn1").GetComponent<Transform>();
+        
+        //weaponBtn2 = gameUiMain.transform.Find("Btn2").GetComponent<Transform>();
+        
+    
         textani = text.GetComponent<Animator>();
 
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
@@ -187,26 +186,33 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Wallok(); // 
-        MoveStopFuntion();
-        SetCharDir();
-        CharJump();
-        WallJump();
-        SuchTalk();
-        SpRecovery();
-        HpRecovery();
-        MeleeAttack();
-        SheldOn();
-        F_TextBoxPos();
-        AttackModeShow();
-        SkillOk();
+        if (!GameManager.Instance.GameAllStop)
+        {
+            Wallok();
+            MoveStopFuntion();
+            SetCharDir();
+            CharJump();
+            WallJump();
+            SuchTalk();
+            SpRecovery();
+            HpRecovery();
+            MeleeAttack();
+            SheldOn();
+            F_TextBoxPos();
+            AttackModeShow();
+            SkillOk();
+        }
+      
     }
     private void FixedUpdate()
     {
-
-        MovdChar();
-        CharAniParameter();
-        WallCheaking();
+        if (!GameManager.Instance.GameAllStop)
+        {
+            MovdChar();
+            CharAniParameter();
+            WallCheaking();
+        }
+     
 
     }
     public bool isSkillStartOk;
@@ -233,8 +239,11 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-            
-            ModeChangeTimer += Time.deltaTime;
+           if(ModeChangeTimer < 0.45f)
+            {
+                ModeChangeTimer += Time.deltaTime;
+            }
+                
             if (GameManager.Instance.isGetMeleeItem)
             {
                 if ((Input.GetAxis("Mouse ScrollWheel") > 0f) && !isDodge && !JumpOn && !isflying)
@@ -248,7 +257,7 @@ public class Player : MonoBehaviour
                             Ani.SetTrigger("ModeChange");
                             F_CharText("Melee");
                             GameManager.Instance.meleeMode = true;
-                            btn1.SetTrigger("Ok");
+                           
                             ModeChangeTimer = 0;
                         }
                     }
@@ -298,9 +307,7 @@ public class Player : MonoBehaviour
                 {
                     rangeitemshowok = false;
                     if (meleeitemshowok) { return; }
-                    //좌측하단 무기UI바 아웃라인체크 활성화
-                    btnBoxOutLine1.gameObject.SetActive(true);
-                    btnBoxOutLine2.gameObject.SetActive(false);
+                
 
                     if (Iswall || DJumpOn || JumpOn || isDodge)
                     {
@@ -341,8 +348,7 @@ public class Player : MonoBehaviour
                     // 한번 모드변경햇다면 예외처리
                     if (rangeitemshowok) { return; }
                     //좌측하단 무기UI바 아웃라인체크 활성화
-                    btnBoxOutLine1.gameObject.SetActive(false);
-                    btnBoxOutLine2.gameObject.SetActive(true);
+
                     if (DJumpOn || JumpOn || isDodge || Iswall)
                     {
                         return;
@@ -364,7 +370,6 @@ public class Player : MonoBehaviour
     {
 
         Ani.SetTrigger("ModeChange");
-        btn2.SetTrigger("Ok");
         F_CharText("Range");
         GameManager.Instance.meleeMode = false;
     }
@@ -434,6 +439,13 @@ public class Player : MonoBehaviour
                 textani.SetTrigger("Ok");
                 break;
 
+            case "ActiveBow":
+                text.gameObject.SetActive(true);
+                text.color = Color.red;
+                text.text = "활을 들고 조준해야 합니다";
+                textani.SetTrigger("Ok");
+                break;
+
                 //case "WallJumpFail":
                 //    text.gameObject.SetActive(true);
                 //    text.color = Color.red;
@@ -457,7 +469,10 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.Instance.meleeMode)
                 {
-                    Timer += Time.deltaTime;
+                    if(Timer < MeleeSpeed + 0.1f)
+                    {
+                        Timer += Time.deltaTime;
+                    }
                     if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind)
                     {
                         //if (!meleeAtkAudio.isPlaying)
@@ -985,7 +1000,7 @@ public class Player : MonoBehaviour
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.onHIt, 0.8f);
                 gameObject.layer = 10;
                 Sr.color = new Color(1, 1, 1, 0.3f);
-                Debug.Log("진입1");
+                
                 //넉백
                 if (isLeft)
                 {
@@ -997,9 +1012,9 @@ public class Player : MonoBehaviour
                     Rb.AddForce(new Vector3(-3 * KB_Power, 6), ForceMode2D.Impulse);
                     KB = true;
                 }
-                Debug.Log("진입2");
+              
                 yield return new WaitForSecondsRealtime(1.5f);
-                Debug.Log("진입3");
+                
                 gameObject.layer = LayerMask.NameToLayer("Player");
                 Sr.color = new Color(1, 1, 1, 1);
                 OnDMG = false;

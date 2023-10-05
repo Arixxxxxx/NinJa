@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,8 +27,7 @@ public class GameManager : MonoBehaviour
     [Space]
     public bool meleeMode;
     public bool rangeMode;
-    public float CurArrow;
-    public float MaxArrow;
+
     
     [Header("# 캐릭터 HP설정")]
     [Space]
@@ -58,7 +56,9 @@ public class GameManager : MonoBehaviour
 
     public TypeEffect text;
     [HideInInspector] public Image NpcSprite;
+    // 게임정지 불리언변수
     public bool MovingStop;
+
     //레인지모드 Sclae.x값 변경조건
     [HideInInspector] public bool AimLeft;
     [HideInInspector] public bool AimRight;
@@ -118,12 +118,15 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Tilemap gamebackground;
     [HideInInspector] public GuideManager guideM;
     [HideInInspector] public FloatForm floatform;
+    [HideInInspector] public MenuBar menuBar;
+
     //텔포용 포인트
     [HideInInspector] public Transform telPoint1;
 
 
     // 검정화면 조절기능
     public Image blackScreen;
+    
 
     //튜토리얼 이벤트[배틀존]
     [HideInInspector] public Transform tutorialEvent;
@@ -166,13 +169,13 @@ public class GameManager : MonoBehaviour
         CameraShakeSwitch(1);
 
         meleeMode = true;
-        CurArrow = 100;
-        MaxArrow = 100;
+     
 
         worldLight = glodbalLight.GetComponent<Light2D>();
         //접근 참조용
         talkmanager = GameObject.Find("TalkManager").GetComponent<TalkManager>(); // NPC대화창 폴더
         gameUI = GameObject.Find("GameUI").GetComponent<Transform>(); // 게임UI 폴더
+        menuBar = gameUI.GetComponent<MenuBar>();
         backgroundTR = GameObject.Find("BackGround").GetComponent<Transform>(); //백그라운드 폴더
         playerTR = GameObject.Find("Player").GetComponent<Transform>();
 
@@ -258,10 +261,26 @@ public class GameManager : MonoBehaviour
             ScUp();
         }
 
-              
+        StopGame();
+
+
     }
 
+    public bool GameAllStop;
 
+    //게임이 멈춰야할 요소는 여기에 다 집어넣으셈
+    private void StopGame()
+    {
+        if (menuBar.passwardWindow.gameObject.activeSelf)
+        {
+            GameAllStop = true;
+        }
+        else
+        {
+            GameAllStop = false;
+        }
+        
+    }
 
     bool once2;
     private void Act1EndBlackScreenOn()

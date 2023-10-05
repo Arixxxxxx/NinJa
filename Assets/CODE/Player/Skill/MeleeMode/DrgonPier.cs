@@ -13,7 +13,7 @@ public class DrgonPier : MonoBehaviour
         {
       
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt((int)SkillManager.instance.dargonPier);
+            sc.F_OnHIt((int)SkillManager.instance.dargonPierDmg);
             sc.F_Stun_Enemy(1);
         }
 

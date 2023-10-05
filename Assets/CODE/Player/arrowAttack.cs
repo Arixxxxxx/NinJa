@@ -14,7 +14,7 @@ public class arrowAttack : MonoBehaviour
 
     [Header("일반화살")]
     [SerializeField] GameObject Arrow;
-    [SerializeField] float normalShootSpeed;
+    public float normalShootSpeed;
 
     [SerializeField] GameObject boomArrow;
     [SerializeField] GameObject Boom;
@@ -37,7 +37,7 @@ public class arrowAttack : MonoBehaviour
     private Image bar;
 
 
-    float curTime;
+    public float curTime;
     Animator FillAni;
 
     int originCamSize;
@@ -58,7 +58,7 @@ public class arrowAttack : MonoBehaviour
         }
         maincam = Camera.main;
         tong = transform.Find("Tong").GetComponent<Transform>();
-        FillAni = GameObject.Find("GameUI").transform.Find("Btn2/ArrowFill").GetComponent<Animator>();
+        
 
         for (int i = 0; i < 30; i++)
         {
@@ -125,13 +125,17 @@ public class arrowAttack : MonoBehaviour
 
     void Update()
     {
-        LookAtMouse();
-        ArrowFire();
-        TripleArrow();
-        ThrowTrap();
-        PowerBarNoScale();
-        PowerShot();
-        RangeUnitFrame();
+        if(!GameManager.Instance.MovingStop || !GameManager.Instance.GameAllStop)
+        {
+            LookAtMouse();
+            ArrowFire();
+            TripleArrow();
+            ThrowTrap();
+            PowerBarNoScale();
+            PowerShot();
+            RangeUnitFrame();
+        }
+       
     }
 
     private float skill1Timer;
@@ -293,11 +297,7 @@ public class arrowAttack : MonoBehaviour
             {
                 if (Input.GetMouseButton(0) && !GameManager.Instance.meleeMode && GameManager.Instance.player.RealBow.gameObject.activeSelf)
                 {
-                    if (GameManager.Instance.CurArrow <= 0)
-                    {
-                        GameManager.Instance.player.F_CharText("Arrow");
-                        return;
-                    }
+                 
                     GameObject obj = F_GetArrow(0);
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeAttak, 1f);
 
@@ -305,10 +305,15 @@ public class arrowAttack : MonoBehaviour
                     obj.transform.rotation = m_Arrow.rotation;
                     obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 15f;
                     curTime = 0;
-                    GameManager.Instance.CurArrow--;
-                    FillAni.SetTrigger("Ok");
+                   
                 }
             }
+
+            if (Input.GetMouseButton(0) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            {
+                Player.instance.F_CharText("ActiveBow");
+            }
+
         }
 
     }
@@ -345,6 +350,11 @@ public class arrowAttack : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha1) && !Player.instance.isSkillStartOk && !isSkill1Ok)
             {
                 Player.instance.F_CharText("CoolTime");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            {
+                Player.instance.F_CharText("ActiveBow");
             }
 
             if (Input.GetKeyUp(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok)
@@ -457,8 +467,15 @@ public class arrowAttack : MonoBehaviour
                 obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * shootPower;
                 shootPower = 0;
             }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            {
+                Player.instance.F_CharText("ActiveBow");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            {
+                Player.instance.F_CharText("ActiveBow");
+            }
 
-          
         }
     }
 
@@ -490,6 +507,10 @@ public class arrowAttack : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha4) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill4Ok)
             {
                 Player.instance.F_CharText("CoolTime");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            {
+                Player.instance.F_CharText("ActiveBow");
             }
         }
     }

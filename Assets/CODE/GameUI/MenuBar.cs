@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class MenuBar : MonoBehaviour
 {
@@ -22,8 +25,24 @@ public class MenuBar : MonoBehaviour
 
     AudioSource Audio;
 
+    // GM 모드 버튼
+    Button gmBtn;
+    Transform gmMenu;
+
+    Button moveB;
+    Button moveS;
+    Vector3 originPos;
+    Vector3 battleZonePos;
+
+    Button getItem1;
+    Button getItem2;
+    public TMP_InputField passwardWindow;
+    Button closeBtn;
+
     private void Awake()
     {
+
+
         //게임메뉴옵션열기
         menuColl = transform.Find("MenuColl").GetComponent<Button>();
 
@@ -47,21 +66,86 @@ public class MenuBar : MonoBehaviour
         noBtn = reallyExit.GetChild(2).GetComponent<Button>();
 
         Audio = GetComponent<AudioSource>();
+
+
+        //GM모드관련
+        gmBtn = transform.Find("GmMode").GetComponent<Button>();
+        gmMenu = gmBtn.transform.GetChild(0).GetComponent<Transform>();
+        getItem1 = gmMenu.transform.Find("GetItemMelee").GetComponent<Button>();
+        getItem2 = gmMenu.transform.Find("GetItemRange").GetComponent<Button>();
+        passwardWindow = gmBtn.transform.GetChild(1).GetComponent<TMP_InputField>();
+        closeBtn = passwardWindow.transform.Find("X").GetComponent<Button>();
+        moveB = gmMenu.transform.Find("MoveB").GetComponent<Button>();
+
+        moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
     }
 
     private void Start()
     {
-        
+        //좌표저장
+        originPos = GameObject.Find("Player").transform.position;
+        battleZonePos = GameObject.Find("PoolManager").transform.Find("GMZone").transform.position;
+
         Audio.clip = SoundManager.instance.BtnClick;
 
         menuColl.onClick.AddListener(() => { MenuOpen(0); Audio.Play(); });
-        continueBtn.onClick.AddListener(() => { MenuOpen(1);});
-        soundOptionBtn.onClick.AddListener(() => {MenuOpen(2); Audio.Play();});
-        optionReturn.onClick.AddListener(() => {MenuOpen(3); Audio.Play(); });
-        gameExitBtn.onClick.AddListener(() => {MenuOpen(4); Audio.Play(); });
+        continueBtn.onClick.AddListener(() => { MenuOpen(1); });
+        soundOptionBtn.onClick.AddListener(() => { MenuOpen(2); Audio.Play(); });
+        optionReturn.onClick.AddListener(() => { MenuOpen(3); Audio.Play(); });
+        gameExitBtn.onClick.AddListener(() => { MenuOpen(4); Audio.Play(); });
         noBtn.onClick.AddListener(() => { MenuOpen(5); Audio.Play(); });
-        yesBtn.onClick.AddListener(() => { UnityEngine.SceneManagement.SceneManager.LoadScene("Main");  });
+        yesBtn.onClick.AddListener(() => { UnityEngine.SceneManagement.SceneManager.LoadScene("Main"); });
 
+        moveB.onClick.AddListener(() =>
+        {
+            Player.instance.transform.position = battleZonePos;
+            Camera.main.transform.position 
+             =
+            new Vector3(Player.instance.transform.position.x, Player.instance.transform.position.y, Camera.main.transform.position.z);
+        });
+        moveS.onClick.AddListener(() =>
+        {
+            Player.instance.transform.position = originPos;
+            Camera.main.transform.position
+             =
+            new Vector3(Player.instance.transform.position.x, Player.instance.transform.position.y, Camera.main.transform.position.z);
+        });
+
+        gmBtn.onClick.AddListener(() =>
+        {
+            if (gmMenu.gameObject.activeSelf)
+            {
+                gmMenu.gameObject.SetActive(false);
+                isPasswardPopup = false;
+            }
+
+            else if (!passwardWindow.gameObject.activeSelf)
+            {
+                passwardWindow.gameObject.SetActive(true);
+
+            }
+
+
+        }
+       );
+
+        closeBtn.onClick.AddListener(() => { passwardWindow.text = string.Empty; passwardWindow.gameObject.SetActive(false); });
+
+        //gmBtn.onClick.AddListener(() =>
+        //{
+        //    if (!gmMenu.gameObject.activeSelf)
+        //    {
+        //        gmMenu.gameObject.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        gmMenu.gameObject.SetActive(false);
+        //    }
+        //}
+        //);
+
+        getItem1.onClick.AddListener(() => { if (!GameManager.Instance.isGetMeleeItem) GameManager.Instance.isGetMeleeItem = true; });
+        getItem2.onClick.AddListener(() => { if (!GameManager.Instance.isGetRangeItem) GameManager.Instance.isGetRangeItem = true; });
 
     }
 
@@ -70,9 +154,27 @@ public class MenuBar : MonoBehaviour
     private void Update()
     {
         EscKeyMenuClose();
-     
-    }
+        PasswardWindowClose();
 
+
+    }
+    bool isPasswardPopup;
+    private void PasswardWindowClose()
+    {
+        if (!isPasswardPopup)
+        {
+
+
+            if (passwardWindow.text == "1234")
+            {
+                isPasswardPopup = true;
+                passwardWindow.gameObject.SetActive(false);
+                gmMenu.gameObject.SetActive(true);
+                passwardWindow.text = string.Empty;
+            }
+        }
+
+    }
     private void EscKeyMenuClose()
     {
         if (mainMenu.gameObject.activeSelf)
@@ -86,7 +188,7 @@ public class MenuBar : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.gameObject.activeSelf && !soundOptionMenu.gameObject.activeSelf && !reallyExit.gameObject.activeSelf)
         {
             MenuOpen(0);
-            Audio.Play(); 
+            Audio.Play();
         }
         else if ((Input.GetKeyDown(KeyCode.Escape) && mainMenu.gameObject.activeSelf && !soundOptionMenu.gameObject.activeSelf && !reallyExit.gameObject.activeSelf))
         {
@@ -112,7 +214,7 @@ public class MenuBar : MonoBehaviour
     /// <param name="_value">메인메뉴 0열기 1닫기 , 사운드메뉴 열기2 닫기3, 진짜꺼 4열기 닫기5</param>
     private void MenuOpen(int _value)
     {
-        switch(_value)
+        switch (_value)
         {
             case 0:
                 if (!mainMenu.gameObject.activeSelf)
@@ -122,7 +224,7 @@ public class MenuBar : MonoBehaviour
                 break;
 
 
-                case 1:
+            case 1:
                 if (mainMenu.gameObject.activeSelf)
                 {
                     mainMenu.gameObject.SetActive(false);
@@ -157,9 +259,9 @@ public class MenuBar : MonoBehaviour
                 }
                 break;
         }
-        
 
-        
+
+
     }
 
 }

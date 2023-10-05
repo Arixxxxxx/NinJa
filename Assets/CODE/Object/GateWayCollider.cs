@@ -129,6 +129,9 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.player.MeleeItemShow(1);
         GateSr.enabled = false;
         GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
+        Camera.main.transform.position
+            =
+        new Vector3(Player.instance.transform.position.x, Player.instance.transform.position.y, Camera.main.transform.position.z);
 
         yield return new WaitForSecondsRealtime(1.5f);
 
@@ -168,7 +171,9 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.player.MeleeItemShow(1);
         GateSr.enabled = false;
         GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
-
+        Camera.main.transform.position
+            =
+           new Vector3(Player.instance.transform.position.x, Player.instance.transform.position.y, Camera.main.transform.position.z);
         yield return new WaitForSecondsRealtime(2.5f);
 
 

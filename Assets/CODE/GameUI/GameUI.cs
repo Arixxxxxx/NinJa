@@ -9,11 +9,9 @@ using System;
 public class GameUI : MonoBehaviour
 {
 
-    Image ArrowFill;
-    Transform FillBox;
-    TMP_Text ArrowEA;
 
-    Transform meleeUI, rangeUi;
+
+    
     Image mapMoveBar;
     TMP_Text mapMoveText;
 
@@ -25,13 +23,14 @@ public class GameUI : MonoBehaviour
 
     Transform MeleeBar;
     Transform RangeBar;
+
+    Image normalAttackFillFont, normalAttackFillBack;
+    Transform RF, RB, MF , MB;
+    
     private void Awake()
     {
-        ArrowFill = transform.Find("Btn2/ArrowFill/ArrowFill").GetComponent<Image>();
-        FillBox = transform.Find("Btn2/ArrowFill").GetComponent<Transform>();
-        ArrowEA = transform.Find("Btn2/ArrowFill/ArrowEA").GetComponent<TMP_Text>();
-        meleeUI = transform.Find("Btn1").GetComponent<Transform>();
-        rangeUi = transform.Find("Btn2").GetComponent<Transform>();
+     
+      
 
         //지역이동 알림바
         mapMoveBar = transform.Find("MapMoveBar").GetComponent<Image>();
@@ -43,26 +42,36 @@ public class GameUI : MonoBehaviour
         //시간
         timeText = transform.Find("UnitFream/TimeBar/Time").GetComponent<TMP_Text>();
         
-        
+        //액션바
         MeleeBar = transform.Find("ActionBar/Melee").GetComponent <Transform>();
         MeleeBar.gameObject.SetActive(false);
         RangeBar = transform.Find("ActionBar/Range").GetComponent <Transform>();
         RangeBar.gameObject.SetActive(false);
+
+        //평타UI
+
+        normalAttackFillFont = transform.Find("ActionBar/AttackIcon/Circle/Front").GetComponent<Image>();
+        normalAttackFillBack = transform.Find("ActionBar/AttackIcon/Circle/Back").GetComponent<Image>();
+        RF = normalAttackFillFont.transform.Find("R").GetComponent<Transform>();
+        RB = normalAttackFillBack.transform.Find("R").GetComponent<Transform>();
+
+        MF = normalAttackFillFont.transform.Find("M").GetComponent<Transform>();
+        MB = normalAttackFillBack.transform.Find("M").GetComponent<Transform>();
     }
 
    
 
     private void Update()
     {
+        AttackFill();
+        normalAttackIcon();
         SkillBarSwap();
-        ArrowEaText();  // 화살갯수 text
-        ArrowFillAmount(); // 화살갯수 게이지
         WeaponeUIActive();
-        //if (Input.GetKeyDown(KeyCode.K))
-        //{
-        //    SetMapMoveBar("초원");
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            SetMapMoveBar("초원");
 
-        //}
+        }
     }
 
     private void LateUpdate()
@@ -83,6 +92,35 @@ public class GameUI : MonoBehaviour
         timeText.text = $"{ampm} {hour}:{minute}";
     }
 
+    private void normalAttackIcon()
+    {
+        if (GameManager.Instance.rangeMode &&!RF.gameObject.activeSelf)
+        {
+                RF.gameObject.SetActive(true);
+                RB.gameObject.SetActive(true);
+                MF.gameObject.SetActive(false);
+                MB.gameObject.SetActive(false);
+        }
+        else if (GameManager.Instance.meleeMode &&!MF.gameObject.activeSelf)
+        {
+            RF.gameObject.SetActive(false);
+            RB.gameObject.SetActive(false);
+            MF.gameObject.SetActive(true);
+            MB.gameObject.SetActive(true);
+        }
+    }
+
+    private void AttackFill()
+    {
+        if (GameManager.Instance.rangeMode)
+        {
+            normalAttackFillFont.fillAmount = arrowAttack.Instance.curTime / arrowAttack.Instance.normalShootSpeed;
+        }
+        else if (GameManager.Instance.meleeMode)
+        {
+            normalAttackFillFont.fillAmount = Player.instance.Timer / Player.instance.MeleeSpeed;
+        }
+    }
 
     private void SkillBarSwap()
     {
@@ -102,35 +140,29 @@ public class GameUI : MonoBehaviour
         if (GameManager.Instance.isGetMeleeItem && !once)
         {
             once = true;
-            meleeUI.gameObject.SetActive(true);
+            
             GameManager.Instance.gameUI.Find("ActionBar").gameObject.SetActive(true);
+            GameManager.Instance.gameUI.Find("ActionBar").GetComponent<Animator>().SetTrigger("Open");
         }
         if (GameManager.Instance.isGetRangeItem && !once1)
         {
             once1 = true;
-            rangeUi.gameObject.SetActive(true);
+           
+            GameManager.Instance.gameUI.Find("ActionBar").GetComponent<Animator>().SetTrigger("Open");
             if (!GameManager.Instance.gameUI.Find("ActionBar").gameObject.activeSelf)
             {
                 GameManager.Instance.gameUI.Find("ActionBar").gameObject.SetActive(true);
             }
+           
+            if (!GameManager.Instance.isGetMeleeItem)
+            {
+                
+                GameManager.Instance.rangeMode = true;
+            }
         }
     }
-    private void ArrowEaText()
-    {
-        ArrowEA.text = GameManager.Instance.CurArrow.ToString();
-    }
-    private void ArrowFillAmount()
-    {
-        ArrowFill.fillAmount = GameManager.Instance.CurArrow / GameManager.Instance.MaxArrow;
-        if (GameManager.Instance.meleeMode)
-        {
-            FillBox.gameObject.SetActive(false);
-        }
-        else
-        {
-            FillBox.gameObject.SetActive(true);
-        }
-    }
+   
+   
 
     // 맵이동 텍스트바 연출
     [SerializeField] float mapMoveToolSpeed;
@@ -144,6 +176,7 @@ public class GameUI : MonoBehaviour
     {
         CancelInvoke();
         mapMoveBar.fillAmount = 0;
+        mapMoveBar.color = new Color(1, 1, 1, 1);
         mapMoveText.color = new Color(1, 1, 1, 0);
         mapMoveText.text = string.Empty;
 
@@ -203,7 +236,7 @@ public class GameUI : MonoBehaviour
     {
         if (mapMoveText.color.a >= 0.98f)
         {
-
+            Debug.Log("진입00");
             Invoke("EffectEnd",2.5f);
         }
         else if (mapMoveText.color.a <= 0.98f)
@@ -215,16 +248,32 @@ public class GameUI : MonoBehaviour
 
     private void EffectEnd()
     {
-        if (mapMoveBar.fillAmount <= 0.05f)
+       
+        if (mapMoveBar.color.a < 0.05f)
         {
-            mapMoveBar.fillAmount = 0;
+            
+            mapMoveText.color = new Color(1, 1, 1, 0);
+            mapMoveBar.color = new Color(1, 1, 1, 0); 
 
         }
-        else if (mapMoveBar.fillAmount > 0.05f)
+        else if (mapMoveBar.color.a > 0.05f)
         {
-            mapMoveBar.fillAmount -= Time.deltaTime;
+            
+            mapMoveText.color -= new Color(0, 0, 0, 0.01f);
+            mapMoveBar.color -= new Color(0, 0, 0, 0.01f); ;
             Invoke("EffectEnd", mapMoveToolSpeed);
         }
+
+        //if (mapMoveBar.fillAmount <= 0.05f)
+        //{
+        //    mapMoveBar.fillAmount = 0;
+
+        //}
+        //else if (mapMoveBar.fillAmount > 0.05f)
+        //{
+        //    mapMoveBar.fillAmount -= Time.deltaTime;
+        //    Invoke("EffectEnd", mapMoveToolSpeed);
+        //}
     }
 
     public void SpawnZombie()

@@ -20,7 +20,7 @@ public class PoolManager : MonoBehaviour
         EnemyBullets = new Queue<GameObject>();
         EnemyAQ = new Queue<GameObject>();
         EnemySc = FindAnyObjectByType<EnemySpawn>();
-        SpawnPoint = EnemySc.transform.GetChild(0).GetComponent<Transform>();
+        SpawnPoint = EnemySc.transform.GetComponent<Transform>();
         Dust = new Queue<GameObject>();
 
         if (Instance == null)

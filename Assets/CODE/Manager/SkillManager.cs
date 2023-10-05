@@ -22,7 +22,7 @@ public class SkillManager : MonoBehaviour
 
     [Header("# 근접스킬 데미지")]
     public float ShockWaveDmg;
-    public float dargonPier;
+    public float dargonPierDmg;
     public float whilWindDmg;
     public float whilWindDmgInterval;
     public float buffDmg;
@@ -121,10 +121,13 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
-        MeleeSkill1();
-        MeleeSkill2();
-        MeleeSkill3();
-        MeleeSkill4();
+        if (!GameManager.Instance.MovingStop || !GameManager.Instance.GameAllStop)
+        {
+            MeleeSkill1();
+            MeleeSkill2();
+            MeleeSkill3();
+            MeleeSkill4();
+        }
         MeleeUnitFrame();
     }
 
@@ -439,8 +442,8 @@ public class SkillManager : MonoBehaviour
 
                 ShockWaveDmg += buffDmg;
 
-                o4 = dargonPier;
-                dargonPier += buffDmg;
+                o4 = dargonPierDmg;
+                dargonPierDmg += buffDmg;
 
                 o5 = whilWindDmg;
                 whilWindDmg += buffDmg;
@@ -466,7 +469,7 @@ public class SkillManager : MonoBehaviour
                 MeleeDmg = o1;
                 RangeDmg = o2;
                 ShockWaveDmg = o3;
-                dargonPier = o4;
+                dargonPierDmg = o4;
                 whilWindDmg = o5;
                 electronicShotDmg = o6;
                 tripleShotDmg = o7;
