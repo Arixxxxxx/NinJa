@@ -13,6 +13,7 @@ public class WhilWIndTriger : MonoBehaviour
             SoundManager.instance.F_SoundPlay(SoundManager.instance.enemyhit[R], 0.5f);
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
             sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+            
         }
         
     }
@@ -25,6 +26,7 @@ public class WhilWIndTriger : MonoBehaviour
             WhilWindDmgTimer += Time.deltaTime;
             if(WhilWindDmgTimer > SkillManager.instance.whilWindDmgInterval)
             {
+                
                 int R = Random.Range(0, 2);
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.enemyhit[R], 0.5f);
                 WhilWindDmgTimer = 0;

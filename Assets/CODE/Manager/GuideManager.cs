@@ -447,7 +447,7 @@ public class GuideManager : MonoBehaviour
 
             //근접무기 획득시 가이드글 끝나면 리리 튜토리얼 끝 동굴안쪽으로 소환
 
-            StartCoroutine(GetItemNPC.Instance.ririSpawn());
+            
 
         }
         if (Ani3_3.gameObject.activeSelf)
@@ -459,7 +459,7 @@ public class GuideManager : MonoBehaviour
             Ani3_3.gameObject.SetActive(false);
 
             //원거리무기 획득시 가이드끝나면 전투교관 소환
-            StartCoroutine(GetItemNPC2.Instance.ririSpawn());
+            
         }
 
         if (Ani4_1.gameObject.activeSelf)

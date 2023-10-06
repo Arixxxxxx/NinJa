@@ -115,12 +115,14 @@ public class GetItemNPC : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f); 
         Player.instance.Ps.Stop();
         Player.instance.Ps.gameObject.SetActive(false);
-        guideManager.Audio.clip = SoundManager.instance.popup;
-        guideManager.Audio.Play();
-        guideManager.Ani3.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
+        GameManager.Instance.gameUI.transform.Find("GameGuide").gameObject.SetActive(true);
+        TutorialGuide.instance.F_SetTutorialWindow(5);
+        //guideManager.Audio.clip = SoundManager.instance.popup;
+        //guideManager.Audio.Play();
+        //guideManager.Ani3.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 1.5f);
 
-        guideManager.Ani3.gameObject.SetActive(true);
-        guideManager.Ani3.SetBool("Show", true);
+        //guideManager.Ani3.gameObject.SetActive(true);
+        //guideManager.Ani3.SetBool("Show", true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

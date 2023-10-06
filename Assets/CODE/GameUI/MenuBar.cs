@@ -185,7 +185,7 @@ public class MenuBar : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.gameObject.activeSelf && !soundOptionMenu.gameObject.activeSelf && !reallyExit.gameObject.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.gameObject.activeSelf && !soundOptionMenu.gameObject.activeSelf && !reallyExit.gameObject.activeSelf && !GameManager.Instance.GuideWindow.gameObject.activeSelf)
         {
             MenuOpen(0);
             Audio.Play();

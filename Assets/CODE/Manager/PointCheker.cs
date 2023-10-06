@@ -39,26 +39,20 @@ public class PointCheker : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(this.type != Pointer.point0)
-        {
             if (collision.gameObject.CompareTag("Player"))
             {
-                btn.gameObject.SetActive(true);
-                //if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.once)
-                //{
-                //    Debug.Log("´­¸²");
-                //    GameManager.Instance.once = true;
-                //    //guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
-                //    GameManager.Instance.guideM.F_GetColl(type);
-                //}
+                if (!btn.gameObject.activeSelf)
+                {
+                    btn.gameObject.SetActive(true);
+                }
+
             }
-        }
-       
+      
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (this.type != Pointer.point0)
+        if (btn.gameObject.activeSelf)
         {
             btn.gameObject.SetActive(false);
         }

@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public Enemys enemys;
 
+
     // 카메라 연출 컨트롤
     [Header("# 카메라 연출 확인용")]
     [Space]
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Transform GameGuideTR;
     [HideInInspector] public MainUiText GuideText0;
     [HideInInspector] public Transform EventTimeBar;
+    [HideInInspector] public Transform GuideWindow;
     [HideInInspector] public Image TimeBar;
     [HideInInspector] public TMP_Text TimeText;
     [HideInInspector] public Transform backgroundTR;
@@ -200,6 +202,7 @@ public class GameManager : MonoBehaviour
         TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>(); // 이벤트 시간바안에 텍스트
 
         //가이드UI 접근용
+        GuideWindow = gameUI.transform.Find("GameGuide").GetComponent<Transform>();
         GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
         GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
         guideM = GameGuideTR.GetComponent<GuideManager>();
@@ -228,6 +231,8 @@ public class GameManager : MonoBehaviour
         tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
         battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
         rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
+
+        
     }
 
     private void Start()
@@ -255,9 +260,9 @@ public class GameManager : MonoBehaviour
                 rangeMode = false;
             }
         }
-        
-        
 
+
+        NpcSpawn();
         Act1EndBlackScreenOn();
         TalkOk();
         if(Qeust1Start)
@@ -287,6 +292,29 @@ public class GameManager : MonoBehaviour
     }
 
     bool once2;
+
+    bool isNpcComeOk, isNpcComeOk1;
+    private void NpcSpawn()
+    {
+        if(TutorialGuide.instance != null)
+        {
+            if (TutorialGuide.instance._GetItemNum == 0)
+            {
+                return;
+            }
+            else if (TutorialGuide.instance._GetItemNum == 1 && !isNpcComeOk)
+            {
+                isNpcComeOk = true;
+                StartCoroutine(GetItemNPC.Instance.ririSpawn());
+            }
+            else if (TutorialGuide.instance._GetItemNum == 2 && !isNpcComeOk1)
+            {
+                isNpcComeOk1 = true;
+                StartCoroutine(GetItemNPC2.Instance.ririSpawn());
+            }
+        }
+        
+    }
     private void Act1EndBlackScreenOn()
     {
         if (!Act1End)

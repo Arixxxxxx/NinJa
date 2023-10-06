@@ -192,8 +192,8 @@ public class MainSceneUi : MonoBehaviour
           
             btn1.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
             btn2.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
-            btn1_T.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
-            btn2_T.color += new Color(1, 1, 1, 0.13f) * alpahColorSpeed * Time.deltaTime;
+            btn1_T.color += new Color(0, 0, 0, 0.13f) * alpahColorSpeed * Time.deltaTime;
+            btn2_T.color += new Color(0, 0, 0, 0.13f) * alpahColorSpeed * Time.deltaTime;
             if(btn1.color.a > 0.95f)
             {
                 step6 = false;
@@ -214,8 +214,8 @@ public class MainSceneUi : MonoBehaviour
 
         btn1.color = new Color(1, 1, 1, 0);
         btn2.color = new Color(1, 1, 1, 0);
-        btn1_T.color = new Color(1, 1, 1, 0);
-        btn2_T.color = new Color(1, 1, 1, 0);
+        btn1_T.color = new Color(1, 0.9f, 0, 0);
+        btn2_T.color = new Color(1, 0.9f, 0, 0);
 
         btn1.gameObject.SetActive(false);
         btn2.gameObject.SetActive(false);

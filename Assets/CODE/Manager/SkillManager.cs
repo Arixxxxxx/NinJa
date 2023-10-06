@@ -252,6 +252,7 @@ public class SkillManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
+                    arrowAttack.Instance.AttackCameraShake();
                     skill1Timer = 0;
                     ani1 = false;
                     StartCoroutine(SkillPlay());
@@ -364,6 +365,7 @@ public class SkillManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Alpha3) && !Player.instance.isSkillStartOk && isSkill3Ok)
                 {
+                    arrowAttack.Instance.AttackCameraShake();
                     ani3 = false;
                     skill3Timer = 0;
                     StartCoroutine(SkillPlay());

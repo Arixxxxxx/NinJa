@@ -36,6 +36,7 @@ public class GateWayCollider : MonoBehaviour
     {
         colorup();
         colordown();
+        SrOff();
         //Gatedelete();
 
     }
@@ -53,7 +54,7 @@ public class GateWayCollider : MonoBehaviour
                 case GateType.RiRiGate:
                     transform.parent.position = transform.parent.Find("Tellpon1").transform.position;
                     GetItemNPC.Instance.partiGate.gameObject.SetActive(true);
-
+                    gateMoving = true;
                     //GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
                     StartCoroutine(Step1());
 
@@ -64,6 +65,7 @@ public class GateWayCollider : MonoBehaviour
                     transform.parent.position = transform.parent.Find("Tellpon1").transform.position;
                     GetItemNPC2.Instance.partiGate.gameObject.SetActive(true);
                     GameManager.Instance.worldLight.intensity = 1;
+                    gateMoving = true;
                     //GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
                     StartCoroutine(Step2());
 
@@ -163,7 +165,20 @@ public class GateWayCollider : MonoBehaviour
         GetItemNPC.Instance.aniGate.SetBool("Hide",true);
         GetItemNPC2.Instance.aniGate.transform.position = GameManager.Instance.gateOriginPos;
     }
+    bool gateMoving;
 
+    private void SrOff()
+    {
+        if (!gateMoving)
+        {
+            return;
+        }
+        else if(gateMoving)
+        {
+            Debug.Log("진입");
+            GameManager.Instance.player.MeleeItemShow(1);
+        }
+    }
     IEnumerator Step2()
     {
         GetItemNPC2.Instance.aniGate.SetBool("active", false);
@@ -208,14 +223,14 @@ public class GateWayCollider : MonoBehaviour
     public void GateActive1()
     {
         GetItemNPC.Instance.aniGate.SetBool("active", true);
-        SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.7f);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.4f);
     }
 
     //배틀npc 차원문 활성화
     public void GateActive2()
     {
         GetItemNPC2.Instance.aniGate.SetBool("active", true);
-        SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.7f);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.4f);
     }
 
     public int ShowCount = 0; // 애니메이션으로 켜줄껀데 동굴에서 처음나올때는 작동되면안되서 이때는 인트만올려줌
@@ -229,6 +244,7 @@ public class GateWayCollider : MonoBehaviour
             GameManager.Instance.player.MeleeItemShow(0);
             GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
             GameManager.Instance.MovingStop = false;
+            gateMoving = false;
         }
         
     }
@@ -242,7 +258,7 @@ public class GateWayCollider : MonoBehaviour
             GameManager.Instance.player.Sr.enabled = true;
             GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
             GameManager.Instance.MovingStop = false;
-
+            gateMoving = false;
             if (GameManager.Instance.meleeMode)
             {
                 GameManager.Instance.player.MeleeItemShow(0);

@@ -30,7 +30,7 @@ public class EventButton : MonoBehaviour
         }
         else
         {
-            text.color = new Color(1, 1, 1, 1);
+            text.color = new Color(1, 0.9f, 0, 1);
         }
     }
 }

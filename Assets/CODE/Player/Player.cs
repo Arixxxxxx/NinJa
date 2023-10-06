@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
     public Transform sheld;
     Vector3 sheldOriginPos;
     public SpriteRenderer sheldSR;
+    public SpriteRenderer sheldOnSr;
     Transform Bow;
     [HideInInspector] public Transform RealBow;
     private bool ShieldOn;
@@ -93,6 +94,7 @@ public class Player : MonoBehaviour
 
     //파티클 참조
     PaticleManager paticle;
+    public ParticleSystem RangeBuff;
 
     // 무기 근접속도
     [Header("# 근접공격")]
@@ -150,6 +152,7 @@ public class Player : MonoBehaviour
         meleeAtkAudio = transform.Find("Weapon").GetComponent<AudioSource>();
         sheld = transform.Find("Sheld").GetComponent<Transform>();
         sheldSR = sheld.GetComponent<SpriteRenderer>();
+        sheldOnSr = transform.Find("SheldOn").GetComponent<SpriteRenderer>();
         SwordAni = weapon1.GetComponent<Animator>();
         Defence = transform.GetChild(2).GetComponent<Transform>();
         PlayerMSGUI = GameObject.Find("PlayerMSG").GetComponent<Transform>();
@@ -167,6 +170,7 @@ public class Player : MonoBehaviour
         textani = text.GetComponent<Animator>();
 
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
+        RangeBuff = paticle.transform.Find("RangeBuff").GetComponent<ParticleSystem>();
         ora = transform.Find("Up").GetComponent<Animator>();
         Ps = transform.Find("Paticle/GetMelee").GetComponent<ParticleSystem>();
         Ps2 = transform.Find("Paticle/GetRange").GetComponent<ParticleSystem>();
@@ -429,7 +433,7 @@ public class Player : MonoBehaviour
 
                 text.gameObject.SetActive(true);
                 text.color = Color.white;
-                text.text = "원거리모드";
+                text.text = "레인지모드";
                 textani.SetTrigger("Ok");
 
                 break;
@@ -526,13 +530,13 @@ public class Player : MonoBehaviour
                 if (GameManager.Instance.meleeMode)
                 {
 
-                    if (Input.GetMouseButton(1) && !isAttacking && !isWhilWind)
+                    if (Input.GetMouseButtonDown(1) && !isAttacking && !isWhilWind)
                     {
                         ShieldOn = true;
                         if (!isSoundPlay)
                         {
                             isSoundPlay=true;
-                            SoundManager.instance.F_SoundPlay(SoundManager.instance.sheildOn, 1f);
+                            SoundManager.instance.F_SoundPlay(SoundManager.instance.sheildOn, 0.8f);
                         }
                        
                         sheldSR.enabled = false;
@@ -547,8 +551,6 @@ public class Player : MonoBehaviour
                         ShieldOn = false;
                         sheldSR.enabled = true;
                         SwordSr.enabled = true;
-                        //weapon1.gameObject.SetActive(true);
-                        //sheld.gameObject.SetActaive(true);
                         Defence.gameObject.SetActive(false);
 
                     }
@@ -617,6 +619,7 @@ public class Player : MonoBehaviour
                 GameManager.Instance.isGetMeleeItem = true;
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.ItemGet, 0.5f);
             }
+
             GetItemRange = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("GetItem2"));
             if (GetItemRange.collider != null && !Itemget1)
             {
@@ -626,20 +629,21 @@ public class Player : MonoBehaviour
 
             //찾아서 써놓기
             hitPoint = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("Point"));
-            if (hitPoint.collider != null && !GameManager.Instance.once)
+            if (hitPoint.collider != null && !GameManager.Instance.once && !GameManager.Instance.GuideWindow.gameObject.activeSelf)
             {
                 GameManager.Instance.MovingStop = true;
                 Rb.velocity = Vector2.zero;
-                ScanGuideBox = hitPoint.collider.gameObject;
                 GameManager.Instance.once = true;
-                GameManager.Instance.guideM.F_GetColl(hitPoint.collider.gameObject);
+                PointCheker sc = hitPoint.collider.GetComponent<PointCheker>();
+                GameManager.Instance.GuideWindow.gameObject.SetActive(true);
+                TutorialGuide.instance.F_SetTutorialWindow((int)sc.type);
+
+
+                //레거시 가이드 버전
+                //ScanGuideBox = hitPoint.collider.gameObject;
+                //GameManager.Instance.guideM.F_GetColl(hitPoint.collider.gameObject);
             }
-            //if (hitPoint.collider != null)
-            //{
-            //    Rb.velocity = Vector2.zero;
-            //    ScanObject = Scanobj.collider.gameObject;
-            //    GameManager.Instance.F_TalkSurch(ScanObject);
-            //}
+          
         }
     }
 
@@ -753,7 +757,7 @@ public class Player : MonoBehaviour
 
                         if (GameManager.Instance.rangeMode)
                         {
-                            SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
+                            SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 0.5f);
                             Rb.velocity = new Vector3(transform.localScale.x >= 0 ? -1 : 1, 0) * DodgeSpeed / 1.5f;
                             gameObject.layer = 10;
                             Invoke("F_ReturnLayer", 0.5f);
@@ -764,7 +768,7 @@ public class Player : MonoBehaviour
                         {
                             if (!isLeft)
                             {
-                                SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
+                                SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 0.5f);
                                 Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
                                 gameObject.layer = 10;
                                 Invoke("F_ReturnLayer", 0.5f);
@@ -772,7 +776,7 @@ public class Player : MonoBehaviour
                             }
                             else if (isLeft)
                             {
-                                SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 1f);
+                                SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 0.5f);
                                 Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
                                 gameObject.layer = 10;
                                 Invoke("F_ReturnLayer", 0.5f);
@@ -1129,7 +1133,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            SoundManager.instance.F_SoundPlay(SoundManager.instance.ground, 0.5f);
+            //SoundManager.instance.F_SoundPlay(SoundManager.instance.ground, 0.5f);
             F_JumpReset();
             
         }
@@ -1236,12 +1240,21 @@ public class Player : MonoBehaviour
                 {
                     sheldSR.enabled = true;
                     SwordSr.enabled = true;
+                    sheldOnSr.enabled = true;
                 }
                 break;
             case 1:
                 {
                     sheldSR.enabled = false;
                     SwordSr.enabled = false;
+
+                    if (sheldOnSr.gameObject.activeSelf)
+                    {
+                        sheldOnSr.gameObject.SetActive(false);
+                        isSoundPlay = false;
+                        ShieldOn = false;
+                        Defence.gameObject.SetActive(false);
+                    }
                 }
                 break;
         }

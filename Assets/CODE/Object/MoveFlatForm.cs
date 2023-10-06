@@ -76,7 +76,7 @@ public class MoveFlatForm : MonoBehaviour
 
                             if(this.gameObject.name != "FlatForm")
                             {
-                                SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 1);
+                                SoundManager.instance.F_SoundPlay(SoundManager.instance.gateUpComplete, 0.5f);
                             }
                             
                         }

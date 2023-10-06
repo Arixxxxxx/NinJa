@@ -210,6 +210,7 @@ public class Bullet : MonoBehaviour
 
     private void Boom()
     {
+        arrowAttack.Instance.AttackCameraShake();
         SoundManager.instance.F_SoundPlay(SoundManager.instance.boomArrow, 0.7f);
         GameObject obj = arrowAttack.Instance.F_Get_Boom();
         obj.transform.position = transform.position;
@@ -217,4 +218,6 @@ public class Bullet : MonoBehaviour
 
         F_BulletReturn(type);
     }
+
+    
 }

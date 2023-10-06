@@ -67,7 +67,8 @@ public class GetItemNPC2 : MonoBehaviour
                 {
                     
                     once1 = true;
-                    guideManager.StopCharacter();
+                    //guideManager.StopCharacter();
+                    GameManager.Instance.MovingStop = true;
                     itemsSprite.gameObject.SetActive(false);
                     canvas.gameObject.SetActive(false);
                     StartCoroutine(itemShowRangeMode());
@@ -113,11 +114,14 @@ public class GetItemNPC2 : MonoBehaviour
     {
       
         yield return new WaitForSecondsRealtime(2.5f);
-        guideManager.Audio.clip = SoundManager.instance.popup;
-        guideManager.Audio.Play();
-        guideManager.Ani3_2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 2.3f);
-        guideManager.Ani3_2.gameObject.SetActive(true);
-        guideManager.Ani3_2.SetBool("Show", true);
+        GameManager.Instance.gameUI.transform.Find("GameGuide").gameObject.SetActive(true);
+        TutorialGuide.instance.F_SetTutorialWindow(6);
+
+        //guideManager.Audio.clip = SoundManager.instance.popup;
+        //guideManager.Audio.Play();
+        //guideManager.Ani3_2.gameObject.transform.position = GameManager.Instance.playerTR.transform.position + new Vector3(0, 2.3f);
+        //guideManager.Ani3_2.gameObject.SetActive(true);
+        //guideManager.Ani3_2.SetBool("Show", true);
     }
 
     //산속에서 템먹고나면 텔타서 전투교관 나타남

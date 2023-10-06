@@ -50,10 +50,13 @@ public class SoundManager : MonoBehaviour
 
     }
 
-    public void F_SoundAA(enumBgm _value, float _aaa)
-    {
-        Audio.clip = listBgm[(int)_value];
-    }
+    //¿¹Á¦
+    //public void F_SoundAA(enumBgm _value, float _aaa)
+    //{
+    //    Audio.clip = listBgm[(int)_value];
+    //}
+
+
     [SerializeField] private List<AudioClip> listBgm;
  //listbgm[0]
     public AudioClip mainThema; //¸ÞÀÎ Å×¸¶°î
@@ -75,6 +78,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip questComplete; // Äù¿Ï·á
     public AudioClip zombieSpawn; // Á»ºñÁ¨
     public AudioClip boomArrow; // BoomAroow
+    public AudioClip WindowPopup;
+    public AudioClip WindowPopDown;
 
 
 
@@ -149,9 +154,9 @@ public class SoundManager : MonoBehaviour
 
     private void VolumeUp()
     {
-        if (Audio.volume >= 0.5f)
+        if (Audio.volume >= 0.3f)
         {
-            Audio.volume = 0.5f;
+            Audio.volume = 0.3f;
              return;
         }
         else

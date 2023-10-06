@@ -34,14 +34,14 @@ public class OpeningScene : MonoBehaviour
         
         BackAni.SetBool("off", true);
         SoundManager.instance.AudioChanger(SoundManager.instance.Audio.clip = SoundManager.instance.mainThema);
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSecondsRealtime(1.5f);
         openingText.gameObject.SetActive(false);
         GameManager.Instance.MovingStop = false;
         
-        gameObject.SetActive(false);
+        
 
         GameManager.Instance.gameUI.gameObject.SetActive(true);
         GameManager.Instance.guideM.startTutorial = true;
-
+        gameObject.SetActive(false);
     }
 }
