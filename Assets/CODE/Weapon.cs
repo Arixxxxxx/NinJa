@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
 
     }
 
+    float dice;
     private void OnCollisionEnter2D(Collision2D collision)
       {
           if (collision.gameObject.CompareTag("Enemy"))
@@ -22,6 +23,14 @@ public class Weapon : MonoBehaviour
             Audio.clip = SoundManager.instance.enemyhit[R];
             Audio.Play();
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
+
+            dice = Random.Range(0f, 100f);
+            if (dice < SkillManager.instance.MeleePer)
+            {
+                Player.instance.meleeBuffOn = true;
+                arrowAttack.Instance.Rkey.SetBool("Active", true);
+            }
+
             sc.F_OnHIt(SkillManager.instance.MeleeDmg) ;
             
           }

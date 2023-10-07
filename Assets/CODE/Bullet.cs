@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -108,6 +107,8 @@ public class Bullet : MonoBehaviour
            
         }
     }
+
+    float dice;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -119,6 +120,7 @@ public class Bullet : MonoBehaviour
 
                     Enemys sc = collision.gameObject.GetComponent<Enemys>();
                     sc.F_OnHIt(SkillManager.instance.RangeDmg);
+                    
 
                     F_BulletReturn(ArrowType.normal);
                     break;
@@ -188,8 +190,18 @@ public class Bullet : MonoBehaviour
 
     }
 
+    
     private void normalArrow()
     {
+        if (!arrowAttack.Instance.BuffOn)
+        {
+            dice = Random.Range(0f, 100f);
+            if (dice < SkillManager.instance.RangePer)
+            {
+                arrowAttack.Instance.F_SpecialBuffActive();
+            }
+        }
+        
         SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
         GameObject obj = PoolManager.Instance.F_GetObj("Dust");
         obj.transform.position = this.gameObject.transform.position;

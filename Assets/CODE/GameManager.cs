@@ -261,6 +261,15 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if(Player_CurMP <= 0)
+        {
+            Player_CurMP = 0;
+        }
+
+        if(Player_CurMP > Player_MaxMP)
+        {
+            Player_CurMP = Player_MaxMP;
+        }
 
         NpcSpawn();
         Act1EndBlackScreenOn();

@@ -209,12 +209,17 @@ public class Enemys : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (!onTrap)
         {
-            Player sc = collision.gameObject.GetComponent<Player>();
-            StartCoroutine(sc.F_OnHit());
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                Player sc = collision.gameObject.GetComponent<Player>();
+                StartCoroutine(sc.F_OnHit());
+
+            }
 
         }
+     
 
         if (collision.gameObject.CompareTag("Bullet"))
         {

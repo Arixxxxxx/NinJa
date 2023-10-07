@@ -56,22 +56,22 @@ public class SkillInfo : MonoBehaviour
 
             case ActionBarInfo.SkillType.whilWind:
                 Name = "휠 윈 드";
-                Info = $"근접해있는 모든 적에게 \n [ <color=red>{SkillManager.instance.whilWindDmg} </color>] 의  대미지를\n [<color=red>{ SkillManager.instance.whilWindDmgInterval}</color>]초 간격으로 입힙니다. \n <color=blue>< 버튼을 누르고 있어야 시전지속 ></color=blue>";
+                Info = $" <color=blue>< 버튼을 누르고 있어야 시전지속 ></color=blue>\n근접해있는 모든 적에게 \n [ <color=red>{SkillManager.instance.whilWindDmg} </color>] 의  대미지를\n [<color=red>{ SkillManager.instance.whilWindDmgInterval}</color>]초 간격으로 입힙니다. ";
                 break;
 
             case ActionBarInfo.SkillType.dragonPier:
                 Name = "용의 포효";
-                Info = $"용과같은 포효를 내질러 \n주변에 <b> [ <color=red>{SkillManager.instance.dargonPierDmg} </color>] </b> 의 대미지를  \n입히고, 짧은시간 스턴효과에 걸립니다.";
+                Info = $"용과같은 포효를 내질러 \n주변에 <b> [ <color=red>{SkillManager.instance.dargonPierDmg} </color>] </b> 의 대미지를  입히고,\n 짧은시간 스턴효과에 걸립니다.";
                 break;
 
             case ActionBarInfo.SkillType.warCry:
                 Name = "전투의 함성";
-                Info = $"함성을 내질러 분노가 \n마를때까지 모든 공격력이 \n <b> [ <color=red>{SkillManager.instance.buffDmg} </color>] </b> 만큼 증가합니다.\n <color=blue>< 버프 On/Off 기능 ></color=blue>";
+                Info = $" <color=blue>< 스킬입력시 버프 On / Off ></color=blue>\n함성을 내질러 분노가 \n마를때까지 모든 공격력이 \n <b> [ <color=red>{SkillManager.instance.buffDmg} </color>] </b> 만큼 증가합니다.";
                 break;
 
             case ActionBarInfo.SkillType.powerShot:
                 Name = "일렉트로닉 사격";
-                Info = $"기를모아 전기파장을 만들어 \n전방에 [<color=red>{SkillManager.instance.electronicShotDmg}</color>] </b> 의 대미지를 입힙니다. \n<color=blue>< 게이지 비례 대미지&범위 증가 ></color=blue> ";
+                Info = $"<color=red>< 입력버튼 홀딩하여 차징 ></color>\n기를모아 전기파장을 만들어 \n전방에 [<color=red>{SkillManager.instance.electronicShotDmg}~{SkillManager.instance.electronicShotDmg*2}</color>]</b>의 대미지를 입힙니다. \n<color=blue>< 게이지 비례 대미지&범위 증가 ></color=blue>";
                 break;
 
             case ActionBarInfo.SkillType.tripleShot:
@@ -81,12 +81,22 @@ public class SkillInfo : MonoBehaviour
 
             case ActionBarInfo.SkillType.boomShot:
                 Name = "전기폭발 사격";
-                Info = $"기를모아 전기폭탄을 만들어 \n낙하지점에 [<color=red>{SkillManager.instance.electronicShotDmg}</color>] </b> 의 대미지를 \n 입히고 짧은시간 스턴에 걸립니다. \n<color=blue>< 게이지 비례 화살 거리 증가 ></color=blue> ";
+                Info = $"<color=red>< 입력버튼 홀딩하여 차징 ></color>\n화살 낙하지점에 [<color=red>{SkillManager.instance.electronicShotDmg}</color>] </b>의 대미지를 \n 입히고 짧은시간 스턴에 걸립니다. \n<color=blue>< 게이지 비례 화살 거리 증가 ></color=blue> ";
                 break;
 
             case ActionBarInfo.SkillType.trap:
                 Name = "마비 덫";
                 Info = $"전방에 마비 덫을 던집니다. \n적이 밟으면 [<color=red>3</color>]초간 \n이동하지 못합니다. <color=blue>";
+                break;
+
+            case ActionBarInfo.SkillType.MelleR:
+                Name = "피의 분노";
+                Info = $"<color=blue><b><일반공격 적중시 일정 확률 활성화></b></color>\n 활성화상태에서 스킬 사용시\n<color=red>모든 쿨타임이 초기화</color>되고 \n <color=red>마나가 최대치로 회복</color>됩니다.";
+                break;
+
+            case ActionBarInfo.SkillType.RangeR:
+                Name = "속사";
+                Info = $"<color=blue><b><일반공격 적중시 일정 확률 활성화></b></color>\n 활성화상태에서 스킬 사용시\n<color=red>{arrowAttack.Instance.buffMaxTime}초간  공격속도 2배, 공격력 +1</color> 증가";
                 break;
 
         }

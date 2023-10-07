@@ -28,6 +28,7 @@ public class GameUI : MonoBehaviour
     Image sideAttackBar;
     Transform RF, RB, MF, MB;
     Transform specialIconR, specialIconM;
+     Image colorR, colorM;
 
     private void Awake()
     {
@@ -64,6 +65,9 @@ public class GameUI : MonoBehaviour
         specialIconM = transform.Find("ActionBar/SpecialSkill/Circle/Front/M").GetComponent<Transform>();
 
         sideAttackBar = transform.Find("ActionBar/AttackIcon/Circle/SideBar").GetComponent<Image>();
+        colorR = transform.Find("ActionBar/SpecialSkill/Circle/SideBar").GetComponent<Image>();
+        colorM = transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
+
     }
 
 
@@ -107,20 +111,24 @@ public class GameUI : MonoBehaviour
             {
                 RF.gameObject.SetActive(true);
                 RB.gameObject.SetActive(true);
+                colorR.gameObject.SetActive(true);
                 specialIconR.gameObject.SetActive(true);
 
                 MF.gameObject.SetActive(false);
                 MB.gameObject.SetActive(false);
+                colorM.gameObject.SetActive(false);
                 specialIconM.gameObject.SetActive(false);
             }
             else if (GameManager.Instance.meleeMode && !MF.gameObject.activeSelf)
             {
                 RF.gameObject.SetActive(false);
                 RB.gameObject.SetActive(false);
+                colorR.gameObject.SetActive(false);
                 specialIconR.gameObject.SetActive(false);
 
                 MF.gameObject.SetActive(true);
                 MB.gameObject.SetActive(true);
+                
                 specialIconM.gameObject.SetActive(true);
             }
         }

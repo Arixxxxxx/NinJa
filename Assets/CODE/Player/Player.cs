@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -133,6 +132,11 @@ public class Player : MonoBehaviour
 
     // 오디오
     private AudioSource Audio; // 발소리
+    //근접모드 R스킬 확률
+    [SerializeField] float buffOnActivePercent;
+    float buffDice;
+    public bool meleeBuffOn;
+
     private void Awake()
     {
         if(instance == null) 
@@ -420,6 +424,13 @@ public class Player : MonoBehaviour
                 textani.SetTrigger("Ok");
                 break;
 
+            case "MP":
+                text.gameObject.SetActive(true);
+                text.color = Color.blue;
+                text.text = "MP가 부족합니다...";
+                textani.SetTrigger("Ok");
+                break;
+
             case "Melee":
                 text.gameObject.SetActive(true);
                 text.color = Color.white;
@@ -488,15 +499,14 @@ public class Player : MonoBehaviour
                     }
                     if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind)
                     {
-                        //if (!meleeAtkAudio.isPlaying)
+
+                        //buffDice = Random.Range(0f, 100f);  -> 타격시로 이사
+                        //if(buffDice < buffOnActivePercent)
                         //{
-                        //    if (meleeAtkAudio.clip != SoundManager.instance.meleeAttack)
-                        //    {
-                        //        meleeAtkAudio.clip = SoundManager.instance.meleeAttack;
-                        //    }
-                        //    meleeAtkAudio.Play();
+                        //    meleeBuffOn = true;
                         //}
-                        
+
+                        GameManager.Instance.Player_CurMP += SkillManager.instance.MeleeMpUp;
                         isAttacking = true;
                         SwordAni.SetTrigger("R");
                         Timer = 0;

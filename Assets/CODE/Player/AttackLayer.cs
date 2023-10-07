@@ -38,6 +38,7 @@ public class AttackLayer : MonoBehaviour
 
     public void AttackEnd()
     {
+       
         GameManager.Instance.player.isAttacking = false;
     }
   

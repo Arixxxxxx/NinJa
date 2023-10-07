@@ -13,12 +13,19 @@ public class SkillManager : MonoBehaviour
 
     public GameObject ShockWave;
     public GameObject dragonPier;
+    public GameObject RkeyOra;
     public Queue<GameObject> ShockQUE = new Queue<GameObject>();
     public Queue<GameObject> drgonPierQUE = new Queue<GameObject>();
 
-    [Header("# 평타 데미지")]
+    [Header("# 평타 데미지 && 마나회복량")]
     public float MeleeDmg;
     public float RangeDmg;
+    public float MeleeMpUp;
+    public float ArrowMpUp;
+
+    [Header("# 궁극기 관련")]
+    public float MeleePer;
+    public float RangePer;
 
     [Header("# 근접스킬 데미지")]
     public float ShockWaveDmg;
@@ -44,6 +51,17 @@ public class SkillManager : MonoBehaviour
     public float boomShotCoolTime;
     public float throwTrapCoolTime;
 
+    [Header("# 마나소모량")]
+    [SerializeField] private float ShockWaveMp;
+    [SerializeField] private float whilWindMp;
+    [SerializeField] private float dargonPierMp;
+    [SerializeField] private float warCryMp;
+    [SerializeField] public float electronicMp;
+    [SerializeField] public float tripleShotMp;
+    [SerializeField] public float boomShotMp;
+    [SerializeField] public float throwTrapMp;
+
+
 
     private float skill1Timer;
     private float skill2Timer;
@@ -64,8 +82,9 @@ public class SkillManager : MonoBehaviour
 
 
     public ParticleSystem buffPs;
+    Image speicalBar;
 
-
+    GameManager GM;
     private void Awake()
     {
         originElectronicShotDmg = electronicShotDmg;
@@ -97,7 +116,7 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-       
+
         buffPs = Player.instance.transform.Find("Paticle/AtkBuff").GetComponent<ParticleSystem>();
         Ani = GameManager.Instance.gameUI.Find("ActionBar/Melee").GetComponent<Animator>();
 
@@ -116,7 +135,9 @@ public class SkillManager : MonoBehaviour
         Cool2 = GameManager.Instance.gameUI.Find("ActionBar/Melee/2/CoolTime").GetComponent<TMP_Text>();
         Cool3 = GameManager.Instance.gameUI.Find("ActionBar/Melee/3/CoolTime").GetComponent<TMP_Text>();
         Cool4 = GameManager.Instance.gameUI.Find("ActionBar/Melee/4/CoolTime").GetComponent<TMP_Text>();
+        speicalBar = GameManager.Instance.gameUI.transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
 
+        GM = GameManager.Instance;
     }
 
     private void Update()
@@ -127,8 +148,15 @@ public class SkillManager : MonoBehaviour
             MeleeSkill2();
             MeleeSkill3();
             MeleeSkill4();
+            SpecialSkill();
         }
         MeleeUnitFrame();
+
+        if(GM.Player_CurMP<= 0 && buffOnOff)
+        {
+            buff();
+            Debug.Log("ㅁ");
+        }
     }
 
     public bool isSkill1Ok;
@@ -248,10 +276,13 @@ public class SkillManager : MonoBehaviour
     {
         if (GameManager.Instance.isGetMeleeItem)
         {
-            if (GameManager.Instance.meleeMode && !Player.instance.isSkillStartOk && isSkill1Ok)
+            if (GameManager.Instance.meleeMode && !Player.instance.isSkillStartOk && isSkill1Ok && !Player.instance.isWhilWind)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+
+                if (Input.GetKeyDown(KeyCode.Alpha1) && ShockWaveMp < GameManager.Instance.Player_CurMP)
                 {
+                    GameManager.Instance.Player_CurMP -= ShockWaveMp;
+
                     arrowAttack.Instance.AttackCameraShake();
                     skill1Timer = 0;
                     ani1 = false;
@@ -270,11 +301,15 @@ public class SkillManager : MonoBehaviour
                 }
             }
 
-            else if (GameManager.Instance.meleeMode && Input.GetKeyDown(KeyCode.Alpha1) && !isSkill1Ok)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && ShockWaveMp > GameManager.Instance.Player_CurMP)
+            {
+                Player.instance.F_CharText("MP");
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Alpha1) && ShockWaveMp < GameManager.Instance.Player_CurMP && !isSkill1Ok)
             {
                 Player.instance.F_CharText("CoolTime");
             }
-
         }
     }
 
@@ -289,13 +324,16 @@ public class SkillManager : MonoBehaviour
 
     AudioSource whilAudio;
     bool once;
+    bool whilWindMana;
+
     private void MeleeSkill2()
     {
         if (GameManager.Instance.isGetMeleeItem)
         {
             if (GameManager.Instance.meleeMode)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok)
+
+                if (Input.GetKeyDown(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok && whilWindMp + 4 < GameManager.Instance.Player_CurMP)
                 {
                     if (!once)
                     {
@@ -316,26 +354,40 @@ public class SkillManager : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && !isSkill2Ok)
                 {
                     Player.instance.F_CharText("CoolTime");
+
                 }
 
-            }
-
-            if (GameManager.Instance.meleeMode && Input.GetKey(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok)
-            {
-               
-                Player.instance.isWhilWind = true;
-                Player.instance.sheldSR.enabled = false;
-                Player.instance.SwordSr.enabled = false;
-                if (!whilAudio.isPlaying)
+                else if (Input.GetKeyDown(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok && 5 > GameManager.Instance.Player_CurMP)
                 {
-                    whilAudio.Play();
+                    Player.instance.F_CharText("MP");
+
                 }
-            }
-            if (GameManager.Instance.meleeMode)
-            {
-                if (Input.GetKeyUp(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok)
+
+
+
+                if (Input.GetKey(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok && whilWindMp < GameManager.Instance.Player_CurMP)
                 {
 
+                    Player.instance.isWhilWind = true;
+                    Player.instance.sheldSR.enabled = false;
+                    Player.instance.SwordSr.enabled = false;
+                    if (!whilAudio.isPlaying)
+                    {
+                        whilAudio.Play();
+                    }
+                    if (!whilWindMana)
+                    {
+                        whilWindMana = true;
+                        StartCoroutine(WhilWindManaMinus());
+                    }
+
+                }
+
+
+                if (Input.GetKeyUp(KeyCode.Alpha2) && !Player.instance.isSkillStartOk && isSkill2Ok && Player.instance.isWhilWind)
+                {
+                    StopCoroutine(WhilWindManaMinus());
+                    whilWindMana = false;
                     skill2Timer = 0;
                     ani2 = false;
                     once = false;
@@ -348,11 +400,42 @@ public class SkillManager : MonoBehaviour
                     Player.instance.transform.Find("WhilWInd").gameObject.SetActive(false);
                     Player.instance.transform.Find("Skill").GetComponent<BoxCollider2D>().enabled = false;
                 }
-
             }
         }
     }
+    void StopSkill()
+    {
+        whilWindMana = false;
+        skill2Timer = 0;
+        ani2 = false;
+        once = false;
+        whilAudio.Stop();
+        Player.instance.isWhilWind = false;
+        Player.instance.sheldSR.enabled = true;
+        Player.instance.SwordSr.enabled = true;
+        //Player.instance.gameObject.layer = 6;
+        Player.instance.Ani.SetBool("WhilWind", false);
+        Player.instance.transform.Find("WhilWInd").gameObject.SetActive(false);
+        Player.instance.transform.Find("Skill").GetComponent<BoxCollider2D>().enabled = false;
+    }
+    IEnumerator WhilWindManaMinus()
+    {
+        while (GameManager.Instance.Player_CurMP > 0 && Input.GetKey(KeyCode.Alpha2))
+        {
+            GameManager.Instance.Player_CurMP -= whilWindMp;
 
+            if (GameManager.Instance.Player_CurMP <= 0)
+            {
+                StopSkill();
+                Player.instance.F_CharText("MP");
+                break;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+    }
 
 
 
@@ -361,10 +444,11 @@ public class SkillManager : MonoBehaviour
     {
         if (GameManager.Instance.isGetMeleeItem)
         {
-            if (GameManager.Instance.meleeMode)
+            if (GameManager.Instance.meleeMode && !Player.instance.isWhilWind)
             {
-                if (Input.GetKeyDown(KeyCode.Alpha3) && !Player.instance.isSkillStartOk && isSkill3Ok)
+                if (Input.GetKeyDown(KeyCode.Alpha3) && !Player.instance.isSkillStartOk && isSkill3Ok && dargonPierMp < GM.Player_CurMP)
                 {
+                    GM.Player_CurMP -= dargonPierMp;
                     arrowAttack.Instance.AttackCameraShake();
                     ani3 = false;
                     skill3Timer = 0;
@@ -375,9 +459,13 @@ public class SkillManager : MonoBehaviour
 
                     StartCoroutine(PlayDragonPier(obj));
                 }
-                else if (Input.GetKeyDown(KeyCode.Alpha3) && !Player.instance.isSkillStartOk && !isSkill3Ok)
+                else if (Input.GetKeyDown(KeyCode.Alpha3) && !Player.instance.isSkillStartOk && !isSkill3Ok && dargonPierMp < GM.Player_CurMP)
                 {
                     Player.instance.F_CharText("CoolTime");
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3) && !Player.instance.isSkillStartOk && isSkill3Ok && dargonPierMp > GM.Player_CurMP)
+                {
+                    Player.instance.F_CharText("MP");
                 }
             }
 
@@ -414,12 +502,77 @@ public class SkillManager : MonoBehaviour
                 {
                     Player.instance.F_CharText("CoolTime");
                 }
+            }
+        }
+    }
 
+    IEnumerator WarCryManaMinus()
+    {
+        while (GameManager.Instance.Player_CurMP > 0 && buffOnOff)
+        {
+            GameManager.Instance.Player_CurMP -= warCryMp;
+
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+    }
+
+
+    bool once1;
+
+
+    private void SpecialSkill()
+    {
+        if (GameManager.Instance.isGetMeleeItem)
+        {
+            if (GameManager.Instance.rangeMode || !GameManager.Instance.meleeMode) // 태세가 변경되었을때
+            {
+                Player.instance.meleeBuffOn = false;
+            }
+
+            if (Player.instance.meleeBuffOn)
+            {
+                if (!speicalBar.gameObject.activeSelf)
+                {
+                    speicalBar.gameObject.SetActive(true);
+                }
+
+                if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.meleeMode)
+                {
+                    SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.8f);
+                    Instantiate(RkeyOra,GameManager.Instance.playerTR.position, Quaternion.identity,Player.instance.transform);
+                    arrowAttack.Instance.Rkey.SetBool("Active", false);
+
+
+                    if (!once1)
+                    {
+                        skill1Timer = ShockWaveCoolTime;
+                        skill2Timer = whilWindCoolTime;
+                        skill3Timer = dargonPieCoolTimer;
+                        skill4Timer = warCryCoolTimer;
+                        //스킬 쿨 초기화 
+                        // 분노추가
+                        GameManager.Instance.Player_CurMP = GameManager.Instance.Player_MaxMP;
+                    }
+                }
+
+                if (Input.GetKeyUp(KeyCode.R) && GameManager.Instance.meleeMode)
+                {
+                    once1 = false;
+                    speicalBar.gameObject.SetActive(false);
+                    Player.instance.meleeBuffOn = false;
+                }
 
             }
 
         }
+
+
+
     }
+
+
 
     float o1, o2, o3, o4, o5, o6, o7, o8;
     bool buffOnOff;
@@ -430,7 +583,7 @@ public class SkillManager : MonoBehaviour
         switch (buffOnOff)
         {
             case true:
-               
+                StartCoroutine(WarCryManaMinus());
                 buffPs.gameObject.SetActive(true);
                 buffPs.Play();
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.7f);
@@ -463,6 +616,7 @@ public class SkillManager : MonoBehaviour
                 break;
 
             case false:
+                StopCoroutine(WarCryManaMinus());
                 ani4 = false;
                 skill4Timer = 0;
                 buffPs.gameObject.SetActive(false);

@@ -10,7 +10,7 @@ public class ActionBarInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public enum SkillType
     {
-        waveShock, whilWind, dragonPier, warCry, powerShot, tripleShot, boomShot, trap
+        waveShock, whilWind, dragonPier, warCry, powerShot, tripleShot, boomShot, trap, MelleR, RangeR
     }
     public SkillType type;
     

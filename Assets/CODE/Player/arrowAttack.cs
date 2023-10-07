@@ -50,7 +50,10 @@ public class arrowAttack : MonoBehaviour
     Image SpecialBuffBar;
     Image SpecialSide;
     Image skillCase;
-    Animator Rkey;
+    public Animator Rkey;
+
+    GameManager GM;
+    SkillManager SM;
 
     private void Awake()
     {
@@ -128,13 +131,16 @@ public class arrowAttack : MonoBehaviour
         skill4Timer = SkillManager.instance.throwTrapCoolTime;
 
         //스페셜 스킬
-        SpecialBuffBar = GameManager.Instance.gameUI.Find("ActionBar/SpecialSkill/Circle/SideBar/Color").GetComponent<Image>();
+        SpecialBuffBar = GameManager.Instance.gameUI.Find("ActionBar/SpecialSkill/Circle/SideBar/ColorR").GetComponent<Image>();
         SpecialBuffBar.gameObject.SetActive(false);
         SpecialSide = SpecialBuffBar.transform.parent.GetComponent<Image>();
         skillCase = GameManager.Instance.gameUI.Find("ActionBar/SpecialSkill/Circle/Front/R/Case").GetComponent<Image>();
         originAttackSpeed = normalShootSpeed;
 
         Rkey = GameManager.Instance.gameUI.Find("ActionBar/SpecialSkill/RKey").GetComponent<Animator>();
+
+        GM = GameManager.Instance;
+        SM = SkillManager.instance;
     }
 
     void Update()
@@ -316,18 +322,19 @@ public class arrowAttack : MonoBehaviour
             {
                 if (Input.GetMouseButton(0) && !GameManager.Instance.meleeMode && GameManager.Instance.rangeMode && GameManager.Instance.player.RealBow.gameObject.activeSelf)
                 {
-                    //특수기술 확률
-                    dice = Random.Range(0, 100f);
-                    if(dice < buffPer && !BuffOn)
-                    {
-                        BuffOn = true;
-                        Rkey.SetBool("Active", true);
-                        buffCounter = buffMaxTime;
-                        SpecialSide.fillAmount = buffCounter / buffMaxTime;
-                        skillCase.fillAmount = 1 - (buffCounter / buffMaxTime);
-                        SpecialBuffBar.gameObject.SetActive(true);
-                    }
+                    //특수기술 확률  -> 타격시로 이사
+                    //dice = Random.Range(0, 100f);
+                    //if(dice < buffPer && !BuffOn)
+                    //{
+                    //    BuffOn = true;
+                    //    Rkey.SetBool("Active", true);
+                    //    buffCounter = buffMaxTime;
+                    //    SpecialSide.fillAmount = buffCounter / buffMaxTime;
+                    //    skillCase.fillAmount = 1 - (buffCounter / buffMaxTime);
+                    //    SpecialBuffBar.gameObject.SetActive(true);
+                    //}
 
+                    GM.Player_CurMP += SM.ArrowMpUp;
                     GameObject obj = F_GetArrow(0);
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeAttak, 1f);
 
@@ -347,16 +354,31 @@ public class arrowAttack : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    /// 일정확률 궁극기 버튼활성화 함수
+    /// </summary>
+    public void F_SpecialBuffActive()
+    {
+        BuffOn = true;
+        Rkey.SetBool("Active", true);
+        buffCounter = buffMaxTime;
+        SpecialSide.fillAmount = buffCounter / buffMaxTime;
+        skillCase.fillAmount = 1 - (buffCounter / buffMaxTime);
+        SpecialBuffBar.gameObject.SetActive(true);
+    }
     float powerShotPower;
     public float powerMaxPower;
     bool Psonce;
+    bool isCharging;
+
     private void PowerShot()
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok)
+            if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && SM.electronicMp < GM.Player_CurMP )
             {
+                isCharging = true;
+
                 if (!Psonce)
                 {
                     Psonce = true;
@@ -382,14 +404,21 @@ public class arrowAttack : MonoBehaviour
                 Player.instance.F_CharText("CoolTime");
             }
 
+            else if(Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && SM.electronicMp > GM.Player_CurMP)
+            {
+                Player.instance.F_CharText("MP");
+            }
+
             if (Input.GetKeyDown(KeyCode.Alpha1) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
             {
                 Player.instance.F_CharText("ActiveBow");
             }
 
-            if (Input.GetKeyUp(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok)
+            if (Input.GetKeyUp(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && isCharging)
             {
+                isCharging = false;
                 StartCoroutine(Shake());
+                GM.Player_CurMP -= SM.electronicMp;
                 Psonce = false;
                 Player.instance.powerShotPs.Stop();
                 Player.instance.powerShotPs.gameObject.SetActive(false);
@@ -459,29 +488,40 @@ public class arrowAttack : MonoBehaviour
     public float shootPower;
     public float MaxPower;
     bool soundOk;
-
+    bool isCharging2;
     private void TripleArrow()
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill2Ok)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill2Ok && SM.tripleShotMp < GM.Player_CurMP)
             {
+                
+                GM.Player_CurMP -= SM.tripleShotMp;
                 skill2Timer = 0;
                 ani2 = false;
                 StartCoroutine(ArrowSpawn());
-                GameManager.Instance.Player_CurMP -= 5;
+                
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill2Ok)
             {
                 Player.instance.F_CharText("CoolTime");
             }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill2Ok && SM.tripleShotMp > GM.Player_CurMP)
+            {
+                Player.instance.F_CharText("MP");
+            }
+
+
 
             if (Input.GetKeyDown(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill3Ok)
             {
                 Player.instance.F_CharText("CoolTime");
             }
-            if (Input.GetKey(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok)
+
+
+            if (Input.GetKey(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok && SM.boomShotMp < GM.Player_CurMP)
             {
+                isCharging2 = true;
                 F_PowerGaugeBar(shootPower, MaxPower);
                 shootPower += Time.deltaTime * 7;
                 if (!soundOk)
@@ -497,8 +537,10 @@ public class arrowAttack : MonoBehaviour
             }
 
 
-            if (Input.GetKeyUp(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok)
+            if (Input.GetKeyUp(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok && isCharging2)
             {
+                isCharging2 = false;
+                GM.Player_CurMP -= SM.boomShotMp;
                 ani3 = false;
                 skill3Timer = 0;
                 soundOk = false;
@@ -512,6 +554,11 @@ public class arrowAttack : MonoBehaviour
                 obj.transform.rotation = m_Arrow.rotation;
                 obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * shootPower;
                 shootPower = 0;
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill3Ok && SM.boomShotMp > GM.Player_CurMP)
+            {
+                Player.instance.F_CharText("MP");
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
             {
@@ -538,8 +585,9 @@ public class arrowAttack : MonoBehaviour
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha4) && isSkill4Ok && GameManager.Instance.player.RealBow.gameObject.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Alpha4) && isSkill4Ok && GameManager.Instance.player.RealBow.gameObject.activeSelf && SM.tripleShotMp < GM.Player_CurMP)
             {
+                GM.Player_CurMP -= SM.tripleShotMp;
                 ani4 = false;
                 skill4Timer = 0;
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.trapThrow, 1f);
@@ -553,6 +601,10 @@ public class arrowAttack : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha4) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill4Ok)
             {
                 Player.instance.F_CharText("CoolTime");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill4Ok && SM.tripleShotMp > GM.Player_CurMP)
+            {
+                Player.instance.F_CharText("MP");
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) && !GameManager.Instance.player.RealBow.gameObject.activeSelf)
             {
@@ -573,54 +625,55 @@ public class arrowAttack : MonoBehaviour
         obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 18f;
     }
 
-    bool BuffOn;
-    [SerializeField] float buffMaxTime;
+   public bool BuffOn;
+    [SerializeField] public float buffMaxTime;
     [SerializeField] float buffCounter;
     bool once1;
     private void SpecialSkill()
     {
         if (GameManager.Instance.isGetRangeItem)
         {
-            if (!GameManager.Instance.rangeMode || GameManager.Instance.meleeMode)
+            if (BuffOn)
             {
-                SpecialSide.fillAmount = 0;
-                skillCase.fillAmount = 1;
-                Rkey.SetBool("Active", false);
-                normalShootSpeed = originAttackSpeed;
-                buffCounter = 0;
-                SkillManager.instance.RangeDmg -= 1;
-                SpecialBuffBar.gameObject.SetActive(false);
-                Player.instance.RangeBuff.Stop();
-                Player.instance.RangeBuff.gameObject.SetActive(false);
-                BuffOn = false;
-                once1 = false;
-            }
-        }
-      
-
-        if (BuffOn)
-        {
-            if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.rangeMode)
-            {
-                SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.8f);
-                Player.instance.RangeBuff.gameObject.SetActive(true);
-                Player.instance.RangeBuff.Play();
-                Rkey.SetBool("Active", false);
-                buffCounter = buffMaxTime;
-             
-                if (!once1)
+                if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.rangeMode)
                 {
-                    SkillManager.instance.RangeDmg += 1;
-                    normalShootSpeed = normalShootSpeed / 2;
+                    SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.8f);
+                    Player.instance.RangeBuff.gameObject.SetActive(true);
+                    Player.instance.RangeBuff.Play();
+                    Rkey.SetBool("Active", false);
+                    buffCounter = buffMaxTime;
+
+                    if (!once1)
+                    {
+                        SkillManager.instance.RangeDmg += 1;
+                        normalShootSpeed = normalShootSpeed / 2;
+                    }
+
+                    StartCoroutine(Timer());
+
                 }
 
-                
-                StartCoroutine(Timer());
-                
-              
+                if (BuffOn && GameManager.Instance.meleeMode )
+                {
+                    SpecialSide.fillAmount = 0;
+                    skillCase.fillAmount = 1;
+                    Rkey.SetBool("Active", false);
+                    normalShootSpeed = originAttackSpeed;
+                    buffCounter = 0;
+                    SkillManager.instance.RangeDmg -= 1;
+                    Debug.Log("진입2");
+                    SpecialBuffBar.gameObject.SetActive(false);
+                    Player.instance.RangeBuff.Stop();
+                    Player.instance.RangeBuff.gameObject.SetActive(false);
+                    BuffOn = false;
+                    once1 = false;
+                }
             }
             
         }
+      
+
+        
     }
 
     IEnumerator Timer()
@@ -639,6 +692,7 @@ public class arrowAttack : MonoBehaviour
         normalShootSpeed = originAttackSpeed;
         buffCounter = 0;
         SkillManager.instance.RangeDmg -= 1;
+        Debug.Log("진입");
         SpecialBuffBar.gameObject.SetActive(false);
         Player.instance.RangeBuff.Stop();
         Player.instance.RangeBuff.gameObject.SetActive(false);
