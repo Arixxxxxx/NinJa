@@ -21,7 +21,15 @@ public class OpeningScene : MonoBehaviour
     {
      
         GameManager.Instance.gameUI.gameObject.SetActive(false);
-        openingText.F_SetMsg("Chapter 1.  서막의 시작");
+        if(GameManager.Instance.SceneName == "Chapter1")
+        {
+            openingText.F_SetMsg("Chapter 1.  서막의 시작");
+        }
+        else if(GameManager.Instance.SceneName == "Chapter2")
+        {
+            openingText.F_SetMsg("Chapter 2.  Battle Royal");
+        }
+      
         GameManager.Instance.MovingStop = true;
         StartCoroutine(ActionShow0());
     }
@@ -41,7 +49,12 @@ public class OpeningScene : MonoBehaviour
         
 
         GameManager.Instance.gameUI.gameObject.SetActive(true);
-        GameManager.Instance.guideM.startTutorial = true;
+
+        if (GameManager.Instance.SceneName == "Chapter1")
+        {
+            GameManager.Instance.guideM.startTutorial = true;
+        }
+      
         gameObject.SetActive(false);
     }
 }

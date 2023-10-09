@@ -148,6 +148,7 @@ public class RangeZone : MonoBehaviour
         gameStart = true;
         GameManager.Instance.legStop = true;
         yield return new WaitForSecondsRealtime(1);
+        GameManager.Instance.player.Char_Vec.x = 0;
         GameManager.Instance.player.Rb.velocity = Vector3.zero;
         GameManager.Instance.player.Ani.SetBool("Run", false);
         EventUi.gameObject.SetActive(true);

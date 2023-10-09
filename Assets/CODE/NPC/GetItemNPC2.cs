@@ -45,8 +45,11 @@ public class GetItemNPC2 : MonoBehaviour
 
     private void Update()
     {
-                    
-                RangeItem();
+        if (GameManager.Instance.SceneName == "Chapter1")
+        {
+            RangeItem();
+        }
+            
                 
     }
     

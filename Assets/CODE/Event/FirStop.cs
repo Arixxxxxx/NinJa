@@ -33,7 +33,7 @@ public class FireStop : MonoBehaviour
             once = true;
             SoundManager.instance.AudioChanger(SoundManager.instance.CaveThema);
             GameManager.Instance.FireStop = true;
-            GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("요정");
+            GameManager.Instance.gameUI.GetComponent<GameUI>().F_SetMapMoveBar("요정");
         }
     }
    

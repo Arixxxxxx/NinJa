@@ -34,30 +34,30 @@ public class MapMoveCheker : MonoBehaviour
                 switch (Right)
                 {
                     case MapType.초원:
-                        gameUI.SetMapMoveBar("초원");
+                        gameUI.F_SetMapMoveBar("초원");
                         sound.AudioChanger(sound.mainThema);
                         break;
                     case MapType.점프:
-                        gameUI.SetMapMoveBar("점프");
+                        gameUI.F_SetMapMoveBar("점프");
                         break;
                     case MapType.플랫폼:
-                        gameUI.SetMapMoveBar("플랫폼");
+                        gameUI.F_SetMapMoveBar("플랫폼");
                         sound.AudioChanger(sound.mainThema);
                         break;
                     case MapType.정글동굴:
-                        gameUI.SetMapMoveBar("정글동굴");
+                        gameUI.F_SetMapMoveBar("정글동굴");
                         sound.AudioChanger(sound.jungleCaveThema);
                         break;
                     case MapType.마을:
-                        gameUI.SetMapMoveBar("마을");
+                        gameUI.F_SetMapMoveBar("마을");
                         sound.AudioChanger(sound.cityThema);
                         break;
                     case MapType.던전:
-                        gameUI.SetMapMoveBar("던전1");
+                        gameUI.F_SetMapMoveBar("던전1");
                         sound.AudioChanger(sound.Deongen);
                         break;
                     case MapType.요정:
-                        gameUI.SetMapMoveBar("요정");
+                        gameUI.F_SetMapMoveBar("요정");
                         break;
 
                 }
@@ -67,36 +67,36 @@ public class MapMoveCheker : MonoBehaviour
                 switch (left)
                 {
                     case MapType.초원:
-                        gameUI.SetMapMoveBar("초원");
+                        gameUI.F_SetMapMoveBar("초원");
                         sound.AudioChanger(sound.mainThema);
                         break;
 
                     case MapType.점프:
-                        gameUI.SetMapMoveBar("점프");
+                        gameUI.F_SetMapMoveBar("점프");
                         break;
 
                     case MapType.플랫폼:
-                       gameUI.SetMapMoveBar("플랫폼");
+                       gameUI.F_SetMapMoveBar("플랫폼");
                        sound.AudioChanger(sound.mainThema);
                        break;
 
                     case MapType.정글동굴:
-                        gameUI.SetMapMoveBar("정글동굴");
+                        gameUI.F_SetMapMoveBar("정글동굴");
                         sound.AudioChanger(sound.jungleCaveThema);
                         break;
 
                     case MapType.마을:
-                        gameUI.SetMapMoveBar("마을");
+                        gameUI.F_SetMapMoveBar("마을");
                         sound.AudioChanger(sound.cityThema);
                         break;
 
                     case MapType.던전:
-                        gameUI.SetMapMoveBar("던전1");
+                        gameUI.F_SetMapMoveBar("던전1");
                         sound.AudioChanger(sound.Deongen);
                         break;
 
                     case MapType.요정:
-                        gameUI.SetMapMoveBar("요정");
+                        gameUI.F_SetMapMoveBar("요정");
                         break;
 
                 };

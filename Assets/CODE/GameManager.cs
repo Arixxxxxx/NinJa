@@ -154,10 +154,10 @@ public class GameManager : MonoBehaviour
 
     //대화중일때 NPC 움직임 멈춤
     [HideInInspector] public bool curPlayerTalkingYouStop;
-    string Scene = "";
+    public string SceneName = "";
     private void Awake()
     {
-        Scene = SceneManager.GetActiveScene().name;
+        SceneName = SceneManager.GetActiveScene().name;
         if (Instance == null)
         {
             Instance = this;
@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
         GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
         guideM = GameGuideTR.GetComponent<GuideManager>();
 
-        if (Scene == "Chapter1")
+        if (SceneName == "Chapter1")
         {
             //리리npc 
             npc = GameObject.Find("NPC/리리").GetComponent<NPC>();
@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour
     {
         NpcSprite.gameObject.SetActive(false);
 
-        if (Scene == "Chapter1")
+        if (SceneName == "Chapter1")
         {
             if (rangeZone.gameObject.activeSelf)
             {
@@ -685,5 +685,23 @@ public class GameManager : MonoBehaviour
             questMark.gameObject.SetActive(true);
             Qeust1Start = false;
         }
+    }
+
+    public void F_MoveStop(int _value)
+    {
+        switch (_value)
+        {
+            case 0:
+                MovingStop = true;
+                player.Char_Vec.x = 0;
+                player.Rb.velocity = Vector2.zero;
+                player.Ani.SetBool("Run", false);
+                break;
+
+                case 1:
+                MovingStop = false;
+                break;
+        }
+    
     }
 }

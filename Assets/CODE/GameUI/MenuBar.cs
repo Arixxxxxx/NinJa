@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -38,7 +39,7 @@ public class MenuBar : MonoBehaviour
     Button getItem2;
     public TMP_InputField passwardWindow;
     Button closeBtn;
-
+    Transform gmModeMenu;
     private void Awake()
     {
 
@@ -70,10 +71,12 @@ public class MenuBar : MonoBehaviour
 
         //GM모드관련
         gmBtn = transform.Find("GmMode").GetComponent<Button>();
-        gmMenu = gmBtn.transform.GetChild(0).GetComponent<Transform>();
+        gmModeMenu = transform.Find("GmModeMenu").GetComponent<Transform>();
+
+        gmMenu = gmModeMenu.transform.GetChild(0).GetComponent<Transform>();
         getItem1 = gmMenu.transform.Find("GetItemMelee").GetComponent<Button>();
         getItem2 = gmMenu.transform.Find("GetItemRange").GetComponent<Button>();
-        passwardWindow = gmBtn.transform.GetChild(1).GetComponent<TMP_InputField>();
+        passwardWindow = gmModeMenu.transform.GetChild(1).GetComponent<TMP_InputField>();
         closeBtn = passwardWindow.transform.Find("X").GetComponent<Button>();
         moveB = gmMenu.transform.Find("MoveB").GetComponent<Button>();
 

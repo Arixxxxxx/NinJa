@@ -159,7 +159,7 @@ public class GateWayCollider : MonoBehaviour
         //yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
         GetItemNPC.Instance.Audio.Stop();
-        GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("마을");
+        GameManager.Instance.gameUI.GetComponent<GameUI>().F_SetMapMoveBar("마을");
         yield return new WaitForSecondsRealtime(2f);
         //GateOff = true;
         GetItemNPC.Instance.aniGate.SetBool("Hide",true);
@@ -213,7 +213,7 @@ public class GateWayCollider : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.2f);
         GameManager.Instance.CameraShakeSwitch(1);
         GetItemNPC2.Instance.Audio.Stop();
-        GameManager.Instance.gameUI.GetComponent<GameUI>().SetMapMoveBar("마을");
+        GameManager.Instance.gameUI.GetComponent<GameUI>().F_SetMapMoveBar("마을");
         yield return new WaitForSecondsRealtime(2f);
         GetItemNPC2.Instance.aniGate.SetBool("Hide", true);
         //GateOff = true;

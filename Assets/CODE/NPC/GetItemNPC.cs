@@ -36,12 +36,16 @@ public class GetItemNPC : MonoBehaviour
         canvas = transform.Find("Canvas").GetComponent<Transform>(); //장비획득 표시창
         aniGate = transform.Find("GateWay/Gate").GetComponent<Animator>();
         partiGate = transform.Find("GateWay/Parti").GetComponent<ParticleSystem>();
-
+        
     }
 
     private void Update()
     {
-        MeleeItem();
+       
+      
+            MeleeItem();
+        
+       
     }
 
     //테스트용
@@ -57,16 +61,21 @@ public class GetItemNPC : MonoBehaviour
                 //먹었으니 템주고 플레이어 전투기능 켜줌설명서 보여줌
                 if (!once)
                 {
-                    once = true;
-                    guideManager.StopCharacter();
-                    itemsSprite.gameObject.SetActive(false);
-                    canvas.gameObject.SetActive(false); // 장비획득표시창 off
+                    if (GameManager.Instance.SceneName == "Chapter1")
+                    {
+                        once = true;
+                        guideManager.StopCharacter();
+                        itemsSprite.gameObject.SetActive(false);
+                        canvas.gameObject.SetActive(false); // 장비획득표시창 off
+                        Player.instance.Ps.gameObject.SetActive(true);
+                        Player.instance.Ps.Play();
+                        StartCoroutine(ShowAni3());
+                    }
+                 
                     StartCoroutine(itemShowMeleeMode());
-                    //GameManager.Instance.player.ora.SetTrigger("Up");
-                    Player.instance.Ps.gameObject.SetActive(true);
-                    Player.instance.Ps.Play();
 
-                    StartCoroutine(ShowAni3());
+
+                    
 
                     //테스트끝나면 삭제해야함
                     //Itemoff = true;

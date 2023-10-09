@@ -8,6 +8,7 @@ using System;
 
 public class GameUI : MonoBehaviour
 {
+    public static GameUI instance;
 
 
 
@@ -32,7 +33,14 @@ public class GameUI : MonoBehaviour
 
     private void Awake()
     {
-
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(instance);
+        }
 
 
         //지역이동 알림바
@@ -80,7 +88,7 @@ public class GameUI : MonoBehaviour
         WeaponeUIActive();
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SetMapMoveBar("초원");
+            F_SetMapMoveBar("초원");
 
         }
     }
@@ -201,7 +209,7 @@ public class GameUI : MonoBehaviour
     /// 맵이동 텍스트바
     /// </summary>
     /// <param name="_Value">초원, 점프, 플랫폼, 정글동글, 마을, 던전1</param>
-    public void SetMapMoveBar(string _Value)
+    public void F_SetMapMoveBar(string _Value)
     {
         CancelInvoke();
         mapMoveBar.fillAmount = 0;
@@ -237,6 +245,10 @@ public class GameUI : MonoBehaviour
 
             case "요정":
                 BoxMSG = "요정나무의 동굴";
+                break;
+
+            case "외곽":
+                BoxMSG = "도성 입구 근처";
                 break;
 
         }

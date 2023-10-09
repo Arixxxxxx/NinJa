@@ -139,6 +139,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+      
+        
+
         if(instance == null) 
         {
             instance = this;
@@ -176,8 +179,8 @@ public class Player : MonoBehaviour
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
         RangeBuff = paticle.transform.Find("RangeBuff").GetComponent<ParticleSystem>();
         ora = transform.Find("Up").GetComponent<Animator>();
-        Ps = transform.Find("Paticle/GetMelee").GetComponent<ParticleSystem>();
-        Ps2 = transform.Find("Paticle/GetRange").GetComponent<ParticleSystem>();
+
+        
         powerShotPs = transform.Find("Paticle/RangeCarge").GetComponent<ParticleSystem>();
         //มกวม
         groundCheker = transform.Find("GroundCheker").GetComponent<Transform>();
@@ -190,6 +193,18 @@ public class Player : MonoBehaviour
     {
         Audio = GetComponent<AudioSource>();
         Audio.clip = SoundManager.instance.playerStep;
+
+        if (GameManager.Instance.SceneName == "Chapter1")
+        {
+            Ps = transform.Find("Paticle/GetMelee").GetComponent<ParticleSystem>();
+            Ps2 = transform.Find("Paticle/GetRange").GetComponent<ParticleSystem>();
+        }
+
+        if (GameManager.Instance.SceneName == "Chapter2")
+        {
+            Ani.SetBool("GetMelee", true);
+        }
+        
     }
 
     void Update()
@@ -689,14 +704,7 @@ public class Player : MonoBehaviour
                             runConter = 0;
 
                         }
-                        //if (!Audio.isPlaying && isGround)
-                        //{
-                        //    Audio.clip = SoundManager.instance.playerStep;
-                        //    Audio.Play();
-
-
-                        //}
-
+               
                     }
                     else
                     {

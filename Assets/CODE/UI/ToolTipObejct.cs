@@ -27,26 +27,28 @@ public class ToolTipObejct : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         toolTipBox.gameObject.SetActive(true);
-        Vector3 Pos = Camera.main.ScreenToWorldPoint(eventData.position);
+        Vector3 Pos = Camera.main.ScreenToViewportPoint(eventData.position);
+        
+
 
         float X = 0;
         float Y = 0;
 
         Vector2 Edge =  new Vector3(tipBox.sizeDelta.x/2, tipBox.sizeDelta.y / 2, 0);
 
-        if (Pos.x < 0)
+        if (Pos.x < 0.5f)
         {
             X = eventData.position.x + Edge.x;
         }
-        else if(Pos.x > 0)
+        else if(Pos.x > 0.5f)
         {
             X = eventData.position.x - Edge.x;
         }
-        if(Pos.y < 0)
+        if(Pos.y < 0.5f)
         {
             Y = eventData.position.y + Edge.y;
         }
-        else if(Pos.y > 0)
+        else if(Pos.y > 0.5f)
         {
             Y = eventData.position.y - Edge.y;
         }
