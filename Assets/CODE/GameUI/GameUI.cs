@@ -100,7 +100,9 @@ public class GameUI : MonoBehaviour
         hour = hour % 12;
         minute = DateTime.Now.Minute;
 
-        timeText.text = $"{ampm} {hour}:{minute}";
+        string si = hour.ToString("00");
+        string bun = minute.ToString("00");
+        timeText.text = $"{ampm} {si}:{bun}";
     }
 
     private void normalAttackIcon()

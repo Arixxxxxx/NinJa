@@ -203,12 +203,13 @@ public class Player : MonoBehaviour
             WallJump();
             SuchTalk();
             SpRecovery();
-            HpRecovery();
+            //HpRecovery(); 다시 만들예정
             MeleeAttack();
             SheldOn();
             F_TextBoxPos();
             AttackModeShow();
             SkillOk();
+           
         }
       
     }
@@ -229,7 +230,8 @@ public class Player : MonoBehaviour
         isSkillStartOk = isDodge || JumpOn || DJumpOn || ShieldOn;
     }
 
-   
+    bool once1;
+
     
     //캐릭터 일시정지기능
     private void MoveStopFuntion()
@@ -705,7 +707,7 @@ public class Player : MonoBehaviour
                    
                 }
                 //캐릭터 방향 스케일
-                if (GameManager.Instance.meleeMode)
+                if (!GameManager.Instance.rangeMode)
                 {
                     if (Rb.velocity.x > 0 && Char_Vec.x > 0 && !KB)
                     {
@@ -807,8 +809,20 @@ public class Player : MonoBehaviour
 
         gameObject.layer = 6;
         isDodge = false;
-        sheldSR.enabled = true;
-        SwordSr.enabled = true;
+        if (GameManager.Instance.meleeMode)
+        {
+            sheldSR.enabled = true;
+            SwordSr.enabled = true;
+        }
+       else if(GameManager.Instance.rangeMode)
+        {
+            if (sheldSR.enabled == true)
+            {
+                sheldSR.enabled = false;
+                SwordSr.enabled = false;
+            }
+           
+        }
         //sheld.gameObject.SetActive(true);
         //weapon1.gameObject.SetActive(true);
     }
@@ -1110,6 +1124,7 @@ public class Player : MonoBehaviour
     }
 
     //기력회복
+    public float secRecerSP = 4;
     private void SpRecovery()
     {
         if (GameManager.Instance.Player_CurSP > GameManager.Instance.Player_MaxSP)
@@ -1119,32 +1134,40 @@ public class Player : MonoBehaviour
 
         else if (GameManager.Instance.Player_CurSP < GameManager.Instance.Player_MaxSP)
         {
-            GameManager.Instance.Player_CurSP += 1 * Time.deltaTime * 4;
+            GameManager.Instance.Player_CurSP += 1 * Time.deltaTime * secRecerSP;
         }
 
     }
 
-    //체력자연회복
-    private void HpRecovery()
-    {
-        if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
-        {
-            GameManager.Instance.Player_CurHP = GameManager.Instance.Player_MaxHP;
-        }
+    ////체력자연회복
+    //private void HpRecovery()
+    //{
+    //    if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
+    //    {
+    //        GameManager.Instance.Player_CurHP = GameManager.Instance.Player_MaxHP;
+    //    }
 
-        else if (GameManager.Instance.Player_CurHP < GameManager.Instance.Player_MaxHP)
-        {
-            GameManager.Instance.Player_CurHP += 1 * Time.deltaTime * 0.05f;
-        }
+    //    else if (GameManager.Instance.Player_CurHP < GameManager.Instance.Player_MaxHP)
+    //    {
+    //        GameManager.Instance.Player_CurHP += 1 * Time.deltaTime * 0.05f;
+    //    }
 
-    }
+    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            foreach(ContactPoint2D contact in  collision.contacts)
+            {
+                
+                if(contact.normal == Vector2.up)
+                {
+                    F_JumpReset();
+                }
+            }
             //SoundManager.instance.F_SoundPlay(SoundManager.instance.ground, 0.5f);
-            F_JumpReset();
+
             
         }
 

@@ -30,7 +30,7 @@ public class BoomArrow : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        BoomDMG = 3;
+    
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -41,7 +41,7 @@ public class BoomArrow : MonoBehaviour
                        
             
             Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt((int)BoomDMG);
+            sc.F_OnHIt(SkillManager.instance.boomShotDmg);
             sc.F_Stun_Enemy(1);
         }
 

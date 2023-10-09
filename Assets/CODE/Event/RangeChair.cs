@@ -18,17 +18,19 @@ public class RangeChair : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            sc.StartEvent(collision);
-            GameManager.Instance.player.Rb.velocity = Vector3.zero;
-            StartCoroutine(Runoff());
-            transform.GetChild(0).gameObject.SetActive(false);
+            foreach(ContactPoint2D a in collision.contacts)
+            {
+                if(a.normal == -Vector2.up)
+                {
+                    sc.StartEvent(collision);
+
+                    transform.GetChild(0).gameObject.SetActive(false);
+                }
+            }
+           
         }
     }
-    IEnumerator Runoff()
-    {
-        yield return new WaitForSecondsRealtime(0.2f);
-        GameManager.Instance.player.Ani.SetBool("Run", false);
-    }
+   
     public void boom()
     {
         transform.gameObject.SetActive(false);

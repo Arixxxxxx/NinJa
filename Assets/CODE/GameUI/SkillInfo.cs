@@ -96,7 +96,7 @@ public class SkillInfo : MonoBehaviour
 
             case ActionBarInfo.SkillType.RangeR:
                 Name = "속사";
-                Info = $"<color=blue><b><일반공격 적중시 일정 확률 활성화></b></color>\n 활성화상태에서 스킬 사용시\n<color=red>{arrowAttack.Instance.buffMaxTime}초간  공격속도 2배, 공격력 +1</color> 증가";
+                Info = $"<color=blue><b><일반공격 적중시 일정 확률 활성화></b></color>\n 활성화상태에서 스킬 사용시\n<color=red>{arrowAttack.Instance.buffMaxTime}초간  공격속도 2배, 공격력 +2</color> 증가";
                 break;
 
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Bullet;
 
 public class PowerShot : MonoBehaviour
 {
@@ -23,8 +24,10 @@ public class PowerShot : MonoBehaviour
             }
 
         }
+
+        
     }
+}
 
    
 
-}

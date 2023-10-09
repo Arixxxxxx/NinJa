@@ -83,6 +83,7 @@ public class SkillManager : MonoBehaviour
 
     public ParticleSystem buffPs;
     Image speicalBar;
+    Image speicalBarEffect;
 
     GameManager GM;
     private void Awake()
@@ -136,6 +137,7 @@ public class SkillManager : MonoBehaviour
         Cool3 = GameManager.Instance.gameUI.Find("ActionBar/Melee/3/CoolTime").GetComponent<TMP_Text>();
         Cool4 = GameManager.Instance.gameUI.Find("ActionBar/Melee/4/CoolTime").GetComponent<TMP_Text>();
         speicalBar = GameManager.Instance.gameUI.transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
+        speicalBarEffect = speicalBar.transform.Find("ColorM").GetComponent<Image>();
 
         GM = GameManager.Instance;
     }
@@ -520,15 +522,17 @@ public class SkillManager : MonoBehaviour
 
 
     bool once1;
-
+    [SerializeField] float spinSpeed;
+    [SerializeField] float z;
 
     private void SpecialSkill()
     {
         if (GameManager.Instance.isGetMeleeItem)
         {
-            if (GameManager.Instance.rangeMode || !GameManager.Instance.meleeMode) // 태세가 변경되었을때
+             if (GameManager.Instance.rangeMode || !GameManager.Instance.meleeMode) // 태세가 변경되었을때
             {
                 Player.instance.meleeBuffOn = false;
+                arrowAttack.Instance.Rkey.SetBool("Active", false);
             }
 
             if (Player.instance.meleeBuffOn)
@@ -536,6 +540,13 @@ public class SkillManager : MonoBehaviour
                 if (!speicalBar.gameObject.activeSelf)
                 {
                     speicalBar.gameObject.SetActive(true);
+                }
+
+                if (speicalBarEffect.gameObject.activeSelf)
+                {
+                    z += Time.deltaTime * spinSpeed;
+                    z = Mathf.Repeat(z, 360);
+                    speicalBarEffect.transform.eulerAngles = new Vector3(0, 0, z);
                 }
 
                 if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.meleeMode)

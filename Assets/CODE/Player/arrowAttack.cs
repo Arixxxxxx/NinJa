@@ -25,6 +25,7 @@ public class arrowAttack : MonoBehaviour
     [SerializeField] Transform m_Arrow;
     [SerializeField] Transform BowPos;
     [SerializeField] Transform ArrowTong;
+    [SerializeField] float PowerShotChargingSpeed;
     private Transform tong;
     Camera maincam;
     Queue<GameObject> ArrowBox = new Queue<GameObject>();
@@ -49,6 +50,7 @@ public class arrowAttack : MonoBehaviour
 
     Image SpecialBuffBar;
     Image SpecialSide;
+
     Image skillCase;
     public Animator Rkey;
 
@@ -523,7 +525,7 @@ public class arrowAttack : MonoBehaviour
             {
                 isCharging2 = true;
                 F_PowerGaugeBar(shootPower, MaxPower);
-                shootPower += Time.deltaTime * 7;
+                shootPower += Time.deltaTime * PowerShotChargingSpeed;
                 if (!soundOk)
                 {
                     soundOk = true;
@@ -629,14 +631,26 @@ public class arrowAttack : MonoBehaviour
     [SerializeField] public float buffMaxTime;
     [SerializeField] float buffCounter;
     bool once1;
+    bool effecting;
+    float z;
+    [SerializeField] float spinSpeed;
+    float OriginDMG;
     private void SpecialSkill()
     {
         if (GameManager.Instance.isGetRangeItem)
         {
             if (BuffOn)
             {
+                if (!effecting)
+                {
+                    z += Time.deltaTime * spinSpeed;
+                    z = Mathf.Repeat(z, 360);
+                    SpecialBuffBar.transform.eulerAngles = new Vector3(0, 0, z);
+                }
                 if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.rangeMode)
                 {
+                    effecting = true;
+
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.8f);
                     Player.instance.RangeBuff.gameObject.SetActive(true);
                     Player.instance.RangeBuff.Play();
@@ -645,7 +659,8 @@ public class arrowAttack : MonoBehaviour
 
                     if (!once1)
                     {
-                        SkillManager.instance.RangeDmg += 1;
+                        OriginDMG = SkillManager.instance.RangeDmg;
+                        SkillManager.instance.RangeDmg = OriginDMG+2;
                         normalShootSpeed = normalShootSpeed / 2;
                     }
 
@@ -660,7 +675,7 @@ public class arrowAttack : MonoBehaviour
                     Rkey.SetBool("Active", false);
                     normalShootSpeed = originAttackSpeed;
                     buffCounter = 0;
-                    SkillManager.instance.RangeDmg -= 1;
+                    SkillManager.instance.RangeDmg = OriginDMG;
                     Debug.Log("진입2");
                     SpecialBuffBar.gameObject.SetActive(false);
                     Player.instance.RangeBuff.Stop();
@@ -691,11 +706,12 @@ public class arrowAttack : MonoBehaviour
         skillCase.fillAmount = 1;
         normalShootSpeed = originAttackSpeed;
         buffCounter = 0;
-        SkillManager.instance.RangeDmg -= 1;
+        SkillManager.instance.RangeDmg = OriginDMG;
         Debug.Log("진입");
         SpecialBuffBar.gameObject.SetActive(false);
         Player.instance.RangeBuff.Stop();
         Player.instance.RangeBuff.gameObject.SetActive(false);
+        effecting = false;
         BuffOn = false;
         once1 = false;
         

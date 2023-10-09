@@ -154,9 +154,10 @@ public class GameManager : MonoBehaviour
 
     //대화중일때 NPC 움직임 멈춤
     [HideInInspector] public bool curPlayerTalkingYouStop;
-
+    string Scene = "";
     private void Awake()
     {
+        Scene = SceneManager.GetActiveScene().name;
         if (Instance == null)
         {
             Instance = this;
@@ -207,15 +208,27 @@ public class GameManager : MonoBehaviour
         GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
         guideM = GameGuideTR.GetComponent<GuideManager>();
 
-        //리리npc 
-        npc = GameObject.Find("NPC/리리").GetComponent<NPC>();
-        ririRB = npc.transform.GetComponent<Rigidbody2D>();
+        if (Scene == "Chapter1")
+        {
+            //리리npc 
+            npc = GameObject.Find("NPC/리리").GetComponent<NPC>();
+            ririRB = npc.transform.GetComponent<Rigidbody2D>();
 
-        //전투교관npc
-        npc2 = GameObject.Find("NPC/전투교관").GetComponent<NPC>();
-        battleNpcRb = npc2.transform.GetComponent<Rigidbody2D>();
-        questMark = npc2.transform.Find("TalkCheak").GetComponent<Transform>();
-        battleNPCiD = npc2.GetComponent<SetNPCId>();
+            //전투교관npc
+            npc2 = GameObject.Find("NPC/전투교관").GetComponent<NPC>();
+            battleNpcRb = npc2.transform.GetComponent<Rigidbody2D>();
+            questMark = npc2.transform.Find("TalkCheak").GetComponent<Transform>();
+            battleNPCiD = npc2.GetComponent<SetNPCId>();
+
+            //텔레포트 포인터용
+            telPoint1 = transform.Find("TelPoint0").GetComponent<Transform>();
+
+            //튜토리얼존
+            tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
+            battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
+            rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
+        }
+      
 
 
         //씬넘길때 사용할 배경
@@ -224,13 +237,7 @@ public class GameManager : MonoBehaviour
         //이벤트용 배경색 조절용
         gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
 
-        //텔레포트 포인터용
-        telPoint1 = transform.Find("TelPoint0").GetComponent<Transform>();
-
-        //튜토리얼존
-        tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
-        battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
-        rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
+     
 
         
     }
@@ -238,10 +245,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         NpcSprite.gameObject.SetActive(false);
-        if (rangeZone.gameObject.activeSelf)
+
+        if (Scene == "Chapter1")
         {
-            rangeZone.gameObject.SetActive(true);   
+            if (rangeZone.gameObject.activeSelf)
+            {
+                rangeZone.gameObject.SetActive(true);
+            }
         }
+           
     }
     private void Update()
     {
@@ -337,7 +349,7 @@ public class GameManager : MonoBehaviour
             if(blackScreen.color.a > 0.95f && !once2)
             {
                 once2=true;
-                SceneManager.LoadScene("Main");
+                SceneManager.LoadScene("Chapter2");
 
             }
         }
@@ -388,6 +400,7 @@ public class GameManager : MonoBehaviour
                         sc.ID += 1;
                         Animator ZomebieBoxs = battlezone.transform.Find("ZombieBox").GetComponent<Animator>();
                         ZomebieBoxs.gameObject.SetActive(false);
+                        npc2.transform.Find("Byuk").gameObject.SetActive(false);
                         _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
                        
                         _obj.gameObject.layer = 12;

@@ -84,23 +84,20 @@ public class Bullet : MonoBehaviour
             {
                 case ArrowType.normal:
 
-                    //SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
-
-                    //GameManager.Instance.curEagle--;
-                    //GameObject obj = PoolManager.Instance.F_GetObj("Dust");
-                    //obj.transform.position = this.gameObject.transform.position;
-                    //ParticleSystem sc1 = obj.gameObject.transform.GetChild(0).GetComponent<ParticleSystem>();
-                    //sc1.Play();
-                    GameManager.Instance.curEagle--;
+                   
                     normalArrow();
                     F_BulletReturn(ArrowType.normal);
                     break;
 
                 case ArrowType.boomArrow:
                     Boom();
+                    
                     break;
 
                 case ArrowType.triple:
+                 
+                    TripleShot();
+
                     break;
 
             }
@@ -117,6 +114,7 @@ public class Bullet : MonoBehaviour
             {
                 case ArrowType.normal:
                     normalArrow();
+                    SpecialSkillDice();
 
                     Enemys sc = collision.gameObject.GetComponent<Enemys>();
                     sc.F_OnHIt(SkillManager.instance.RangeDmg);
@@ -190,8 +188,7 @@ public class Bullet : MonoBehaviour
 
     }
 
-    
-    private void normalArrow()
+    private void SpecialSkillDice()
     {
         if (!arrowAttack.Instance.BuffOn)
         {
@@ -201,6 +198,10 @@ public class Bullet : MonoBehaviour
                 arrowAttack.Instance.F_SpecialBuffActive();
             }
         }
+    }
+    private void normalArrow()
+    {
+      
         
         SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
         GameObject obj = PoolManager.Instance.F_GetObj("Dust");

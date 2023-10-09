@@ -118,7 +118,7 @@ public class Eagle : MonoBehaviour
             {
                 once1 = true;
                 StartCoroutine(DeadEagle());
-
+                GameManager.Instance.curEagle--;
             }
     
         }
