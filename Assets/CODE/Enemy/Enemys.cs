@@ -106,6 +106,7 @@ public class Enemys : MonoBehaviour
     bool Enemy_Hit;
     bool KB;
     public float KBSpeed;
+    public float KBPower;
     public void F_OnHIt(float _DMG)
     {
         if (CurHP > 0 && !Enemy_Hit)
@@ -117,8 +118,18 @@ public class Enemys : MonoBehaviour
             DMGFont sc = obj.GetComponent<DMGFont>();
             sc.F_FontPopup(_DMG);
 
-
+            if (Sr.flipX)
+            {
+                KB = true;
+                Rb.AddForce(new Vector3(2 * KBPower, 2), ForceMode2D.Impulse);
+            }
+            else if (!Sr.flipX)
+            {
+                KB = true;
+                Rb.AddForce(new Vector3(-2 * KBPower, 2), ForceMode2D.Impulse);
+            }
             Ani.SetTrigger("Hit");
+
 
             if (!EnemyHpBar.gameObject.activeSelf)
             {
@@ -181,7 +192,10 @@ public class Enemys : MonoBehaviour
         {
             EnemyVec = GameManager.Instance.player.transform.position - transform.position;
             NextMove.x = Mathf.Sign(EnemyVec.x) * EnemySpeed * Time.deltaTime;
-
+            if (KB)
+            {
+                NextMove.x = 0;
+            }
             Rb.AddForce(NextMove, ForceMode2D.Force);
         }
 

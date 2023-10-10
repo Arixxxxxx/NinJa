@@ -17,14 +17,29 @@ public class BackGroundObejct : MonoBehaviour
     private float fogConter;
     private float leafConter;
     private float leafCounter;
-    private float turnValue;
+    [SerializeField] private float turnValue;
     private Quaternion curRotation;
+    float randZ;
     void Start()
     {
-        
+        switch (type)
+        {
+            case ObjectName.Fog:
+               
+                break;
+
+            case ObjectName.leaf:
+                
+                randZ = Random.Range(-4, 5);
+                transform.rotation = Quaternion.Euler(0, 0, randZ);
+                //transform.rotation = Quaternion.Euler(0,0,randZ);
+                break;
+
+        }
+
     }
 
-    
+
     void Update()
     {
         switch (type)
@@ -49,7 +64,8 @@ public class BackGroundObejct : MonoBehaviour
                 leafConter += Time.deltaTime;
                 if (leafConter < dirTime)
                 {
-                    turnValue += Time.deltaTime * Speed ;
+                    
+                    turnValue += Time.deltaTime * Speed;
                    
                     transform.eulerAngles = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z + turnValue);
                     

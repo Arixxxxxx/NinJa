@@ -8,7 +8,7 @@ public class HpUi : MonoBehaviour
 {
     public enum PlayerType
     {
-        Player,Enemy,Ghost
+        Player,Enemy,Ghost,Enemis
     }
     public PlayerType Type;
 
@@ -35,6 +35,10 @@ public class HpUi : MonoBehaviour
 
                 case PlayerType.Ghost:
                 Ghostsc = GetComponentInParent<Ghost>();
+                break; 
+            
+               case PlayerType.Enemis:
+                
                 break;
 
         }

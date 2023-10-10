@@ -25,13 +25,25 @@ public class ShockWaveBoom : MonoBehaviour
     
         if (collision.gameObject.CompareTag("Enemy"))
         {
-          
-            Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
-            sc.F_Stun_Enemy(1.5f);
-            
-        }
+          if(collision.gameObject.GetComponent<Enemys>() != null)
+            {
+                Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
+                sc.F_Stun_Enemy(1.5f);
+            }
 
+            else if (collision.gameObject.GetComponent<Enemis>() != null)
+            {
+                Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
+                sc.F_Stun_Enemy(1.5f);
+            }
+
+        }
+        if (collision.CompareTag("Ghost"))
+        {
+            collision.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.ShockWaveDmg);
+        }
 
     }
 }

@@ -39,12 +39,24 @@ public class BoomArrow : MonoBehaviour
                 ps= gameObject.AddComponent<ParticleSystem>();
             }
                        
-            
-            Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt(SkillManager.instance.boomShotDmg);
-            sc.F_Stun_Enemy(1);
+            if(collision.gameObject.GetComponent<Enemys>() != null)
+            {
+                Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                sc.F_OnHIt(SkillManager.instance.boomShotDmg);
+                sc.F_Stun_Enemy(1);
+            }
+            else if (collision.gameObject.GetComponent<Enemis>() != null)
+            {
+                Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                sc.F_OnHIt(SkillManager.instance.boomShotDmg);
+                sc.F_Stun_Enemy(1);
+            }
+
         }
 
-      
+        if (collision.CompareTag("Ghost"))
+        {
+            collision.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.boomShotDmg);
+        }
     }
 }

@@ -11,12 +11,25 @@ public class DrgonPier : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-      
-            Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt((int)SkillManager.instance.dargonPierDmg);
-            sc.F_Stun_Enemy(1);
-        }
+            if(collision.gameObject.GetComponent<Enemys>() != null)
+            {
+                Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                sc.F_OnHIt((int)SkillManager.instance.dargonPierDmg);
+                sc.F_Stun_Enemy(1);
+            }
+            
+            else if (collision.gameObject.GetComponent<Enemis>() != null)
+            {
+                Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                sc.F_OnHIt((int)SkillManager.instance.dargonPierDmg);
+                sc.F_Stun_Enemy(1);
 
+            }
+        }
+        if (collision.CompareTag("Ghost"))
+        {
+            collision.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.dargonPierDmg);
+        }
 
     }
 }

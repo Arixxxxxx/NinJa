@@ -38,7 +38,8 @@ public class AttackLayer : MonoBehaviour
 
     public void AttackEnd()
     {
-       
+       Weapon sc = transform.GetChild (0).GetComponent<Weapon>();
+        sc.once = false;
         GameManager.Instance.player.isAttacking = false;
     }
   

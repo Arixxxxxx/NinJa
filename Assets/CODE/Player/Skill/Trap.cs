@@ -16,8 +16,17 @@ public class PlayerTrap : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.GetComponent<Enemys>().F_Stun_Enemy(2.5f);
-            ani.SetBool("Attack", true);
+            if (collision.GetComponent<Enemys>() != null)
+            {
+                collision.GetComponent<Enemys>().F_Stun_Enemy(3f);
+                ani.SetBool("Attack", true);
+            }
+            else if (collision.GetComponent<Enemis>() != null)
+            {
+                collision.GetComponent<Enemis>().F_Stun_Enemy(3f);
+                ani.SetBool("Attack", true);
+            }
+
 
         }
     }

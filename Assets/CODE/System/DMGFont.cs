@@ -60,9 +60,9 @@ public class DMGFont : MonoBehaviour
                 gameObject.SetActive(true);
             }
 
-            if (DMG_Font.text != _DMG.ToString("F0"))
+            if (DMG_Font.text != _DMG.ToString("F1"))
             {
-                DMG_Font.text = _DMG.ToString("F0");
+                DMG_Font.text = _DMG.ToString("F1");
             }
    
 

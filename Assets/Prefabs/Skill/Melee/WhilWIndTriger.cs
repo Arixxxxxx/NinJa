@@ -11,11 +11,24 @@ public class WhilWIndTriger : MonoBehaviour
         {
             int R = Random.Range(0, 2);
             SoundManager.instance.F_SoundPlay(SoundManager.instance.enemyhit[R], 0.5f);
-            Enemys sc = collision.gameObject.GetComponent<Enemys>();
-            sc.F_OnHIt(SkillManager.instance.whilWindDmg);
-            
+            if (collision.gameObject.GetComponent<Enemys>() != null)
+            {
+                Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+            }
+
+            else if (collision.gameObject.GetComponent<Enemis>() != null)
+            {
+                Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+            }
         }
-        
+
+        if (collision.CompareTag("Ghost"))
+        {
+            collision.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.whilWindDmg);
+        }
+
     }
 
     float WhilWindDmgTimer;
@@ -24,16 +37,33 @@ public class WhilWIndTriger : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             WhilWindDmgTimer += Time.deltaTime;
-            if(WhilWindDmgTimer > SkillManager.instance.whilWindDmgInterval)
+            if (WhilWindDmgTimer > SkillManager.instance.whilWindDmgInterval)
             {
-                
+
                 int R = Random.Range(0, 2);
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.enemyhit[R], 0.5f);
                 WhilWindDmgTimer = 0;
-                Enemys sc = collision.gameObject.GetComponent<Enemys>();
-                sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+
+                if (collision.gameObject.GetComponent<Enemys>() != null)
+                {
+                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                    sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+                }
+
+                else if (collision.gameObject.GetComponent<Enemis>() != null)
+                {
+                    Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                    sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+                }
+
             }
-            
+        }
+
+        if (collision.CompareTag("Ghost"))
+        {
+            collision.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.whilWindDmg);
         }
     }
 }
+
+

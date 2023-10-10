@@ -451,9 +451,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469861cd76977254dbc9e587be84f770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
+  Rb: {fileID: 0}
   CurHp: 5
   MaxHp: 5
-  MoveSpeed: 3
+  MoveSpeed: 2
   dist: 1.69
   speed: 1
   frequency: 3.2
@@ -464,6 +466,7 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   TargetOk: 0
   GhostDead: 0
+  KBPower: 2
 --- !u!1 &5395504549894577484
 GameObject:
   m_ObjectHideFlags: 0

@@ -11218,6 +11218,7 @@ MonoBehaviour:
   MaxHp: 6
   EnemyHpBar: {fileID: 7835722252137437524}
   KBSpeed: 7
+  KBPower: 1.5
 --- !u!82 &2921640808182358685
 AudioSource:
   m_ObjectHideFlags: 0

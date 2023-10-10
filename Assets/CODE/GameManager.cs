@@ -202,14 +202,17 @@ public class GameManager : MonoBehaviour
         TimeBar = EventTimeBar.transform.GetChild(1).GetComponent<Image>();  // 이벤트 시간바 Fill값 접근용
         TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>(); // 이벤트 시간바안에 텍스트
 
-        //가이드UI 접근용
-        GuideWindow = gameUI.transform.Find("GameGuide").GetComponent<Transform>();
-        GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
-        GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
-        guideM = GameGuideTR.GetComponent<GuideManager>();
+       
 
         if (SceneName == "Chapter1")
         {
+            //가이드UI 접근용
+            GuideWindow = gameUI.transform.Find("GameGuide").GetComponent<Transform>();
+
+            GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
+            GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
+            guideM = GameGuideTR.GetComponent<GuideManager>();
+
             //리리npc 
             npc = GameObject.Find("NPC/리리").GetComponent<NPC>();
             ririRB = npc.transform.GetComponent<Rigidbody2D>();
@@ -234,8 +237,12 @@ public class GameManager : MonoBehaviour
         //씬넘길때 사용할 배경
         blackScreen = gameUI.transform.Find("BlackScreen").GetComponent<Image>();
 
-        //이벤트용 배경색 조절용
-        gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
+        if (SceneName == "Chapter1")
+        {
+            //이벤트용 배경색 조절용
+            gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
+        }
+     
 
      
 

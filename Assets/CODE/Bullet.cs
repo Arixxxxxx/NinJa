@@ -78,6 +78,101 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            switch (type)
+            {
+                case ArrowType.normal:
+                    normalArrow();
+                    SpecialSkillDice();
+
+                    if (collision.gameObject.GetComponent<Enemys>() != null)
+                    {
+                        Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                        sc.F_OnHIt(SkillManager.instance.RangeDmg);
+                    }
+                    else if (collision.gameObject.GetComponent<Enemis>() != null)
+                    {
+                        Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                        sc.F_OnHIt(SkillManager.instance.RangeDmg);
+                    }
+
+
+
+                    F_BulletReturn(ArrowType.normal);
+                    break;
+
+                case ArrowType.triple:
+                    TripleShot();
+
+                    if (collision.gameObject.GetComponent<Enemys>() != null)
+                    {
+                        Enemys sc = collision.gameObject.GetComponent<Enemys>();
+                        sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
+                    }
+                    else if (collision.gameObject.GetComponent<Enemis>() != null)
+                    {
+                        Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                        sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
+                    }
+                    F_BulletReturn(type);
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+            }
+
+        }
+
+
+        if (collision.gameObject.CompareTag("Ghost"))
+        {
+            switch (type)
+            {
+                case ArrowType.normal:
+                    normalArrow();
+
+                    Ghost sc = collision.gameObject.GetComponent<Ghost>();
+                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
+                    F_BulletReturn(type);
+                    break;
+
+                case ArrowType.triple:
+                    collision.gameObject.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.tripleShotDmg);
+                    F_BulletReturn(type);
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+            }
+
+        }
+
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
+        {
+            switch (type)
+            {
+                case ArrowType.normal:
+
+                    normalArrow();
+                    F_BulletReturn(type);
+
+                    break;
+
+                case ArrowType.boomArrow:
+                    Boom();
+                    break;
+
+                case ArrowType.triple:
+                    TripleShot();
+                    F_BulletReturn(type);
+                    break;
+
+            }
+
+        }
         if (collision.gameObject.CompareTag("Eagle"))
         {
             switch (type)
@@ -106,87 +201,106 @@ public class Bullet : MonoBehaviour
     }
 
     float dice;
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            switch (type)
-            {
-                case ArrowType.normal:
-                    normalArrow();
-                    SpecialSkillDice();
 
-                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
-                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
+       
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Enemy"))
+    //    {
+    //        switch (type)
+    //        {
+    //            case ArrowType.normal:
+    //                normalArrow();
+    //                SpecialSkillDice();
+
+    //                if(collision.gameObject.GetComponent<Enemys>() != null)
+    //                {
+    //                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
+    //                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
+    //                }
+    //                else if (collision.gameObject.GetComponent<Enemis>() != null)
+    //                {
+    //                    Enemis sc = collision.gameObject.GetComponent<Enemis>();
+    //                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
+    //                }
+
                     
 
-                    F_BulletReturn(ArrowType.normal);
-                    break;
+    //                F_BulletReturn(ArrowType.normal);
+    //                break;
 
-                case ArrowType.triple:
-                    TripleShot();
+    //            case ArrowType.triple:
+    //                TripleShot();
 
-                    Enemys scs = collision.gameObject.GetComponent<Enemys>();
-                    scs.F_OnHIt(SkillManager.instance.tripleShotDmg);
-                    F_BulletReturn(type);
-                    break;
+    //                if (collision.gameObject.GetComponent<Enemys>() != null)
+    //                {
+    //                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
+    //                    sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
+    //                }
+    //                else if (collision.gameObject.GetComponent<Enemis>() != null)
+    //                {
+    //                    Enemis sc = collision.gameObject.GetComponent<Enemis>();
+    //                    sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
+    //                }
+    //                F_BulletReturn(type);
+    //                break;
 
-                case ArrowType.boomArrow:
-                    Boom();
-                    break;
-            }
+    //            case ArrowType.boomArrow:
+    //                Boom();
+    //                break;
+    //        }
           
-        }
+    //    }
 
 
-        if (collision.gameObject.CompareTag("Ghost"))
-        {
-            switch (type)
-            {
-                case ArrowType.normal:
-                    normalArrow();
+    //    if (collision.gameObject.CompareTag("Ghost"))
+    //    {
+    //        switch (type)
+    //        {
+    //            case ArrowType.normal:
+    //                normalArrow();
 
-                    Ghost sc = collision.gameObject.GetComponent<Ghost>();
-                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
-                    F_BulletReturn(ArrowType.normal);
-                    break;
+    //                Ghost sc = collision.gameObject.GetComponent<Ghost>();
+    //                sc.F_OnHIt(SkillManager.instance.RangeDmg);
+    //                F_BulletReturn(ArrowType.normal);
+    //                break;
 
-                case ArrowType.triple:
+    //            case ArrowType.triple:
 
-                    break;
+    //                break;
 
-                case ArrowType.boomArrow:
-                    Boom();
-                    break;
-            }
+    //            case ArrowType.boomArrow:
+    //                Boom();
+    //                break;
+    //        }
             
-        }
+    //    }
 
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
-        {
-            switch (type)
-            {
-                case ArrowType.normal:
+    //    if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
+    //    {
+    //        switch (type)
+    //        {
+    //            case ArrowType.normal:
 
-                    normalArrow();
-                    F_BulletReturn(type);
+    //                normalArrow();
+    //                F_BulletReturn(type);
 
-                    break;
+    //                break;
 
-                case ArrowType.boomArrow:
-                    Boom();
-                    break;
+    //            case ArrowType.boomArrow:
+    //                Boom();
+    //                break;
 
-                    case ArrowType.triple:
-                    TripleShot();
-                    F_BulletReturn(type);
-                    break;
+    //                case ArrowType.triple:
+    //                TripleShot();
+    //                F_BulletReturn(type);
+    //                break;
 
-            }
+    //        }
            
-        }
+    //    }
 
-    }
+    //}
 
     private void SpecialSkillDice()
     {

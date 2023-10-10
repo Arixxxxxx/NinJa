@@ -118,6 +118,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip onTrap;
     public AudioClip spikeball;
     public AudioClip firetrapOn;
+    public AudioClip skeletonPopup;
+    public AudioClip skeletonDead;
+    public AudioClip EnemyBoom;
 
     [Header("# UI")]
     public AudioClip popup;

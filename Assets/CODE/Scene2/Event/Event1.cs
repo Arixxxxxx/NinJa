@@ -87,6 +87,17 @@ public class Event1 : MonoBehaviour
     {
         GameManager.Instance.F_MoveStop(1);
         GameUI.instance.F_SetMapMoveBar("¿Ü°û");
+        StartCoroutine(EndEvent1());
+    }
+
+    IEnumerator EndEvent1()
+    {
+        while(NpcRb[3].gameObject.activeSelf)
+        {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
     }
    
 }

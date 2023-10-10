@@ -690,6 +690,7 @@ public class Player : MonoBehaviour
                     Char_Vec.x = Input.GetAxisRaw("Horizontal");
                     Rb.velocity = new Vector2(Char_Vec.x * Char_Speed, Rb.velocity.y);
                    
+                    //¹ß¼Ò¸®
                     if (isCharMove)
                     {
                         runConter += Time.deltaTime;
