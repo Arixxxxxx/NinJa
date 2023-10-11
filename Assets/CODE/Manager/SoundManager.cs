@@ -122,10 +122,15 @@ public class SoundManager : MonoBehaviour
     public AudioClip skeletonDead;
     public AudioClip EnemyBoom;
 
+    [Header("# Boss 관련")]
+    public AudioClip lougther;
+
     [Header("# UI")]
     public AudioClip popup;
     public AudioClip popdown;
     public AudioClip talkBoxChatSound;
+    public AudioClip BossMiddle;
+    public AudioClip BossName;
 
 
     //외부에서 싱글톤으로 넣어줌

@@ -6,6 +6,8 @@ using TMPro;
 
 public class GameUiText : MonoBehaviour
 {
+    public static GameUiText Instance;
+
     TextMeshProUGUI text;
     string Msg;
     int MsgIndex;
@@ -14,6 +16,14 @@ public class GameUiText : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         text = GetComponent<TextMeshProUGUI>();
         
     }

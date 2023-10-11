@@ -157,7 +157,6 @@ public class SkillManager : MonoBehaviour
         if(GM.Player_CurMP<= 0 && buffOnOff)
         {
             buff();
-            Debug.Log("¤±");
         }
     }
 
@@ -407,6 +406,7 @@ public class SkillManager : MonoBehaviour
     }
     void StopSkill()
     {
+        Debug.Log("3");
         whilWindMana = false;
         skill2Timer = 0;
         ani2 = false;
@@ -419,15 +419,17 @@ public class SkillManager : MonoBehaviour
         Player.instance.Ani.SetBool("WhilWind", false);
         Player.instance.transform.Find("WhilWInd").gameObject.SetActive(false);
         Player.instance.transform.Find("Skill").GetComponent<BoxCollider2D>().enabled = false;
+        Input.GetKeyUp(KeyCode.Alpha2);
     }
     IEnumerator WhilWindManaMinus()
     {
         while (GameManager.Instance.Player_CurMP > 0 && Input.GetKey(KeyCode.Alpha2))
         {
             GameManager.Instance.Player_CurMP -= whilWindMp;
-
+            Debug.Log("1");
             if (GameManager.Instance.Player_CurMP <= 0)
             {
+                Debug.Log("2");
                 StopSkill();
                 Player.instance.F_CharText("MP");
                 break;

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GhostSpawn : MonoBehaviour
 {
     Vector3 OriginSclae;
+    AudioSource Audio;
+    [SerializeField] AudioClip[] SfxList;
     private void Awake()
     {
         OriginSclae = transform.localScale;
@@ -12,7 +15,10 @@ public class GhostSpawn : MonoBehaviour
     }
     private void Start()
     {
+        Audio = GetComponent<AudioSource>();
         OpenGate();
+        Audio.clip = SfxList[0];
+        Audio.Play();
     }
 
     [SerializeField] float SizeSpeed;
@@ -22,22 +28,35 @@ public class GhostSpawn : MonoBehaviour
         {
             transform.localScale += new Vector3(SizeSpeed, SizeSpeed, transform.localScale.z) * Time.deltaTime;
             Invoke("OpenGate", 0.01f);
+            
         }
         else if (transform.localScale.x >= 1)
         {
             StartCoroutine(SpawnGhost());
+            Audio.clip = SfxList[1];
+            Audio.Play();
         }
     }
+    bool once2;
     private void CloseGate()
     {
         if (transform.localScale.x > 0.05f)
         {
-            transform.localScale -= new Vector3(SizeSpeed, SizeSpeed, transform.localScale.z) * Time.deltaTime;
+            
+            if (transform.localScale.x < 0.5f && !once2)
+            {
+                once2= true;
+                Debug.Log("ÁøÀÔ");
+                Audio.clip = SfxList[2];
+                Audio.Play();
+            }
+                transform.localScale -= new Vector3(SizeSpeed, SizeSpeed, transform.localScale.z) * Time.deltaTime;
             Invoke("CloseGate", 0.01f);
         }
         else if (transform.localScale.x <= 0.05f)
         {
-            gameObject.SetActive(false);
+            
+            PoolManager.Instance.F_ReturnObj(gameObject,"Portal");
         }
     }
 
@@ -52,7 +71,7 @@ public class GhostSpawn : MonoBehaviour
     
     IEnumerator SpawnGhost()
     {
-        Debug.Log("1");
+        
         while (SpawnCount > 0)
         {
             SpawnCount--;

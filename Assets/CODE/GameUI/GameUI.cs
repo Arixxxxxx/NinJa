@@ -31,6 +31,9 @@ public class GameUI : MonoBehaviour
     Transform specialIconR, specialIconM;
      Image colorR, colorM;
 
+    //센터 알림바
+    TMP_Text eventTextBar;
+
     private void Awake()
     {
         if(instance == null)
@@ -42,6 +45,8 @@ public class GameUI : MonoBehaviour
             Destroy(instance);
         }
 
+        //알림바
+        eventTextBar = transform.Find("EventText").GetComponent<TMP_Text>();
 
         //지역이동 알림바
         mapMoveBar = transform.Find("MapMoveBar").GetComponent<Image>();
@@ -82,6 +87,7 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
+  
         AttackFill();
         normalAttackIcon();
         SkillBarSwap();
@@ -323,6 +329,17 @@ public class GameUI : MonoBehaviour
         obj.transform.position = PoolManager.Instance.SpawnPoint.position;
 
 
+    }
+
+
+    /// <summary>
+    /// 센터 알림바
+    /// </summary>
+    /// <param name="_value"> 매개변수 : 내용 </param>
+    public void F_CenterTextPopup(string _value)
+    {
+        eventTextBar.gameObject.SetActive(true);
+        GameUiText.Instance.F_SetMsg(_value);
     }
 }
 

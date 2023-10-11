@@ -121,7 +121,7 @@ public class Ghost : MonoBehaviour
             if (!onlyAttackReady)
             {
                 onlyAttackCounter += Time.deltaTime;
-                if (onlyAttackCounter > 2)
+                if (onlyAttackCounter > 1.7f)
                 {
                     onlyAttackReady = true;
                 }
