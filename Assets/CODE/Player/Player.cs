@@ -1113,7 +1113,7 @@ public class Player : MonoBehaviour
     private void F_JumpReset()
     {
         MovingStop = false;
-        Debug.Log("2");
+        
         JumpOn = false;
         DJumpOn = false;
         Ani.SetBool("Jump", false);
@@ -1121,7 +1121,6 @@ public class Player : MonoBehaviour
         wallJumpon = false;
         if (GameManager.Instance.meleeMode)
         {
-            Debug.Log("3");
             //sheldSR.enabled = true;
             //SwordSr.enabled = true;
             MeleeItemShow(0);
@@ -1182,7 +1181,6 @@ public class Player : MonoBehaviour
                 
                 if(contact.normal == Vector2.up)
                 {
-                    Debug.Log("1");
                     F_JumpReset();
                 }
             }
