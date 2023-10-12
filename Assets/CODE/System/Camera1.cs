@@ -14,6 +14,14 @@ public class Camera1 : MonoBehaviour
     [SerializeField] private float camVerticalValue;
     [SerializeField] float smooth;
 
+    [Header("#씬2 장소별 카메라제한")]
+    [SerializeField] float Place0XMin;
+    [SerializeField] float Place0XMax;
+    [SerializeField] float Place1XMin;
+    [SerializeField] float Place1XMax;
+    [SerializeField] float Place2XMin;
+    [SerializeField] float Place2XMax;
+
     private Camera mainCam;
     public PixelPerfectCamera cam;
     Vector3 curCameraPos;
@@ -25,7 +33,7 @@ public class Camera1 : MonoBehaviour
     {
         cam = GetComponent<PixelPerfectCamera>();
 
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -37,10 +45,10 @@ public class Camera1 : MonoBehaviour
 
     private void Start()
     {
-      
+
         target = GameManager.Instance.player.transform.GetComponent<Transform>();
         mainCam = Camera.main;
-        
+
     }
 
     // 카메라의 x축이 0이하로 가지않게 조절
@@ -48,31 +56,66 @@ public class Camera1 : MonoBehaviour
     {
         if (GameManager.Instance.normalCamera)
         {
-            if (target != null)
+            if (GameManager.Instance.SceneName == "Chapter1")
             {
-                Vector3 vec = transform.position;
-                vec.y = target.position.y + camVerticalValue;
-                vec.x = Mathf.Max(target.position.x, minX);
-                vec.x = Mathf.Min(vec.x, MaX);
-                vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
-                //vec.y = Mathf.Min(vec.y, 40);
-                //transform.position = vec;
+                if (target != null)
+                {
+                    Vector3 vec = transform.position;
+                    vec.y = target.position.y + camVerticalValue;
+                    vec.x = Mathf.Max(target.position.x, minX);
+                    vec.x = Mathf.Min(vec.x, MaX);
+                    vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+                    //vec.y = Mathf.Min(vec.y, 40);
+                    //transform.position = vec;
 
-                transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);
-                curCameraPos = mainCam.transform.position;
+                    transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);
+                    curCameraPos = mainCam.transform.position;
+                }
             }
-             }
-        
+
+            if(GameManager.Instance.SceneName == "Chapter2")
+            {
+                switch (GameManager.Instance.PlaceNum)
+                {
+                    case 0:
+                        Vector3 vec = transform.position;
+                        vec.y = target.position.y + camVerticalValue;
+                        vec.x = Mathf.Max(target.position.x, Place0XMin);
+                        vec.x = Mathf.Min(vec.x, Place0XMax);
+                        vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+                        
+
+                        transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);
+                        curCameraPos = mainCam.transform.position;
+                        break;
+                        
+                    case 1:
+                        vec = transform.position;
+                        vec.y = target.position.y + camVerticalValue;
+                        vec.x = Mathf.Max(target.position.x, Place1XMin);
+                        vec.x = Mathf.Min(vec.x, Place1XMax);
+                        vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+
+
+                        transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);
+                        curCameraPos = mainCam.transform.position;
+                        break;
+
+                }
+            }
+           
+        }
+
         if (GameManager.Instance.cameraShake)
         {
-             shake();
+            shake();
         }
-       
-
-
-
-
     }
+    /// <summary>
+    /// 씬2 장소이동별 카메라x축 제한
+    /// </summary>
+    /// <param name="_value"></param>
+   
     public void F_ZoomInCam(bool _value)
     {
         if (_value)
@@ -91,22 +134,16 @@ public class Camera1 : MonoBehaviour
 
     private void shake()
     {
-           
-       
-     
         timer += Time.deltaTime;
-        if(timer > shakeTimeInterval)
+        if (timer > shakeTimeInterval)
         {
             timer = 0;
             StartCoroutine(SS());
             //StartShake();
         }
-          
-         
-    
-     }
+    }
 
-    private void StartShake() 
+    private void StartShake()
     {
         float camX = Random.value * shakeRange * 2 - shakeRange;
         float camY = Random.value * shakeRange * 2 - shakeRange;
@@ -114,7 +151,7 @@ public class Camera1 : MonoBehaviour
         camPos.x += camX;
         camPos.y += camY;
         mainCam.transform.position = camPos;
-        
+
     }
 
     IEnumerator SS()
@@ -130,11 +167,5 @@ public class Camera1 : MonoBehaviour
         mainCam.transform.position = curCameraPos;
 
     }
-    //private void StopShake()
-    //{
-    //    CancelInvoke("StopShake");
-    //    mainCam.transform.position = curCameraPos;
-        
-    //    Debug.Log("진입3");
-    //}
+
 }

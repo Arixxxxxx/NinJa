@@ -6,7 +6,7 @@ public class MapMoveCheker : MonoBehaviour
 {
     public enum MapType
     {
-        초원, 점프, 플랫폼, 정글동굴, 마을, 던전, 요정
+        초원, 점프, 플랫폼, 정글동굴, 마을, 던전, 요정,엘윈,성문
     }
 
     public MapType Right;
@@ -59,6 +59,9 @@ public class MapMoveCheker : MonoBehaviour
                     case MapType.요정:
                         gameUI.F_SetMapMoveBar("요정");
                         break;
+                    case MapType.성문:
+                        gameUI.F_SetMapMoveBar("성문");
+                        break;
 
                 }
             }
@@ -98,6 +101,10 @@ public class MapMoveCheker : MonoBehaviour
                     case MapType.요정:
                         gameUI.F_SetMapMoveBar("요정");
                         break;
+                    case MapType.엘윈:
+                        gameUI.F_SetMapMoveBar("엘윈 숲");
+                        break;
+                   
 
                 };
             }

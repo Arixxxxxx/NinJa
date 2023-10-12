@@ -16,6 +16,7 @@ public class Event3 : MonoBehaviour
         {
             StartCoroutine(Event3Start());
             transform.GetComponent<BoxCollider2D>().enabled = false;
+            transform.Find("BossEffect").gameObject.SetActive(true);
         }
         
     }
@@ -54,7 +55,7 @@ public class Event3 : MonoBehaviour
         {
             yield return null;
         }
-
+        transform.Find("BossEffect").gameObject.SetActive(false);
         gameObject.gameObject.SetActive(false);
     }
 }

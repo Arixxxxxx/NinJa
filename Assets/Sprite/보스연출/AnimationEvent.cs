@@ -10,6 +10,10 @@ public class AnimationEvent : MonoBehaviour
         {
             StartCoroutine(PaintOpen());
         }
+        if (transform.gameObject.name == "Paint")
+        {
+            StartCoroutine(MiddleOpen());
+        }
         if (transform.gameObject.name == "Middle")
         {
             StartCoroutine(NameOpen());
@@ -23,9 +27,17 @@ public class AnimationEvent : MonoBehaviour
     IEnumerator PaintOpen()
     {
         yield return new WaitForSeconds(0.3f);
-        transform.parent.transform.Find("Paint").gameObject.SetActive(true);
-       
-    }   IEnumerator NameOpen()
+        transform.parent.transform.Find("Paint").GetComponent<Animator>().SetTrigger("Open");
+
+    } 
+       IEnumerator MiddleOpen()
+    {
+        yield return new WaitForSeconds(0.3f);
+        transform.parent.transform.Find("Middle").GetComponent<Animator>().SetTrigger("Open");
+
+    } 
+    
+    IEnumerator NameOpen()
     {
         yield return new WaitForSeconds(0.3f);
         transform.parent.transform.Find("Name").GetComponent<Animator>().SetTrigger("Open");

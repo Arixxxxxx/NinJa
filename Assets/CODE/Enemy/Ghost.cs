@@ -40,7 +40,7 @@ public class Ghost : MonoBehaviour
 
     [Header("# Gizmo")]
     [SerializeField] private bool ShowRange;
-    [SerializeField][Range(0f, 10f)] private float Range = 5f;
+    [SerializeField][Range(0f, 10f)] private float Range;
     [SerializeField] private Color gizmoColor;
 
     public RaycastHit2D Target;

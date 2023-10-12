@@ -36,7 +36,7 @@ public class Event1 : MonoBehaviour
             {
                 NpcRb[i].gameObject.SetActive(true);
             }
-
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.Scream, 0.7f);
             GameManager.Instance.F_MoveStop(0);
             Eventing();
             
@@ -86,7 +86,6 @@ public class Event1 : MonoBehaviour
     private void OnGame()
     {
         GameManager.Instance.F_MoveStop(1);
-        GameUI.instance.F_SetMapMoveBar("¿Ü°û");
         StartCoroutine(EndEvent1());
     }
 

@@ -54,7 +54,11 @@ public class OpeningScene : MonoBehaviour
         {
             GameManager.Instance.guideM.startTutorial = true;
         }
-      
+        if (GameManager.Instance.SceneName == "Chapter2")
+        {
+            GameUI.instance.F_SetMapMoveBar("¿¤À© ½£");
+        }
+        
         gameObject.SetActive(false);
     }
 }

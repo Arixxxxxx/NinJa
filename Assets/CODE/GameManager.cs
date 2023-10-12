@@ -103,6 +103,9 @@ public class GameManager : MonoBehaviour
 
     //퀘스트용 좀비3마리
     public int Q1; // 좀비 킬횟수
+
+    //2씬 백라이트(달)
+    Transform Moon;
    
 
     [HideInInspector] public DmgPooling dmgpooling;
@@ -155,6 +158,10 @@ public class GameManager : MonoBehaviour
     //대화중일때 NPC 움직임 멈춤
     [HideInInspector] public bool curPlayerTalkingYouStop;
     public string SceneName = "";
+
+    //씬2 카메라 x축 조절용
+    [HideInInspector]  public int PlaceNum;
+
     private void Awake()
     {
         SceneName = SceneManager.GetActiveScene().name;
@@ -168,6 +175,11 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if(SceneName == "Chapter2")
+        {
+            PlaceNum = 0;
+            Moon = GameObject.Find("BackGround.Scene2-1").GetComponent<Transform>();
+        }
       
         CameraShakeSwitch(1);
 
@@ -711,4 +723,28 @@ public class GameManager : MonoBehaviour
         }
     
     }
+    
+    public void F_SetPlaceNum(int _value)
+    {
+        PlaceNum = _value;
+
+        switch (PlaceNum)
+        {
+            case 0:
+                if (!Moon.gameObject.activeSelf)
+                {
+                    Moon.gameObject.SetActive(true);
+                }
+                break;
+
+            case 1:
+                if (Moon.gameObject.activeSelf)
+                {
+                    Moon.gameObject.SetActive(false);
+                }
+                break;
+        }
+    }
+
+    
 }

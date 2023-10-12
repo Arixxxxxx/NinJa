@@ -248,6 +248,7 @@ public class Player : MonoBehaviour
     bool once1;
 
     
+    
     //캐릭터 일시정지기능
     private void MoveStopFuntion()
     {
@@ -1112,7 +1113,7 @@ public class Player : MonoBehaviour
     private void F_JumpReset()
     {
         MovingStop = false;
-
+        Debug.Log("2");
         JumpOn = false;
         DJumpOn = false;
         Ani.SetBool("Jump", false);
@@ -1120,6 +1121,7 @@ public class Player : MonoBehaviour
         wallJumpon = false;
         if (GameManager.Instance.meleeMode)
         {
+            Debug.Log("3");
             //sheldSR.enabled = true;
             //SwordSr.enabled = true;
             MeleeItemShow(0);
@@ -1163,15 +1165,24 @@ public class Player : MonoBehaviour
 
     //}
 
+    public void F_LegGroundCheaker(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            F_JumpReset();
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             foreach(ContactPoint2D contact in  collision.contacts)
             {
                 
                 if(contact.normal == Vector2.up)
                 {
+                    Debug.Log("1");
                     F_JumpReset();
                 }
             }

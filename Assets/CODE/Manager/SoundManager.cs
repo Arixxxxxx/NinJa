@@ -78,8 +78,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip questComplete; // 퀘완료
     public AudioClip zombieSpawn; // 좀비젠
     public AudioClip boomArrow; // BoomAroow
-    public AudioClip WindowPopup;
-    public AudioClip WindowPopDown;
+    public AudioClip WindowPopup; //창 열기
+    public AudioClip WindowPopDown; //창 닫기
+    public AudioClip Scream; //비명소리
 
 
 

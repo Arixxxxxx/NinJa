@@ -36,12 +36,7 @@ public class BossOpen1 : MonoBehaviour
 
         }
 
-        if (Paint.gameObject.activeSelf && !once1)
-        {
-            once1 = true;
-            StartCoroutine(MiddleStart());
-
-        }
+    
 
         if (Boss.gameObject.activeSelf && !once)
         {
@@ -57,12 +52,7 @@ public class BossOpen1 : MonoBehaviour
         once2 = false;
         main.gameObject.SetActive(false);
     } 
-    IEnumerator MiddleStart()
-    {
-        yield return new WaitForSeconds(0.5f);
-        once1 = false;
-        middle.SetTrigger("Open");
-    }
+  
 
     IEnumerator EventStart()
     {

@@ -33,6 +33,8 @@ public class GameUI : MonoBehaviour
 
     //센터 알림바
     TMP_Text eventTextBar;
+    //블랙스크린
+    Animator blackScrren;
 
     private void Awake()
     {
@@ -80,6 +82,8 @@ public class GameUI : MonoBehaviour
         sideAttackBar = transform.Find("ActionBar/AttackIcon/Circle/SideBar").GetComponent<Image>();
         colorR = transform.Find("ActionBar/SpecialSkill/Circle/SideBar").GetComponent<Image>();
         colorM = transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
+
+        blackScrren = transform.Find("BlackScreen").GetComponent<Animator>();
 
     }
 
@@ -214,7 +218,7 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// 맵이동 텍스트바
     /// </summary>
-    /// <param name="_Value">초원, 점프, 플랫폼, 정글동글, 마을, 던전1</param>
+    /// <param name="_Value">초원, 점프, 플랫폼, 정글동글, 마을, 던전1, 엘윈 숲,성문,스톰윈드</param>
     public void F_SetMapMoveBar(string _Value)
     {
         CancelInvoke();
@@ -253,8 +257,16 @@ public class GameUI : MonoBehaviour
                 BoxMSG = "요정나무의 동굴";
                 break;
 
-            case "외곽":
-                BoxMSG = "도성 입구 근처";
+            case "엘윈 숲":
+                BoxMSG = "엘윈 숲";
+                break;
+
+            case "성문":
+                BoxMSG = "스톰윈드 입구";
+                break;
+
+            case "스톰윈드":
+                BoxMSG = "스톰 윈드";
                 break;
 
         }
@@ -340,6 +352,11 @@ public class GameUI : MonoBehaviour
     {
         eventTextBar.gameObject.SetActive(true);
         GameUiText.Instance.F_SetMsg(_value);
+    }
+
+    public void F_BlackScrrenOnOff(bool _value)
+    {
+        blackScrren.SetBool("On", _value);
     }
 }
 
