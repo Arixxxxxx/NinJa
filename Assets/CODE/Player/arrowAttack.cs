@@ -707,7 +707,7 @@ public class arrowAttack : MonoBehaviour
         normalShootSpeed = originAttackSpeed;
         buffCounter = 0;
         SkillManager.instance.RangeDmg = OriginDMG;
-        Debug.Log("¡¯¿‘");
+       
         SpecialBuffBar.gameObject.SetActive(false);
         Player.instance.RangeBuff.Stop();
         Player.instance.RangeBuff.gameObject.SetActive(false);

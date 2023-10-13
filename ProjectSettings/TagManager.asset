@@ -19,6 +19,8 @@ TagManager:
   - Ghost
   - HitBox
   - SkillTrap
+  - ManaSprite
+  - HealthSprite
   layers:
   - Default
   - TransparentFX
@@ -47,7 +49,7 @@ TagManager:
   - EmoticonPointer
   - Shield
   - EnemyBullet
-  - 
+  - Byuk
   - 
   - 
   - 

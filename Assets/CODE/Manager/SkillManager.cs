@@ -86,6 +86,14 @@ public class SkillManager : MonoBehaviour
     Image speicalBarEffect;
 
     GameManager GM;
+
+
+    // 본래의대미지 기록
+    float originMeleeDMG;
+    float originRangeDmg;
+    float originHp;
+    float originMp;
+
     private void Awake()
     {
         originElectronicShotDmg = electronicShotDmg;
@@ -140,6 +148,12 @@ public class SkillManager : MonoBehaviour
         speicalBarEffect = speicalBar.transform.Find("ColorM").GetComponent<Image>();
 
         GM = GameManager.Instance;
+
+        originMeleeDMG = MeleeDmg;
+        originRangeDmg = RangeDmg;
+        originHp = GameManager.Instance.Player_CurHP;
+        originMp = GameManager.Instance.Player_CurMP;
+
     }
 
     private void Update()
@@ -646,5 +660,52 @@ public class SkillManager : MonoBehaviour
 
                 break;
         }
+    }
+
+    /// <summary>
+    /// 스킬포인트 투자 합산기
+    /// </summary>
+    /// <param name="_Type">공격/신체/스킬</param>
+    /// <param name="_Order">스킬창의 순서</param>
+    /// <param name="_Point">포인트</param>
+    /// 
+
+   
+
+    public void F_SetLevupPointAdd(string _Type, int _Order, int _Point)
+    {
+        switch (_Type)
+        {
+            case "Attack":
+                
+                switch (_Order)
+                {
+                    case 0:
+                        MeleeDmg = (originMeleeDMG + _Point);
+                        break;
+
+                    case 1:
+                        RangeDmg = (originRangeDmg + _Point);
+                        break;
+                }
+                
+                break;
+
+            case "Body":
+                switch (_Order)
+                {
+                    case 0:
+                        GameManager.Instance.Player_MaxHP = (originHp + ( 5 * _Point ));
+                        break;
+
+                        case 1:
+                        GameManager.Instance.Player_MaxMP = (originMp + ( 5 * _Point ));
+                        break;
+
+                }
+                break;
+        }
+        
+
     }
 }

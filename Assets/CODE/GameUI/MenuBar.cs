@@ -32,6 +32,7 @@ public class MenuBar : MonoBehaviour
 
     Button moveB;
     Button moveS;
+    Button GetSkillPoint;
     Vector3 originPos;
     Vector3 battleZonePos;
 
@@ -81,10 +82,18 @@ public class MenuBar : MonoBehaviour
         moveB = gmMenu.transform.Find("MoveB").GetComponent<Button>();
 
         moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
+        moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
+
     }
 
     private void Start()
     {
+        if(GameManager.Instance.SceneName == "Chapter2")
+        {
+            GetSkillPoint = gmMenu.transform.Find("GetSkillPoint").GetComponent<Button>();
+            GetSkillPoint.onClick.AddListener(() => { GameManager.Instance.gameUI.GetComponent<SkillPointWindow>().F_GetStatsPoint(1); });
+        }
+
         //ÁÂÇ¥ÀúÀå
         originPos = GameObject.Find("Player").transform.position;
         battleZonePos = GameObject.Find("PoolManager").transform.Find("GMZone").transform.position;

@@ -181,7 +181,7 @@ public class Enemis : MonoBehaviour
                     switch (enemyType)
                     {
                         case EnemyType.Sekeleton:
-
+                            ExpManager.instance.F_SetExp(ExpManager.instance.EnemyExp["S"]);
                             SoundManager.instance.F_SoundPlay(SoundManager.instance.skeletonDead, 0.7f);
                             EnemyHpBar.gameObject.SetActive(false);
                             StartCoroutine(Dead());

@@ -132,7 +132,7 @@ public class Bullet : MonoBehaviour
             {
                 case ArrowType.normal:
                     normalArrow();
-
+                    SpecialSkillDice();
                     Ghost sc = collision.gameObject.GetComponent<Ghost>();
                     sc.F_OnHIt(SkillManager.instance.RangeDmg);
                     F_BulletReturn(type);
@@ -202,105 +202,6 @@ public class Bullet : MonoBehaviour
 
     float dice;
 
-       
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Enemy"))
-    //    {
-    //        switch (type)
-    //        {
-    //            case ArrowType.normal:
-    //                normalArrow();
-    //                SpecialSkillDice();
-
-    //                if(collision.gameObject.GetComponent<Enemys>() != null)
-    //                {
-    //                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
-    //                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
-    //                }
-    //                else if (collision.gameObject.GetComponent<Enemis>() != null)
-    //                {
-    //                    Enemis sc = collision.gameObject.GetComponent<Enemis>();
-    //                    sc.F_OnHIt(SkillManager.instance.RangeDmg);
-    //                }
-
-                    
-
-    //                F_BulletReturn(ArrowType.normal);
-    //                break;
-
-    //            case ArrowType.triple:
-    //                TripleShot();
-
-    //                if (collision.gameObject.GetComponent<Enemys>() != null)
-    //                {
-    //                    Enemys sc = collision.gameObject.GetComponent<Enemys>();
-    //                    sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
-    //                }
-    //                else if (collision.gameObject.GetComponent<Enemis>() != null)
-    //                {
-    //                    Enemis sc = collision.gameObject.GetComponent<Enemis>();
-    //                    sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
-    //                }
-    //                F_BulletReturn(type);
-    //                break;
-
-    //            case ArrowType.boomArrow:
-    //                Boom();
-    //                break;
-    //        }
-          
-    //    }
-
-
-    //    if (collision.gameObject.CompareTag("Ghost"))
-    //    {
-    //        switch (type)
-    //        {
-    //            case ArrowType.normal:
-    //                normalArrow();
-
-    //                Ghost sc = collision.gameObject.GetComponent<Ghost>();
-    //                sc.F_OnHIt(SkillManager.instance.RangeDmg);
-    //                F_BulletReturn(ArrowType.normal);
-    //                break;
-
-    //            case ArrowType.triple:
-
-    //                break;
-
-    //            case ArrowType.boomArrow:
-    //                Boom();
-    //                break;
-    //        }
-            
-    //    }
-
-    //    if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
-    //    {
-    //        switch (type)
-    //        {
-    //            case ArrowType.normal:
-
-    //                normalArrow();
-    //                F_BulletReturn(type);
-
-    //                break;
-
-    //            case ArrowType.boomArrow:
-    //                Boom();
-    //                break;
-
-    //                case ArrowType.triple:
-    //                TripleShot();
-    //                F_BulletReturn(type);
-    //                break;
-
-    //        }
-           
-    //    }
-
-    //}
 
     private void SpecialSkillDice()
     {
@@ -315,8 +216,6 @@ public class Bullet : MonoBehaviour
     }
     private void normalArrow()
     {
-      
-        
         SoundManager.instance.F_SoundPlay(SoundManager.instance.rangeHit, 0.7f);
         GameObject obj = PoolManager.Instance.F_GetObj("Dust");
         obj.transform.position = this.gameObject.transform.position;

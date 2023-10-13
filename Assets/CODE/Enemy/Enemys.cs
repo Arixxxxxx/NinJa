@@ -141,6 +141,7 @@ public class Enemys : MonoBehaviour
             //ÇÇ°¡Æ¦
             if (CurHP <= 0)
             {
+                ExpManager.instance.F_SetExp(ExpManager.instance.EnemyExp["S"]);
                 int R = Random.Range(0, 4);
                 Audio.clip = SoundManager.instance.enemyDie[R];
                 Audio.Play();

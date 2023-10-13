@@ -30,7 +30,7 @@ public class BossOpen1 : MonoBehaviour
     {
         if(main.gameObject.activeSelf&& !once2)
         {
-            Debug.Log("1");
+            
             once2 = true;
             StartCoroutine(EventStart());
 
@@ -57,7 +57,7 @@ public class BossOpen1 : MonoBehaviour
     IEnumerator EventStart()
     {
         yield return new WaitForSeconds(0.2f);
-        Debug.Log("2");
+      
         Bg.SetTrigger("Open");
 
     }

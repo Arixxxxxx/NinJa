@@ -36,6 +36,9 @@ public class GameUI : MonoBehaviour
     //블랙스크린
     Animator blackScrren;
 
+    //렙업
+    Animator LvUpAni;
+
     private void Awake()
     {
         if(instance == null)
@@ -84,9 +87,18 @@ public class GameUI : MonoBehaviour
         colorM = transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
 
         blackScrren = transform.Find("BlackScreen").GetComponent<Animator>();
+        //레벨업 
+        
+        
 
     }
-
+    private void Start()
+    {
+        if (GameManager.Instance.SceneName == "Chapter2")
+        {
+            LvUpAni = transform.Find("LvUp").GetComponent<Animator>();
+        }
+    }
 
 
     private void Update()
@@ -96,11 +108,7 @@ public class GameUI : MonoBehaviour
         normalAttackIcon();
         SkillBarSwap();
         WeaponeUIActive();
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            F_SetMapMoveBar("초원");
-
-        }
+      
     }
 
     private void LateUpdate()
@@ -357,6 +365,16 @@ public class GameUI : MonoBehaviour
     public void F_BlackScrrenOnOff(bool _value)
     {
         blackScrren.SetBool("On", _value);
+    }
+
+    public void F_LevelUp()
+    {
+        if (!LvUpAni.gameObject.activeSelf)
+        {
+            LvUpAni.gameObject.SetActive(true);
+        }
+       
+        LvUpAni.SetBool("Fade", true);
     }
 }
 

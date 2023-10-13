@@ -81,6 +81,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip WindowPopup; //창 열기
     public AudioClip WindowPopDown; //창 닫기
     public AudioClip Scream; //비명소리
+    public AudioClip LvUp; //렙업
 
 
 

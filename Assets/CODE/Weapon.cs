@@ -36,12 +36,7 @@ public class Weapon : MonoBehaviour
             }
 
 
-            dice = Random.Range(0f, 100f);
-            if (dice < SkillManager.instance.MeleePer)
-            {
-                Player.instance.meleeBuffOn = true;
-                arrowAttack.Instance.Rkey.SetBool("Active", true);
-            }
+            DiceSpecialSkillActive();
         }
 
 
@@ -52,55 +47,21 @@ public class Weapon : MonoBehaviour
             Audio.Play();
             Ghost sc = collision.gameObject.GetComponent<Ghost>();
             sc.F_OnHIt(SkillManager.instance.MeleeDmg);
+            DiceSpecialSkillActive();
+        }
+    }
 
+    private void DiceSpecialSkillActive()
+    {
+        dice = Random.Range(0f, 100f);
+        if (dice < SkillManager.instance.MeleePer)
+        {
+            Player.instance.meleeBuffOn = true;
+            arrowAttack.Instance.Rkey.SetBool("Active", true);
         }
     }
 }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (!once)
-    //    {
-    //        once = true;
-    //        if (collision.gameObject.CompareTag("Enemy"))
-    //        {
-
-    //            int R = Random.Range(0, 2);
-    //            Audio.clip = SoundManager.instance.enemyhit[R];
-    //            Audio.Play();
-
-    //            if (collision.gameObject.GetComponent<Enemys>() != null)
-    //            {
-    //                Enemys sc = collision.gameObject.GetComponent<Enemys>();
-    //                sc.F_OnHIt(SkillManager.instance.MeleeDmg);
-    //            }
-
-    //            else if (collision.gameObject.GetComponent<Enemis>() != null)
-    //            {
-    //                Enemis sc = collision.gameObject.GetComponent<Enemis>();
-    //                sc.F_OnHIt(SkillManager.instance.MeleeDmg);
-    //            }
-
-
-    //            dice = Random.Range(0f, 100f);
-    //            if (dice < SkillManager.instance.MeleePer)
-    //            {
-    //                Player.instance.meleeBuffOn = true;
-    //                arrowAttack.Instance.Rkey.SetBool("Active", true);
-    //            }
-    //        }
-
-
-    //        if (collision.gameObject.CompareTag("Ghost"))
-    //        {
-    //            int R = Random.Range(0, 2);
-    //            Audio.clip = SoundManager.instance.enemyhit[R];
-    //            Audio.Play();
-    //            Ghost sc = collision.gameObject.GetComponent<Ghost>();
-    //            sc.F_OnHIt(SkillManager.instance.MeleeDmg);
-
-    //        }
-    //    }
-    //}
+    
 
 
 

@@ -264,6 +264,7 @@ public class Ghost : MonoBehaviour
 
         if (CurHp <= 0)
         {
+            ExpManager.instance.F_SetExp(ExpManager.instance.EnemyExp["M"]);
             Rb.velocity = Vector2.zero;
             EnemyHpBar.gameObject.SetActive(false);
             this.gameObject.layer = 13;
