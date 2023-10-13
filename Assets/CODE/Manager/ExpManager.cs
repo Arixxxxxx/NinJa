@@ -54,52 +54,62 @@ public class ExpManager : MonoBehaviour
 
     bool once;
     float chekingExp;
+    int MaxLv= 20;
     [SerializeField] float fillSpeed;
     IEnumerator LevelUpSystem()
     {
-        expText.text = $"{((curExp / curLvNeedExp) * 100).ToString("0.0")}%";
-        chekingExp = curExp / curLvNeedExp;
-        if (ExpBar.fillAmount < chekingExp)
+        if(lv < MaxLv)
         {
-            ExpBar.fillAmount += Time.deltaTime * fillSpeed;
+            expText.text = $"{((curExp / curLvNeedExp) * 100).ToString("0.0")}%";
+            chekingExp = curExp / curLvNeedExp;
+
+            if (ExpBar.fillAmount < chekingExp)
+            {
+                ExpBar.fillAmount += Time.deltaTime * fillSpeed;
+            }
+
+
+            if (curExp >= curLvNeedExp && !once)
+            {
+                once = true;
+                GameObject obj = Instantiate(lvUpPrefab, transform.position, Quaternion.identity, PrePos);
+                obj.transform.position = PrePos.position;
+
+                SPW.F_GetStatsPoint(1); // 스탯량 증가 함수
+                SPW.F_SetActiveSkillTree(); // 스킬트리 찍을수있는거 활성화해줌
+                GameUI.instance.F_LevelUp();
+
+
+                curExp = curExp - curLvNeedExp;
+                lv++;
+                            
+                curLvNeedExp = expList[lv - 1];
+              
+                ExpBar.fillAmount = curExp / curLvNeedExp;
+
+                //레벨업 됬다 이펙트 발동
+                //스탯추가생겼다 UI 알려줘야됨 + [포인트가 있다면]
+
+                yield return new WaitForSeconds(0.1f);
+                once = false;
+            }
         }
-            
-
-        if (curExp >= curLvNeedExp && !once)
+        else if(lv == MaxLv)
         {
-            once = true;
-            GameObject obj = Instantiate(lvUpPrefab, transform.position, Quaternion.identity, PrePos);
-            obj.transform.position = PrePos.position;
-            
-            SPW.F_GetStatsPoint(1); // 스탯량 증가 함수
-            GameUI.instance.F_LevelUp();
-             
-            
-            curExp = curExp - curLvNeedExp;
-            lv++;
-            
-
-            if (expList.Count < (lv - 1)) //만약 다음레벨 지정한 경험치량이 없으면 10%씩 올려서 추가
-            {
-                expList.Add(expList[lv - 2] * 1.1f);
-                curLvNeedExp = expList[lv - 1];
-
-            }
-            else
-            {
-                curLvNeedExp = expList[lv - 1];
-            }
-            ExpBar.fillAmount = curExp / curLvNeedExp;
-
-            //레벨업 됬다 이펙트 발동
-            //스탯추가생겼다 UI 알려줘야됨 + [포인트가 있다면]
-
-            yield return new WaitForSeconds(0.1f);
-            once = false;
+            expText.text = string.Empty;
+            chekingExp = 1;
         }
     }
 
+    public void F_GmModeGetExp()
+    {
+        curExp += 50;
+    }
 
+        /// <summary>
+        /// 몹잡고 경험치
+        /// </summary>
+        /// <param name="_Exp">획득량 함수로 꺼내가세요</param>
     public void F_SetExp(float _Exp)
     {
         curExp += _Exp;

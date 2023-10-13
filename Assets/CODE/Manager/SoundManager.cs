@@ -82,6 +82,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip WindowPopDown; //창 닫기
     public AudioClip Scream; //비명소리
     public AudioClip LvUp; //렙업
+    public AudioClip skillWindowOpen; //스킬창 열기
+    public AudioClip skillWindowClose; //스킬창 닫기
 
 
 

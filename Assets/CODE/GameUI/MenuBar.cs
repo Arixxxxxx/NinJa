@@ -33,6 +33,7 @@ public class MenuBar : MonoBehaviour
     Button moveB;
     Button moveS;
     Button GetSkillPoint;
+    Button GetExp;
     Vector3 originPos;
     Vector3 battleZonePos;
 
@@ -92,6 +93,8 @@ public class MenuBar : MonoBehaviour
         {
             GetSkillPoint = gmMenu.transform.Find("GetSkillPoint").GetComponent<Button>();
             GetSkillPoint.onClick.AddListener(() => { GameManager.Instance.gameUI.GetComponent<SkillPointWindow>().F_GetStatsPoint(1); });
+            GetExp = gmMenu.transform.Find("GetEXP").GetComponent<Button>();
+            GetExp.onClick.AddListener(() => { ExpManager.instance.F_GmModeGetExp(); });
         }
 
         //ÁÂÇ¥ÀúÀå
@@ -198,7 +201,7 @@ public class MenuBar : MonoBehaviour
             Time.timeScale = 1;
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.gameObject.activeSelf && !soundOptionMenu.gameObject.activeSelf && !reallyExit.gameObject.activeSelf && !GameManager.Instance.GuideWindow.gameObject.activeSelf)
-        {
+        {   
             MenuOpen(0);
             Audio.Play();
         }

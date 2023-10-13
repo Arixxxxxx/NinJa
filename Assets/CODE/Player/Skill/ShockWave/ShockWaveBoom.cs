@@ -29,14 +29,14 @@ public class ShockWaveBoom : MonoBehaviour
             {
                 Enemys sc = collision.gameObject.GetComponent<Enemys>();
                 sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
-                sc.F_Stun_Enemy(1.5f);
+                sc.F_Stun_Enemy(SkillManager.instance.ShockWaveStunTime);
             }
 
             else if (collision.gameObject.GetComponent<Enemis>() != null)
             {
                 Enemis sc = collision.gameObject.GetComponent<Enemis>();
                 sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
-                sc.F_Stun_Enemy(1.5f);
+                sc.F_Stun_Enemy(SkillManager.instance.ShockWaveStunTime);
             }
 
         }

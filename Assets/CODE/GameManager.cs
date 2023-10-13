@@ -162,6 +162,8 @@ public class GameManager : MonoBehaviour
     //씬2 카메라 x축 조절용
     [HideInInspector]  public int PlaceNum;
 
+    //스킬창 열렷을시
+    public bool SkillWindowPopup;
     private void Awake()
     {
         SceneName = SceneManager.GetActiveScene().name;
@@ -214,12 +216,13 @@ public class GameManager : MonoBehaviour
         TimeBar = EventTimeBar.transform.GetChild(1).GetComponent<Image>();  // 이벤트 시간바 Fill값 접근용
         TimeText = EventTimeBar.transform.GetChild(2).GetComponent<TMP_Text>(); // 이벤트 시간바안에 텍스트
 
-       
+        //가이드UI 접근용
+        GuideWindow = gameUI.transform.Find("GameGuide").GetComponent<Transform>();
 
         if (SceneName == "Chapter1")
         {
-            //가이드UI 접근용
-            GuideWindow = gameUI.transform.Find("GameGuide").GetComponent<Transform>();
+           
+            
 
             GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
             GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();

@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour
             int R = Random.Range(0, 2);
             Audio.clip = SoundManager.instance.enemyhit[R];
             Audio.Play();
-
+            GameManager.Instance.Player_CurHP += SkillManager.instance.MeleeHpLife;
             if (collision.gameObject.GetComponent<Enemys>() != null)
             {
                 Enemys sc = collision.gameObject.GetComponent<Enemys>();

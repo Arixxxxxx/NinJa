@@ -21,6 +21,7 @@ public class SkillManager : MonoBehaviour
     public float MeleeDmg;
     public float RangeDmg;
     public float MeleeMpUp;
+    public float MeleeHpLife;
     public float ArrowMpUp;
 
     [Header("# 궁극기 관련")]
@@ -29,6 +30,7 @@ public class SkillManager : MonoBehaviour
 
     [Header("# 근접스킬 데미지")]
     public float ShockWaveDmg;
+    public float ShockWaveStunTime;
     public float dargonPierDmg;
     public float whilWindDmg;
     public float whilWindDmgInterval;
@@ -38,8 +40,10 @@ public class SkillManager : MonoBehaviour
     public float originElectronicShotDmg;
     public float electronicShotDmg;
     public float tripleShotDmg;
+    public int TripleShotEa;
     public float boomShotDmg;
     public float throwTrapDmg;
+    
 
     [Header("# 스킬 쿨타임")]
     public float ShockWaveCoolTime;
@@ -94,9 +98,25 @@ public class SkillManager : MonoBehaviour
     float originHp;
     float originMp;
 
+    //스킬트리용 본래 스탯기록
+    float originMeleeMpup;
+    float originwhilWindDMG;
+    float originwhilWindInterval;
+    float originShockWaveDMG;
+    float originShockWaveStun;
+    float originMeleePilsalgiPercent;
+
+    float originRangeMpup;
+    float originPowerShotDmg;
+    float originPowerShotCastingTime;
+    float originTripleDmg;
+    float originTripleEA;
+    float originRangePilsalgiPercent;
+
+    
     private void Awake()
     {
-        originElectronicShotDmg = electronicShotDmg;
+        
 
         if (instance == null)
         {
@@ -154,6 +174,21 @@ public class SkillManager : MonoBehaviour
         originHp = GameManager.Instance.Player_CurHP;
         originMp = GameManager.Instance.Player_CurMP;
 
+        //스킬트리용 초기설정 대미지
+        originMeleeMpup = MeleeMpUp;
+        originwhilWindDMG = whilWindDmg;
+        originwhilWindInterval = whilWindDmgInterval;
+        originShockWaveDMG = ShockWaveDmg;
+        originShockWaveStun = ShockWaveStunTime;
+        originMeleePilsalgiPercent = MeleePer;
+
+        originRangeMpup = ArrowMpUp;
+        originPowerShotDmg = electronicShotDmg;
+        originPowerShotCastingTime = arrowAttack.Instance.PowerShotChargingSpeed;
+        originTripleDmg = tripleShotDmg;
+        originTripleEA = TripleShotEa;
+        originRangePilsalgiPercent = RangePer;
+
     }
 
     private void Update()
@@ -168,7 +203,7 @@ public class SkillManager : MonoBehaviour
         }
         MeleeUnitFrame();
 
-        if(GM.Player_CurMP<= 0 && buffOnOff)
+        if (GM.Player_CurMP <= 0 && buffOnOff)
         {
             buff();
         }
@@ -545,7 +580,7 @@ public class SkillManager : MonoBehaviour
     {
         if (GameManager.Instance.isGetMeleeItem)
         {
-             if (GameManager.Instance.rangeMode || !GameManager.Instance.meleeMode) // 태세가 변경되었을때
+            if (GameManager.Instance.rangeMode || !GameManager.Instance.meleeMode) // 태세가 변경되었을때
             {
                 Player.instance.meleeBuffOn = false;
                 arrowAttack.Instance.Rkey.SetBool("Active", false);
@@ -568,7 +603,7 @@ public class SkillManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.meleeMode)
                 {
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.8f);
-                    Instantiate(RkeyOra,GameManager.Instance.playerTR.position, Quaternion.identity,Player.instance.transform);
+                    Instantiate(RkeyOra, GameManager.Instance.playerTR.position, Quaternion.identity, Player.instance.transform);
                     arrowAttack.Instance.Rkey.SetBool("Active", false);
 
 
@@ -663,21 +698,80 @@ public class SkillManager : MonoBehaviour
     }
 
     /// <summary>
+    ///  스킬시스템
+    /// </summary>
+    /// <param name="_class">M,R</param>
+    /// <param name="_Order">1 / 11 / 12 / 2</param>
+    /// <param name="_Point">포인트</param>
+    public void F_SkillTreeSysTem(string _class, int _Order, float _Point)
+    {
+        switch (_class)
+        {
+            case "M":
+
+                switch (_Order)
+                {
+                    case 1:
+                        MeleeHpLife = (2 * _Point); // 평타 생명력 흡수 2,4,6
+                        break;
+
+                    case 11:
+                        whilWindDmg = (originwhilWindDMG + (2 * _Point)); // 2,4,6 ++
+                        whilWindDmgInterval = (originwhilWindInterval - (_Point * 0.1f)); //0.1초씩
+                        break;
+
+                    case 12:
+                        ShockWaveDmg = (originShockWaveDMG + (3 * _Point));  // 3 6 9
+                        ShockWaveStunTime = (originShockWaveDMG + (0.25f * _Point)); // 0.25초씩증가
+                        break;
+                    case 2:
+                        MeleePer = (originMeleePilsalgiPercent + ( 5 * _Point)); // 발동 확률 5% 증가
+                        break;
+                }
+
+                break;
+
+            case "R":
+
+                switch (_Order)
+                {
+                    case 1:
+                        ArrowMpUp = (originMeleeMpup + (2 * _Point)); // 2 4 6 
+                        break;
+
+                    case 11:
+                        electronicShotDmg = (originPowerShotDmg + (2 * _Point)); // 2 4 6
+                        originElectronicShotDmg = (originPowerShotDmg + (2 * _Point)); // 2 4 6+
+                        arrowAttack.Instance.PowerShotChargingSpeed = (originPowerShotCastingTime + _Point); // 0.2초 감소
+                        break;
+
+                    case 12:
+                        tripleShotDmg = (originTripleDmg + (_Point)); // 1 2 3
+                        TripleShotEa = ((int)originTripleEA + ((int)_Point)); // 1 2 3
+                        break;
+                    case 2:
+                        RangePer = (originRangePilsalgiPercent + (5*_Point));// 발동 확률 5% 증가
+                        break;
+                }
+
+                break;
+
+        }
+    }
+
+    /// <summary>
     /// 스킬포인트 투자 합산기
     /// </summary>
     /// <param name="_Type">공격/신체/스킬</param>
     /// <param name="_Order">스킬창의 순서</param>
     /// <param name="_Point">포인트</param>
     /// 
-
-   
-
     public void F_SetLevupPointAdd(string _Type, int _Order, int _Point)
     {
         switch (_Type)
         {
             case "Attack":
-                
+
                 switch (_Order)
                 {
                     case 0:
@@ -688,24 +782,24 @@ public class SkillManager : MonoBehaviour
                         RangeDmg = (originRangeDmg + _Point);
                         break;
                 }
-                
+
                 break;
 
             case "Body":
                 switch (_Order)
                 {
                     case 0:
-                        GameManager.Instance.Player_MaxHP = (originHp + ( 5 * _Point ));
+                        GameManager.Instance.Player_MaxHP = (originHp + (5 * _Point));
                         break;
 
-                        case 1:
-                        GameManager.Instance.Player_MaxMP = (originMp + ( 5 * _Point ));
+                    case 1:
+                        GameManager.Instance.Player_MaxMP = (originMp + (5 * _Point));
                         break;
 
                 }
                 break;
         }
-        
+
 
     }
 }

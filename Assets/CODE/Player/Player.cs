@@ -218,7 +218,7 @@ public class Player : MonoBehaviour
             WallJump();
             SuchTalk();
             SpRecovery();
-            //HpRecovery(); 다시 만들예정
+            HpRecovery(); 
             MeleeAttack();
             SheldOn();
             F_TextBoxPos();
@@ -517,12 +517,10 @@ public class Player : MonoBehaviour
                     }
                     if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind)
                     {
-
-                        //buffDice = Random.Range(0f, 100f);  -> 타격시로 이사
-                        //if(buffDice < buffOnActivePercent)
-                        //{
-                        //    meleeBuffOn = true;
-                        //}
+                        if (GameManager.Instance.SkillWindowPopup)
+                        {
+                            return;
+                        }
 
                         GameManager.Instance.Player_CurMP += SkillManager.instance.MeleeMpUp;
                         isAttacking = true;
@@ -560,6 +558,8 @@ public class Player : MonoBehaviour
 
                     if (Input.GetMouseButtonDown(1) && !isAttacking && !isWhilWind)
                     {
+                        if (GameManager.Instance.SkillWindowPopup) { return; }
+
                         ShieldOn = true;
                         if (!isSoundPlay)
                         {
@@ -1149,20 +1149,20 @@ public class Player : MonoBehaviour
 
     }
 
-    ////체력자연회복
-    //private void HpRecovery()
-    //{
-    //    if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
-    //    {
-    //        GameManager.Instance.Player_CurHP = GameManager.Instance.Player_MaxHP;
-    //    }
+    //체력자연회복
+    private void HpRecovery()
+    {
+        if (GameManager.Instance.Player_CurHP > GameManager.Instance.Player_MaxHP)
+        {
+            GameManager.Instance.Player_CurHP = GameManager.Instance.Player_MaxHP;
+        }
 
-    //    else if (GameManager.Instance.Player_CurHP < GameManager.Instance.Player_MaxHP)
-    //    {
-    //        GameManager.Instance.Player_CurHP += 1 * Time.deltaTime * 0.05f;
-    //    }
+        else if (GameManager.Instance.Player_CurHP < GameManager.Instance.Player_MaxHP)
+        {
+            GameManager.Instance.Player_CurHP += 1 * Time.deltaTime * 0.05f;
+        }
 
-    //}
+    }
 
     public void F_LegGroundCheaker(Collider2D collision)
     {

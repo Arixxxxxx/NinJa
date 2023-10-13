@@ -9,7 +9,7 @@ using static Bullet;
 public class arrowAttack : MonoBehaviour
 {
     public static arrowAttack Instance;
-    
+
 
 
 
@@ -25,7 +25,7 @@ public class arrowAttack : MonoBehaviour
     [SerializeField] Transform m_Arrow;
     [SerializeField] Transform BowPos;
     [SerializeField] Transform ArrowTong;
-    [SerializeField] float PowerShotChargingSpeed;
+    [SerializeField] public float PowerShotChargingSpeed;
     private Transform tong;
     Camera maincam;
     Queue<GameObject> ArrowBox = new Queue<GameObject>();
@@ -149,14 +149,18 @@ public class arrowAttack : MonoBehaviour
     {
         if (!GameManager.Instance.MovingStop || !GameManager.Instance.GameAllStop)
         {
-            LookAtMouse();
-            ArrowFire();
-            TripleArrow();
-            ThrowTrap();
-            PowerBarNoScale();
-            PowerShot();
-            RangeUnitFrame();
-            SpecialSkill();
+            if (!GameManager.Instance.SkillWindowPopup)
+            {
+                LookAtMouse();
+                ArrowFire();
+                TripleArrow();
+                ThrowTrap();
+                PowerBarNoScale();
+                PowerShot();
+                RangeActionBar();
+                SpecialSkill();
+            }
+
         }
 
     }
@@ -172,7 +176,7 @@ public class arrowAttack : MonoBehaviour
     private bool isSkill4Ok;
 
     private bool ani1, ani2, ani3, ani4;
-    private void RangeUnitFrame()
+    private void RangeActionBar()
     {
         skill1.fillAmount = skill1Timer / SkillManager.instance.electronicShotCoolTime;
         Cool1.text = (SkillManager.instance.electronicShotCoolTime - skill1Timer).ToString("F0");
@@ -310,7 +314,7 @@ public class arrowAttack : MonoBehaviour
 
     }
 
-    
+
     float dice;
     float originAttackSpeed;
     [SerializeField] private float buffPer;
@@ -377,7 +381,7 @@ public class arrowAttack : MonoBehaviour
     {
         if (GameManager.Instance.isGetRangeItem && GameManager.Instance.rangeMode)
         {
-            if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && SM.electronicMp < GM.Player_CurMP )
+            if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && SM.electronicMp < GM.Player_CurMP)
             {
                 isCharging = true;
 
@@ -406,7 +410,7 @@ public class arrowAttack : MonoBehaviour
                 Player.instance.F_CharText("CoolTime");
             }
 
-            else if(Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && SM.electronicMp > GM.Player_CurMP)
+            else if (Input.GetKey(KeyCode.Alpha1) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill1Ok && SM.electronicMp > GM.Player_CurMP)
             {
                 Player.instance.F_CharText("MP");
             }
@@ -497,12 +501,12 @@ public class arrowAttack : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && isSkill2Ok && SM.tripleShotMp < GM.Player_CurMP)
             {
-                
+
                 GM.Player_CurMP -= SM.tripleShotMp;
                 skill2Timer = 0;
                 ani2 = false;
                 StartCoroutine(ArrowSpawn());
-                
+
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.player.RealBow.gameObject.activeSelf && !isSkill2Ok)
             {
@@ -576,11 +580,17 @@ public class arrowAttack : MonoBehaviour
 
     IEnumerator ArrowSpawn()
     {
-        ArrowOnsShot();
-        yield return new WaitForSeconds(0.15f);
-        ArrowOnsShot();
-        yield return new WaitForSeconds(0.15f);
-        ArrowOnsShot();
+        int Ea = SkillManager.instance.TripleShotEa;
+
+        while (SkillManager.instance.TripleShotEa > 0)
+        {
+            SkillManager.instance.TripleShotEa--;
+            ArrowOnsShot();
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        SkillManager.instance.TripleShotEa = Ea;
+
     }
 
     private void ThrowTrap()
@@ -627,7 +637,7 @@ public class arrowAttack : MonoBehaviour
         obj.GetComponent<Rigidbody2D>().velocity = obj.transform.right * 18f;
     }
 
-   public bool BuffOn;
+    public bool BuffOn;
     [SerializeField] public float buffMaxTime;
     [SerializeField] float buffCounter;
     bool once1;
@@ -660,7 +670,7 @@ public class arrowAttack : MonoBehaviour
                     if (!once1)
                     {
                         OriginDMG = SkillManager.instance.RangeDmg;
-                        SkillManager.instance.RangeDmg = OriginDMG+2;
+                        SkillManager.instance.RangeDmg = OriginDMG + 2;
                         normalShootSpeed = normalShootSpeed / 2;
                     }
 
@@ -668,7 +678,7 @@ public class arrowAttack : MonoBehaviour
 
                 }
 
-                if (BuffOn && GameManager.Instance.meleeMode )
+                if (BuffOn && GameManager.Instance.meleeMode)
                 {
                     SpecialSide.fillAmount = 0;
                     skillCase.fillAmount = 1;
@@ -684,18 +694,18 @@ public class arrowAttack : MonoBehaviour
                     once1 = false;
                 }
             }
-            
-        }
-      
 
-        
+        }
+
+
+
     }
 
     IEnumerator Timer()
     {
         while (buffCounter > 0.05f)
         {
-            
+
             buffCounter -= Time.deltaTime;
             SpecialSide.fillAmount = buffCounter / buffMaxTime;
             skillCase.fillAmount = 1 - (buffCounter / buffMaxTime);
@@ -707,17 +717,17 @@ public class arrowAttack : MonoBehaviour
         normalShootSpeed = originAttackSpeed;
         buffCounter = 0;
         SkillManager.instance.RangeDmg = OriginDMG;
-       
+
         SpecialBuffBar.gameObject.SetActive(false);
         Player.instance.RangeBuff.Stop();
         Player.instance.RangeBuff.gameObject.SetActive(false);
         effecting = false;
         BuffOn = false;
         once1 = false;
-        
+
     }
 
-   
+
     /// <summary>
     /// 
     /// </summary>
@@ -735,20 +745,20 @@ public class arrowAttack : MonoBehaviour
                 arrow.SetActive(true);
                 return arrow;
 
-                
+
 
             case ArrowType.triple:
 
                 arrow = TripleArrowQUE.Dequeue();
                 arrow.SetActive(true);
                 return arrow;
-               
+
 
             case ArrowType.boomArrow:
                 arrow = boomArrowQUE.Dequeue();
                 arrow.SetActive(true);
                 return arrow;
-              
+
 
 
 
