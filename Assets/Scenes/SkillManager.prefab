@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6205887331953280846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1908022455333693780}
+  - component: {fileID: 5366956295997631014}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1908022455333693780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6205887331953280846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.23, y: -1.4679999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5366956295997631014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6205887331953280846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2675bceb6ccd6784cb74f1f95ce00f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShockWave: {fileID: 896627335882082035, guid: fa0b84fd417e407448096dec5095274d, type: 3}
+  dragonPier: {fileID: 7026379649434661176, guid: c5bae0f35ce61e84c971933709fd02a0, type: 3}
+  RkeyOra: {fileID: 1759588039036380777, guid: 74c20c661a8ee074b9a0cca514fed0b1, type: 3}
+  MeleeDmg: 2
+  RangeDmg: 1
+  MeleeMpUp: 1
+  MeleeHpLife: 0
+  ArrowMpUp: 1
+  MeleePer: 15
+  RangePer: 15
+  ShockWaveDmg: 1.5
+  ShockWaveStunTime: 1.5
+  dargonPierDmg: 8
+  whilWindDmg: 1.5
+  whilWindDmgInterval: 0.5
+  buffDmg: 1
+  originElectronicShotDmg: 3
+  electronicShotDmg: 3
+  tripleShotDmg: 2
+  TripleShotEa: 3
+  boomShotDmg: 10
+  throwTrapDmg: 1
+  ShockWaveCoolTime: 8
+  dargonPieCoolTimer: 20
+  whilWindCoolTime: 5
+  warCryCoolTimer: 5
+  electronicShotCoolTime: 5
+  tripleShotCoolTime: 3
+  boomShotCoolTime: 15
+  throwTrapCoolTime: 1
+  ShockWaveMp: 5
+  whilWindMp: 1
+  dargonPierMp: 10
+  warCryMp: 1.5
+  electronicMp: 5
+  tripleShotMp: 2
+  boomShotMp: 10
+  throwTrapMp: 3
+  buffPs: {fileID: 0}
+  isSkill1Ok: 0
+  isSkill2Ok: 0
+  isSkill3Ok: 0
+  isSkill4Ok: 0
+  spinSpeed: -20
+  z: 0

@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class SkillPointWindow : MonoBehaviour
 {
-    
+    [SerializeField] GameObject SkillTreeBtn;
+    [SerializeField] TMP_Text BtnText;
+
     Transform skillPointWindow;
     //종료버튼
     Button ExitBtn;
@@ -52,10 +54,12 @@ public class SkillPointWindow : MonoBehaviour
    // 수락 초기화 버튼
    Button AcceptBtn, ResetBtn, TreeResetBtn;
 
+    Transform CheakPoint;
+
     private void Awake()
     {
-        
 
+        CheakPoint = transform.Find("Btn/CeahkPoint").GetComponent<Transform>();
         skillPointWindow = transform.Find("SkillPointWindow").GetComponent<Transform>();
         BodyPointBox = skillPointWindow.Find("BodyPoint/BodyPointBox").GetComponent<Transform>();
         ExitBtn = skillPointWindow.transform.Find("Bg/Bg/ExitBtn").GetComponent<Button>();
@@ -223,7 +227,7 @@ public class SkillPointWindow : MonoBehaviour
                 {
                     skillMelee2.transform.parent.gameObject.SetActive(false);
                 }
-                else if (haveSkillPoint == 0)
+                if (haveSkillPoint == 0)
                 {
                     skillMelee1.transform.parent.gameObject.SetActive(false);
                     skillMelee11.transform.parent.gameObject.SetActive(false);
@@ -345,7 +349,7 @@ public class SkillPointWindow : MonoBehaviour
                 {
                     skillRange2.transform.parent.gameObject.SetActive(false);
                 }
-                else if (haveSkillPoint == 0)
+                if (haveSkillPoint == 0)
                 {
                     skillMelee1.transform.parent.gameObject.SetActive(false);
                     skillMelee11.transform.parent.gameObject.SetActive(false);
@@ -595,13 +599,31 @@ public class SkillPointWindow : MonoBehaviour
     
     private void Update()
     {
-        windowPopup();
+        WindowPopup();
         TextUpdater();
         LvLimitFuntion();
         SkillTreePointTextUpdater();
         CheakingWindow();
+        PleaseSkillPointUse();
     }
 
+    int sum;
+    private void PleaseSkillPointUse()
+    {
+        sum = haveAttackPoint + haveBodyPoint+ haveSkillPoint;
+        if(sum >0)
+        {
+            CheakPoint.gameObject.SetActive(true);
+            SkillTreeBtn.gameObject.SetActive(true);
+            BtnText.text = sum.ToString();
+        }
+        else if(sum == 0)
+        {
+            CheakPoint.gameObject.SetActive(false);
+            SkillTreeBtn.gameObject.SetActive(false);
+
+        }
+    }
     private void CheakingWindow()
     {
         if (!skillPointWindow.gameObject.activeSelf)
@@ -736,7 +758,7 @@ public class SkillPointWindow : MonoBehaviour
 
 
     }
-    private void windowPopup()
+    private void WindowPopup()
     {
       
         if (Input.GetKeyDown(KeyCode.K))
@@ -754,6 +776,19 @@ public class SkillPointWindow : MonoBehaviour
         }
     }
 
+    public void F_SkillTreeWindowPopUp()
+    {
+        if (!skillPointWindow.gameObject.activeSelf)
+        {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.skillWindowOpen, 0.5f);
+            skillPointWindow.gameObject.SetActive(true);
+        }
+        else
+        {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.skillWindowClose, 0.5f);
+            skillPointWindow.gameObject.SetActive(false);
+        }
+    }
   
     public void F_GetStatsPoint(int _Value)
     {
@@ -761,6 +796,4 @@ public class SkillPointWindow : MonoBehaviour
         haveBodyPoint += _Value;
          haveSkillPoint += _Value;
     }
-
-
 }

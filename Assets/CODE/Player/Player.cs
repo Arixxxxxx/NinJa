@@ -517,7 +517,7 @@ public class Player : MonoBehaviour
                     }
                     if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind)
                     {
-                        if (GameManager.Instance.SkillWindowPopup)
+                        if (GameManager.Instance.SkillWindowPopup || GameManager.Instance.cursorOnUi)
                         {
                             return;
                         }

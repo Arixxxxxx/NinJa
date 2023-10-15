@@ -23,6 +23,7 @@ public class ActionBarInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        GameManager.Instance.cursorOnUi = true;
         skillbar.gameObject.SetActive(true);
         //skillbar.transform.position = new Vector2(transform.position.x - 270, skillbar.transform.position.y);
         skillbar.transform.position = new Vector2(transform.position.x, skillbar.transform.position.y);
@@ -35,6 +36,7 @@ public class ActionBarInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        GameManager.Instance.cursorOnUi = false;
         skillbar.gameObject.SetActive(false);
     }
 }

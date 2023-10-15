@@ -100,9 +100,9 @@ public class GateWayCollider : MonoBehaviour
             }
             counter -= Time.deltaTime * speed;
             back.color = new Color(0, 0, 0, counter);
-            GameManager.Instance.player.MovingStop = false;
-    
-            
+            //GameManager.Instance.F_MoveStop(1);
+
+
         }
        
     }
@@ -113,7 +113,7 @@ public class GateWayCollider : MonoBehaviour
         {
             SoundManager.instance.F_SoundPlay(SoundManager.instance.enterGate, 1);
             end = false;
-            GameManager.Instance.MovingStop = true;
+            GameManager.Instance.F_MoveStop(0);
             GameManager.Instance.player.Rb.velocity = Vector3.zero;
             
             up = true;
@@ -175,7 +175,7 @@ public class GateWayCollider : MonoBehaviour
         }
         else if(gateMoving)
         {
-            Debug.Log("¡¯¿‘");
+            
             GameManager.Instance.player.MeleeItemShow(1);
         }
     }
@@ -243,7 +243,7 @@ public class GateWayCollider : MonoBehaviour
             GameManager.Instance.player.Sr.enabled = true;
             GameManager.Instance.player.MeleeItemShow(0);
             GetItemNPC.Instance.partiGate.gameObject.SetActive(false);
-            GameManager.Instance.MovingStop = false;
+            GameManager.Instance.F_MoveStop(1);
             gateMoving = false;
         }
         
@@ -257,7 +257,7 @@ public class GateWayCollider : MonoBehaviour
         {
             GameManager.Instance.player.Sr.enabled = true;
             GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);
-            GameManager.Instance.MovingStop = false;
+            GameManager.Instance.F_MoveStop(1);
             gateMoving = false;
             if (GameManager.Instance.meleeMode)
             {

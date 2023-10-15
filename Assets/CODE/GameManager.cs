@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
 
     //스킬창 열렷을시
     public bool SkillWindowPopup;
+    public bool cursorOnUi;
     private void Awake()
     {
         SceneName = SceneManager.GetActiveScene().name;
@@ -748,6 +749,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
+    
+    public void F_HpFull()
+    {
+        Player_CurHP = Player_MaxHP;
+    }
     
 }

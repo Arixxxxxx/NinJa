@@ -87,8 +87,11 @@ public class Enemys : MonoBehaviour
     {
      
         onTrap = true;
+        Rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+
         Ps.gameObject.SetActive(true);
         yield return new WaitForSeconds(_duration);
+        Rb.constraints = RigidbodyConstraints2D.None;
         onTrap = false;
         Ps.gameObject.SetActive(false);
 
@@ -141,7 +144,11 @@ public class Enemys : MonoBehaviour
             //ÇÇ°¡Æ¦
             if (CurHP <= 0)
             {
-                ExpManager.instance.F_SetExp(ExpManager.instance.EnemyExp["S"]);
+                if(GameManager.Instance.SceneName == "Chapter2")
+                {
+                    ExpManager.instance.F_SetExp(ExpManager.instance.EnemyExp["S"]);
+                }
+               
                 int R = Random.Range(0, 4);
                 Audio.clip = SoundManager.instance.enemyDie[R];
                 Audio.Play();

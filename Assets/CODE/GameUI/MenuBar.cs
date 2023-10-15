@@ -42,12 +42,15 @@ public class MenuBar : MonoBehaviour
     public TMP_InputField passwardWindow;
     Button closeBtn;
     Transform gmModeMenu;
+
+    //스킬트리 버튼
+    Button skillTreeBtn;
     private void Awake()
     {
 
 
         //게임메뉴옵션열기
-        menuColl = transform.Find("MenuColl").GetComponent<Button>();
+        menuColl = transform.Find("Btn/MenuColl").GetComponent<Button>();
 
         //메뉴옵션
         mainMenu = transform.Find("MenuBar").GetComponent<Transform>();
@@ -72,7 +75,7 @@ public class MenuBar : MonoBehaviour
 
 
         //GM모드관련
-        gmBtn = transform.Find("GmMode").GetComponent<Button>();
+        gmBtn = transform.Find("Btn/GmMode").GetComponent<Button>();
         gmModeMenu = transform.Find("GmModeMenu").GetComponent<Transform>();
 
         gmMenu = gmModeMenu.transform.GetChild(0).GetComponent<Transform>();
@@ -84,6 +87,10 @@ public class MenuBar : MonoBehaviour
 
         moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
         moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
+
+        skillTreeBtn = transform.Find("Btn/SkillBtn").GetComponent<Button>();
+        SkillPointWindow sc = GetComponent<SkillPointWindow>();
+        skillTreeBtn.onClick.AddListener(() => { sc.F_SkillTreeWindowPopUp();});
 
     }
 

@@ -19,6 +19,7 @@ public class ExpManager : MonoBehaviour
     [SerializeField] private int lv = 1;
     [SerializeField] private Image ExpBar;
     [SerializeField] TMP_Text expText;
+    [SerializeField] TMP_Text LvText;
     
 
     SkillPointWindow SPW;
@@ -50,6 +51,7 @@ public class ExpManager : MonoBehaviour
     private void Update()
     {
         StartCoroutine(LevelUpSystem());
+        LvUiUpdater();
     }
 
     bool once;
@@ -78,7 +80,7 @@ public class ExpManager : MonoBehaviour
                 SPW.F_GetStatsPoint(1); // 스탯량 증가 함수
                 SPW.F_SetActiveSkillTree(); // 스킬트리 찍을수있는거 활성화해줌
                 GameUI.instance.F_LevelUp();
-
+                GameManager.Instance.F_HpFull();
 
                 curExp = curExp - curLvNeedExp;
                 lv++;
@@ -101,6 +103,10 @@ public class ExpManager : MonoBehaviour
         }
     }
 
+    private void LvUiUpdater()
+    {
+        LvText.text = lv.ToString();
+    }
     public void F_GmModeGetExp()
     {
         curExp += 50;
@@ -115,4 +121,13 @@ public class ExpManager : MonoBehaviour
         curExp += _Exp;
     }
  
+    public float[] F_GetCurexpAndNeedExp()
+    {
+        float[] floats = new float[2];
+        floats[0] = curExp;
+        floats[1] = curLvNeedExp;
+
+        return floats;
+
+    }
 }

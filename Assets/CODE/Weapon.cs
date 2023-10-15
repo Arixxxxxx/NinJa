@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
     }
 
     float dice;
+    float HpLifeDice;
     public bool once;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -22,7 +23,7 @@ public class Weapon : MonoBehaviour
             int R = Random.Range(0, 2);
             Audio.clip = SoundManager.instance.enemyhit[R];
             Audio.Play();
-            GameManager.Instance.Player_CurHP += SkillManager.instance.MeleeHpLife;
+            DiceDrainLife();
             if (collision.gameObject.GetComponent<Enemys>() != null)
             {
                 Enemys sc = collision.gameObject.GetComponent<Enemys>();
@@ -45,6 +46,7 @@ public class Weapon : MonoBehaviour
             int R = Random.Range(0, 2);
             Audio.clip = SoundManager.instance.enemyhit[R];
             Audio.Play();
+            DiceDrainLife();
             Ghost sc = collision.gameObject.GetComponent<Ghost>();
             sc.F_OnHIt(SkillManager.instance.MeleeDmg);
             DiceSpecialSkillActive();
@@ -56,6 +58,18 @@ public class Weapon : MonoBehaviour
         dice = Random.Range(0f, 100f);
         if (dice < SkillManager.instance.MeleePer)
         {
+            Player.instance.meleeBuffOn = true;
+            arrowAttack.Instance.Rkey.SetBool("Active", true);
+        }
+    }
+
+    private void DiceDrainLife()
+    {
+        dice = Random.Range(0f, 100f);
+        if (dice < 30)
+        {
+            Debug.Log("ÁøÀÔ");
+            GameManager.Instance.Player_CurHP += SkillManager.instance.MeleeHpLife;
             Player.instance.meleeBuffOn = true;
             arrowAttack.Instance.Rkey.SetBool("Active", true);
         }
