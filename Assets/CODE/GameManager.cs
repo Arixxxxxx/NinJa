@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -128,7 +129,8 @@ public class GameManager : MonoBehaviour
 
     //텔포용 포인트
     [HideInInspector] public Transform telPoint1;
-
+    private Transform TelManager;
+    private Transform TelPoint3;
 
     // 검정화면 조절기능
     public Image blackScreen;
@@ -172,6 +174,9 @@ public class GameManager : MonoBehaviour
     public bool RockQuest;
     private void Awake()
     {
+        //Resources.UnloadUnusedAssets(); // 검정화면일때 가비지컬렉터일부로 사용하게할수있음.
+
+
         SceneName = SceneManager.GetActiveScene().name;
         if (Instance == null)
         {
@@ -251,6 +256,8 @@ public class GameManager : MonoBehaviour
             tutorialEvent = GameObject.Find("TutorialEvent").GetComponent<Transform>();
             battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
             rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
+            //이벤트용 배경색 조절용
+            gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
         }
 
 
@@ -258,10 +265,12 @@ public class GameManager : MonoBehaviour
         //씬넘길때 사용할 배경
         blackScreen = gameUI.transform.Find("BlackScreen").GetComponent<Image>();
 
-        if (SceneName == "Chapter1")
+        if (SceneName == "Chapter2")
         {
-            //이벤트용 배경색 조절용
-            gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
+            TelManager = GameObject.Find("TeleportManager").GetComponent<Transform>();
+            TelPoint3 = TelManager.transform.Find("P3").GetComponent<Transform>();
+
+
         }
 
 
@@ -534,11 +543,12 @@ public class GameManager : MonoBehaviour
                 {
                     case 300:
                         RockQuest = true;
+                        _obj.transform.Find("Byuk").gameObject.SetActive(false);
                         break;
 
                     case 301:
                         Door.sprite = sprites[0];
-                        
+                        TelPoint3.gameObject.SetActive(true);
                         break;
                 }
             }
