@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    
+
     public GameObject glodbalLight;
 
     // 라이트 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -28,11 +28,11 @@ public class GameManager : MonoBehaviour
     public bool meleeMode;
     public bool rangeMode;
 
-    
+
     [Header("# 캐릭터 HP설정")]
     [Space]
     public float Player_CurHP;
-     public  float Player_MaxHP;
+    public float Player_MaxHP;
     public float Player_CurMP;
     public float Player_MaxMP;
     [Header("# 캐릭터 SP설정")]
@@ -84,29 +84,30 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public Enemys enemys;
 
-
+    [SerializeField] Sprite[] sprites;
+    [SerializeField] SpriteRenderer Door;
     // 카메라 연출 컨트롤
     [Header("# 카메라 연출 확인용")]
     [Space]
     public bool normalCamera;
-     public bool cameraShake;
+    public bool cameraShake;
 
     //고대차원문 위치기억
     public Vector3 gateOriginPos;
 
-    private Enemys _enemy;
-    public Enemys Enemy2
-    { 
-        get => _enemy;
-        private set => _enemy = value;
-    }
+    //private Enemys _enemy;
+    //public Enemys Enemy2
+    //{ 
+    //    get => _enemy;
+    //    private set => _enemy = value;
+    //}
 
     //퀘스트용 좀비3마리
     public int Q1; // 좀비 킬횟수
 
     //2씬 백라이트(달)
     Transform Moon;
-   
+
 
     [HideInInspector] public DmgPooling dmgpooling;
     [HideInInspector] public DMGFont dmgfont;
@@ -131,7 +132,7 @@ public class GameManager : MonoBehaviour
 
     // 검정화면 조절기능
     public Image blackScreen;
-    
+
 
     //튜토리얼 이벤트[배틀존]
     [HideInInspector] public Transform tutorialEvent;
@@ -144,7 +145,7 @@ public class GameManager : MonoBehaviour
     //마지막 튜토용 이동만불가 불리언
     public bool legStop;
     public float deathEagleConter; // 킬카운터
-    
+
     public float curEagle = 10; // 킬카운터
     public float totalDeathEagle = 10; // 잡아야하는 독수리양
 
@@ -160,11 +161,15 @@ public class GameManager : MonoBehaviour
     public string SceneName = "";
 
     //씬2 카메라 x축 조절용
-    [HideInInspector]  public int PlaceNum;
+    public int PlaceNum;
 
     //스킬창 열렷을시
     public bool SkillWindowPopup;
     public bool cursorOnUi;
+
+
+    //씬2 돌맹이퀘스트 시작
+    public bool RockQuest;
     private void Awake()
     {
         SceneName = SceneManager.GetActiveScene().name;
@@ -178,16 +183,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(SceneName == "Chapter2")
+        if (SceneName == "Chapter2")
         {
-            PlaceNum = 0;
+            //PlaceNum = 0;
             Moon = GameObject.Find("BackGround.Scene2-1").GetComponent<Transform>();
         }
-      
+
         CameraShakeSwitch(1);
 
         meleeMode = true;
-     
+
 
         worldLight = glodbalLight.GetComponent<Light2D>();
         //접근 참조용
@@ -200,7 +205,7 @@ public class GameManager : MonoBehaviour
         //스크립트 연결용
         player = FindObjectOfType<Player>(); //플레이어
         enemys = FindObjectOfType<Enemys>(); //좀비 1,2
-        _enemy = FindObjectOfType<Enemys>(); //좀비 1,2
+        //_enemy = FindObjectOfType<Enemys>(); //좀비 1,2
         dmgpooling = FindObjectOfType<DmgPooling>(); // 몹위에 대미지
         dmgfont = FindObjectOfType<DMGFont>();
         floatform = FindObjectOfType<FloatForm>();
@@ -222,8 +227,8 @@ public class GameManager : MonoBehaviour
 
         if (SceneName == "Chapter1")
         {
-           
-            
+
+
 
             GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
             GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
@@ -247,7 +252,7 @@ public class GameManager : MonoBehaviour
             battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
             rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
         }
-      
+
 
 
         //씬넘길때 사용할 배경
@@ -258,11 +263,11 @@ public class GameManager : MonoBehaviour
             //이벤트용 배경색 조절용
             gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
         }
-     
 
-     
 
-        
+
+
+
     }
 
     private void Start()
@@ -276,7 +281,7 @@ public class GameManager : MonoBehaviour
                 rangeZone.gameObject.SetActive(true);
             }
         }
-           
+
     }
     private void Update()
     {
@@ -296,12 +301,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(Player_CurMP <= 0)
+        if (Player_CurMP <= 0)
         {
             Player_CurMP = 0;
         }
 
-        if(Player_CurMP > Player_MaxMP)
+        if (Player_CurMP > Player_MaxMP)
         {
             Player_CurMP = Player_MaxMP;
         }
@@ -309,7 +314,7 @@ public class GameManager : MonoBehaviour
         NpcSpawn();
         Act1EndBlackScreenOn();
         TalkOk();
-        if(Qeust1Start)
+        if (Qeust1Start)
         {
             ScUp();
         }
@@ -332,7 +337,7 @@ public class GameManager : MonoBehaviour
         {
             GameAllStop = false;
         }
-        
+
     }
 
     bool once2;
@@ -340,7 +345,7 @@ public class GameManager : MonoBehaviour
     bool isNpcComeOk, isNpcComeOk1;
     private void NpcSpawn()
     {
-        if(TutorialGuide.instance != null)
+        if (TutorialGuide.instance != null)
         {
             if (TutorialGuide.instance._GetItemNum == 0)
             {
@@ -357,7 +362,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(GetItemNPC2.Instance.ririSpawn());
             }
         }
-        
+
     }
     private void Act1EndBlackScreenOn()
     {
@@ -365,49 +370,49 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-       else if (Act1End)
+        else if (Act1End)
         {
             blackScreen.gameObject.SetActive(true);
             blackScreen.color += new Color(0, 0, 0, 0.15f) * Time.deltaTime;
-            if(blackScreen.color.a > 0.95f && !once2)
+            if (blackScreen.color.a > 0.95f && !once2)
             {
-                once2=true;
+                once2 = true;
                 SceneManager.LoadScene("Chapter2");
 
             }
         }
-      
+
     }
     public void F_TalkSurch(GameObject _obj)
     {
-            
-            ScanNPC = _obj;
-            SetNPCId sc = ScanNPC.GetComponent<SetNPCId>();
-            TalkOn(sc.ID, sc.isNPC, _obj.name, _obj);
-            //TalkBox.gameObject.SetActive(true);
-            TalkBox.SetBool("Show", isTalking);
+
+        ScanNPC = _obj;
+        SetNPCId sc = ScanNPC.GetComponent<SetNPCId>();
+        TalkOn(sc.ID, sc.isNPC, _obj.name, _obj);
+        //TalkBox.gameObject.SetActive(true);
+        TalkBox.SetBool("Show", isTalking);
     }
 
-    
+
     public int TalkIndex;
 
     //대화 및 npc 연출기능
     private void TalkOn(int _ID, bool _isNPC, string _objname, GameObject _obj)
     {
-             string talk =  talkmanager.F_GetMsg(_ID, TalkIndex);
-        
-        if(talk == null) 
+        string talk = talkmanager.F_GetMsg(_ID, TalkIndex);
+
+        if (talk == null)
         {
             isWaitTalking = true;
             curPlayerTalkingYouStop = false;
 
             if (_objname == "전투교관")
             {
-             
-                
+
+
                 SetNPCId sc = _obj.GetComponent<SetNPCId>();
 
-                switch(sc.ID)
+                switch (sc.ID)
                 {
                     //인사하고 좀비꺼내줌
                     case 200:
@@ -415,45 +420,45 @@ public class GameManager : MonoBehaviour
 
                         questMark.gameObject.SetActive(false);
                         StartCoroutine(Step1ZomeBieBoxOpen());
-                   
+
                         break;
 
-                   //산으로 가라그러고 텔탐
+                    //산으로 가라그러고 텔탐
                     case 201:
                         sc.ID += 1;
                         Animator ZomebieBoxs = battlezone.transform.Find("ZombieBox").GetComponent<Animator>();
                         ZomebieBoxs.gameObject.SetActive(false);
                         npc2.transform.Find("Byuk").gameObject.SetActive(false);
                         _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
-                       
+
                         _obj.gameObject.layer = 12;
                         NPC script = _obj.GetComponent<NPC>();
                         script.ani.SetBool("Show", true);
-                        
+
 
                         StartCoroutine(RiRITel(_obj));
 
                         break;
 
-                     // 좋은활먹어서 ㅊㅋ한다하고 집으로돌아감
+                    // 좋은활먹어서 ㅊㅋ한다하고 집으로돌아감
                     case 202:
                         sc.ID += 1;
-                     
+
                         NPC script2 = _obj.GetComponent<NPC>();
                         Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
                         questionMark.gameObject.SetActive(false); // 스캔기능 종료
 
                         script2.ani.SetBool("Show", true);
-                       
+
                         StartCoroutine(BattleNpcGotoHome(_obj));
                         StartCoroutine(GatePlay(_obj));
 
                         break;
 
-                        //뒤에 의자위에서 활쏘라고함
+                    //뒤에 의자위에서 활쏘라고함
                     case 203:
                         _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
-                        rangeZone.gameObject.SetActive(true) ;
+                        rangeZone.gameObject.SetActive(true);
 
                         if (rangeZone.transform.Find("UI").GetComponent<Transform>().gameObject.activeSelf)
                         {
@@ -471,6 +476,8 @@ public class GameManager : MonoBehaviour
                         break;
 
 
+
+
                 }
 
             }
@@ -486,16 +493,16 @@ public class GameManager : MonoBehaviour
                             npc.transform.Find("Byuk").GetComponent<Transform>().gameObject.SetActive(false);
                             sc.ID += 1;
                             NPC script = _obj.GetComponent<NPC>();
-                          
-                            Transform questionMark =_obj.transform.GetChild(0).GetComponent<Transform>();
+
+                            Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
                             questionMark.gameObject.SetActive(false);
                             _obj.gameObject.layer = 12;
                             script.ani.SetBool("Show", true);
-                            
+
                             StartCoroutine(RiRITel(_obj));
                             //transform.Find("Byuk").gameObject.SetActive(false);
                         }
-                    break;
+                        break;
 
                     case 101: //동굴안에서 일단 사라지셈
                         {
@@ -506,7 +513,7 @@ public class GameManager : MonoBehaviour
                             questionMark.gameObject.SetActive(false); // 스캔기능 종료
 
                             script.ani.SetBool("Show", true);
-                            
+
                             StartCoroutine(RiRITel(_obj));
 
                             //소환문 소환
@@ -516,23 +523,39 @@ public class GameManager : MonoBehaviour
                         break;
 
                 }
-              
-          
+            }
+
+            if (_objname == "마을 주민")
+            {
+                _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
+                SetNPCId sc = _obj.GetComponent<SetNPCId>();
+
+                switch (sc.ID)
+                {
+                    case 300:
+                        RockQuest = true;
+                        break;
+
+                    case 301:
+                        Door.sprite = sprites[0];
+                        
+                        break;
+                }
             }
 
             isTalking = false;
             TalkIndex = 0;
             Invoke("SpriteSetFalse", 0.3f);
-            return; 
+            return;
         }
-     
+
         if (_isNPC)
         {
             TalkBowNPCName.text = $"< {_objname} >"; // 이름 = 오브젝트이름
             NpcSprite.gameObject.SetActive(true);
             text.F_SetMsg(talk.Split(':')[0]);
             NpcSprite.sprite = talkmanager.F_GetSprite(_ID, int.Parse(talk.Split(':')[1]));
-           
+
         }
 
         else
@@ -555,16 +578,16 @@ public class GameManager : MonoBehaviour
         ZomebieBox.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         GameManager.Instance.MovingStop = false;
         yield return new WaitForSecondsRealtime(4);
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             ZomebieBox.transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 3;
         }
         ZomebieBox.SetTrigger("Hide");
         ZomebieBox.transform.Find("Door").GetComponent<BoxCollider2D>().enabled = false;
-       
-        
+
+
     }
-    
+
 
     public void SpriteSetFalse()
     {
@@ -572,7 +595,7 @@ public class GameManager : MonoBehaviour
     }
 
     //리리 대화이후 동굴끝으로 순간이동
-   private IEnumerator RiRITel(GameObject _obj)
+    private IEnumerator RiRITel(GameObject _obj)
     {
         yield return new WaitForSecondsRealtime(1.7f);
         _obj.transform.position = _obj.transform.Find("TelPoint1").transform.position;
@@ -617,7 +640,7 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.playerTR.localScale = new Vector3(3, 3, 3); //우측 바라봄
 
         //바닥진동과 이모티콘박스 궁금중
-          if (obj.gameObject.name == "리리")
+        if (obj.gameObject.name == "리리")
         {
 
             GetItemNPC.Instance.Audio.Play();
@@ -638,7 +661,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        else if(obj.gameObject.name == "전투교관")
+        else if (obj.gameObject.name == "전투교관")
         {
             GetItemNPC2.Instance.partiGate.Play();
             GetItemNPC2.Instance.Audio.Play();
@@ -657,10 +680,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-  
+
     private void TalkOk()
     {
-        if (!isWaitTalking) 
+        if (!isWaitTalking)
         {
             return;
         }
@@ -668,7 +691,7 @@ public class GameManager : MonoBehaviour
         else if (isWaitTalking)
         {
             talkingtimer += Time.deltaTime;
-            if(talkingtimer > talkingWaitTime)
+            if (talkingtimer > talkingWaitTime)
             {
                 talkingtimer = 0;
                 isWaitTalking = false;
@@ -721,13 +744,13 @@ public class GameManager : MonoBehaviour
                 player.Ani.SetBool("Run", false);
                 break;
 
-                case 1:
+            case 1:
                 MovingStop = false;
                 break;
         }
-    
+
     }
-    
+
     public void F_SetPlaceNum(int _value)
     {
         PlaceNum = _value;
@@ -749,10 +772,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    
+
     public void F_HpFull()
     {
         Player_CurHP = Player_MaxHP;
     }
-    
+
 }

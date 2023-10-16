@@ -6,7 +6,7 @@ public class TelePortPoint : MonoBehaviour
 {
    public enum PlacePointer
     {
-        P1,P2,P3
+        P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13
     }
 
     public PlacePointer Place;
@@ -15,7 +15,6 @@ public class TelePortPoint : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("aa");
             TeleportManager sc = transform.parent.GetComponent<TeleportManager>();
             sc.F_TelePort(Place, collision.gameObject);
         }

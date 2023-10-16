@@ -66,7 +66,7 @@ TextureImporter:
       213: -1113320040411664331
     second: HouseFront1
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -83,11 +83,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -126,10 +127,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -137,6 +140,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -149,6 +153,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -161,6 +166,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -173,6 +179,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -654,30 +674,29 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BeamDark1: -6342173933151075829
-      Beam6: -3933651170869432142
-      BeamDark4: -8580928225582736118
-      BeamDark3: 5487772090885991505
-      Beam4: 8826583747458129629
-      Beam8: 622986445213898342
-      Beam2: -653907513136922849
-      HouseSide12: 2317656414804079167
-      Beam3: -7646802357824604652
-      BeamDark8: -6935872964102549349
-      BeamDark7: 9044456110404017939
-      BeamDark5: -2387421375687845333
       Beam1: -4863008351420469392
-      Beam7: 7957253833332557934
+      Beam2: -653907513136922849
+      Beam3: -7646802357824604652
+      Beam4: 8826583747458129629
       Beam5: -2734091029672790757
-      BeamDark2: -2690150324097483028
-      HouseSide14: -460039288974324667
+      Beam6: -3933651170869432142
+      Beam7: 7957253833332557934
+      Beam8: 622986445213898342
       Beam9: -5543726027012797806
+      BeamDark1: -6342173933151075829
+      BeamDark2: -2690150324097483028
+      BeamDark3: 5487772090885991505
+      BeamDark4: -8580928225582736118
+      BeamDark5: -2387421375687845333
       BeamDark6: -4032140979569296166
+      BeamDark7: 9044456110404017939
+      BeamDark8: -6935872964102549349
       BeamDark9: -3987374580190909402
       HouseFront1: -1113320040411664331
-  spritePackingTag: 
+      HouseSide12: 2317656414804079167
+      HouseSide14: -460039288974324667
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

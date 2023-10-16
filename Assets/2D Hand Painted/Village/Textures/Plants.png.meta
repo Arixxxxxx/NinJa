@@ -72,7 +72,7 @@ TextureImporter:
       213: -6275190098688083881
     second: Mushroom 3
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -89,11 +89,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -132,10 +133,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -143,6 +146,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -155,6 +159,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -167,6 +172,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -179,6 +185,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1196,32 +1216,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Hay1: 1382702579413758816
-      Plant1: 2250893151467517711
-      Flower7: 3365857472248335254
-      Flower6: 6612842843856697754
-      Flower8: -7391759607893831176
+      Flower1: 1352955200029874055
       Flower10: -5981771769347585550
+      Flower11: -4623013704069786145
+      Flower12: -3293256711928181663
       Flower13: 3771794143540122796
+      Flower14: -6977799265050867761
+      Flower2: -5840972274582744104
+      Flower3: -1268064389544249124
+      Flower4: 3442116038242085032
+      Flower5: 8635903978712429406
+      Flower6: 6612842843856697754
+      Flower7: 3365857472248335254
+      Flower8: -7391759607893831176
+      Flower9: 2818887975088091370
+      Hay1: 1382702579413758816
       Hay2: -4881008103234269068
       Hay3: -854724729293753505
-      Flower5: 8635903978712429406
-      Plant2: -6122111789870299419
-      Flower14: -6977799265050867761
-      Plant3: 2899441650435199170
-      Flower1: 1352955200029874055
-      Flower9: 2818887975088091370
-      Flower11: -4623013704069786145
-      Flower3: -1268064389544249124
-      Flower12: -3293256711928181663
-      Flower2: -5840972274582744104
-      Flower4: 3442116038242085032
-      Mushroom 2: 28957958560412503
       Mushroom 1: -2873419383981771206
+      Mushroom 2: 28957958560412503
       Mushroom 3: -6275190098688083881
-  spritePackingTag: 
+      Plant1: 2250893151467517711
+      Plant2: -6122111789870299419
+      Plant3: 2899441650435199170
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -87,7 +87,7 @@ TextureImporter:
       213: -4109473772060519481
     second: SignAnvil2
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,10 +148,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -158,6 +161,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -170,6 +174,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -182,6 +187,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -194,6 +200,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -900,34 +920,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SignAxe2: 4983968925132512035
-      Sign1: -2742302684088697420
-      SignPotion2: -3318421643493228518
-      Pottery7: -5901745844636399570
-      Pottery6: -6260122000949756345
       Pottery1: -8967832436468776462
+      Pottery2: -1180436918578810845
+      Pottery3: 4130303453484289882
+      Pottery4: 2819549039577334838
+      Pottery5: 279569666823812348
+      Pottery6: -6260122000949756345
+      Pottery7: -5901745844636399570
+      Pottery8: 8814233360100005479
+      Sign1: -2742302684088697420
       Sign2: -5459743574113085061
       Sign3: 8051134168378353487
-      SignAnvil2: -4109473772060519481
-      SignPotion1: -6361733155870394759
-      Pottery8: 8814233360100005479
       Sign4: 1714756807398554617
-      SignGem1: 4917734464384847937
-      Pottery5: 279569666823812348
-      Pottery3: 4130303453484289882
-      Pottery2: -1180436918578810845
-      SignAxe1: 2947539016825648776
-      SignStake: 7789716986001276017
-      SignGem2: 6731457116575203765
       SignAnvil1: 1951725531057319082
+      SignAnvil2: -4109473772060519481
+      SignAxe1: 2947539016825648776
+      SignAxe2: 4983968925132512035
+      SignBeer1: 2395265649816900946
       SignBeer2: -860085043572446729
+      SignGem1: 4917734464384847937
+      SignGem2: 6731457116575203765
+      SignPotion1: -6361733155870394759
+      SignPotion2: -3318421643493228518
+      SignStake: 7789716986001276017
       SignText1: 2771593224786716091
       SignText2: -6136198190554652223
-      SignBeer1: 2395265649816900946
-      Pottery4: 2819549039577334838
-  spritePackingTag: 
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

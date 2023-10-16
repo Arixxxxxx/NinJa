@@ -101,6 +101,18 @@ public class Camera1 : MonoBehaviour
                         curCameraPos = mainCam.transform.position;
                         break;
 
+                    case 2:
+                        vec = transform.position;
+                        vec.y = target.position.y + camVerticalValue;
+                        vec.x = Mathf.Max(target.position.x, Place2XMin);
+                        vec.x = Mathf.Min(vec.x, Place2XMax);
+                        vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+
+
+                        transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);
+                        curCameraPos = mainCam.transform.position;
+                        break;
+
                 }
             }
            

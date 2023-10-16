@@ -24,6 +24,8 @@ public class NPC : MonoBehaviour
             Sr = GetComponent<SpriteRenderer>();
         }
 
+        ani = GetComponent<Animator>();
+        Sr = GetComponent<SpriteRenderer>();
         btn = transform.Find("Canvas").GetComponent<Transform>();
     }
     

@@ -277,6 +277,10 @@ public class GameUI : MonoBehaviour
                 BoxMSG = "½ºÅè À©µå";
                 break;
 
+            case "´øÀü1Ãþ":
+                BoxMSG = "´øÀü 1Ãþ";
+                break;
+
         }
 
         Invoke("StartingEffect", mapMoveToolSpeed);

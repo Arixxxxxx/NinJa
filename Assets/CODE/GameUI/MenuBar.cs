@@ -88,9 +88,7 @@ public class MenuBar : MonoBehaviour
         moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
         moveS = gmMenu.transform.Find("MoveS").GetComponent<Button>();
 
-        skillTreeBtn = transform.Find("Btn/SkillBtn").GetComponent<Button>();
-        SkillPointWindow sc = GetComponent<SkillPointWindow>();
-        skillTreeBtn.onClick.AddListener(() => { sc.F_SkillTreeWindowPopUp();});
+
 
     }
 
@@ -102,6 +100,10 @@ public class MenuBar : MonoBehaviour
             GetSkillPoint.onClick.AddListener(() => { GameManager.Instance.gameUI.GetComponent<SkillPointWindow>().F_GetStatsPoint(1); });
             GetExp = gmMenu.transform.Find("GetEXP").GetComponent<Button>();
             GetExp.onClick.AddListener(() => { ExpManager.instance.F_GmModeGetExp(); });
+
+            skillTreeBtn = transform.Find("Btn/SkillBtn").GetComponent<Button>();
+            SkillPointWindow sc = GetComponent<SkillPointWindow>();
+            skillTreeBtn.onClick.AddListener(() => { sc.F_SkillTreeWindowPopUp(); });
         }
 
         //ÁÂÇ¥ÀúÀå

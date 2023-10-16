@@ -207,7 +207,7 @@ TextureImporter:
       213: -3559791852703309486
     second: SymbolGreen18
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -224,11 +224,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -267,10 +268,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -278,6 +281,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -290,6 +294,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -302,6 +307,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -314,6 +320,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -978,28 +998,27 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Symbol18: 5531826651420068725
       Stairs: 8720604468809159126
-      Symbol7: -469525390435789673
-      Symbol4: -612294750349367285
-      Symbol13: -58692103514780318
-      Symbol15: -5943722948072908530
-      Symbol5: 7484233065907859235
-      Symbol9: 3731840143681160600
-      Symbol3: 4906567379933833492
-      Symbol6: -5196480314518052078
       Symbol1: 4588468031203458904
-      Symbol12: 3302297543944197914
-      Symbol17: 6775100202760105118
-      Symbol2: 8796499958254778168
       Symbol10: 6472110944188623208
-      Symbol14: -2962330253262605572
       Symbol11: -5467980395735033178
+      Symbol12: 3302297543944197914
+      Symbol13: -58692103514780318
+      Symbol14: -2962330253262605572
+      Symbol15: -5943722948072908530
       Symbol16: 7782374169620671512
+      Symbol17: 6775100202760105118
+      Symbol18: 5531826651420068725
+      Symbol2: 8796499958254778168
+      Symbol3: 4906567379933833492
+      Symbol4: -612294750349367285
+      Symbol5: 7484233065907859235
+      Symbol6: -5196480314518052078
+      Symbol7: -469525390435789673
       Symbol8: 509305650801944880
-  spritePackingTag: 
+      Symbol9: 3731840143681160600
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

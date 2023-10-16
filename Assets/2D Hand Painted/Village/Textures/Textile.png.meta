@@ -102,7 +102,7 @@ TextureImporter:
       213: -1411941494695152374
     second: FlagPole1
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -119,11 +119,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -162,10 +163,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -173,6 +176,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -185,6 +189,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -197,6 +202,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -209,6 +215,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -885,37 +905,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BannerBlack2: 6229398032602226172
-      BannerGreen1: 4610352697413544868
-      BannerYellow3: -9216632969102516852
-      BannerBlue5: 2335864605075960135
-      BannerRed3: 1486336673285526233
-      BannerRed1: 6150524417930099387
-      FlagPole2: -7802938421658570435
       BannerBlack1: -7210853368736443378
-      BannerBlue1: -2606178499424181988
+      BannerBlack2: 6229398032602226172
       BannerBlack3: -7363387205641960184
       BannerBlack4: 7242840380763717034
-      BannerGreen3: 732545132971766798
-      BannerYellow4: 168104819176285593
-      BannerGreen5: -4611253394809118607
-      BannerRed4: -565701367431742755
-      BannerGreen4: -6307249905814715948
-      FlagPole3: -7941990411804281119
-      BannerYellow1: 2086860475612519969
-      BannerRed2: -845483781016444850
-      BannerYellow2: 1326411133506482702
-      BannerBlue4: 4661382086923997806
-      BannerYellow5: 6481673563677027684
-      BannerBlue2: 7292305932956691523
-      BannerRed5: -3739606063148324151
-      FlagPole1: -1411941494695152374
-      BannerGreen2: -5555017855590527200
-      BannerBlue3: -2473397237974197411
       BannerBlack5: 2204979603039972148
-  spritePackingTag: 
+      BannerBlue1: -2606178499424181988
+      BannerBlue2: 7292305932956691523
+      BannerBlue3: -2473397237974197411
+      BannerBlue4: 4661382086923997806
+      BannerBlue5: 2335864605075960135
+      BannerGreen1: 4610352697413544868
+      BannerGreen2: -5555017855590527200
+      BannerGreen3: 732545132971766798
+      BannerGreen4: -6307249905814715948
+      BannerGreen5: -4611253394809118607
+      BannerRed1: 6150524417930099387
+      BannerRed2: -845483781016444850
+      BannerRed3: 1486336673285526233
+      BannerRed4: -565701367431742755
+      BannerRed5: -3739606063148324151
+      BannerYellow1: 2086860475612519969
+      BannerYellow2: 1326411133506482702
+      BannerYellow3: -9216632969102516852
+      BannerYellow4: 168104819176285593
+      BannerYellow5: 6481673563677027684
+      FlagPole1: -1411941494695152374
+      FlagPole2: -7802938421658570435
+      FlagPole3: -7941990411804281119
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
