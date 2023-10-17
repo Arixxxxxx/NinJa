@@ -27,14 +27,15 @@ public class Player : MonoBehaviour
     bool OnDMG;
     public bool isGround;
     public bool isFrontGround;
-  
+    [SerializeField] LayerMask OnDMGLayer;
+
     public bool isDodge;
     public bool KB;
     RaycastHit2D hitPoint;
     RaycastHit2D GetItem;
     RaycastHit2D GetItemRange;
 
-   
+
 
 
     //캐릭터 점프
@@ -116,7 +117,7 @@ public class Player : MonoBehaviour
     Transform btnBoxOutLine1;
     Animator btn1;
     Transform weaponBtn2;
- 
+
     Animator btn2;
     /*[HideInInspector] */
     public bool MovingStop;
@@ -137,12 +138,14 @@ public class Player : MonoBehaviour
     float buffDice;
     public bool meleeBuffOn;
 
+    private bool isNoDodge;
+
     private void Awake()
     {
-      
-        
 
-        if(instance == null) 
+
+
+        if (instance == null)
         {
             instance = this;
         }
@@ -170,23 +173,23 @@ public class Player : MonoBehaviour
         RealBow = Bow.transform.GetChild(0).GetComponent<Transform>();
         gameUiMain = GameObject.Find("GameUI").GetComponent<Transform>();
         //weaponBtn1 = gameUiMain.transform.Find("Btn1").GetComponent<Transform>();
-        
+
         //weaponBtn2 = gameUiMain.transform.Find("Btn2").GetComponent<Transform>();
-        
-    
+
+
         textani = text.GetComponent<Animator>();
 
         paticle = transform.Find("Paticle").GetComponent<PaticleManager>();
         RangeBuff = paticle.transform.Find("RangeBuff").GetComponent<ParticleSystem>();
         ora = transform.Find("Up").GetComponent<Animator>();
 
-        
+
         powerShotPs = transform.Find("Paticle/RangeCarge").GetComponent<ParticleSystem>();
         //점프
         groundCheker = transform.Find("GroundCheker").GetComponent<Transform>();
         verGravity = new Vector2(0, -Physics2D.gravity.y);
 
-        
+
     }
 
     private void Start()
@@ -204,7 +207,7 @@ public class Player : MonoBehaviour
         {
             Ani.SetBool("GetMelee", true);
         }
-        
+
     }
 
     void Update()
@@ -218,15 +221,15 @@ public class Player : MonoBehaviour
             WallJump();
             SuchTalk();
             SpRecovery();
-            HpRecovery(); 
+            HpRecovery();
             MeleeAttack();
             SheldOn();
             F_TextBoxPos();
             AttackModeShow();
             SkillOk();
-           
+
         }
-      
+
     }
     private void FixedUpdate()
     {
@@ -236,7 +239,7 @@ public class Player : MonoBehaviour
             CharAniParameter();
             WallCheaking();
         }
-     
+
 
     }
     public bool isSkillStartOk;
@@ -247,8 +250,8 @@ public class Player : MonoBehaviour
 
     bool once1;
 
-    
-    
+
+
     //캐릭터 일시정지기능
     private void MoveStopFuntion()
     {
@@ -265,11 +268,11 @@ public class Player : MonoBehaviour
     {
         if (!MovingStop)
         {
-           if(ModeChangeTimer < 0.45f)
+            if (ModeChangeTimer < 0.45f)
             {
                 ModeChangeTimer += Time.deltaTime;
             }
-                
+
             if (GameManager.Instance.isGetMeleeItem)
             {
                 if ((Input.GetAxis("Mouse ScrollWheel") > 0f) && !isDodge && !JumpOn && !isflying)
@@ -283,13 +286,13 @@ public class Player : MonoBehaviour
                             Ani.SetTrigger("ModeChange");
                             F_CharText("Melee");
                             GameManager.Instance.meleeMode = true;
-                            
+
                             ModeChangeTimer = 0;
                             if (GameManager.Instance.gameUI.transform.Find("ActionBar/ModeUpDown").gameObject.activeSelf)
                             {
                                 GameManager.Instance.gameUI.transform.Find("ActionBar/ModeUpDown/Up").GetComponent<Animator>().SetTrigger("Up");
                             }
-                            
+
                         }
                     }
                 }
@@ -309,8 +312,8 @@ public class Player : MonoBehaviour
 
                     }
                 }
-               
-             
+
+
             }
             //if (GameManager.Instance.isGetRangeItem)
             //{
@@ -342,7 +345,7 @@ public class Player : MonoBehaviour
                 {
                     rangeitemshowok = false;
                     if (meleeitemshowok) { return; }
-                
+
 
                     if (Iswall || DJumpOn || JumpOn || isDodge)
                     {
@@ -473,8 +476,8 @@ public class Player : MonoBehaviour
                 text.text = "화살이 부족합니다..";
                 textani.SetTrigger("Ok");
                 break;
-                    
-                case "CoolTime":
+
+            case "CoolTime":
                 text.gameObject.SetActive(true);
                 text.color = Color.red;
                 text.text = "아직 더 기다려야합니다";
@@ -511,7 +514,7 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.Instance.meleeMode)
                 {
-                    if(Timer < MeleeSpeed + 0.1f)
+                    if (Timer < MeleeSpeed + 0.1f)
                     {
                         Timer += Time.deltaTime;
                     }
@@ -563,10 +566,10 @@ public class Player : MonoBehaviour
                         ShieldOn = true;
                         if (!isSoundPlay)
                         {
-                            isSoundPlay=true;
+                            isSoundPlay = true;
                             SoundManager.instance.F_SoundPlay(SoundManager.instance.sheildOn, 0.8f);
                         }
-                       
+
                         sheldSR.enabled = false;
                         SwordSr.enabled = false;
                         //weapon1.gameObject.SetActive(false);
@@ -621,7 +624,7 @@ public class Player : MonoBehaviour
         }
         Debug.DrawRay(transform.position, CastDir * 1.5f, Color.red);
 
-       
+
 
         if (Input.GetKeyDown(KeyCode.F) && !GameManager.Instance.isWaitTalking)
         {
@@ -671,11 +674,11 @@ public class Player : MonoBehaviour
                 //ScanGuideBox = hitPoint.collider.gameObject;
                 //GameManager.Instance.guideM.F_GetColl(hitPoint.collider.gameObject);
             }
-          
+
         }
     }
 
-     float runConter;
+    float runConter;
     [SerializeField] float runTime = 0.4f;
     //캐릭터 이동 및 구르기
     private void MovdChar()
@@ -690,31 +693,31 @@ public class Player : MonoBehaviour
                 {
                     Char_Vec.x = Input.GetAxisRaw("Horizontal");
                     Rb.velocity = new Vector2(Char_Vec.x * Char_Speed, Rb.velocity.y);
-                   
+
                     //발소리
                     if (isCharMove)
                     {
                         runConter += Time.deltaTime;
                         if (runConter > runTime && isGround && !isWhilWind)
                         {
-                            if(Audio.clip != SoundManager.instance.playerStep)
+                            if (Audio.clip != SoundManager.instance.playerStep)
                             {
                                 Audio.clip = SoundManager.instance.playerStep;
                             }
-                            
+
                             Audio.Play();
                             runConter = 0;
 
                         }
-               
+
                     }
                     else
                     {
-                         
-                            Audio.Stop();
-                        
+
+                        Audio.Stop();
+
                     }
-                   
+
                 }
                 //캐릭터 방향 스케일
                 if (!GameManager.Instance.rangeMode)
@@ -759,10 +762,11 @@ public class Player : MonoBehaviour
                 //구르기
                 if (Input.GetKey(KeyCode.LeftControl) && !JumpOn && !Iswall && !DJumpOn && !isDodge && !isWhilWind)
                 {
+                    if (isNoDodge) { return; }
                     if (GameManager.Instance.Player_CurSP < 15)
                     {
                         F_CharText("SP");
-                       
+
                         return;
                     }
                     else if (GameManager.Instance.Player_CurSP > 15)
@@ -781,7 +785,7 @@ public class Player : MonoBehaviour
                         {
                             SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 0.5f);
                             Rb.velocity = new Vector3(transform.localScale.x >= 0 ? -1 : 1, 0) * DodgeSpeed / 1.5f;
-                            gameObject.layer = 10;
+                            gameObject.layer = 29;
                             Invoke("F_ReturnLayer", 0.5f);
                             Ani.SetTrigger("Dodge");
                         }
@@ -792,7 +796,7 @@ public class Player : MonoBehaviour
                             {
                                 SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 0.5f);
                                 Rb.velocity = new Vector3(1, 0) * DodgeSpeed;
-                                gameObject.layer = 10;
+                                gameObject.layer = 29;
                                 Invoke("F_ReturnLayer", 0.5f);
                                 Ani.SetTrigger("Dodge");
                             }
@@ -800,7 +804,7 @@ public class Player : MonoBehaviour
                             {
                                 SoundManager.instance.F_SoundPlay(SoundManager.instance.dodge, 0.5f);
                                 Rb.velocity = new Vector3(-1, 0) * DodgeSpeed;
-                                gameObject.layer = 10;
+                                gameObject.layer = 29;
                                 Invoke("F_ReturnLayer", 0.5f);
                                 Ani.SetTrigger("Dodge");
 
@@ -824,14 +828,14 @@ public class Player : MonoBehaviour
             sheldSR.enabled = true;
             SwordSr.enabled = true;
         }
-       else if(GameManager.Instance.rangeMode)
+        else if (GameManager.Instance.rangeMode)
         {
             if (sheldSR.enabled == true)
             {
                 sheldSR.enabled = false;
                 SwordSr.enabled = false;
             }
-           
+
         }
         //sheld.gameObject.SetActive(true);
         //weapon1.gameObject.SetActive(true);
@@ -853,7 +857,7 @@ public class Player : MonoBehaviour
                 paticle.iswallPaticle.Play();
                 dusttimer = 0;
             }
-
+            isNoDodge = true;
             JumpTime += Time.deltaTime;
             wallJumpon = false;
             RealBow.gameObject.SetActive(false);
@@ -927,7 +931,7 @@ public class Player : MonoBehaviour
         //벽 Wall 체크
         Iswall = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, Wall_Layer);
         isFrontGround = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, LayerMask.GetMask("Ground"));
-        noWallCheak     = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, LayerMask.GetMask("NoWall"));
+        noWallCheak = Physics2D.Raycast(WallCheck.position, CastDir, WallCheakDis, LayerMask.GetMask("NoWall"));
 
         //바닥체크
         //isGround = Physics2D.OverlapCapsule(groundCheker.position, new Vector2(0.2f, 0.1f), CapsuleDirection2D.Horizontal, 0, LayerMask.GetMask("Ground"));
@@ -1047,7 +1051,7 @@ public class Player : MonoBehaviour
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.onHIt, 0.8f);
                 gameObject.layer = 10;
                 Sr.color = new Color(1, 1, 1, 0.3f);
-                
+
                 //넉백
                 if (isLeft)
                 {
@@ -1059,9 +1063,9 @@ public class Player : MonoBehaviour
                     Rb.AddForce(new Vector3(-3 * KB_Power, 6), ForceMode2D.Impulse);
                     KB = true;
                 }
-              
+
                 yield return new WaitForSecondsRealtime(1.5f);
-                
+
                 gameObject.layer = LayerMask.NameToLayer("Player");
                 Sr.color = new Color(1, 1, 1, 1);
                 OnDMG = false;
@@ -1113,7 +1117,8 @@ public class Player : MonoBehaviour
     private void F_JumpReset()
     {
         MovingStop = false;
-        
+
+      
         JumpOn = false;
         DJumpOn = false;
         Ani.SetBool("Jump", false);
@@ -1123,6 +1128,11 @@ public class Player : MonoBehaviour
         {
             //sheldSR.enabled = true;
             //SwordSr.enabled = true;
+        
+            if (sheldOnSr.gameObject.activeSelf)
+            {
+                return;
+            }
             MeleeItemShow(0);
         }
         else
@@ -1166,32 +1176,94 @@ public class Player : MonoBehaviour
 
     public void F_LegGroundCheaker(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            F_JumpReset();
+            isNoDodge = false;
+        }
+
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             F_JumpReset();
+            isNoDodge = false;
         }
+
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            if (GameManager.Instance.SceneName == "Chapter2")
+            {
+                F_JumpReset();
+            }
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("FlatForm"))
+        {
+            if (GameManager.Instance.SceneName == "Chapter2")
+            {
+                F_JumpReset();
+                Debug.Log("aa");
+            }
+            if (collision.transform.GetComponent<BoxCollider2D>().gameObject.activeSelf)
+            {
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+
+                    StartCoroutine(ExitBrege(collision));
+                }
+            }
+
+        }
+    }
+
+    public void LegStayCollisionEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("FlatForm"))
+        {
+           
+            if (GameManager.Instance.SceneName == "Chapter2")
+            {
+
+                if (collision.transform.GetComponent<BoxCollider2D>().gameObject.activeSelf)
+                {
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+
+                        StartCoroutine(ExitBrege(collision));
+                    }
+                }
+              
+            }
+        }
+    }
+
+    float BregeInterval = 0.6f;
+    IEnumerator ExitBrege(Collider2D collision)
+    {
+        collision.transform.GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(BregeInterval);
+        collision.transform.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            foreach(ContactPoint2D contact in  collision.contacts)
+            foreach (ContactPoint2D contact in collision.contacts)
             {
-                
-                if(contact.normal == Vector2.up)
+
+                if (contact.normal == Vector2.up)
                 {
                     F_JumpReset();
                 }
             }
             //SoundManager.instance.F_SoundPlay(SoundManager.instance.ground, 0.5f);
 
-            
+
         }
 
 
         if (collision.gameObject.CompareTag("Trap") && Rb.velocity.y < 0.2f)
         {
+            if(gameObject.layer == OnDMGLayer) { return; }
             F_JumpReset();
             StartCoroutine(F_OnHit());
         }
@@ -1203,6 +1275,7 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Saw"))
         {
+            if (gameObject.layer == OnDMGLayer) { return; }
             F_JumpReset();
             StartCoroutine(F_OnHit());
         }
@@ -1211,17 +1284,27 @@ public class Player : MonoBehaviour
         //    Rb.velocity = Vector3.zero;
         //}
 
+        
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            StartCoroutine(F_OnHit());
-            JumpOn = false;
-            F_JumpReset();
+            if(gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                if (gameObject.layer == OnDMGLayer) { return; }
+                StartCoroutine(F_OnHit());
+                JumpOn = false;
+                F_JumpReset();
+            }
+           
         }
         if (collision.gameObject.CompareTag("Ghost"))
         {
-            StartCoroutine(F_OnHit());
-            JumpOn = false;
-            F_JumpReset();
+            if (gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                if (gameObject.layer == OnDMGLayer) { return; }
+                StartCoroutine(F_OnHit());
+                JumpOn = false;
+                F_JumpReset();
+            }
         }
         if (collision.gameObject.CompareTag("Fan"))
         {

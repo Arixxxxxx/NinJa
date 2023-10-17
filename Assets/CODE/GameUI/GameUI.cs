@@ -278,7 +278,11 @@ public class GameUI : MonoBehaviour
                 break;
 
             case "던전1층":
-                BoxMSG = "던전 1층";
+                BoxMSG = "숨겨진 탑의 깊은 지하";
+                break;
+
+            case "보스":
+                BoxMSG = "그리스의 안식처";
                 break;
 
         }

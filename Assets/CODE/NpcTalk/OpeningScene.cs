@@ -27,7 +27,7 @@ public class OpeningScene : MonoBehaviour
         }
         else if(GameManager.Instance.SceneName == "Chapter2")
         {
-            openingText.F_SetMsg("Chapter 2.  Battle Royal");
+            openingText.F_SetMsg("Chapter 2.  어둠의 그림자");
         }
       
         GameManager.Instance.MovingStop = true;

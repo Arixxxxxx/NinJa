@@ -139,12 +139,17 @@ public class EnemyBullet : MonoBehaviour
     
     IEnumerator PlayerDMG(Collider2D collision)
     {
-        Player sc = collision.gameObject.GetComponent<Player>();
-        StartCoroutine(sc.F_OnHit());
-        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        if (collision.gameObject.layer != LayerMask.NameToLayer("OnDMG"))
+        {
+            Player sc = collision.gameObject.GetComponent<Player>();
+            StartCoroutine(sc.F_OnHit());
+            transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
 
-        yield return new WaitForSecondsRealtime(1.6f);
-        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSecondsRealtime(1.6f);
+            transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+
+        } 
+      
         
         //PoolManager.Instance.F_ReturnObj(gameObject, "EB");
     }

@@ -645,7 +645,7 @@ public class GameManager : MonoBehaviour
     //동굴에서 게이트 소환씬
     private IEnumerator GatePlay(GameObject obj)
     {
-        GameManager.Instance.MovingStop = true;
+        F_MoveStop(0);
         yield return new WaitForSecondsRealtime(1.3f);
         GameManager.Instance.playerTR.localScale = new Vector3(3, 3, 3); //우측 바라봄
 
@@ -663,7 +663,7 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(7f);
 
-            GameManager.Instance.MovingStop = false;
+            F_MoveStop(1);
 
             CameraShakeSwitch(1);
             GetItemNPC.Instance.Audio.Stop();
@@ -682,7 +682,7 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(7f);
 
-            GameManager.Instance.MovingStop = false;
+            F_MoveStop(1);
             CameraShakeSwitch(1);
             GetItemNPC2.Instance.Audio.Stop();
             GetItemNPC2.Instance.partiGate.gameObject.SetActive(false);

@@ -45,6 +45,12 @@ public class TeleportManager : MonoBehaviour
                 GameUI.instance.F_BlackScrrenOnOff(true);
                 StartCoroutine(P1(_Obj, 1, 2,_Value));
                 break;
+
+            case TelePortPoint.PlacePointer.P5:
+                GameManager.Instance.F_MoveStop(0);
+                GameUI.instance.F_BlackScrrenOnOff(true);
+                StartCoroutine(P1(_Obj, 3, 5, _Value));
+                break;
         }
     }
     
@@ -78,6 +84,10 @@ public class TeleportManager : MonoBehaviour
 
             case TelePortPoint.PlacePointer.P4:
                 GameUI.instance.F_SetMapMoveBar("스톰윈드");
+                break;
+
+            case TelePortPoint.PlacePointer.P5:
+                GameUI.instance.F_SetMapMoveBar("보스");
                 break;
         }
         

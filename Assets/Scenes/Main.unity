@@ -582,6 +582,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sky
       objectReference: {fileID: 0}
+    - target: {fileID: 7449724622629536417, guid: daffddb9a631340849232903d090e38e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7882946744442019307, guid: daffddb9a631340849232903d090e38e, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -2141,6 +2145,10 @@ MonoBehaviour:
   boomArrow: {fileID: 0}
   WindowPopup: {fileID: 0}
   WindowPopDown: {fileID: 0}
+  Scream: {fileID: 0}
+  LvUp: {fileID: 0}
+  skillWindowOpen: {fileID: 0}
+  skillWindowClose: {fileID: 0}
   playerStep: {fileID: 0}
   jump: {fileID: 0}
   dodge: {fileID: 0}
@@ -2167,9 +2175,15 @@ MonoBehaviour:
   onTrap: {fileID: 0}
   spikeball: {fileID: 0}
   firetrapOn: {fileID: 0}
+  skeletonPopup: {fileID: 0}
+  skeletonDead: {fileID: 0}
+  EnemyBoom: {fileID: 0}
+  lougther: {fileID: 0}
   popup: {fileID: 0}
   popdown: {fileID: 0}
   talkBoxChatSound: {fileID: 0}
+  BossMiddle: {fileID: 0}
+  BossName: {fileID: 0}
 --- !u!82 &414575471
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5401,7 +5415,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 0.68446493, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.8443396, b: 0.8443396, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0

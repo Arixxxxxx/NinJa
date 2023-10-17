@@ -193,7 +193,7 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.MovingStop || !GameManager.Instance.GameAllStop)
+        if (!GameManager.Instance.MovingStop)
         {
             MeleeSkill1();
             MeleeSkill2();

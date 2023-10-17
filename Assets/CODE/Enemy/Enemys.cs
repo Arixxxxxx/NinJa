@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Enemys : MonoBehaviour
 {
-    DMGFont DMG_Font;
+    public enum AttackType
+    {
+        OnlyAttack, SurchPlayer// 에너미 던전용 // 개돌용
+    }
 
+    public AttackType type;
+    DMGFont DMG_Font;
+    [SerializeField] private bool ShowGizom;
+    [SerializeField] private LayerMask SurchLayer;
     //좀비들 스크립트
 
     SpriteRenderer Sr;
@@ -33,6 +41,10 @@ public class Enemys : MonoBehaviour
     // 플레이어 트랩밟는 홀딩
     bool onTrap;
 
+    //대기용 변수들
+    RaycastHit2D surchPlayer;
+    bool isAttackStart;
+
     private void Awake()
     {
         Sr = GetComponent<SpriteRenderer>();
@@ -51,28 +63,63 @@ public class Enemys : MonoBehaviour
         //dmpText = dmp.transform.GetComponentInChildren<DMGFont>();
 
     }
+
     void Update()
     {
-        if (!GameManager.Instance.NpcSprite.gameObject.activeSelf)
+        
+        switch (type) 
         {
-            if (!onTrap)
-            {
-                F_FlipX();
-                F_ToTargetMove();
-                F_VeloLimit();
-            }
+            case AttackType.OnlyAttack:
+                if (!GameManager.Instance.NpcSprite.gameObject.activeSelf)
+                {
+                    if (!onTrap)
+                    {
+                        F_FlipX();
+                        F_ToTargetMove();
+                        F_VeloLimit();
+                    }
+                }
+                if (onTrap)
+                {
+                    Rb.velocity = Vector2.zero;
+                }
+                else if (GameManager.Instance.NpcSprite.gameObject.activeSelf)
+                {
+                    Rb.velocity = Vector2.zero;
+                }
+                break;
+
+            case AttackType.SurchPlayer:
+
+                
+                if (isAttackStart)
+                {
+                    if (!GameManager.Instance.NpcSprite.gameObject.activeSelf)
+                    {
+                        if (!onTrap)
+                        {
+                            F_FlipX();
+                            F_ToTargetMove();
+                            F_VeloLimit();
+                        }
+                    }
+                    if (onTrap)
+                    {
+                        Rb.velocity = Vector2.zero;
+                    }
+                    else if (GameManager.Instance.NpcSprite.gameObject.activeSelf)
+                    {
+                        Rb.velocity = Vector2.zero;
+                    }
+                }
+                break;
+
         }
-        if (onTrap)
-        {
-            Rb.velocity = Vector2.zero;
-        }
-        else if(GameManager.Instance.NpcSprite.gameObject.activeSelf)
-        {
-            Rb.velocity = Vector2.zero;
-        }
+       
        
     }
 
+    
     /// <summary>
     /// 몹 스턴
     /// </summary>
@@ -235,8 +282,12 @@ public class Enemys : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                Player sc = collision.gameObject.GetComponent<Player>();
-                StartCoroutine(sc.F_OnHit());
+                if(collision.gameObject.layer != LayerMask.NameToLayer("OnDMG"))
+                {
+                    Player sc = collision.gameObject.GetComponent<Player>();
+                    StartCoroutine(sc.F_OnHit());
+                }
+          
 
             }
 
@@ -277,5 +328,13 @@ public class Enemys : MonoBehaviour
             F_OnHIt(1);
         }
     }
+
+    public void F_AttackTrigger(bool _value)
+    {
+         isAttackStart = _value;
+    }
+
+
+
 }
 

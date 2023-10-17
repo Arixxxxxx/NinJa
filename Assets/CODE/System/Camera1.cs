@@ -15,12 +15,19 @@ public class Camera1 : MonoBehaviour
     [SerializeField] float smooth;
 
     [Header("#씬2 장소별 카메라제한")]
+    [Header("# 엘윈숲 = Place Num.1")]
     [SerializeField] float Place0XMin;
     [SerializeField] float Place0XMax;
+    [Header("# 스톰윈드 = Place Num.2")]
     [SerializeField] float Place1XMin;
     [SerializeField] float Place1XMax;
+    [Header("# 던전 = Place Num.3")]
     [SerializeField] float Place2XMin;
     [SerializeField] float Place2XMax;
+    [Header("# 보스방 = Place Num.3")]
+    [SerializeField] float Place3XMin;
+    [SerializeField] float Place3XMax;
+    [SerializeField] float Place3YMax;
 
     private Camera mainCam;
     public PixelPerfectCamera cam;
@@ -107,6 +114,19 @@ public class Camera1 : MonoBehaviour
                         vec.x = Mathf.Max(target.position.x, Place2XMin);
                         vec.x = Mathf.Min(vec.x, Place2XMax);
                         vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+
+
+                        transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);
+                        curCameraPos = mainCam.transform.position;
+                        break;
+
+                    case 3:
+                        vec = transform.position;
+                        vec.y = target.position.y + camVerticalValue;
+                        vec.x = Mathf.Max(target.position.x, Place3XMin);
+                        vec.x = Mathf.Min(vec.x, Place3XMax);
+                        vec.y = Mathf.Max(vec.y/*target.position.y*/, 1.54f);
+                        vec.y = Mathf.Min(vec.y, Place3YMax);
 
 
                         transform.position = Vector3.Lerp(transform.position, vec, smooth * Time.deltaTime);

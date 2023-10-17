@@ -37,8 +37,12 @@ public class TalkManager : MonoBehaviour
         TalkBoxSpriteList.Add(202 + 0, BoxSprite[2]); //전투교관
         TalkBoxSpriteList.Add(203 + 0, BoxSprite[2]); //전투교관
         TalkBoxSpriteList.Add(204 + 0, BoxSprite[2]); //전투교관
-        TalkBoxSpriteList.Add(300 + 0, BoxSprite[3]); //아줌마
-        TalkBoxSpriteList.Add(301 + 0, BoxSprite[3]); //아줌마
+        if (GameManager.Instance.SceneName == "Chapter2")
+        {
+            TalkBoxSpriteList.Add(300 + 0, BoxSprite[3]); //아줌마
+            TalkBoxSpriteList.Add(301 + 0, BoxSprite[3]); //아줌마
+        }
+        
         TalkBoxSpriteList.Add(1000 + 0, BoxSprite[1]); //1번쨰 표지판
         TalkBoxSpriteList.Add(1000 + 1, BoxSprite[1]); //2번째 표지판
         TalkBoxSpriteList.Add(1000 + 2, BoxSprite[1]); //3번째 표지판
