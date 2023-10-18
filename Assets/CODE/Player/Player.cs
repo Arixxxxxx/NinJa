@@ -1200,7 +1200,7 @@ public class Player : MonoBehaviour
             if (GameManager.Instance.SceneName == "Chapter2")
             {
                 F_JumpReset();
-                Debug.Log("aa");
+                
             }
             if (collision.transform.GetComponent<BoxCollider2D>().gameObject.activeSelf)
             {
@@ -1393,7 +1393,13 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+    public Vector3 F_Get_PlayrPos()
+    {
+        Vector3 result;
+        result = gameObject.transform.position;
+        return result;
 
+    }
 
     private void OnDrawGizmosSelected()
     {
