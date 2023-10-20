@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -193,6 +190,16 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
+        if(RangeDmg == 0)
+        {
+            RangeDmg = originRangeDmg;
+            Debug.Log("왜?");
+        }
+
+        if(Input.GetKeyDown(KeyCode.H)) 
+        {
+            Debug.Log($"기본{RangeDmg}, 오리지날{originRangeDmg})");
+        }
         if (!GameManager.Instance.MovingStop)
         {
             MeleeSkill1();
@@ -775,11 +782,11 @@ public class SkillManager : MonoBehaviour
                 switch (_Order)
                 {
                     case 0:
-                        MeleeDmg = (originMeleeDMG + _Point);
+                        MeleeDmg = (originMeleeDMG + (_Point*0.5f));
                         break;
 
                     case 1:
-                        RangeDmg = (originRangeDmg + _Point);
+                        RangeDmg = (originRangeDmg + (_Point * 0.5f));
                         break;
                 }
 

@@ -51,7 +51,12 @@ public class BoomArrow : MonoBehaviour
                 sc.F_OnHIt(SkillManager.instance.boomShotDmg);
                 sc.F_Stun_Enemy(1);
             }
-
+            else if (collision.gameObject.GetComponent<Boss>() != null)
+            {
+                Boss sc = collision.gameObject.GetComponent<Boss>();
+                sc.F_OnHIt(SkillManager.instance.boomShotDmg);
+                
+            }
         }
 
         if (collision.CompareTag("Ghost"))

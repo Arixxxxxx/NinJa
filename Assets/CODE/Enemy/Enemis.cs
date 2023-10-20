@@ -172,7 +172,7 @@ public class Enemis : MonoBehaviour
                 }
 
                 GameObject obj = PoolManager.Instance.F_GetObj("Text");
-                obj.GetComponent<DmgFontMove>().F_DmgFont(_DMG, DmgBox);
+                obj.GetComponent<DmgFontCanvus>().F_DmgFont(_DMG, DmgBox.position);
 
                 Invoke("KbOff", 0.15f);
 

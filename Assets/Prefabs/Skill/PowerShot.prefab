@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6380748582556048262}
   - component: {fileID: 9169940063031434378}
   - component: {fileID: 2010608605609541006}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PowerShot
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -4960,7 +4960,7 @@ GameObject:
   - component: {fileID: 5678191621968307655}
   - component: {fileID: 6470610918315737134}
   - component: {fileID: 6410054172448996234}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9855,7 +9855,7 @@ GameObject:
   - component: {fileID: 5391490346294403198}
   - component: {fileID: 4388517196597663703}
   - component: {fileID: 5202039511523918519}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14750,7 +14750,7 @@ GameObject:
   - component: {fileID: 4461592699910657116}
   - component: {fileID: 7432121452572935772}
   - component: {fileID: 8015784563526055000}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Electro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19645,7 +19645,7 @@ GameObject:
   - component: {fileID: 2343889531854671341}
   - component: {fileID: 3411558856822226541}
   - component: {fileID: 7421902901185632074}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ElectroHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

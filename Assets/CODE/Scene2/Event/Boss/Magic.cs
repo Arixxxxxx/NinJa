@@ -8,11 +8,13 @@ public class Magic : MonoBehaviour
     BoxCollider2D Box;
     Boss sc;
     bool once;
+    SpriteRenderer Sr;
 
     private void Awake()
     {
         Box = GetComponent<BoxCollider2D>();
         sc = FindAnyObjectByType<Boss>();
+        Sr = GetComponent<SpriteRenderer>();    
     }
 
 
@@ -33,6 +35,7 @@ public class Magic : MonoBehaviour
         }
     }
 
+   
     private void A_CollSet()
     {
         if (!Box.enabled)
@@ -48,11 +51,18 @@ public class Magic : MonoBehaviour
 
     private void ReturnObject()
     {
-        if(sc == null)
+        StartCoroutine(Return());
+    }
+
+    IEnumerator Return()
+    {
+        if (sc == null)
         {
             sc = FindAnyObjectByType<Boss>();
         }
-        
+        Sr.enabled = false;
+        yield return new WaitForSeconds(1.3f);
+        Sr.enabled = true;
         sc.F_SetMagic(gameObject);
     }
 }

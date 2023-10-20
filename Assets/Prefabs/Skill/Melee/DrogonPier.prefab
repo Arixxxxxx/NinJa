@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1072210955034604612}
   - component: {fileID: 760999111453401597}
   - component: {fileID: 8387318735826291631}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DrogonPier
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -9,8 +9,5 @@ public class Leg : MonoBehaviour
         Player.instance.F_LegGroundCheaker(collision);
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        Player.instance.LegStayCollisionEnter2D(collision);
-    }
+ 
 }

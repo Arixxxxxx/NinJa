@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     RaycastHit2D hitPoint;
     RaycastHit2D GetItem;
     RaycastHit2D GetItemRange;
-
+    private bool isOnMouseObject;
 
 
 
@@ -518,7 +518,7 @@ public class Player : MonoBehaviour
                     {
                         Timer += Time.deltaTime;
                     }
-                    if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind)
+                    if (Input.GetMouseButton(0) && Timer > MeleeSpeed && !Iswall && !isDodge && !DJumpOn && !ShieldOn && !isWhilWind && !GameManager.Instance.isMouseOnObject)
                     {
                         if (GameManager.Instance.SkillWindowPopup || GameManager.Instance.cursorOnUi)
                         {
@@ -837,9 +837,7 @@ public class Player : MonoBehaviour
             }
 
         }
-        //sheld.gameObject.SetActive(true);
-        //weapon1.gameObject.SetActive(true);
-    }
+      }
 
 
     //벽점프
@@ -1038,6 +1036,8 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance.Player_CurHP > 0 && !OnDMG)
         {
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.25f); // 땅바닥 뚫기 방지
+
             OnDMG = true;
             GameManager.Instance.Player_CurHP--;
 
@@ -1117,8 +1117,6 @@ public class Player : MonoBehaviour
     private void F_JumpReset()
     {
         MovingStop = false;
-
-      
         JumpOn = false;
         DJumpOn = false;
         Ani.SetBool("Jump", false);
@@ -1128,7 +1126,7 @@ public class Player : MonoBehaviour
         {
             //sheldSR.enabled = true;
             //SwordSr.enabled = true;
-        
+
             if (sheldOnSr.gameObject.activeSelf)
             {
                 return;
@@ -1195,53 +1193,17 @@ public class Player : MonoBehaviour
                 F_JumpReset();
             }
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("FlatForm"))
+        if (GameManager.Instance.SceneName == "Chapter2")
         {
-            if (GameManager.Instance.SceneName == "Chapter2")
+            if (collision.gameObject.layer == LayerMask.NameToLayer("FlatForm"))
             {
-                F_JumpReset();
-                
-            }
-            if (collision.transform.GetComponent<BoxCollider2D>().gameObject.activeSelf)
-            {
-                if (Input.GetKeyDown(KeyCode.S))
-                {
-
-                    StartCoroutine(ExitBrege(collision));
-                }
-            }
-
-        }
-    }
-
-    public void LegStayCollisionEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("FlatForm"))
-        {
-           
-            if (GameManager.Instance.SceneName == "Chapter2")
-            {
-
-                if (collision.transform.GetComponent<BoxCollider2D>().gameObject.activeSelf)
-                {
-                    if (Input.GetKeyDown(KeyCode.S))
-                    {
-
-                        StartCoroutine(ExitBrege(collision));
-                    }
-                }
-              
+                         F_JumpReset();
             }
         }
     }
 
     float BregeInterval = 0.6f;
-    IEnumerator ExitBrege(Collider2D collision)
-    {
-        collision.transform.GetComponent<BoxCollider2D>().enabled = false;
-        yield return new WaitForSeconds(BregeInterval);
-        collision.transform.GetComponent<BoxCollider2D>().enabled = true;
-    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -1263,7 +1225,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Trap") && Rb.velocity.y < 0.2f)
         {
-            if(gameObject.layer == OnDMGLayer) { return; }
+            if (gameObject.layer == OnDMGLayer) { return; }
             F_JumpReset();
             StartCoroutine(F_OnHit());
         }
@@ -1284,17 +1246,17 @@ public class Player : MonoBehaviour
         //    Rb.velocity = Vector3.zero;
         //}
 
-        
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            if(gameObject.layer == LayerMask.NameToLayer("Player"))
+            if (gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 if (gameObject.layer == OnDMGLayer) { return; }
                 StartCoroutine(F_OnHit());
                 JumpOn = false;
                 F_JumpReset();
             }
-           
+
         }
         if (collision.gameObject.CompareTag("Ghost"))
         {
@@ -1362,6 +1324,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Vector2 F_PlayerVelo()
+    {
+        Vector2 velo = Rb.velocity;
+        return velo; 
+
+    }
     /// <summary>
     /// 밀리아이템 스프라이트 on/off
     /// </summary>

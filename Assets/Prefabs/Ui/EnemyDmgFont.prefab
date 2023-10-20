@@ -147,4 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6822c7ccb5efbe746aad9362be1e65ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EndTime: 0.5
+  EndTime: 0.3

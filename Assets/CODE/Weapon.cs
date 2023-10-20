@@ -35,7 +35,11 @@ public class Weapon : MonoBehaviour
                 Enemis sc = collision.gameObject.GetComponent<Enemis>();
                 sc.F_OnHIt(SkillManager.instance.MeleeDmg);
             }
-
+            else if (collision.gameObject.GetComponent<Boss>() != null)
+            {
+                Boss sc = collision.gameObject.GetComponent<Boss>();
+                sc.F_OnHIt(SkillManager.instance.MeleeDmg);
+            }
 
             DiceSpecialSkillActive();
         }
@@ -68,7 +72,6 @@ public class Weapon : MonoBehaviour
         dice = Random.Range(0f, 100f);
         if (dice < 30)
         {
-            Debug.Log("ÁøÀÔ");
             GameManager.Instance.Player_CurHP += SkillManager.instance.MeleeHpLife;
             Player.instance.meleeBuffOn = true;
             arrowAttack.Instance.Rkey.SetBool("Active", true);

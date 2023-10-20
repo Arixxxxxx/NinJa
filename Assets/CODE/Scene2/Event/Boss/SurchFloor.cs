@@ -11,6 +11,7 @@ public class SurchFloor : MonoBehaviour
     public FloorType type;
     [SerializeField] GameObject Boss;
     Boss sc;
+    bool isBossAlive;
     private void Start()
     {
          sc = Boss.GetComponent<Boss>();
@@ -34,14 +35,19 @@ public class SurchFloor : MonoBehaviour
         }
         
     }
-
+   
     float Timer;
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            sc.isBossHide=false;
-            sc.F_ExitFloor();
+            isBossAlive = sc.F_CheakBossAlive();
+            if(!isBossAlive) 
+            {
+                sc.isBossHide = false;
+                sc.F_ExitFloor();
+            }
+            
         }
     }
 }

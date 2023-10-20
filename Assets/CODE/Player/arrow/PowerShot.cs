@@ -29,6 +29,12 @@ public class PowerShot : MonoBehaviour
 
             }
 
+            else if (collision.GetComponent<Boss>() != null)
+            {
+                collision.GetComponent<Boss>().F_OnHIt(SkillManager.instance.electronicShotDmg);
+
+            }
+
         }
 
         if (collision.CompareTag("Ghost"))

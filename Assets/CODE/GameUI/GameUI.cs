@@ -39,6 +39,10 @@ public class GameUI : MonoBehaviour
     //렙업
     Animator LvUpAni;
 
+    //보스체력바
+    Image bossHpBar;
+    TMP_Text bossHpBarText;
+
     private void Awake()
     {
         if(instance == null)
@@ -87,9 +91,9 @@ public class GameUI : MonoBehaviour
         colorM = transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
 
         blackScrren = transform.Find("BlackScreen").GetComponent<Animator>();
-        //레벨업 
-        
-        
+      
+           
+
 
     }
     private void Start()
@@ -97,6 +101,8 @@ public class GameUI : MonoBehaviour
         if (GameManager.Instance.SceneName == "Chapter2")
         {
             LvUpAni = transform.Find("LvUp").GetComponent<Animator>();
+            bossHpBar = transform.Find("BossHP/Front").GetComponent<Image>();
+            bossHpBarText = transform.Find("BossHP/Text").GetComponent<TMP_Text>();
         }
     }
 
@@ -383,6 +389,26 @@ public class GameUI : MonoBehaviour
         }
        
         LvUpAni.SetBool("Fade", true);
+    }
+
+    public void F_BossHPBar(bool _value, float CurHP, float MaxHP)
+    {
+        switch (_value)
+        {
+            case true:
+                if (!bossHpBar.transform.parent.gameObject.activeSelf)
+                {
+                    bossHpBar.transform.parent.gameObject.SetActive(true);
+                }
+                bossHpBar.fillAmount = CurHP / MaxHP;
+                bossHpBarText.text = $" 잔혹한 그리스 : {CurHP} / {MaxHP}";
+                break;
+
+                case false:
+                bossHpBar.transform.parent.gameObject.SetActive (false);
+                break;
+        }
+
     }
 }
 

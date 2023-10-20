@@ -141,6 +141,13 @@ public class TutorialGuide : MonoBehaviour
                 b = $"좌클릭 = 화살 발사\n\n우클릭 = 활 조준\n\n <size=30><color=yellow><b>각각의  스킬설명은 단축바에서 \n< 마우스오버 > 해주세요.</b></color></size>";
                 npcCount = 2;
                 break;
+
+            case 7:
+                video.clip = videoList[6];
+                a = $"돌 옮기기";
+                b = $"<size=40>좌클릭 = 집기\n\n드래그 후 클릭해제\n\n<color=yellow>오브젝트를 드래그해서\n움직일 수 있습니다.</color>";
+                npcCount = 2;
+                break;
         }
 
       

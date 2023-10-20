@@ -67,6 +67,7 @@ public class arrowAttack : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         maincam = Camera.main;
         tong = transform.Find("Tong").GetComponent<Transform>();
 
@@ -645,6 +646,7 @@ public class arrowAttack : MonoBehaviour
     float z;
     [SerializeField] float spinSpeed;
     float OriginDMG;
+    bool rSkillActive;
     private void SpecialSkill()
     {
         if (GameManager.Instance.isGetRangeItem)
@@ -657,9 +659,10 @@ public class arrowAttack : MonoBehaviour
                     z = Mathf.Repeat(z, 360);
                     SpecialBuffBar.transform.eulerAngles = new Vector3(0, 0, z);
                 }
-                if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.rangeMode)
+                if (Input.GetKeyDown(KeyCode.R) && GameManager.Instance.rangeMode && !rSkillActive)
                 {
                     effecting = true;
+                    rSkillActive = true;
 
                     SoundManager.instance.F_SoundPlay(SoundManager.instance.cry, 0.8f);
                     Player.instance.RangeBuff.gameObject.SetActive(true);
@@ -717,6 +720,7 @@ public class arrowAttack : MonoBehaviour
         normalShootSpeed = originAttackSpeed;
         buffCounter = 0;
         SkillManager.instance.RangeDmg = OriginDMG;
+        rSkillActive = false;
 
         SpecialBuffBar.gameObject.SetActive(false);
         Player.instance.RangeBuff.Stop();

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7634805703131309084}
   - component: {fileID: 4746447576456005343}
   - component: {fileID: 11740633167337046}
-  m_Layer: 7
+  m_Layer: 31
   m_Name: SkillTrap
   m_TagString: SkillTrap
   m_Icon: {fileID: 0}

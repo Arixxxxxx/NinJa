@@ -96,6 +96,11 @@ public class Bullet : MonoBehaviour
                         Enemis sc = collision.gameObject.GetComponent<Enemis>();
                         sc.F_OnHIt(SkillManager.instance.RangeDmg);
                     }
+                    else if (collision.gameObject.GetComponent<Boss>() != null)
+                    {
+                        Boss sc = collision.gameObject.GetComponent<Boss>();
+                        sc.F_OnHIt(SkillManager.instance.RangeDmg);
+                    }
 
 
 
@@ -113,6 +118,11 @@ public class Bullet : MonoBehaviour
                     else if (collision.gameObject.GetComponent<Enemis>() != null)
                     {
                         Enemis sc = collision.gameObject.GetComponent<Enemis>();
+                        sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
+                    }
+                    else if (collision.gameObject.GetComponent<Boss>() != null)
+                    {
+                        Boss sc = collision.gameObject.GetComponent<Boss>();
                         sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
                     }
                     F_BulletReturn(type);

@@ -10,6 +10,7 @@ public class TelePortPoint : MonoBehaviour
     }
 
     public PlacePointer Place;
+    [SerializeField] AudioSource PortalAudio;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,7 +18,19 @@ public class TelePortPoint : MonoBehaviour
         {
             TeleportManager sc = transform.parent.GetComponent<TeleportManager>();
             sc.F_TelePort(Place, collision.gameObject);
+
+            if(Place == PlacePointer.P5)
+            {
+                StartCoroutine(P5Close());
+            }
+
         }
     }
 
+    IEnumerator P5Close()
+    {
+        PortalAudio.enabled = false;
+        yield return new WaitForSeconds(2);
+        PortalAudio.gameObject.SetActive(false);
+    }
 }

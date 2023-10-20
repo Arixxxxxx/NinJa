@@ -78,7 +78,7 @@ public class Ghost : MonoBehaviour
     }
     private void OnEnable()
     {
-        this.gameObject.layer = 8;
+        this.gameObject.layer = 21;
         GhostDead = false;
         CurHp = MaxHp;
     }

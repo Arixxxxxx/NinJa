@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3338622298586441216}
   - component: {fileID: 3866800478567085396}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 1072628361469853500}
   - component: {fileID: 2756778993220314181}
   - component: {fileID: 8984718276717458334}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 2289847885068564677}
   - component: {fileID: 7003533705068759575}
   - component: {fileID: 4727910428508604250}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 4864064236183696219}
   - component: {fileID: 8262949317285687236}
   - component: {fileID: 4872255196337912458}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

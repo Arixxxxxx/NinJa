@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Event5_Object : MonoBehaviour
 {
@@ -16,12 +18,14 @@ public class Event5_Object : MonoBehaviour
     [SerializeField] float Power;
     ParticleSystem Ps;
 
+
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
         BoxColl = GetComponent<BoxCollider2D>();
         PolColl = GetComponent<PolygonCollider2D>();
         Ps = transform.Find("Ps").GetComponent<ParticleSystem>();
+ 
     }
 
     private void Update()
@@ -32,6 +36,8 @@ public class Event5_Object : MonoBehaviour
             Hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, ~layerMask);
             if (Hit.collider != null && Hit.collider.gameObject == gameObject)
             {
+                GameManager.Instance.F_OnMouseObject(true);
+                Debug.Log("켜짐");
                 if (Input.GetMouseButtonDown(0))
                 {
                     PolColl.enabled = false;
@@ -74,11 +80,28 @@ public class Event5_Object : MonoBehaviour
                     DragPower = EndDrag - StartDrag;
                     gameObject.layer = LayerMask.NameToLayer("Rock");
                     Rb.AddForce(DragPower * Power, ForceMode2D.Impulse);
+                   
 
                 }
             }
+            else if(Hit.collider == null)
+            {
+                Debug.Log("꺼짐");
+                GameManager.Instance.F_OnMouseObject(false);
+            }
+            
+           
         }
        
+    }
+    public void OnPointerEnterDelegate(PointerEventData data)
+    {
+        Debug.Log("마우스가 오브젝트에 들어왔습니다.");
+    }
+
+    public void OnPointerExitDelegate(PointerEventData data)
+    {
+        Debug.Log("마우스가 오브젝트에서 나갔습니다.");
     }
 
     private void RbChager(bool _value)
@@ -123,5 +146,20 @@ public class Event5_Object : MonoBehaviour
         }
         Ps.Stop();
         Ps.gameObject.SetActive(false);
+    }
+
+    public void ClickRock(bool _value)
+    {
+        switch(_value)
+        {
+            case true:
+                GameManager.Instance.isMouseOnObject = true;
+                break;
+
+            case false:
+                GameManager.Instance.isMouseOnObject = false;
+                break;
+        }
+
     }
 }

@@ -43,7 +43,7 @@ TagManager:
   - NPC
   - HitBox
   - NoWall
-  - Point
+  - Ghost
   - GetItem
   - GetItem2
   - EmoticonPointer
@@ -53,7 +53,7 @@ TagManager:
   - Rock
   - Dodge
   - Boss
-  - 
+  - PlayerTrap
   m_SortingLayers:
   - name: Background
     uniqueID: 2424153585

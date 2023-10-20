@@ -38,7 +38,11 @@ public class ShockWaveBoom : MonoBehaviour
                 sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
                 sc.F_Stun_Enemy(SkillManager.instance.ShockWaveStunTime);
             }
-
+            else if (collision.gameObject.GetComponent<Boss>() != null)
+            {
+                Boss sc = collision.gameObject.GetComponent<Boss>();
+                sc.F_OnHIt(SkillManager.instance.ShockWaveDmg);
+            }
         }
         if (collision.CompareTag("Ghost"))
         {

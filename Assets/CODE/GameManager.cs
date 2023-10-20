@@ -12,9 +12,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     public GameObject glodbalLight;
-
     // 라이트 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public Light2D worldLight;
 
@@ -29,6 +27,7 @@ public class GameManager : MonoBehaviour
     public bool meleeMode;
     public bool rangeMode;
 
+    public bool isMouseOnObject;
 
     [Header("# 캐릭터 HP설정")]
     [Space]
@@ -294,6 +293,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+
         if (isGetMeleeItem && isGetRangeItem)
         {
             if (!gameUI.transform.Find("ActionBar/ModeUpDown").gameObject.activeSelf)
@@ -354,23 +354,27 @@ public class GameManager : MonoBehaviour
     bool isNpcComeOk, isNpcComeOk1;
     private void NpcSpawn()
     {
-        if (TutorialGuide.instance != null)
+        if(SceneName == "Chapter1")
         {
-            if (TutorialGuide.instance._GetItemNum == 0)
+            if (TutorialGuide.instance != null)
             {
-                return;
-            }
-            else if (TutorialGuide.instance._GetItemNum == 1 && !isNpcComeOk)
-            {
-                isNpcComeOk = true;
-                StartCoroutine(GetItemNPC.Instance.ririSpawn());
-            }
-            else if (TutorialGuide.instance._GetItemNum == 2 && !isNpcComeOk1)
-            {
-                isNpcComeOk1 = true;
-                StartCoroutine(GetItemNPC2.Instance.ririSpawn());
+                if (TutorialGuide.instance._GetItemNum == 0)
+                {
+                    return;
+                }
+                else if (TutorialGuide.instance._GetItemNum == 1 && !isNpcComeOk)
+                {
+                    isNpcComeOk = true;
+                    StartCoroutine(GetItemNPC.Instance.ririSpawn());
+                }
+                else if (TutorialGuide.instance._GetItemNum == 2 && !isNpcComeOk1)
+                {
+                    isNpcComeOk1 = true;
+                    StartCoroutine(GetItemNPC2.Instance.ririSpawn());
+                }
             }
         }
+     
 
     }
     private void Act1EndBlackScreenOn()
@@ -544,6 +548,7 @@ public class GameManager : MonoBehaviour
                     case 300:
                         RockQuest = true;
                         _obj.transform.Find("Byuk").gameObject.SetActive(false);
+                        _obj.transform.Find("Point1").gameObject.SetActive(true);
                         break;
 
                     case 301:
@@ -788,4 +793,9 @@ public class GameManager : MonoBehaviour
         Player_CurHP = Player_MaxHP;
     }
 
+
+    public void F_OnMouseObject(bool _value)
+    {
+        isMouseOnObject = _value;
+    }
 }

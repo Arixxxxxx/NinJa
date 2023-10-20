@@ -22,6 +22,11 @@ public class WhilWIndTriger : MonoBehaviour
                 Enemis sc = collision.gameObject.GetComponent<Enemis>();
                 sc.F_OnHIt(SkillManager.instance.whilWindDmg);
             }
+            else if (collision.gameObject.GetComponent<Boss>() != null)
+            {
+                Boss sc = collision.gameObject.GetComponent<Boss>();
+                sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+            }
         }
 
         if (collision.CompareTag("Ghost"))
@@ -55,7 +60,11 @@ public class WhilWIndTriger : MonoBehaviour
                     Enemis sc = collision.gameObject.GetComponent<Enemis>();
                     sc.F_OnHIt(SkillManager.instance.whilWindDmg);
                 }
-
+                else if (collision.gameObject.GetComponent<Boss>() != null)
+                {
+                    Boss sc = collision.gameObject.GetComponent<Boss>();
+                    sc.F_OnHIt(SkillManager.instance.whilWindDmg);
+                }
             }
         }
 
