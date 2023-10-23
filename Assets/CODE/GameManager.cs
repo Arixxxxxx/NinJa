@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -53,9 +54,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TalkManager talkmanager;
     [SerializeField] public bool isWaitTalking;
 
-
+    [SerializeField] private Canvas RockQuestArrowCanvus;
     public TypeEffect text;
     [HideInInspector] public Image NpcSprite;
+    [SerializeField] AudioSource zizinAudio;
     // 게임정지 불리언변수
     public bool MovingStop;
 
@@ -268,6 +270,7 @@ public class GameManager : MonoBehaviour
         {
             TelManager = GameObject.Find("TeleportManager").GetComponent<Transform>();
             TelPoint3 = TelManager.transform.Find("P3").GetComponent<Transform>();
+            RockQuestArrowCanvus = GameObject.Find("EventSystem/Event5/Canvus").GetComponent<Canvas>();
 
 
         }
@@ -485,7 +488,7 @@ public class GameManager : MonoBehaviour
                         questMark.transform.parent.GetChild(0).gameObject.SetActive(false);
                         Act1End = true;
                         MovingStop = true;
-
+                        SoundManager.instance.ActEndSoundOff();
                         break;
 
 
@@ -548,12 +551,16 @@ public class GameManager : MonoBehaviour
                     case 300:
                         RockQuest = true;
                         _obj.transform.Find("Byuk").gameObject.SetActive(false);
+                        RockQuestArrowCanvus.gameObject.SetActive(true);
                         _obj.transform.Find("Point1").gameObject.SetActive(true);
                         break;
 
                     case 301:
                         Door.sprite = sprites[0];
+                        isMouseOnObject = false;
                         TelPoint3.gameObject.SetActive(true);
+                        RockQuestArrowCanvus.gameObject.SetActive(false);
+                        SoundManager.instance.F_SoundPlay(SoundManager.instance.OpenDoor, 1);
                         break;
                 }
             }
@@ -719,6 +726,7 @@ public class GameManager : MonoBehaviour
     /// 카메라 쉐이크
     /// </summary>
     /// <param name="_Value">0="켜기" , 1="끄기"</param>
+    AudioSource GetAudio;
     public void CameraShakeSwitch(int _Value)
     {
         switch (_Value)
@@ -726,10 +734,21 @@ public class GameManager : MonoBehaviour
             case 0:
                 normalCamera = false;
                 cameraShake = true;
+                zizinAudio.Play();
+                //if(SceneName== "Chapter2")
+                //{
+                //    GetAudio = SoundManager.instance.F_SoundOnOffPlay(SoundManager.instance.ziZin, 0.8f);
+                //    GetAudio.Play();
+                //}
                 break;
             case 1:
                 normalCamera = true;
                 cameraShake = false;
+                zizinAudio.Stop();
+                //if (SceneName == "Chapter2")
+                //{
+                //    SoundManager.instance.F_ReturnSoundQUE(GetAudio);
+                //}
                 break;
         }
 

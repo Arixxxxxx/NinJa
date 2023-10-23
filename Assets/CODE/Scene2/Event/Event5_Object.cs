@@ -27,7 +27,7 @@ public class Event5_Object : MonoBehaviour
         Ps = transform.Find("Ps").GetComponent<ParticleSystem>();
  
     }
-
+    float MinX;
     private void Update()
     {
         if (GameManager.Instance.RockQuest)
@@ -50,12 +50,12 @@ public class Event5_Object : MonoBehaviour
                     gameObject.layer = LayerMask.NameToLayer("EnemyDead");
                     BoxColl.size = new Vector2(BoxColl.size.x * 2f, BoxColl.size.y * 2f);
                     Vector3 WorldPos = Camera.main.ScreenToWorldPoint(MousePos);
+                    MinX = Mathf.Max(179.5f, WorldPos.x);
 
 
 
 
-
-                    transform.position = new Vector2(WorldPos.x, WorldPos.y);
+                    transform.position = new Vector2(MinX, WorldPos.y);
 
 
                 }
@@ -64,8 +64,8 @@ public class Event5_Object : MonoBehaviour
                 {
                     Vector3 MousePos = Input.mousePosition;
                     Vector3 WorldPos = Camera.main.ScreenToWorldPoint(MousePos);
-
-                    transform.position = new Vector2(WorldPos.x, WorldPos.y);
+                    MinX = Mathf.Max(179.5f, WorldPos.x);
+                    transform.position = new Vector2(MinX, WorldPos.y);
                 }
 
                 if (Input.GetMouseButtonUp(0))

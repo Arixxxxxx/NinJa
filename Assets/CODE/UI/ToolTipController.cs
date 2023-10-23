@@ -42,13 +42,14 @@ public class ToolTipController : MonoBehaviour
         switch (type)
         {
             case ToolTipObejct.TipType.Hp:
-              
-                boxtext = $"현재 생명력 : <color=red>{GameManager.Instance.Player_CurHP} / {GameManager.Instance.Player_MaxHP}</color>\n초당 <color=yellow>0.5</color>만큼 자연 회복";
+              string HP = GameManager.Instance.Player_CurHP.ToString("F1");
+
+                boxtext = $"현재 생명력 : <color=red>{HP} / {GameManager.Instance.Player_MaxHP}</color>\n초당 <color=yellow>0.5</color>만큼 자연 회복";
                 break;
 
             case ToolTipObejct.TipType.Mp:
-                
-                boxtext = $"현재 마나 : <color=#00ffffff>{GameManager.Instance.Player_CurMP} / {GameManager.Instance.Player_MaxMP}</color>\n초당 <color=yellow>0.5</color>만큼 자연 회복";
+                string MP = GameManager.Instance.Player_CurMP.ToString("F1");
+                boxtext = $"현재 마나 : <color=#00ffffff>{MP} / {GameManager.Instance.Player_MaxMP}</color>\n초당 <color=yellow>0.5</color>만큼 자연 회복";
                 break;
 
             case ToolTipObejct.TipType.Sp:

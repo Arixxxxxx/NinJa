@@ -61,6 +61,7 @@ public class MapMoveCheker : MonoBehaviour
                         break;
                     case MapType.성문:
                         gameUI.F_SetMapMoveBar("성문");
+                        
                         break;
 
                 }

@@ -205,6 +205,7 @@ public class Enemis : MonoBehaviour
         objectAni.SetBool("Dead", true);
         gameObject.layer = LayerMask.NameToLayer("EnemyDead");
         yield return new WaitForSeconds(1.5f);
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
         PoolManager.Instance.F_ReturnObj(gameObject, "Skele");
 
 

@@ -15,6 +15,7 @@ public class Event3 : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !once)
         {
             StartCoroutine(Event3Start());
+            SoundManager.instance.AudioChanger(SoundManager.instance.F_Get_Audio_List(0));
             transform.GetComponent<BoxCollider2D>().enabled = false;
             transform.Find("BossEffect").gameObject.SetActive(true);
         }
@@ -56,6 +57,7 @@ public class Event3 : MonoBehaviour
             yield return null;
         }
         transform.Find("BossEffect").gameObject.SetActive(false);
+        SoundManager.instance.AudioChanger(SoundManager.instance.mainThema);
         gameObject.gameObject.SetActive(false);
     }
 }

@@ -62,11 +62,45 @@ public class TeleportManager : MonoBehaviour
     
     IEnumerator P1(GameObject _Obj, int _PlaceNum, int _TrCounter, TelePortPoint.PlacePointer _Value)
     {
+        switch (_Value)
+        {
+            case TelePortPoint.PlacePointer.P1:
+                SoundManager.instance.AudioChanger(SoundManager.instance.F_Get_Audio_List(1));
+                break;
+            case TelePortPoint.PlacePointer.P2:
+                SoundManager.instance.AudioChanger(SoundManager.instance.mainThema);
+                break;
+            case TelePortPoint.PlacePointer.P3:
+                SoundManager.instance.AudioChanger(SoundManager.instance.F_Get_Audio_List(2));
+                break;
+            case TelePortPoint.PlacePointer.P4:
+                SoundManager.instance.AudioChanger(SoundManager.instance.F_Get_Audio_List(1));
+                break;
+        }
+
         yield return new WaitForSeconds(1);
         GameManager.Instance.F_SetPlaceNum(_PlaceNum);
         _Obj.transform.position = PointerTR[_TrCounter].transform.position;
         Vector3 PlayerVec = _Obj.transform.position;
-        Camera.transform.position = new Vector3(PlayerVec.x, PlayerVec.y, Camera.transform.position.z);
+        switch (_Value)
+        {
+            case TelePortPoint.PlacePointer.P1:
+                Camera.transform.position = new Vector3(136, Camera.transform.position.y, Camera.transform.position.z);
+                break;
+                case TelePortPoint.PlacePointer.P2:
+                Camera.transform.position = new Vector3(112, Camera.transform.position.y, Camera.transform.position.z);
+                break;
+            case TelePortPoint.PlacePointer.P3:
+                Camera.transform.position = new Vector3(200, Camera.transform.position.y, Camera.transform.position.z);
+                break;
+            case TelePortPoint.PlacePointer.P4:
+                Camera.transform.position = new Vector3(281, Camera.transform.position.y, Camera.transform.position.z);
+                break;
+            case TelePortPoint.PlacePointer.P5:
+                
+                break;
+        }
+        
         yield return new WaitForSeconds(0.3f);
         GameUI.instance.F_BlackScrrenOnOff(false);
         GameManager.Instance.F_MoveStop(1);
@@ -101,11 +135,12 @@ public class TeleportManager : MonoBehaviour
 
     IEnumerator P5(GameObject _Obj, int _PlaceNum, int _TrCounter, TelePortPoint.PlacePointer _Value)
     {
+        SoundManager.instance.AudioChanger(SoundManager.instance.F_Get_Audio_List(3));
         yield return new WaitForSeconds(1);
         GameManager.Instance.F_SetPlaceNum(_PlaceNum);
         _Obj.transform.position = PointerTR[_TrCounter].transform.position;
         Vector3 PlayerVec = _Obj.transform.position;
-        Camera.transform.position = new Vector3(PlayerVec.x, PlayerVec.y, Camera.transform.position.z);
+        Camera.transform.position = new Vector3(309.7f, Camera.transform.position.y, Camera.transform.position.z);
         yield return new WaitForSeconds(0.3f);
         GameUI.instance.F_BlackScrrenOnOff(false);
 
@@ -124,7 +159,7 @@ public class TeleportManager : MonoBehaviour
         GameUI.instance.F_CenterTextPopup("»Â»Â»Â..∞‘¿”¿ª Ω√¿€«œ¡ˆ...");
         SoundManager.instance.F_SoundPlay(SoundManager.instance.lougther, 0.8f);
         BossTr.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         sc.F_GameStartBoss();
         GameManager.Instance.F_MoveStop(1);
         yield return new WaitForSeconds(1);

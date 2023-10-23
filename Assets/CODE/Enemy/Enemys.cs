@@ -44,7 +44,7 @@ public class Enemys : MonoBehaviour
     //대기용 변수들
     RaycastHit2D surchPlayer;
     bool isAttackStart;
-
+    bool once;
     private void Awake()
     {
         Sr = GetComponent<SpriteRenderer>();
@@ -94,6 +94,11 @@ public class Enemys : MonoBehaviour
                 
                 if (isAttackStart)
                 {
+                    if (!once)
+                    {
+                        once = true;
+                        SoundManager.instance.F_SoundPlay(SoundManager.instance.zombieSpawn, 0.6f);
+                    }
                     if (!GameManager.Instance.NpcSprite.gameObject.activeSelf)
                     {
                         if (!onTrap)
@@ -134,11 +139,11 @@ public class Enemys : MonoBehaviour
     {
      
         onTrap = true;
-        Rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+        Rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
 
         Ps.gameObject.SetActive(true);
         yield return new WaitForSeconds(_duration);
-        Rb.constraints = RigidbodyConstraints2D.None;
+        Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         onTrap = false;
         Ps.gameObject.SetActive(false);
 
@@ -246,12 +251,13 @@ public class Enemys : MonoBehaviour
         if (!isEnemyDead)
         {
             EnemyVec = GameManager.Instance.player.transform.position - transform.position;
-            NextMove.x = Mathf.Sign(EnemyVec.x) * EnemySpeed * Time.deltaTime;
+            NextMove.x = Mathf.Sign(EnemyVec.x) * EnemySpeed;
             if (KB)
             {
                 NextMove.x = 0;
             }
-            Rb.AddForce(NextMove, ForceMode2D.Force);
+            //Rb.AddForce(NextMove, ForceMode2D.Force);
+            Rb.velocity = new Vector3(NextMove.x, Rb.velocity.y);
         }
 
     }

@@ -105,9 +105,9 @@ public class Event5SpawnSC : MonoBehaviour
 
     IEnumerator StartZombieTrap()
     {
-        transform.Find("Spawn").GetComponent<ZombieTrap>().BlackHoleOpenBool = true;
+        transform.Find("SpawnZ").GetComponent<ZombieTrap>().BlackHoleOpenBool = true;
 
-        while (transform.Find("Spawn").gameObject.activeSelf)
+        while (transform.Find("SpawnZ").gameObject.activeSelf)
         {
             yield return null;
         }

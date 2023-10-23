@@ -58,7 +58,13 @@ public class SoundManager : MonoBehaviour
 
 
     [SerializeField] private List<AudioClip> listBgm;
- //listbgm[0]
+
+    public AudioClip F_Get_Audio_List(int _Value)
+    {
+        return listBgm[_Value];
+    }
+
+    //listbgm[0] = 보스등장 / 1 = 마을 / 2 던전 / 3 보스
     public AudioClip mainThema; //메인 테마곡
     public AudioClip cityThema; // 전투교관있는 마을
     public AudioClip jungleCaveThema; // 전투장비있는 동굴
@@ -66,6 +72,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip CaveThema; //동굴안 테마곡
     private AudioClip caseThema; // 함수 사용 케이스
 
+   
     //효과음
     [Header("# 효과음")]
     public AudioClip BtnClick; // 버튼 클릭
@@ -84,6 +91,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip LvUp; //렙업
     public AudioClip skillWindowOpen; //스킬창 열기
     public AudioClip skillWindowClose; //스킬창 닫기
+    public AudioClip OpenDoor; //던전문 열기
+    public AudioClip NPCHwanHo; //환호
 
 
 
@@ -128,6 +137,8 @@ public class SoundManager : MonoBehaviour
 
     [Header("# Boss 관련")]
     public AudioClip lougther;
+    public AudioClip BossHp0;
+    public AudioClip BossDead;
 
     [Header("# UI")]
     public AudioClip popup;
@@ -135,7 +146,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip talkBoxChatSound;
     public AudioClip BossMiddle;
     public AudioClip BossName;
-
+    
 
     //외부에서 싱글톤으로 넣어줌
     public void AudioChanger(AudioClip _clip)
@@ -155,26 +166,26 @@ public class SoundManager : MonoBehaviour
         {
             Audio.clip = caseThema;
             Audio.Play();
-            Invoke("VolumeUp", 0.1f);
+            Invoke("VolumeUp", 0.05f);
         }
-        else if(Audio.volume > 0.1f) 
+        else if(Audio.volume > 0.05f) 
         {
             Audio.volume -= audioChangeSpeed * Time.deltaTime;
-            Invoke("VolumeDown", 0.2f);
+            Invoke("VolumeDown", 0.05f);
         }
     }
 
     private void VolumeUp()
     {
-        if (Audio.volume >= 0.3f)
+        if (Audio.volume >= 0.8f)
         {
-            Audio.volume = 0.3f;
+            Audio.volume = 0.8f;
              return;
         }
         else
         {
             Audio.volume += audioChangeSpeed * Time.deltaTime;
-            Invoke("VolumeUp", 0.1f);
+            Invoke("VolumeUp", 0.05f);
         }
 
     }
@@ -215,6 +226,7 @@ public class SoundManager : MonoBehaviour
         StartCoroutine(EndCheak(Audios, obj));
     }
 
+
     IEnumerator EndCheak(AudioSource _Audio, GameObject _obj)
     {
         while (_Audio.isPlaying)
@@ -227,7 +239,48 @@ public class SoundManager : MonoBehaviour
 
     }
 
+    public void ActEndSoundOff()
+    {
+        Audio.volume -= audioChangeSpeed * Time.deltaTime;
+        if(Audio.volume > 0.05f) 
+        {
+            Invoke("ActEndSoundOff", 0.05f);
+        }
+        else if(Audio.volume < 0.05f)
+        {
+            return;
+        }
+    }
 
+    public AudioSource F_SoundOnOffPlay(AudioClip _clip, float Valoum)
+    {
+        GameObject obj;
+
+        if (audioQue.Count == 0)
+        {
+            obj = Instantiate(soundMan, transform.position, Quaternion.identity, transform.Find("SoundMan"));
+
+        }
+        else
+        {
+            obj = audioQue.Dequeue();
+            obj.SetActive(true);
+        }
+
+        AudioSource Audios = obj.GetComponent<AudioSource>();
+
+        Audios.clip = _clip;
+        Audios.volume = Valoum;
+
+        return Audios;
+    }
+
+    public void F_ReturnSoundQUE(AudioSource obj)
+    {
+        obj.Stop();
+        obj.gameObject.SetActive(false);
+        audioQue.Enqueue(obj.gameObject);
+    }
     
 
 }

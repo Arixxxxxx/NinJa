@@ -148,8 +148,10 @@ public class arrowAttack : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.Instance.MovingStop || !GameManager.Instance.GameAllStop)
+        if (!GameManager.Instance.MovingStop)
         {
+            if (GameManager.Instance.GameAllStop) {return; }
+
             if (!GameManager.Instance.SkillWindowPopup)
             {
                 LookAtMouse();

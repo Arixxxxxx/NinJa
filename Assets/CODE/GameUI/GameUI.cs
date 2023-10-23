@@ -42,6 +42,7 @@ public class GameUI : MonoBehaviour
     //보스체력바
     Image bossHpBar;
     TMP_Text bossHpBarText;
+    Transform BH;
 
     private void Awake()
     {
@@ -103,6 +104,8 @@ public class GameUI : MonoBehaviour
             LvUpAni = transform.Find("LvUp").GetComponent<Animator>();
             bossHpBar = transform.Find("BossHP/Front").GetComponent<Image>();
             bossHpBarText = transform.Find("BossHP/Text").GetComponent<TMP_Text>();
+            BH = transform.Find("BossHP").GetComponent<Transform>();
+
         }
     }
 
@@ -281,14 +284,17 @@ public class GameUI : MonoBehaviour
 
             case "스톰윈드":
                 BoxMSG = "스톰 윈드";
+               
                 break;
 
             case "던전1층":
                 BoxMSG = "숨겨진 탑의 깊은 지하";
+                
                 break;
 
             case "보스":
                 BoxMSG = "그리스의 안식처";
+                
                 break;
 
         }
@@ -405,7 +411,11 @@ public class GameUI : MonoBehaviour
                 break;
 
                 case false:
-                bossHpBar.transform.parent.gameObject.SetActive (false);
+                Debug.Log("진입");
+                if (BH.gameObject.activeSelf)
+                {
+                    BH.gameObject.SetActive(false);
+                }
                 break;
         }
 

@@ -1375,6 +1375,16 @@ public class Player : MonoBehaviour
         Gizmos.DrawRay(WallCheck.position, CastDir * WallCheakDis);
     }
 
+    public void F_PlayerMovePosition(Vector2 Pos)
+    {
+        if(Pos.x > 136 && Pos.x < 180.8f)
+        {
+            GameManager.Instance.PlaceNum = 1;
+        }
+        transform.position = Pos;
+        Camera.main.transform.position = new Vector3(Pos.x, 1.5f, Camera.main.transform.position.z);
+         
+    }
 }
 
 

@@ -122,6 +122,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 M1Point++;
                 SkillManager.instance.F_SkillTreeSysTem("M", 1, M1Point);
@@ -159,6 +160,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 M11Point++;
                 SkillManager.instance.F_SkillTreeSysTem("M", 11, M11Point);
@@ -190,6 +192,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 M12Point++;
                 SkillManager.instance.F_SkillTreeSysTem("M", 12, M12Point);
@@ -220,6 +223,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 M2Point++;
                 SkillManager.instance.F_SkillTreeSysTem("M", 2, M2Point);
@@ -246,6 +250,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 R1Point++;
                 SkillManager.instance.F_SkillTreeSysTem("R", 1, R1Point);
@@ -281,6 +286,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 R11Point++;
                 SkillManager.instance.F_SkillTreeSysTem("R", 11, R11Point);
@@ -310,6 +316,7 @@ public class SkillPointWindow : MonoBehaviour
 
         skillRange12.onClick.AddListener(() =>
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
             if (haveSkillPoint > 0)
             {
                 haveSkillPoint--;
@@ -342,6 +349,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveSkillPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveSkillPoint--;
                 R2Point++;
                 SkillManager.instance.F_SkillTreeSysTem("R", 2, R2Point);
@@ -369,6 +377,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveAttackPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveAttackPoint--;
                 meleePointCashe++;
             }
@@ -381,6 +390,7 @@ public class SkillPointWindow : MonoBehaviour
         
             if(meleePointCashe > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 meleePointCashe--;
                 haveAttackPoint++;
             }
@@ -390,6 +400,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (haveAttackPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveAttackPoint--;
                 rangePointCashe++;
             }
@@ -402,6 +413,7 @@ public class SkillPointWindow : MonoBehaviour
 
             if (rangePointCashe > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 rangePointCashe--;
                 haveAttackPoint++;
             }
@@ -410,12 +422,14 @@ public class SkillPointWindow : MonoBehaviour
         hpUpBtn.onClick.AddListener(() => {
             if(haveBodyPoint > 0)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
                 haveBodyPoint--;
                 hpCashe++;
             }
         });
         hpDownBtn.onClick.AddListener(() =>
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
             if (hpCashe > 0)
             {
                 hpCashe--;
@@ -425,6 +439,7 @@ public class SkillPointWindow : MonoBehaviour
 
         mpUpbtn.onClick.AddListener(() =>
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
             if (haveBodyPoint > 0)
             {
                 haveBodyPoint--;
@@ -434,6 +449,7 @@ public class SkillPointWindow : MonoBehaviour
 
         mpDownbtn.onClick.AddListener(() =>
         {
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
             if (mpCashe > 0)
             {
                 mpCashe--;
@@ -444,10 +460,11 @@ public class SkillPointWindow : MonoBehaviour
 
         //결정, 리셋 버튼초기화
         AcceptBtn.onClick.AddListener(() =>
-        { 
+        {
             //각각의 캐셔를 포인트로 넣고 스킬매니저에 반영
 
             //공격Point관련
+            SoundManager.instance.F_SoundPlay(SoundManager.instance.BtnClick, 0.8f);
             if (meleePointCashe != 0)
             {
                 meleePoint += meleePointCashe;
@@ -530,6 +547,7 @@ public class SkillPointWindow : MonoBehaviour
         {
             if (skillPointWindow.gameObject.activeSelf)
             {
+                SoundManager.instance.F_SoundPlay(SoundManager.instance.skillWindowClose, 0.8f);
                 skillPointWindow.gameObject.SetActive(false);
             }
         });

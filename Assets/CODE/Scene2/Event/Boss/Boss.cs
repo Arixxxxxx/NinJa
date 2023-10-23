@@ -26,6 +26,8 @@ public class Boss : MonoBehaviour
     [SerializeField] TMP_Text UIText;
     Queue<GameObject> MagicRoom = new Queue<GameObject>();
 
+
+
     [Header("#보스 스탯 및 이동관련")]
     [SerializeField] private float bossAttackPower;
     [SerializeField] private float bossCurHP;
@@ -148,6 +150,8 @@ public class Boss : MonoBehaviour
             {
                 Effect[2].gameObject.SetActive(false);
             }
+
+            CenterBossHpBar();
         }
         BossLight.lightCookieSprite = Sr.sprite;
     }
@@ -155,11 +159,11 @@ public class Boss : MonoBehaviour
 
     private void CenterBossHpBar()
     {
-        if (bossCurHP > 0)
+        if (bossCurHP > 0 && !Dead)
         {
             GameUI.instance.F_BossHPBar(true, bossCurHP, bossMaxHP);
         }
-        if (bossCurHP == 0)
+        if (Dead)
         {
             GameUI.instance.F_BossHPBar(false, bossCurHP, bossMaxHP);
         }
@@ -444,7 +448,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    IEnumerator ExitFloor()
+    IEnumerator ExitFloor() // 순간이동 시작
     {
         while (isCurMagicCasting || isAttking)
         {
@@ -458,8 +462,8 @@ public class Boss : MonoBehaviour
 
         Rb.velocity = Vector3.zero;
         Ani.SetTrigger("HideOn");
-        Box.enabled = false;
         F_RbFreezX(true);
+        Box.enabled = false;
         CastTimer = 0;
 
         StartCoroutine(FreezXOff());
@@ -516,19 +520,19 @@ public class Boss : MonoBehaviour
         {
             Box.enabled = true;
         }
-
         if (!PhaseChange)
         {
             Ani.SetTrigger("HideOff");
         }
+
         else
         {
             Ani.SetBool("PhaseEnd", true);
         }
-
+        Box.enabled = true;
         isBossHide = false;
         isAttking = false;
-        Box.enabled = true;
+        
         CastTimer = 0;
 
 
@@ -538,6 +542,10 @@ public class Boss : MonoBehaviour
     private void A_isHideBoolFalse()
     {
         isBossHide = false;
+        if (!Box.enabled)
+        {
+            Box.enabled = true;
+        }
         isCurMagicCasting = false;
         CastTimer = 0;
 
@@ -652,6 +660,7 @@ public class Boss : MonoBehaviour
 
             case false:
                 RbFreez = RigidbodyConstraints2D.FreezeRotation;
+                Box.enabled = true;
                 Rb.constraints = RbFreez;
                 break;
         }
@@ -724,8 +733,9 @@ public class Boss : MonoBehaviour
                     //사운드//애니
                     Dead = true;
                     Ani.SetTrigger("Dead");
+                    SoundManager.instance.F_SoundPlay(SoundManager.instance.BossHp0, 0.8f);
                     F_RbFreezX(true);
-                    GameUI.instance.F_CenterTextPopup("내가 지다니.. 언젠가 다시 돌아오겠다....");
+                    GameUI.instance.F_CenterTextPopup("내가 지다니.. 끄...윽...");
                     StartCoroutine(RealDead());
                 }
 
@@ -742,15 +752,17 @@ public class Boss : MonoBehaviour
     }
     IEnumerator RealDead()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         Ani.SetBool("RealDead", true);
+        SoundManager.instance.F_SoundPlay(SoundManager.instance.BossDead, 0.8f);
         Effect[0].gameObject.SetActive(false);
         Effect[1].gameObject.SetActive(false);
         Effect[2].gameObject.SetActive(false);
         Box.enabled = false;
-        Sr.enabled = false;
         F_RbFreezX(true);
         yield return new WaitForSeconds(2.5f);
+        Sr.enabled = false;
+        BossLight.enabled = false;
         transform.parent.Find("Act2EndPortal").gameObject.SetActive(true);
 
     }
@@ -817,6 +829,11 @@ public class Boss : MonoBehaviour
     public void F_GameStartBoss()
     {
         isGameStart = true;
+    }
+
+    private void HideOffStart()
+    {
+        Box.enabled = true;
     }
 }
 

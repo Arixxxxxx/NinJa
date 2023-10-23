@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,6 +14,7 @@ public class ZombieTrap : MonoBehaviour
 
     public SpawnType type;
 
+    
 
     AudioSource Audio;
     [SerializeField] AudioClip[] Sfx;
@@ -51,7 +53,11 @@ public class ZombieTrap : MonoBehaviour
         BlackSpin();
         BlackHoleOpen();
         BlackHoleCloseheyo();
-        SetEventBar();
+         if (gameObject.name != "SpawnZ")
+        {
+            SetEventBar();
+        }
+     
 
     }
     [SerializeField] float G = 1;
@@ -98,7 +104,16 @@ public class ZombieTrap : MonoBehaviour
             if (!once1)
             {
                 once1 = true;
-                GameUI.instance.F_CenterTextPopup("보스가 차원문을 소환하였습니다");
+                if(gameObject.name == "SpawnZ")
+                {
+                    GameUI.instance.F_CenterTextPopup("어리석은것.. 여기가 어디라고 들어오느냐..");
+                    SoundManager.instance.F_SoundPlay(SoundManager.instance.lougther, 0.8f);
+                }
+                else if(gameObject.name != "SpawnZ")
+                {
+                    GameUI.instance.F_CenterTextPopup("보스가 차원문을 소환하였습니다");
+                }
+
                 Audio.clip = Sfx[0];
                 Audio.Play();
             }
