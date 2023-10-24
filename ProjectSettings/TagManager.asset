@@ -34,7 +34,7 @@ TagManager:
   - Wall
   - OnDMG
   - FlatForm
-  - Blood
+  - Point
   - EnemyDead
   - PlayerDead
   - Weapon

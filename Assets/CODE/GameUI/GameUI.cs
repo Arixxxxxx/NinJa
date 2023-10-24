@@ -323,7 +323,6 @@ public class GameUI : MonoBehaviour
     {
         if (mapMoveText.color.a >= 0.98f)
         {
-            Debug.Log("¡¯¿‘00");
             Invoke("EffectEnd", 2.5f);
         }
         else if (mapMoveText.color.a <= 0.98f)

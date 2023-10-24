@@ -1,73 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Pointer
 {
-    point0,point1,point2,point3,point4,point5,point6,point7,point8,point9,point10,point11,point12
+    point0,point1,point2,point3,point4,point5,point6,point7,point8,point9
 }
 public class PointCheker : MonoBehaviour
 {
+    [SerializeField] LayerMask PlayerLayer;
     public Pointer type;
-    GuideManager guideManager;
-    Transform btn;
-
+    Transform canvasBox;
+    
     private void Awake()
     {
-        if (this.type != Pointer.point0)
-        {
-            btn = transform.GetComponentsInChildren<Transform>(true)[4];
-        }
-           
+        canvasBox = transform.Find("PointCheker/Btn").GetComponent<Transform>();
     }
-
+    private void Start()
+    {
+       
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (this.type != Pointer.point0) // 시작지점일경우
+     
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                btn.gameObject.SetActive(true);
-            }
+            canvasBox.gameObject.SetActive(true);
         }
-        
-       
+
+        if (collision.gameObject.layer == PlayerLayer)
+        {
+            canvasBox.gameObject.SetActive(true);
+        }
     }
-    
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-            if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
+       {
+            if (!canvasBox.gameObject.activeSelf)
             {
-                if (!btn.gameObject.activeSelf)
-                {
-                    btn.gameObject.SetActive(true);
-                }
-
+                canvasBox.gameObject.SetActive(true);  
             }
-      
-    }
 
+        }
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (btn.gameObject.activeSelf)
+        if (collision.gameObject.layer == PlayerLayer)
         {
-            btn.gameObject.SetActive(false);
+            canvasBox.gameObject.SetActive(false);
         }
     }
 
-
-
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (!once && collision.gameObject.CompareTag("Player"))
-    //    {
-    //        guideManager = GameObject.Find("GameGuide").GetComponent<GuideManager>();
-    //        guideManager.F_GetColl(type, collision);
-    //        once = true;
-    //    }
-    //}
 }
+
+
+
+   

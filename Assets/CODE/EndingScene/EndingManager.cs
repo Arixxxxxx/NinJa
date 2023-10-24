@@ -184,33 +184,33 @@ public class EndingManager : MonoBehaviour
                 break;
 
             case 2:
-                BoxSprite.sprite = sprites[1];
+                BoxSprite.sprite = sprites[value];
                 BoxText.text = "캐릭터는 PhotoShap으로 <color=yellow>합성/편집</color> 하였고\n\n  <color=yellow>Asset Store</color>에서 참고 되었습니다.";
                 break;
 
             case 3:
-                BoxSprite.sprite = sprites[1];
-                BoxText.text = "개발에 필요한 Resource는 대부분 <color=yellow>Youtube</color>와\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
+                BoxSprite.sprite = sprites[value];
+                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는  대부분 <color=yellow>Youtube</color>와\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
                 break;
 
             case 4:
-                BoxSprite.sprite = sprites[1];
+                BoxSprite.sprite = sprites[value];
                 BoxText.text = "필요한 <color=yellow>ArtDesign Banner</color>는\n\n  <color=yellow>Adobe Express</color>로 직접 디자인하였습니다.";
                 break;
 
             case 5:
-                BoxSprite.sprite = sprites[1];
-                BoxText.text = "대부분의 <color=yellow>SFX</color> / <color=yellow>Music Resource</color>는 \n\n  <color=yellow>월드오브워크래프트</color>에서 녹음/편집 하였습니다.";
+                BoxSprite.sprite = sprites[value];
+                BoxText.text = "대부분의 <color=yellow>SFX</color> / <color=yellow>Sound Resource</color>는 \n\n  <color=yellow>월드오브워크래프트</color>에서 녹음/편집 하였습니다.";
                 break;
 
             case 6:
-                BoxSprite.sprite = sprites[1];
-                BoxText.text = "대부분의 시스템은  원하는대로 \n\n  참고없이 <color=yellow>직접 구현</color>하였습니다.";
+                BoxSprite.sprite = sprites[value];
+                BoxText.text = "스킬시스템 및 특성시스템 또한 <color=yellow><b>W.o.W<b></color=yellow>의\n\n  시스템들을 많이 참고 하여 반영하였습니다.";
                 break;
             
             case 7:
-                BoxSprite.sprite = sprites[1];
-                BoxText.text = "산이의 대모험의 <color=yellow><b><산이></b></color>는\n\n  5살 아들의 이름이였습니다 :)";
+                BoxSprite.sprite = sprites[value];
+                BoxText.text = "부제 : 산이의 대모험의 <color=yellow><b>< 산이 ></b></color>는\n\n 저의 5살 아들 이름입니다 :)";
                 break;
         }
     }

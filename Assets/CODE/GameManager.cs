@@ -258,7 +258,7 @@ public class GameManager : MonoBehaviour
             battlezone = tutorialEvent.transform.Find("BattleTraning").GetComponent<Transform>();
             rangeZone = tutorialEvent.transform.Find("RangeZone").GetComponent<Transform>();
             //이벤트용 배경색 조절용
-            gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
+            //gamebackground = backgroundTR.transform.Find("NoLight/Sky").GetComponent<Tilemap>();
         }
 
 
@@ -447,7 +447,7 @@ public class GameManager : MonoBehaviour
                         npc2.transform.Find("Byuk").gameObject.SetActive(false);
                         _obj.transform.GetChild(2).GetComponent<Transform>().gameObject.SetActive(false);
 
-                        _obj.gameObject.layer = 12;
+                        
                         NPC script = _obj.GetComponent<NPC>();
                         script.ani.SetBool("Show", true);
 
@@ -512,7 +512,7 @@ public class GameManager : MonoBehaviour
 
                             Transform questionMark = _obj.transform.GetChild(0).GetComponent<Transform>();
                             questionMark.gameObject.SetActive(false);
-                            _obj.gameObject.layer = 12;
+                            //_obj.gameObject.layer = 12;
                             script.ani.SetBool("Show", true);
 
                             StartCoroutine(RiRITel(_obj));
@@ -734,21 +734,18 @@ public class GameManager : MonoBehaviour
             case 0:
                 normalCamera = false;
                 cameraShake = true;
-                zizinAudio.Play();
-                //if(SceneName== "Chapter2")
-                //{
-                //    GetAudio = SoundManager.instance.F_SoundOnOffPlay(SoundManager.instance.ziZin, 0.8f);
-                //    GetAudio.Play();
-                //}
+                if (SceneName == "Chapter2")
+                {
+                    zizinAudio.Play();
+                }
                 break;
             case 1:
                 normalCamera = true;
                 cameraShake = false;
-                zizinAudio.Stop();
-                //if (SceneName == "Chapter2")
-                //{
-                //    SoundManager.instance.F_ReturnSoundQUE(GetAudio);
-                //}
+                if (SceneName == "Chapter2")
+                {
+                    zizinAudio.Stop();
+                }
                 break;
         }
 

@@ -23,9 +23,13 @@ public class Action1 : MonoBehaviour
             SoundManager.instance.F_SoundPlay(SoundManager.instance.zombieSpawn, 0.8f);
             once = true;
             GameObject E1 = PoolManager.Instance.F_GetObj("Enemy");
+            SpriteRenderer E1SR = E1.GetComponent<SpriteRenderer>();
+            E1SR.sortingOrder = 7;
             E1.transform.position = right.transform.position;
             
             GameObject E2 = PoolManager.Instance.F_GetObj("Enemy");
+            SpriteRenderer E2SR = E2.GetComponent<SpriteRenderer>();
+            E2SR.sortingOrder = 7;
             E2.transform.position = left.transform.position;
 
             if(boxColl == null)
@@ -40,8 +44,8 @@ public class Action1 : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2);
 
-        right.GetComponent<SpriteRenderer>().sortingOrder = 5;
-        left.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        right.GetComponent<SpriteRenderer>().sortingOrder = 6;
+        left.GetComponent<SpriteRenderer>().sortingOrder = 6;
 
     }
 }

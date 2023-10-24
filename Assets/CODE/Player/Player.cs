@@ -95,7 +95,8 @@ public class Player : MonoBehaviour
     //파티클 참조
     PaticleManager paticle;
     public ParticleSystem RangeBuff;
-
+    [SerializeField] LayerMask Pointer;
+    [SerializeField] LayerMask NPC;
     // 무기 근접속도
     [Header("# 근접공격")]
     public float MeleeSpeed;
@@ -134,10 +135,7 @@ public class Player : MonoBehaviour
     // 오디오
     private AudioSource Audio; // 발소리
     //근접모드 R스킬 확률
-    [SerializeField] float buffOnActivePercent;
-    float buffDice;
     public bool meleeBuffOn;
-
     private bool isNoDodge;
 
     private void Awake()
@@ -634,7 +632,7 @@ public class Player : MonoBehaviour
             { return; }
 
             //NPC체크
-            Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("NPC"));
+            Scanobj = Physics2D.Raycast(transform.position, ScanDir, 1.5f, NPC);
             if (Scanobj.collider != null)
             {
                 GameManager.Instance.curPlayerTalkingYouStop = true;
@@ -659,7 +657,7 @@ public class Player : MonoBehaviour
             }
 
             //찾아서 써놓기
-            hitPoint = Physics2D.Raycast(transform.position, ScanDir, 1.5f, LayerMask.GetMask("Point"));
+            hitPoint = Physics2D.Raycast(transform.position, ScanDir, 1.5f, Pointer);
             if (hitPoint.collider != null && !GameManager.Instance.once && !GameManager.Instance.GuideWindow.gameObject.activeSelf)
             {
                 GameManager.Instance.MovingStop = true;

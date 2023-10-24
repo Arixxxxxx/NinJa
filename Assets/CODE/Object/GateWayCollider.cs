@@ -17,7 +17,7 @@ public class GateWayCollider : MonoBehaviour
     [SerializeField] bool end;
 
     [Range(0f,1f)][SerializeField] private float speed = 0.2f;
-    Image back;
+    [SerializeField] private Image back;
 
     BoxCollider2D boxColl;
     SpriteRenderer GateSr;
@@ -27,7 +27,7 @@ public class GateWayCollider : MonoBehaviour
     
     private void Start()
     {
-        back = GameManager.Instance.blackScreen.GetComponent<Image>();
+        //back = GameManager.Instance.blackScreen.GetComponent<Image>();
         boxColl = GetComponent<BoxCollider2D>();
         GateSr = GetComponent<SpriteRenderer>();
     }
@@ -133,7 +133,7 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
         Camera.main.transform.position
             =
-        new Vector3(Player.instance.transform.position.x, Player.instance.transform.position.y, Camera.main.transform.position.z);
+        new Vector3(Player.instance.transform.position.x, 1.5f , Camera.main.transform.position.z);
 
         yield return new WaitForSecondsRealtime(1.5f);
 
@@ -188,7 +188,7 @@ public class GateWayCollider : MonoBehaviour
         GameManager.Instance.playerTR.transform.position = GameManager.Instance.telPoint1.transform.position;
         Camera.main.transform.position
             =
-           new Vector3(Player.instance.transform.position.x, Player.instance.transform.position.y, Camera.main.transform.position.z);
+           new Vector3(Player.instance.transform.position.x, 1.5f, Camera.main.transform.position.z);
         yield return new WaitForSecondsRealtime(2.5f);
 
 
