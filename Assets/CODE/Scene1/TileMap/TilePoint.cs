@@ -13,18 +13,32 @@ public class TilePoint : MonoBehaviour
     public TileType type;
     private TileFadeManagers fadeManager;
     private bool once;
+    float ExitDir;
 
     private void Start()
     {
         fadeManager =transform.parent.GetComponent<TileFadeManagers>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    ExitDir = (collision.transform.position - transform.position).normalized;
+
+    //    if (collision.gameObject.CompareTag("Player") && !once)
+    //    {
+    //        once = true;
+            
+    //    }
+    //}
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !once)
+         if (collision.gameObject.CompareTag("Player"))
         {
-            once = true;
-            fadeManager.F_TileFadeOnOff(type);
-        }  
+            once = false;
+            ExitDir = (collision.transform.position.x - transform.position.x);
+            Debug.Log($"{collision.transform.position.x} / {transform.position.x} / {ExitDir} ");
+            fadeManager.F_TileFadeOnOff(type, ExitDir);
+        }
     }
 }

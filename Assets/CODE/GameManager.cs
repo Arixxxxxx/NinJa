@@ -814,4 +814,47 @@ public class GameManager : MonoBehaviour
     {
         isMouseOnObject = _value;
     }
+
+    public void F_SetLigtValume(bool value)
+    {
+        StartCoroutine(Lighting(value));
+        
+    }
+
+    [SerializeField] float LightChangeSpeed;
+    IEnumerator Lighting(bool Value)
+    {
+        
+        switch (Value)
+        {
+            case true:
+                while(worldLight.intensity > 0.15f)
+                {
+                    if(worldLight.intensity <= 0.15f)
+                    {
+                        break;
+                    }
+
+                    worldLight.intensity -= 0.025f;
+                    yield return new WaitForSeconds(LightChangeSpeed);
+                }
+                break;
+
+                case false:
+                while (worldLight.intensity < 1)
+                {
+                    if (worldLight.intensity >= 1)
+                    {
+                        worldLight.intensity = 1;
+                        break;
+                    }
+
+                    worldLight.intensity += 0.025f;
+                    yield return new WaitForSeconds(LightChangeSpeed);
+                }
+                break;
+
+
+        }
+    }
 }
