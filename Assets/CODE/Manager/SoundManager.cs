@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
     [Range(0.01f,10f)][SerializeField] private float audioChangeSpeed;
     private void Awake()
     {
+        
         audioQue = new Queue<GameObject>();
 
         if (instance == null)
@@ -41,6 +42,7 @@ public class SoundManager : MonoBehaviour
                 obj.gameObject.SetActive(false);
                 audioQue.Enqueue(obj);
             }
+        
         }
        
     }
@@ -164,14 +166,15 @@ public class SoundManager : MonoBehaviour
     {
         if (Audio.volume <= 0.1f)
         {
+            Audio.Stop();
             Audio.clip = caseThema;
             Audio.Play();
-            Invoke("VolumeUp", 0.05f);
+            Invoke("VolumeUp", 0.08f);
         }
         else if(Audio.volume > 0.05f) 
         {
             Audio.volume -= audioChangeSpeed * Time.deltaTime;
-            Invoke("VolumeDown", 0.05f);
+            Invoke("VolumeDown", 0.08f);
         }
     }
 
@@ -185,7 +188,7 @@ public class SoundManager : MonoBehaviour
         else
         {
             Audio.volume += audioChangeSpeed * Time.deltaTime;
-            Invoke("VolumeUp", 0.05f);
+            Invoke("VolumeUp", 0.08f);
         }
 
     }

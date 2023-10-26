@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapMoveCheker : MonoBehaviour
 {
     public enum MapType
     {
-        ÃÊ¿ø, Á¡ÇÁ, ÇÃ·§Æû, Á¤±Ûµ¿±¼, ¸¶À», ´øÀü, ¿äÁ¤,¿¤À©,¼º¹®
+        ÃÊ¿ø, Á¡ÇÁ, ÇÃ·§Æû, Á¤±Ûµ¿±¼, ¸¶À», ´øÀü, ¿äÁ¤, ¿¤À©, ¼º¹®
     }
 
     public MapType Right;
@@ -22,14 +23,16 @@ public class MapMoveCheker : MonoBehaviour
 
     Vector3 exitDir;
     float angle;
+    bool once;
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !once)
         {
+            once = true;
             exitDir = (collision.transform.position - transform.position).normalized;
             //angle = Vector3.Angle(Vector3.right, exitDir);
 
-            if(exitDir.x > 0) 
+            if (exitDir.x > 0)
             {
                 switch (Right)
                 {
@@ -61,7 +64,7 @@ public class MapMoveCheker : MonoBehaviour
                         break;
                     case MapType.¼º¹®:
                         gameUI.F_SetMapMoveBar("¼º¹®");
-                        
+
                         break;
 
                 }
@@ -80,9 +83,9 @@ public class MapMoveCheker : MonoBehaviour
                         break;
 
                     case MapType.ÇÃ·§Æû:
-                       gameUI.F_SetMapMoveBar("ÇÃ·§Æû");
-                       sound.AudioChanger(sound.mainThema);
-                       break;
+                        gameUI.F_SetMapMoveBar("ÇÃ·§Æû");
+                        sound.AudioChanger(sound.mainThema);
+                        break;
 
                     case MapType.Á¤±Ûµ¿±¼:
                         gameUI.F_SetMapMoveBar("Á¤±Ûµ¿±¼");
@@ -105,11 +108,19 @@ public class MapMoveCheker : MonoBehaviour
                     case MapType.¿¤À©:
                         gameUI.F_SetMapMoveBar("¿¤À© ½£");
                         break;
-                   
+
 
                 };
             }
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player") && once)
+        {
+            once = false;
+        }
+
+    }
 }

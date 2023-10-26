@@ -41,7 +41,7 @@ public class OpeningScene : MonoBehaviour
         yield return new WaitForSecondsRealtime(5);
         
         BackAni.SetBool("off", true);
-        SoundManager.instance.AudioChanger(SoundManager.instance.Audio.clip = SoundManager.instance.mainThema);
+        SoundManager.instance.AudioChanger(SoundManager.instance.mainThema);
         yield return new WaitForSecondsRealtime(1.5f);
         openingText.gameObject.SetActive(false);
         GameManager.Instance.MovingStop = false;

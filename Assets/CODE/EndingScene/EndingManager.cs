@@ -199,7 +199,7 @@ public class EndingManager : MonoBehaviour
 
             case 3:
                 BoxSprite.sprite = sprites[value];
-                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는  대부분 <color=yellow>2D AsseT</color>과\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
+                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는  대부분 <color=yellow>2D Asset</color>\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
                 break;
 
             case 4:
