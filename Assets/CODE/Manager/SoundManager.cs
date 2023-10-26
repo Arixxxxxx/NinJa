@@ -241,7 +241,7 @@ public class SoundManager : MonoBehaviour
 
     public void ActEndSoundOff()
     {
-        Audio.volume -= audioChangeSpeed * Time.deltaTime;
+        Audio.volume -= 0.4f * Time.deltaTime;
         if(Audio.volume > 0.05f) 
         {
             Invoke("ActEndSoundOff", 0.05f);

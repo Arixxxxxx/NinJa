@@ -233,9 +233,6 @@ public class GameManager : MonoBehaviour
 
         if (SceneName == "Chapter1")
         {
-
-
-
             GameGuideTR = GameObject.Find("GameGuide").GetComponent<Transform>();
             GuideText0 = GameGuideTR.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MainUiText>();
             guideM = GameGuideTR.GetComponent<GuideManager>();
@@ -281,6 +278,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+  
     private void Start()
     {
         NpcSprite.gameObject.SetActive(false);
@@ -389,8 +387,8 @@ public class GameManager : MonoBehaviour
         else if (Act1End)
         {
             blackScreen.gameObject.SetActive(true);
-            blackScreen.color += new Color(0, 0, 0, 0.15f) * Time.deltaTime;
-            if (blackScreen.color.a > 0.95f && !once2)
+            blackScreen.color += new Color(0, 0, 0, 0.1f) * Time.deltaTime;
+            if (blackScreen.color.a > 0.98f && !once2)
             {
                 once2 = true;
                 SceneManager.LoadScene("Chapter2");
@@ -486,7 +484,7 @@ public class GameManager : MonoBehaviour
                     case 204:
                         questMark.gameObject.SetActive(false);
                         questMark.transform.parent.GetChild(0).gameObject.SetActive(false);
-                        Act1End = true;
+                        GameUI.instance.F_MissionCompleteLogoPopup();
                         MovingStop = true;
                         SoundManager.instance.ActEndSoundOff();
                         break;
@@ -856,5 +854,10 @@ public class GameManager : MonoBehaviour
 
 
         }
+    }
+
+    public void F_EndAct1(bool Value)
+    {
+        Act1End = Value;
     }
 }

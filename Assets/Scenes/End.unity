@@ -1280,16 +1280,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 2104128699}
     m_Modifications:
     - target: {fileID: 4703849117602504233, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 17.779663
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703849117602504233, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 0.25
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 4703849117602504233, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 0.15
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: 4703849117602504233, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 45
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4703849117602504233, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: InitialModule.startColor.maxColor.a
@@ -1317,11 +1321,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5720578871883378421, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.00097
+      value: 0.00162
       objectReference: {fileID: 0}
     - target: {fileID: 5720578871883378421, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00008
+      value: -0.00064
       objectReference: {fileID: 0}
     - target: {fileID: 5720578871883378421, guid: 54091842be62bb9409174f9d92f7f0cd, type: 3}
       propertyPath: m_LocalPosition.z

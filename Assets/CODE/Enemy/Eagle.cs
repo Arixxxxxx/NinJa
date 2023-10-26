@@ -28,7 +28,7 @@ public class Eagle : MonoBehaviour
         Rb = GetComponent<Rigidbody2D>();
         a = transform.parent.GetChild(1).GetComponent<Transform>();
         b = transform.parent.GetChild(2).GetComponent<Transform>();
-        curVecX = transform.position;
+        
         dir = Vector3.left;
         moveType = Random.Range(0, 2);
         ani = GetComponent<Animator>();
@@ -92,6 +92,7 @@ public class Eagle : MonoBehaviour
 
                     }
                     diry = Mathf.Sin(Time.time * bindo) * height;
+
                     Rb.velocity = new Vector2(dir.x * speed, diry);
                 }
                 else
@@ -131,5 +132,9 @@ public class Eagle : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1.5f);
         transform.parent.gameObject.SetActive(false);
+    }
+    public void F_SetEaglePos()
+    {
+        curVecX = transform.position;
     }
 }

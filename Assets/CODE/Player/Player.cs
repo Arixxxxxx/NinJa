@@ -1120,6 +1120,7 @@ public class Player : MonoBehaviour
         Ani.SetBool("Jump", false);
         JumpCount = 0;
         wallJumpon = false;
+        KB = false;
         if (GameManager.Instance.meleeMode)
         {
             //sheldSR.enabled = true;
@@ -1136,7 +1137,7 @@ public class Player : MonoBehaviour
 
         }
 
-        KB = false;
+        
     }
 
     //기력회복
@@ -1196,10 +1197,25 @@ public class Player : MonoBehaviour
             if (collision.gameObject.layer == LayerMask.NameToLayer("FlatForm"))
             {
                          F_JumpReset();
+                StartCoroutine(KBOFF());
+                OnDMG = false;
+            }
+
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("밟음");
+                StartCoroutine(KBOFF());
+                OnDMG = false;
             }
         }
     }
 
+    IEnumerator KBOFF()
+    {
+        yield return new WaitForSeconds(0.3f);
+        KB = false;
+        OnDMG = false;
+    }
     float BregeInterval = 0.6f;
 
 

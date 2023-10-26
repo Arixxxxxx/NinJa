@@ -27,4 +27,10 @@ public class EndingAni : MonoBehaviour
     {
         SoundManager.instance.F_SoundPlay(SoundManager.instance.questComplete, 0.7f);
     }
+
+    private void A_Ending_Act1()
+    {
+       GameManager.Instance.F_EndAct1(true);
+        GameUI.instance.F_UIOff();
+    }
 }

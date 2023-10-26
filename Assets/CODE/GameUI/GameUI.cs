@@ -44,6 +44,9 @@ public class GameUI : MonoBehaviour
     TMP_Text bossHpBarText;
     Transform BH;
 
+    private Animator MissionLogo;
+    Transform Actionbar, UnitFream;
+
     private void Awake()
     {
         if(instance == null)
@@ -64,7 +67,8 @@ public class GameUI : MonoBehaviour
         mapMoveBar.fillAmount = 0;
         mapMoveText.color = new Color(1, 1, 1, 0);
         mapMoveText.text = string.Empty;
-
+        Actionbar = transform.Find("ActionBar").GetComponent<Transform>();
+        UnitFream = transform.Find("UnitFream").GetComponent<Transform>();
         //½Ã°£
         timeText = transform.Find("UnitFream/TimeBar/Time").GetComponent<TMP_Text>();
 
@@ -92,13 +96,16 @@ public class GameUI : MonoBehaviour
         colorM = transform.Find("ActionBar/SpecialSkill/Circle/SideBarM").GetComponent<Image>();
 
         blackScrren = transform.Find("BlackScreen").GetComponent<Animator>();
-      
-           
-
-
     }
+
+  
     private void Start()
     {
+        if (GameManager.Instance.SceneName == "Chapter1")
+        {
+            MissionLogo = transform.Find("MIssionCom").GetComponent<Animator>();
+        }
+
         if (GameManager.Instance.SceneName == "Chapter2")
         {
             LvUpAni = transform.Find("LvUp").GetComponent<Animator>();
@@ -418,6 +425,19 @@ public class GameUI : MonoBehaviour
                 break;
         }
 
+    }
+    public void F_UIOff()
+    {
+        Actionbar.gameObject.SetActive(false);
+        UnitFream.gameObject.SetActive(false);
+        transform.Find("BtnFream").gameObject.SetActive(false);
+        transform.Find("Btn").gameObject.SetActive(false);
+
+    }
+    public void F_MissionCompleteLogoPopup()
+    {
+        MissionLogo.gameObject.SetActive(true) ;
+        MissionLogo.SetTrigger("Ok");
     }
 }
 

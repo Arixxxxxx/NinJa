@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System;
-using System.Collections.Generic;
+
 
 public class RangeZone : MonoBehaviour
 {
@@ -88,15 +88,19 @@ public class RangeZone : MonoBehaviour
                 {
                     Timer = 0f;
                     makeEagleEA--;
-                    GameObject obj = Instantiate(Eagles, spawnPoint1.position, Quaternion.identity, transform);
+                    GameObject obj = Instantiate(Eagles, spawnPoint1.position, Quaternion.identity, transform.Find("Pool").transform);
                     Eagle sc = obj.transform.GetChild(0).GetComponent<Eagle>();
+                   
+
                     if (sc.moveType == 0)
                     {
                         obj.transform.position = spawnPoint1.position;
+                        
                     }
                     else if (sc.moveType == 1)
                     {
-                        obj.transform.position = spawnPoint2.position;
+                        sc.gameObject.transform.position = spawnPoint2.position;
+                        sc.F_SetEaglePos();
                     }
                 }
             }
@@ -162,8 +166,8 @@ public class RangeZone : MonoBehaviour
         GameManager.Instance.battleNPCiD.ID++;
         
         yield return new WaitForSecondsRealtime(0.2f);
-        SoundManager.instance.F_SoundPlay(SoundManager.instance.questComplete, 1f);
-        KillText.text = "미션 완료!";
+        //SoundManager.instance.F_SoundPlay(SoundManager.instance.questComplete, 1f);
+        KillText.text = "훈련 성공!";
         Emoticon.instance.F_GetEmoticonBox("Smile");
 
         yield return new WaitForSecondsRealtime(0.5f);

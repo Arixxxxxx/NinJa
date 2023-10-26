@@ -28,6 +28,7 @@ public class EndingManager : MonoBehaviour
     private bool isPsStart;
     private bool isEnd;
     private bool once;
+    Color OgirinColor;
 
     Vector2[] BoxPos = new Vector2[3];
     Vector2[] TextPos = new Vector2[3];
@@ -43,6 +44,7 @@ public class EndingManager : MonoBehaviour
         TextPos[0] = MainCanvas.transform.Find("T1").position;
         TextPos[1] = MainCanvas.transform.Find("T2").position;
         TextPos[2] = MainCanvas.transform.Find("T3").position;
+        OgirinColor = Ps.startColor;
     }
     private void Start()
     {
@@ -107,6 +109,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(1);
         SrCase.rectTransform.position = BoxPos[1];
         BoxText.transform.position = TextPos[1];
+        Ps.startColor = Color.white;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -115,6 +118,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(2);
         SrCase.rectTransform.position = BoxPos[2];
         BoxText.transform.position = TextPos[2];
+        Ps.startColor = Color.yellow;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -123,6 +127,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(3);
         SrCase.rectTransform.position = BoxPos[0];
         BoxText.transform.position = TextPos[0];
+        Ps.startColor = Color.green;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -131,6 +136,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(4);
         SrCase.rectTransform.position = BoxPos[1];
         BoxText.transform.position = TextPos[1];
+        Ps.startColor = OgirinColor;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -139,6 +145,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(5);
         SrCase.rectTransform.position = BoxPos[2];
         BoxText.transform.position = TextPos[2];
+        Ps.startColor = Color.yellow;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -147,6 +154,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(6);
         SrCase.rectTransform.position = BoxPos[0];
         BoxText.transform.position = TextPos[0];
+        Ps.startColor = Color.white;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -155,6 +163,7 @@ public class EndingManager : MonoBehaviour
         ChangeSrAndText(7);
         SrCase.rectTransform.position = BoxPos[1];
         BoxText.transform.position = TextPos[1];
+        Ps.startColor = OgirinColor;
         boxTextAni.SetTrigger("On");
         yield return new WaitForSeconds(popupSpeed);
         boxTextAni.SetTrigger("Off");
@@ -190,7 +199,7 @@ public class EndingManager : MonoBehaviour
 
             case 3:
                 BoxSprite.sprite = sprites[value];
-                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는  대부분 <color=yellow>Youtube</color>와\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
+                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는  대부분 <color=yellow>2D AsseT</color>과\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
                 break;
 
             case 4:
