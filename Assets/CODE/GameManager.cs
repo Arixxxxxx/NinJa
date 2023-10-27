@@ -7,8 +7,7 @@ using UnityEngine.Tilemaps;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using System;
-using UnityEditor;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -157,7 +156,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float talkingWaitTime = 2.5f;
 
     //Æ©Åä¸®¾ó ¾À Á¾·á
-    bool Act1End;
+    [SerializeField]  bool Act1End;
 
     //´ëÈ­ÁßÀÏ¶§ NPC ¿òÁ÷ÀÓ ¸ØÃã
     [HideInInspector] public bool curPlayerTalkingYouStop;
@@ -378,6 +377,8 @@ public class GameManager : MonoBehaviour
      
 
     }
+
+
     private void Act1EndBlackScreenOn()
     {
         if (!Act1End)
@@ -387,15 +388,22 @@ public class GameManager : MonoBehaviour
         else if (Act1End)
         {
             blackScreen.gameObject.SetActive(true);
-            blackScreen.color += new Color(0, 0, 0, 0.1f) * Time.deltaTime;
-            if (blackScreen.color.a > 0.98f && !once2)
+            blackScreen.color += new Color(0, 0, 0, 0.1f) * 1.6f * Time.deltaTime;
+            if (blackScreen.color.a > 0.99f && !once2)
             {
                 once2 = true;
-                SceneManager.LoadScene("Chapter2");
+                blackScreen.color = Color.black;
+                StartCoroutine(NextScene());
 
             }
         }
 
+    }
+
+    IEnumerator NextScene()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Chapter2");
     }
     public void F_TalkSurch(GameObject _obj)
     {

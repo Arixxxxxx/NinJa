@@ -10174,7 +10174,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.3333334, y: 1.5757576}
+    oldSize: {x: 1.4193548, y: 1.6774193}
     newSize: {x: 0.00087824353, y: 0.0010379242}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -10206,7 +10206,7 @@ MonoBehaviour:
   isAttackStart: 0
   dropSpeed: 0.7
   Enemy_Hit: 0
-  hpBackBarSpeed: 0.3
+  hpBackBarSpeed: 0.9
 --- !u!82 &3814531010213424980
 AudioSource:
   m_ObjectHideFlags: 0

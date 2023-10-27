@@ -148,8 +148,22 @@ public class SoundManager : MonoBehaviour
     public AudioClip talkBoxChatSound;
     public AudioClip BossMiddle;
     public AudioClip BossName;
-    
 
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.F1)) 
+        {
+           
+            Audio.clip = listBgm[0];
+            Audio.Play();
+        }
+        if (Input.GetKey(KeyCode.F2))
+        {
+           
+            Audio.clip = listBgm[1];
+            Audio.Play();
+        }
+    }
     //ø‹∫Œø°º≠ ΩÃ±€≈Ê¿∏∑Œ ≥÷æÓ¡‹
     public void AudioChanger(AudioClip _clip)
     {
