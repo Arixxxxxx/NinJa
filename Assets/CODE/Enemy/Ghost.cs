@@ -19,6 +19,8 @@ public class Ghost : MonoBehaviour
     SpriteRenderer attackSr;
     Animator Ani;
 
+    Transform DmgBox;
+
     //적이 없을때
     [Header("# 에너미 정보")]
     [SerializeField] public float CurHp;
@@ -69,7 +71,7 @@ public class Ghost : MonoBehaviour
         attackSr = mark.GetComponent<SpriteRenderer>();
         Ani = mark.GetComponent<Animator>();
         Anis = GetComponent<Animator>();
-
+        DmgBox = transform.Find("Hpui (2)").GetComponent<Transform>();
     }
 
     private void Start()
@@ -238,10 +240,11 @@ public class Ghost : MonoBehaviour
             StartCoroutine(HitOk());
             CurHp -= _DMG;
 
-            GameObject obj = dmp.F_Get_FontBox();
-            DMGFont sc = obj.GetComponent<DMGFont>();
-            sc.F_FontPopup(_DMG);
-
+            //GameObject obj = dmp.F_Get_FontBox();
+            //DMGFont sc = obj.GetComponent<DMGFont>();
+            //sc.F_FontPopup(_DMG);
+            GameObject obj = PoolManager.Instance.F_GetObj("Text");
+            obj.GetComponent<DmgFontCanvus>().F_DmgFont(_DMG, DmgBox.position);
 
             if (!EnemyHpBar.gameObject.activeSelf)
             {

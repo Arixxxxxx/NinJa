@@ -12,6 +12,7 @@ public class SurchFloor : MonoBehaviour
     [SerializeField] GameObject Boss;
     Boss sc;
     bool isBossAlive;
+    [SerializeField] private BoxCollider2D coll1F, coll2F;
     private void Start()
     {
          sc = Boss.GetComponent<Boss>();
@@ -19,7 +20,51 @@ public class SurchFloor : MonoBehaviour
 
     private void Update()
     {
-        
+        CheakCollider();
+    }
+
+    bool isCheakStart;
+    bool NextCheak;
+    private void CheakCollider()
+    {
+        if (isCheakStart)
+        {
+            switch (type)
+            {
+                case FloorType.one:
+                    
+                    if (NextCheak) { return; }
+                    
+                    NextCheak = true;
+
+                    if (coll1F.enabled)
+                    {
+                        coll1F.enabled = false;
+                    }
+                    StartCoroutine(BoolFalseFuntion());
+                    break;
+
+                    case FloorType.two:
+
+                    if (NextCheak) { return; }
+
+                    NextCheak = true;
+
+                    if (coll2F.enabled)
+                    {
+                        coll2F.enabled = false;
+                    }
+                    StartCoroutine(BoolFalseFuntion());
+                    break;
+            }
+        }
+    }
+
+    IEnumerator BoolFalseFuntion()
+    {
+        yield return new WaitForSeconds(1.5f);
+        NextCheak = false;
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,6 +72,7 @@ public class SurchFloor : MonoBehaviour
         {
             
             sc.F_SurchFloow(type,"P");
+            isCheakStart = true;
         }
 
         if(collision.gameObject.layer == LayerMask.NameToLayer("Boss"))
@@ -35,7 +81,19 @@ public class SurchFloor : MonoBehaviour
         }
         
     }
-   
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (!isCheakStart)
+            {
+                isCheakStart = true;
+            }
+          
+             
+        }
+    }
     float Timer;
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -47,7 +105,8 @@ public class SurchFloor : MonoBehaviour
                 sc.isBossHide = false;
                 sc.F_ExitFloor();
             }
-            
+            isCheakStart = false;
         }
+
     }
 }

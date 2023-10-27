@@ -38,6 +38,7 @@ public class Enemys : MonoBehaviour
     DmgPooling dmp;
     DMGFont dmpText;
 
+    Transform DmgBox;
     // ÇÃ·¹ÀÌ¾î Æ®·¦¹â´Â È¦µù
     bool onTrap;
 
@@ -56,6 +57,7 @@ public class Enemys : MonoBehaviour
         DMG_Font = transform.GetComponentInChildren<DMGFont>(true);
         Audio = GetComponent<AudioSource>();
         Ps = transform.Find("Stun").GetComponent<ParticleSystem>();
+        DmgBox = transform.Find("Canvas").GetComponent<Transform>();
     }
     private void Start()
     {
@@ -168,10 +170,12 @@ public class Enemys : MonoBehaviour
         {
             StartCoroutine(HitOk());
             CurHP -= _DMG;
-            
-            GameObject obj = dmp.F_Get_FontBox();
-            DMGFont sc = obj.GetComponent<DMGFont>();
-            sc.F_FontPopup(_DMG);
+
+            //GameObject obj = dmp.F_Get_FontBox();
+            //DMGFont sc = obj.GetComponent<DMGFont>();
+            //sc.F_FontPopup(_DMG);
+            GameObject obj = PoolManager.Instance.F_GetObj("Text");
+            obj.GetComponent<DmgFontCanvus>().F_DmgFont(_DMG, DmgBox.position);
 
             if (Sr.flipX)
             {

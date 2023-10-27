@@ -183,7 +183,7 @@ public class EndingManager : MonoBehaviour
         {
             case 0:
                 BoxSprite.sprite = sprites[value];
-                BoxText.text = "<color=yellow>Unity 학습 기간</color> : 3개월\n\n<color=yellow>개발 기간</color> : 23.08.25 ~ 23.10.23 [59일]";
+                BoxText.text = "<color=yellow>Unity.Ver</color> : 3.7f1\n\n<color=yellow>개발 기간</color> : 23.08.25 ~ 23.10.23 [59일]";
 
                 break;
 
@@ -199,7 +199,7 @@ public class EndingManager : MonoBehaviour
 
             case 3:
                 BoxSprite.sprite = sprites[value];
-                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는  대부분 <color=yellow>2D Asset</color>\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
+                BoxText.text = "개발에 필요한  <color=#00ffffff>Resource</color>는 <color=yellow>2D_Asset 과</color>\n\n  <color=yellow>PngWing Site</color>에서 참고하였습니다.";
                 break;
 
             case 4:
