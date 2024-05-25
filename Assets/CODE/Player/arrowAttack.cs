@@ -199,7 +199,7 @@ public class arrowAttack : MonoBehaviour
             skill1Timer = SkillManager.instance.electronicShotCoolTime;
 
 
-            if (!ani1)
+            if (!ani1 && Ani.gameObject.activeInHierarchy)
             {
                 ani1 = true;
                 Ani.SetTrigger("1");
@@ -222,7 +222,7 @@ public class arrowAttack : MonoBehaviour
         {
             isSkill2Ok = true;
             skill2Timer = SkillManager.instance.tripleShotCoolTime;
-            if (!ani2)
+            if (!ani2 && Ani.gameObject.activeInHierarchy)
             {
                 ani2 = true;
                 Ani.SetTrigger("2");
@@ -245,7 +245,7 @@ public class arrowAttack : MonoBehaviour
             isSkill3Ok = true;
             skill3Timer = SkillManager.instance.boomShotCoolTime;
 
-            if (!ani3)
+            if (!ani3 && Ani.gameObject.activeInHierarchy)
             {
                 ani3 = true;
                 Ani.SetTrigger("3");
@@ -267,7 +267,7 @@ public class arrowAttack : MonoBehaviour
             isSkill4Ok = true;
             skill4Timer = SkillManager.instance.throwTrapCoolTime;
 
-            if (!ani4)
+            if (!ani4 && Ani.gameObject.activeInHierarchy)
             {
                 ani4 = true;
                 Ani.SetTrigger("4");
