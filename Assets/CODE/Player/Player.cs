@@ -938,7 +938,7 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpStayTime; // 점프 유지시간
     [SerializeField] float jumpTime;
     [SerializeField] float stayPower;
-    [SerializeField] bool isOneJump;
+    
     private void CharJump()
     {
         if (!MovingStop)
@@ -977,7 +977,7 @@ public class Player : MonoBehaviour
 
                 SoundManager.instance.F_SoundPlay(SoundManager.instance.normalJump, 0.5f);
 
-                isOneJump = true;
+                //isOneJump = true;
                 JumpOn = true;
                 Rb.velocity = new Vector2(Rb.velocity.x, JumpPower);
 
@@ -1216,8 +1216,7 @@ public class Player : MonoBehaviour
         KB = false;
         OnDMG = false;
     }
-    float BregeInterval = 0.6f;
-
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

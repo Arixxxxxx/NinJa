@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BoomArrow : MonoBehaviour
 {
-    private float BoomDMG = 3;
     bool once;
     ParticleSystem ps;
 

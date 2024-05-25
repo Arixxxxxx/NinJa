@@ -50,7 +50,7 @@ public class BossPhase1 : MonoBehaviour
         
 
     }
-    [SerializeField] float G = 1;
+    
     [SerializeField] float B = 1;
     [SerializeField] bool skyreturn;
     [SerializeField] bool returnskycolorfinish;

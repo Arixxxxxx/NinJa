@@ -190,7 +190,6 @@ public class PoolManager : MonoBehaviour
                 {
                     if(DmgTextQue.Count == 0)
                     {
-                        Debug.Log("만듬");
                         GameObject objs = Instantiate(DmgText, transform.position, Quaternion.identity, transform.Find("TextBox"));
                         objs.transform.position = SpawnPoint.transform.position;
                         objs.SetActive(true);
@@ -198,7 +197,6 @@ public class PoolManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("사용");
                         GameObject objs = DmgTextQue.Dequeue();
                         objs.transform.position = SpawnPoint.transform.position;
                         objs.SetActive(true);
