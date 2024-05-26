@@ -15,7 +15,6 @@ public class Event5Coll : MonoBehaviour
         
         if(collision.gameObject.layer == LayerMask.NameToLayer("Rock") || (collision.gameObject.layer == LayerMask.NameToLayer("EnemyDead")))
         {
-            Debug.Log("넘어가요");
             sc.ExitRockCheker(collision);
         }
       

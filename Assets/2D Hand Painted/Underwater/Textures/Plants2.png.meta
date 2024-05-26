@@ -180,7 +180,7 @@ TextureImporter:
       213: -6849996626466894537
     second: Corals26
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -197,11 +197,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -240,10 +241,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -251,6 +254,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -263,6 +267,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -275,6 +280,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -287,6 +293,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1207,28 +1227,27 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Corals13: -67974989456480072
-      Corals20: -2136770765982073846
-      Seaweed13: 5067573714566290351
-      Corals23: 4633211569886509532
-      Seaweed14: 7229781666671803528
-      Corals27: -6849996626466894537
-      Corals16: 2449131337281492157
-      Corals26: -5211713412558959821
-      Corals21: -8581760021530132436
       Corals14: 3369283921667416676
-      Corals25: 4774131288748539401
-      Seaweed16: 8779173752831326021
-      Corals18: 8961739553272696354
-      Corals17: 805124581080452615
-      Corals24: 7995644348319682386
       Corals15: 1528765445864806588
+      Corals16: 2449131337281492157
+      Corals17: 805124581080452615
+      Corals18: 8961739553272696354
       Corals19: 5800467079938974421
-      Seaweed15: -2965672005330964312
-      Corals28: 3902748982566688560
+      Corals20: -2136770765982073846
+      Corals21: -8581760021530132436
       Corals22: 3227640763393791258
-  spritePackingTag: 
+      Corals23: 4633211569886509532
+      Corals24: 7995644348319682386
+      Corals25: 4774131288748539401
+      Corals26: -5211713412558959821
+      Corals27: -6849996626466894537
+      Corals28: 3902748982566688560
+      Seaweed13: 5067573714566290351
+      Seaweed14: 7229781666671803528
+      Seaweed15: -2965672005330964312
+      Seaweed16: 8779173752831326021
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

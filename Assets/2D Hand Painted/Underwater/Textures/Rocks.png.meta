@@ -87,7 +87,7 @@ TextureImporter:
       213: 3718988504476089320
     second: Rocks_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,10 +148,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -158,6 +161,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -170,6 +174,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -182,6 +187,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -194,6 +200,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -799,24 +819,23 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       RockGray1: -2427098341007487093
-      RockTurquoise4: 2007986136508003152
-      RockTurquoise2: -4209556597541047147
-      RockTurquoise10: 5520127769290878414
-      RockGray6: 5778540919526820933
-      RockTurquoise6: 9019416115260902278
-      RockGray5: 3691136043707728111
-      RockTurquoise9: 4937254120207176121
-      RockTurquoise1: 1887494081247492234
-      RockTurquoise8: -4354885203342741706
       RockGray2: -1677260544633098824
-      RockTurquoise7: -7073761113175812397
-      RockTurquoise3: -5342935890121459157
       RockGray3: 8555942595556936778
       RockGray4: -8883485803396988322
+      RockGray5: 3691136043707728111
+      RockGray6: 5778540919526820933
+      RockTurquoise1: 1887494081247492234
+      RockTurquoise10: 5520127769290878414
+      RockTurquoise2: -4209556597541047147
+      RockTurquoise3: -5342935890121459157
+      RockTurquoise4: 2007986136508003152
       RockTurquoise5: -5091828049805951605
-  spritePackingTag: 
+      RockTurquoise6: 9019416115260902278
+      RockTurquoise7: -7073761113175812397
+      RockTurquoise8: -4354885203342741706
+      RockTurquoise9: 4937254120207176121
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
   
     private void OnEnable()
     {
-         Invoke("F_BulletReturn", 1.5f);
+         //Invoke("F_BulletReturn", 1.5f);
         Audio.volume = 0.8f;
     }
 
@@ -103,7 +103,7 @@ public class Bullet : MonoBehaviour
                     }
 
 
-
+                   
                     F_BulletReturn(ArrowType.normal);
                     break;
 
@@ -125,6 +125,9 @@ public class Bullet : MonoBehaviour
                         Boss sc = collision.gameObject.GetComponent<Boss>();
                         sc.F_OnHIt(SkillManager.instance.tripleShotDmg);
                     }
+
+                    
+
                     F_BulletReturn(type);
                     break;
 
@@ -145,11 +148,13 @@ public class Bullet : MonoBehaviour
                     SpecialSkillDice();
                     Ghost sc = collision.gameObject.GetComponent<Ghost>();
                     sc.F_OnHIt(SkillManager.instance.RangeDmg);
+                   
                     F_BulletReturn(type);
                     break;
 
                 case ArrowType.triple:
                     collision.gameObject.GetComponent<Ghost>().F_OnHIt(SkillManager.instance.tripleShotDmg);
+               
                     F_BulletReturn(type);
                     break;
 
@@ -167,6 +172,7 @@ public class Bullet : MonoBehaviour
                 case ArrowType.normal:
 
                     normalArrow();
+                 
                     F_BulletReturn(type);
 
                     break;
@@ -177,6 +183,7 @@ public class Bullet : MonoBehaviour
 
                 case ArrowType.triple:
                     TripleShot();
+                
                     F_BulletReturn(type);
                     break;
 
@@ -252,6 +259,7 @@ public class Bullet : MonoBehaviour
         obj.transform.position = transform.position;
         obj.GetComponent<ParticleSystem>().Play();
 
+ 
         F_BulletReturn(type);
     }
 

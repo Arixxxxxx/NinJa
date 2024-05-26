@@ -482,10 +482,10 @@ public class SkillManager : MonoBehaviour
         while (GameManager.Instance.Player_CurMP > 0 && Input.GetKey(KeyCode.Alpha2))
         {
             GameManager.Instance.Player_CurMP -= whilWindMp;
-            Debug.Log("1");
+            
             if (GameManager.Instance.Player_CurMP <= 0)
             {
-                Debug.Log("2");
+               
                 StopSkill();
                 Player.instance.F_CharText("MP");
                 break;

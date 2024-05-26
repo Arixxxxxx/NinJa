@@ -174,7 +174,7 @@ TextureImporter:
       213: -815937813111735558
     second: Coral12
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -191,11 +191,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -234,10 +235,12 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -245,6 +248,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -257,6 +261,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -269,6 +274,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -281,6 +287,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1775,35 +1795,34 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Coral12: -815937813111735558
-      Seaweed1: 938109620116868703
-      Seaweed6: 1118499793357026325
-      Seaweed12: 870318722778884719
-      Plant1: 5867506763183753815
-      Seaweed2: 1173427241119322347
-      Coral5: -4505968002794390134
-      Seaweed7: 674522160416499492
-      Coral6: 1591781566636392836
-      Coral3: -8689703942887748035
-      Coral11: -4860497282975335354
-      Seaweed9: 4137912779548321198
-      Seaweed5: 4261829627367875922
-      Coral10: 5480798222159451245
-      Plant2: -8987256568570586305
-      Seaweed11: -5824861607087173451
-      Coral2: 3910129479474765880
-      Coral8: 5188349161069236511
-      Coral4: -4875679330475802348
       Coral1: 4445160711514727649
+      Coral10: 5480798222159451245
+      Coral11: -4860497282975335354
+      Coral12: -815937813111735558
+      Coral2: 3910129479474765880
+      Coral3: -8689703942887748035
+      Coral4: -4875679330475802348
+      Coral5: -4505968002794390134
+      Coral6: 1591781566636392836
       Coral7: -308703810573112615
-      Seaweed4: -706533517883948572
+      Coral8: 5188349161069236511
       Coral9: -190279399052366112
+      Plant1: 5867506763183753815
+      Plant2: -8987256568570586305
+      Seaweed1: 938109620116868703
       Seaweed10: -5714858356652463880
-      Seaweed8: -6116809325479650094
+      Seaweed11: -5824861607087173451
+      Seaweed12: 870318722778884719
+      Seaweed2: 1173427241119322347
       Seaweed3: 1604890638650402118
-  spritePackingTag: 
+      Seaweed4: -706533517883948572
+      Seaweed5: 4261829627367875922
+      Seaweed6: 1118499793357026325
+      Seaweed7: 674522160416499492
+      Seaweed8: -6116809325479650094
+      Seaweed9: 4137912779548321198
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

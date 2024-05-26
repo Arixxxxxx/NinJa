@@ -18,7 +18,6 @@ public class TilemapObject : MonoBehaviour
     [SerializeField] float FadeSpeed;
     private void F_FrontObjectSpriteColoADown()
     {
-        Debug.Log("¤±¤±");
         for (int i = 0; i < FrontSr.Length; i++)
         {
             if (lastLength == 0)
@@ -45,7 +44,6 @@ public class TilemapObject : MonoBehaviour
 
     private void F_FrontObjectSpriteColoAUp()
     {
-        Debug.Log("¤¡¤¡");
         for (int i = 0; i < FrontSr.Length; i++)
         {
             if (lastLength == 0)

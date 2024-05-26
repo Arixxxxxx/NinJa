@@ -17,7 +17,6 @@ public class Event5 : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Rock") || (collision.gameObject.layer == LayerMask.NameToLayer("EnemyDead")))
         {
-            Debug.Log("11");
             exitCounter++;
                 if(exitCounter == 5)
             {
