@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.IO;
 
 public class FindUnusedAssets : EditorWindow
 {
@@ -50,14 +51,18 @@ public class FindUnusedAssets : EditorWindow
         {
             if (!usedAssetsSet.Contains(pngPath))
             {
-                unusedPngAssets.Add(pngPath);
+                long fileSizeInBytes = new FileInfo(pngPath).Length;
+                if (fileSizeInBytes > 5 * 1024 * 1024) // Check if file size is greater than 5MB
+                {
+                    unusedPngAssets.Add(pngPath);
+                }
             }
         }
 
         // Print unused PNG files
         if (unusedPngAssets.Count > 0)
         {
-            Debug.Log("Unused PNG files:");
+            Debug.Log("Unused PNG files larger than 5MB:");
             foreach (string unusedPng in unusedPngAssets)
             {
                 Object asset = AssetDatabase.LoadAssetAtPath<Object>(unusedPng);
@@ -66,8 +71,8 @@ public class FindUnusedAssets : EditorWindow
         }
         else
         {
-            Debug.Log("No unused PNG files found.");
+            Debug.Log("No unused PNG files larger than 5MB found.");
         }
     }
 }
-Ό³Έν
+
